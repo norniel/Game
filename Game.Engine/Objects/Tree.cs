@@ -24,8 +24,15 @@ namespace Game.Engine
             };
         }
 
-        public int BerriesPerCollectCount { get; set; }
-        public int BerriesCount { get; set; }
+        public int BerriesPerCollectCount {
+            get { return 2; }
+            set { }
+        }
+        public int BerriesCount
+        {
+            get { return 4; }
+            set { }
+        }
         public Berry GetBerry()
         {
             return new Berry();

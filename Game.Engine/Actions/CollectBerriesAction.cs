@@ -37,7 +37,7 @@ namespace Game.Engine.Actions
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            return objects.All(obj => obj.Properties.Contains(Property.CollectBerries));
+            return objects.Any(obj => obj.Properties.Contains(Property.CollectBerries));
         }
 
         private bool CollectBerries(IHasBerries objectWithBerries, Hero hero)
@@ -45,7 +45,7 @@ namespace Game.Engine.Actions
             if (objectWithBerries.BerriesCount <= 0)
                 return false;
 
-            int berriesToBag = objectWithBerries.BerriesCount < objectWithBerries.BerriesPerCollectCount ? 
+            int berriesToBagCount = objectWithBerries.BerriesCount < objectWithBerries.BerriesPerCollectCount ? 
                 objectWithBerries.BerriesCount :
                 objectWithBerries.BerriesPerCollectCount;
 
@@ -53,7 +53,13 @@ namespace Game.Engine.Actions
                 ? 0
                 : objectWithBerries.BerriesCount - objectWithBerries.BerriesPerCollectCount;
 
-            hero.AddToBag(new List<Berry>(berriesToBag).Select(x => objectWithBerries.GetBerry()));
+            var berriestoBag = new List<Berry>();
+
+            for (int i = 0; i < berriesToBagCount; i++)
+            {
+                berriestoBag.Add(objectWithBerries.GetBerry());
+            }
+            hero.AddToBag(berriestoBag);
 
             return objectWithBerries.BerriesCount > 0;
         }

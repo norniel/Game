@@ -59,6 +59,7 @@
     <Compile Include="Actions\CollectBerriesAction.cs" />
     <Compile Include="Bag.cs" />
     <Compile Include="Actions\CutAction.cs" />
+    <Compile Include="BridgeObjects\ClientAction.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\IActionRepository.cs" />
     <Compile Include="Interfaces\IHasBerries.cs" />

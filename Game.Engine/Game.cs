@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Timers;
+using Game.Engine.BridgeObjects;
 using Game.Engine.Interfaces;
 using Wintellect.PowerCollections;
 using Game.Engine.Objects;
@@ -55,7 +56,7 @@ namespace Game.Engine
             ActionRepository = new ActionRepository();
 
             _drawer = drawer;
-            _drawer.GetAction = (x, y) => GetActions(new Point(x, y));
+            //_drawer.GetAction = (x, y) => GetActions(new Point(x, y));
         }
 
 
@@ -89,20 +90,36 @@ namespace Game.Engine
             this._drawer.DrawMenu(destination.X, destination.Y, GetActions(destination));
         }
         
-        private List<string> GetActions(Point destination)
+        private List<ClientAction> GetActions(Point destination)
         {
             var destCell = PointToCell(destination);
 
             if (_map[destCell.X, destCell.Y] == 0)
             {
-                return new List<string> {"Go"};
+                return new List<ClientAction> {
+                    new ClientAction
+                    {
+                        Name = "Go",
+                        CanDo = true,
+                        Do = () => { }
+                    }
+                };
             }
 
             //return new List<string> { _objectSamples[_map[destCell.X, destCell.Y]] .GetType().FullName};
 
-            return ActionRepository.GetPossibleActions(_objectSamples[_map[destCell.X, destCell.Y]])
-                    .Select(action => action.Name).ToList();
-            
+            var gameObject = _objectSamples[_map[destCell.X, destCell.Y]];
+
+            var possibleActions = ActionRepository.GetPossibleActions(gameObject).ToList();
+
+            var objects = _hero.GetContainerItems().Union(new[]{gameObject}).ToList();
+            return possibleActions.Select(pa => new ClientAction
+            {
+                Name = pa.Name,
+                CanDo = pa.CanDo(_hero, objects),
+                Do = () => pa.Do(_hero, objects)
+            }).ToList();
+
         }
 
         public void MoveToDest( Point destination )

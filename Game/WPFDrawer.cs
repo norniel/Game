@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Game.Engine;
+using Game.Engine.BridgeObjects;
 using Point = Game.Engine.Point;
 
 namespace Game
@@ -83,7 +84,6 @@ namespace Game
             _visWayCollection = new PointCollection();
             _visibleWay.Points = _visWayCollection;
 
-            //_canvas.ContextMenu = contextMenu;
             /*
             _canvas.ContextMenuOpening += (sender, args) =>
             {
@@ -150,8 +150,8 @@ namespace Game
                 Ellipse rec = new Ellipse() { Fill = Brushes.GreenYellow, Stroke = Brushes.Green, Height = 10, Width = 10 };
                 rec.ContextMenu = _canvas.ContextMenu;
                 _canvas.Children.Add(rec);
-                Canvas.SetLeft(rec, x-10);
-                Canvas.SetTop(rec, y-10);
+                Canvas.SetLeft(rec, x+10);
+                Canvas.SetTop(rec, y+10);
             }/*
             else
             {
@@ -171,18 +171,30 @@ namespace Game
             Canvas.SetTop(rec, height - 40);
         }
 
-        public void DrawMenu(int x, int y, IEnumerable<string> actions)
-        {/*
+        public void DrawMenu(int x, int y, IEnumerable<ClientAction> actions)
+        {
             var cm = _canvas.ContextMenu;
             if (cm != null)
             {
                 cm.Items.Clear();
 
-                foreach (var action in actions)
+                foreach (var act in actions)
                 {
-                    cm.Items.Add(new MenuItem() {Header = action});
+                    var action = act;
+                    var menuItem = new MenuItem()
+                    {
+                        Header = action.Name,
+                        IsEnabled = action.CanDo,
+                    };
+
+                    menuItem.Click += (sender, args) => action.Do();
+                    
+                    cm.Items.Add(menuItem);
                 }
-            }*/
+                
+                cm.IsOpen = true;
+            }
+            
             //_canvas.ContextMenu.o
         }
 

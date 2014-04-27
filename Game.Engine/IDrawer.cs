@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Engine.BridgeObjects;
 
 namespace Game.Engine
 {
@@ -15,7 +16,7 @@ namespace Game.Engine
 
         void DrawSurface(uint p1, uint p2);
 
-        void DrawMenu(int x, int y, IEnumerable<string> actions);
+        void DrawMenu(int x, int y, IEnumerable<ClientAction> actions);
 
         void DrawContainer(IEnumerable<string> objects );
     }
