@@ -1,0 +1,429 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="livetemplates.csharp.usevar">True</setting>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="Top" priority="1" />
+      <Item value="Width" priority="1" />
+      <Item value="Height" priority="0" />
+      <Item value="public" priority="18" />
+      <Item value="GameRect`0" priority="1" />
+      <Item value="int" priority="29" />
+      <Item value="Left" priority="0" />
+      <Item value="left" priority="2" />
+      <Item value="top" priority="0" />
+      <Item value="width" priority="4" />
+      <Item value="private" priority="20" />
+      <Item value="void" priority="13" />
+      <Item value="LoadSaveManager`0" priority="1" />
+      <Item value="new" priority="23" />
+      <Item value="LoadSaveManager" priority="2" />
+      <Item value="_loadSaveManager" priority="3" />
+      <Item value="if" priority="23" />
+      <Item value="ctor" priority="0" />
+      <Item value="GameSettings`0" priority="0" />
+      <Item value="_gameSettings" priority="3" />
+      <Item value="GameSettings" priority="0" />
+      <Item value="null" priority="9" />
+      <Item value="uint" priority="12" />
+      <Item value="const" priority="1" />
+      <Item value="Hero`0" priority="6" />
+      <Item value="Point`0" priority="10" />
+      <Item value="DestPoint" priority="0" />
+      <Item value="CurPoint" priority="1" />
+      <Item value="p" priority="2" />
+      <Item value="struct" priority="1" />
+      <Item value="using" priority="3" />
+      <Item value="Rect`0" priority="1" />
+      <Item value="r" priority="13" />
+      <Item value="h" priority="5" />
+      <Item value="bool" priority="2" />
+      <Item value="NewsStyleUriParser`0" priority="0" />
+      <Item value="X" priority="0" />
+      <Item value="x" priority="1" />
+      <Item value="Y" priority="0" />
+      <Item value="y" priority="1" />
+      <Item value="Size`0" priority="0" />
+      <Item value="UInt16`0" priority="0" />
+      <Item value="this" priority="4" />
+      <Item value="p1" priority="0" />
+      <Item value="Point" priority="8" />
+      <Item value="point" priority="0" />
+      <Item value="STEP" priority="0" />
+      <Item value="Position" priority="4" />
+      <Item value="Destination" priority="2" />
+      <Item value="return" priority="4" />
+      <Item value="Math`0" priority="0" />
+      <Item value="distance" priority="1" />
+      <Item value="IState`0" priority="6" />
+      <Item value="StateHandlerArgs`0" priority="0" />
+      <Item value="state" priority="2" />
+      <Item value="_state" priority="2" />
+      <Item value="Timer`0" priority="0" />
+      <Item value="_timer" priority="5" />
+      <Item value="timer" priority="1" />
+      <Item value="StateHandler" priority="0" />
+      <Item value="_hero" priority="9" />
+      <Item value="Hero" priority="0" />
+      <Item value="CreateTimer`0" priority="1" />
+      <Item value="LoadHero`0" priority="0" />
+      <Item value="OnNextState`0" priority="1" />
+      <Item value="readonly" priority="0" />
+      <Item value="Moving`0" priority="0" />
+      <Item value="_destination" priority="3" />
+      <Item value="destination" priority="4" />
+      <Item value="NextState" priority="3" />
+      <Item value="Standing`0" priority="1" />
+      <Item value="hero" priority="3" />
+      <Item value="_vector" priority="1" />
+      <Item value="right" priority="1" />
+      <Item value="double" priority="3" />
+      <Item value="_distance" priority="1" />
+      <Item value="_dx" priority="1" />
+      <Item value="Double`0" priority="0" />
+      <Item value="_steps" priority="3" />
+      <Item value="Game" priority="5" />
+      <Item value="Engine" priority="2" />
+      <Item value="Game`0" priority="0" />
+      <Item value="_game" priority="3" />
+      <Item value="System" priority="1" />
+      <Item value="Media" priority="0" />
+      <Item value="IDrawer`0" priority="1" />
+      <Item value="_drawer" priority="6" />
+      <Item value="drawer" priority="0" />
+      <Item value="Speed" priority="0" />
+      <Item value="WpfDrawer`0" priority="2" />
+      <Item value="Windows" priority="0" />
+      <Item value="canvas1" priority="5" />
+      <Item value="Canvas`0" priority="6" />
+      <Item value="_canvas" priority="3" />
+      <Item value="canvas" priority="0" />
+      <Item value="State" priority="3" />
+      <Item value="dc" priority="0" />
+      <Item value="Pen`0" priority="0" />
+      <Item value="Brushes`0" priority="1" />
+      <Item value="myPen" priority="0" />
+      <Item value="Rectangle`0" priority="3" />
+      <Item value="Rectangle" priority="1" />
+      <Item value="UIElement`0" priority="2" />
+      <Item value="sender" priority="0" />
+      <Item value="e" priority="2" />
+      <Item value="position" priority="0" />
+      <Item value="_appearance" priority="0" />
+      <Item value="ggroup" priority="1" />
+      <Item value="_dcenter" priority="2" />
+      <Item value="_nose" priority="0" />
+      <Item value="_hat" priority="0" />
+      <Item value="else" priority="2" />
+      <Item value="FixedObject`0" priority="1" />
+      <Item value="Tree`0" priority="0" />
+      <Item value="false" priority="2" />
+      <Item value="Size" priority="0" />
+      <Item value="IsPassable" priority="1" />
+      <Item value="GenerateMap`0" priority="0" />
+      <Item value="map" priority="2" />
+      <Item value="_map" priority="2" />
+      <Item value="_curRect" priority="5" />
+      <Item value="GetLength`0" priority="3" />
+      <Item value="height" priority="1" />
+      <Item value="while" priority="4" />
+      <Item value="count" priority="1" />
+      <Item value="Random`0" priority="0" />
+      <Item value="Random" priority="0" />
+      <Item value="rand" priority="1" />
+      <Item value="tmpheight" priority="1" />
+      <Item value="tmpwidth" priority="0" />
+      <Item value="continue" priority="7" />
+      <Item value="CELL_MEAS" priority="2" />
+      <Item value="workPoints" priority="9" />
+      <Item value="Dictionary" priority="0" />
+      <Item value="IsProcessed" priority="0" />
+      <Item value="true" priority="2" />
+      <Item value="for" priority="1" />
+      <Item value="i" priority="4" />
+      <Item value="startP" priority="1" />
+      <Item value="destP" priority="1" />
+      <Item value="processedPoints" priority="7" />
+      <Item value="temp" priority="17" />
+      <Item value="WayPoint`0" priority="1" />
+      <Item value="WayPoint" priority="0" />
+      <Item value="next" priority="3" />
+      <Item value="tmpCost" priority="3" />
+      <Item value="Evristic" priority="1" />
+      <Item value="other" priority="1" />
+      <Item value="evristic" priority="0" />
+      <Item value="tmpEvristic" priority="0" />
+      <Item value="j" priority="1" />
+      <Item value="OBJ_MASK" priority="0" />
+      <Item value="t" priority="0" />
+      <Item value="Cost" priority="0" />
+      <Item value="OrderedBag" priority="1" />
+      <Item value="Queue&lt;IState&gt;" priority="0" />
+      <Item value="_stateQueue" priority="1" />
+      <Item value="nextState" priority="2" />
+      <Item value="Stack" priority="1" />
+      <Item value="points" priority="2" />
+      <Item value="Stack&lt;Point&gt;" priority="0" />
+      <Item value="resultStack" priority="4" />
+      <Item value="dest" priority="0" />
+      <Item value="current" priority="8" />
+      <Item value="stackPoint" priority="1" />
+      <Item value="_isInitialized" priority="1" />
+      <Item value="Initialize`0" priority="0" />
+      <Item value="List" priority="2" />
+      <Item value="WeakReference`0" priority="2" />
+      <Item value="List&lt;WeakReference&gt;" priority="0" />
+      <Item value="PointList" priority="1" />
+      <Item value="WeakReference" priority="0" />
+      <Item value="PointCollection`0" priority="0" />
+      <Item value="wayList" priority="2" />
+      <Item value="foreach" priority="0" />
+      <Item value="weakReference" priority="0" />
+      <Item value="is" priority="0" />
+      <Item value="Nullable`0" priority="0" />
+      <Item value="dx" priority="1" />
+      <Item value="dy" priority="0" />
+      <Item value="break" priority="0" />
+      <Item value="CreateLambda" priority="0" />
+      <Item value="waypoint" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Game.Engine.LoadSaveManager">
+      <Item value="LoadSettings`0" priority="0" />
+      <Item value="LoadSnapshot`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Game.Engine.Properties.Settings">
+      <Item value="Reload`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Game.Engine.Point">
+      <Item value="X" priority="34" />
+      <Item value="Y" priority="11" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Rect">
+      <Item value="X" priority="1" />
+      <Item value="Y" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Math">
+      <Item value="Sqrt`0" priority="0" />
+      <Item value="Abs`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Timers.Timer">
+      <Item value="Elapsed" priority="1" />
+      <Item value="SynchronizingObject" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Game.Engine.IState">
+      <Item value="OnTimedEvent`0" priority="0" />
+      <Item value="NextState" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Game.Engine.Hero">
+      <Item value="Position" priority="3" />
+      <Item value="Step" priority="0" />
+      <Item value="Speed" priority="0" />
+      <Item value="StartMove`0" priority="0" />
+      <Item value="PointList" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Double">
+      <Item value="Equals`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Game.Engine.IDrawer">
+      <Item value="SynchronizeTimer`0" priority="0" />
+      <Item value="DrawHero`0" priority="0" />
+      <Item value="Clear`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Media.DrawingContext">
+      <Item value="DrawLine`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Media.Pen">
+      <Item value="Brush" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Media.Brushes">
+      <Item value="AliceBlue" priority="1" />
+      <Item value="BlueViolet" priority="0" />
+      <Item value="Green" priority="0" />
+      <Item value="Black" priority="1" />
+      <Item value="LightSeaGreen" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Shapes.Rectangle">
+      <Item value="Height" priority="1" />
+      <Item value="Width" priority="1" />
+      <Item value="Fill" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Controls.Canvas">
+      <Item value="SetTop`0" priority="2" />
+      <Item value="SetLeft`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.Canvas">
+      <Item value="Children" priority="3" />
+      <Item value="Width" priority="0" />
+      <Item value="Height" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.UIElementCollection">
+      <Item value="Add`0" priority="2" />
+      <Item value="Clear`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Game.Engine.Game">
+      <Item value="LClick`0" priority="0" />
+      <Item value="Draw`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Input.MouseButtonEventArgs">
+      <Item value="Source" priority="0" />
+      <Item value="GetPosition`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Point">
+      <Item value="X" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Game.WpfDrawer">
+      <Item value="DrawHero`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Shapes.Path">
+      <Item value="Data" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Media.GeometryGroup">
+      <Item value="Children" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Media.GeometryCollection">
+      <Item value="Add`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Game.Engine.Rect">
+      <Item value="Width" priority="2" />
+      <Item value="Height" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Random">
+      <Item value="Next`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.List`1">
+      <Item value="Add`0" priority="1" />
+      <Item value="Clear`0" priority="0" />
+      <Item value="Count" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.SortedSet`1">
+      <Item value="Remove`0" priority="0" />
+      <Item value="First`1" priority="3" />
+      <Item value="Count" priority="0" />
+      <Item value="Add`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Game.Engine.Game+WayPoint">
+      <Item value="Point" priority="7" />
+      <Item value="IsProcessed" priority="1" />
+      <Item value="Cost" priority="6" />
+      <Item value="Evristic" priority="2" />
+      <Item value="Parent" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.Dictionary`2">
+      <Item value="ContainsKey`0" priority="0" />
+      <Item value="Add`0" priority="0" />
+      <Item value="Select`2" priority="0" />
+      <Item value="Values" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Game.Engine.FixedObject">
+      <Item value="IsPassable" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Int32">
+      <Item value="CompareTo`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.Queue`1">
+      <Item value="Clear`0" priority="0" />
+      <Item value="Count" priority="2" />
+      <Item value="Dequeue`0" priority="0" />
+      <Item value="Enqueue`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.Stack`1">
+      <Item value="Count" priority="0" />
+      <Item value="Pop`0" priority="0" />
+      <Item value="Push`0" priority="1" />
+      <Item value="Peek`0" priority="0" />
+      <Item value="Clear`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Wintellect.PowerCollections.OrderedBag`1">
+      <Item value="Count" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Media.PointCollection">
+      <Item value="Clear`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.WeakReference">
+      <Item value="Target" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.IEnumerable`1">
+      <Item value="Where`1" priority="0" />
+      <Item value="Distinct`1" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.KeyValuePair`2">
+      <Item value="Value" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.Dictionary`2+ValueCollection">
+      <Item value="OrderBy`2" priority="0" />
+      <Item value="Select`2" priority="0" />
+      <Item value="Min`2" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Properties/f:Settings.Designer.cs" caret="761" fromTop="14" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Objects/f:MobileObject.cs" caret="166" fromTop="8" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Tools/f:Rect.cs" caret="0" fromTop="0" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:States/f:IState.cs" caret="203" fromTop="10" />
+      <File id="ACFBCE8B-13DD-4514-8B72-8248030A419A/f:MainWindow.xaml" caret="1" fromTop="0" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Cell.cs" caret="0" fromTop="0" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Tools/f:Size.cs" caret="136" fromTop="6" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Objects/f:Tree.cs" caret="0" fromTop="0" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Objects/f:FixedObject.cs" caret="379" fromTop="16" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:States/f:Standing.cs" caret="403" fromTop="21" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:IDrawer.cs" caret="352" fromTop="16" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:States/f:Moving.cs" caret="1679" fromTop="21" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Hero.cs" caret="882" fromTop="10" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Tools/f:Point.cs" caret="1581" fromTop="20" />
+      <File id="ACFBCE8B-13DD-4514-8B72-8248030A419A/f:WPFDrawer.cs" caret="4125" fromTop="25" />
+      <File id="ACFBCE8B-13DD-4514-8B72-8248030A419A/f:MainWindow.xaml.cs" caret="1346" fromTop="24" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:LoadSaveManager.cs" caret="665" fromTop="15" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="6933" fromTop="14" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Tools/f:Point.cs" caret="310" fromTop="13" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Hero.cs" caret="1323" fromTop="21" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="3408" fromTop="19" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="5237" fromTop="26" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Tools/f:Point.cs" caret="201" fromTop="9" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Tools/f:Point.cs" caret="343" fromTop="18" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="4996" fromTop="27" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="4821" fromTop="23" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="325" fromTop="9" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:States/f:Moving.cs" caret="1679" fromTop="21" />
+      <File id="ACFBCE8B-13DD-4514-8B72-8248030A419A/f:MainWindow.xaml.cs" caret="1346" fromTop="21" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Tools/f:Point.cs" caret="1482" fromTop="36" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/d:Tools/f:Point.cs" caret="1581" fromTop="20" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="3123" fromTop="32" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="5664" fromTop="20" />
+      <File id="ACFBCE8B-13DD-4514-8B72-8248030A419A/f:WPFDrawer.cs" caret="4509" fromTop="41" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="4593" fromTop="17" />
+      <File id="ACFBCE8B-13DD-4514-8B72-8248030A419A/f:WPFDrawer.cs" caret="4296" fromTop="29" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="4290" fromTop="13" />
+      <File id="ACFBCE8B-13DD-4514-8B72-8248030A419A/f:WPFDrawer.cs" caret="4466" fromTop="33" />
+      <File id="ACFBCE8B-13DD-4514-8B72-8248030A419A/f:WPFDrawer.cs" caret="4125" fromTop="25" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="2942" fromTop="22" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="4593" fromTop="23" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="6732" fromTop="19" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="7006" fromTop="15" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="7383" fromTop="23" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="4030" fromTop="14" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="5256" fromTop="14" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:LoadSaveManager.cs" caret="665" fromTop="15" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="6790" fromTop="12" />
+    </RecentEdits>
+  </RecentFiles>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerNUnit>
+    <NUnitInstallDir IsNull="False">
+    </NUnitInstallDir>
+    <UseAddins>Never</UseAddins>
+  </UnitTestRunnerNUnit>
+</Configuration>

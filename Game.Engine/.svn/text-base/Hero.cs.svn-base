@@ -1,0 +1,93 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Timers;
+
+namespace Game.Engine
+{
+    class Hero : MobileObject
+    {
+        public IState State { get; private set; }
+
+        public uint Speed{ get; set; }
+
+        public double Angle { get; set; }
+
+        private readonly Queue<IState> _stateQueue;
+
+        public List<WeakReference> PointList{ get; private set;}
+
+        public Hero()
+        {
+            Position = new Point();
+            Speed = 1;
+            Angle = 0;
+
+            _stateQueue = new Queue<IState>();
+            PointList = new List<WeakReference>();
+
+            OnNextState( new Standing( this ) );
+        }
+
+       
+
+        private void OnNextState( IState state )
+        {
+            if (_stateQueue.Count == 0 && state == null)
+                return;
+
+            if( _stateQueue.Count > 0 )
+            {
+                IState nextState;
+                while ( _stateQueue.Count > 0 )
+                {
+                    nextState = _stateQueue.Dequeue();
+
+                    if (nextState == State || nextState == null)
+                        continue;
+
+                    if (State != null)
+                        State.NextState -= OnNextState;
+
+                    State = nextState;
+                    State.NextState += OnNextState;
+
+                    return;
+                }
+                
+            }
+
+            if( State != state )
+            {
+                if (State != null)
+                    State.NextState -= OnNextState;
+
+                State = state;
+                State.NextState += OnNextState;
+            }
+        }
+
+        
+        public void StartMove( Point destination, Stack<Point> points )
+        {
+            _stateQueue.Clear();
+            if( points == null )
+            {
+                OnNextState(new Moving(this, destination));
+                return;
+            }
+
+            PointList.Clear();
+            PointList.Add(new WeakReference(Position));
+            while( points.Count > 0 )
+            {
+                PointList.Add( new WeakReference(points.Peek()) );
+                _stateQueue.Enqueue(new Moving(this, points.Pop()));
+            }
+
+            OnNextState( null );
+        }
+
+    }
+}

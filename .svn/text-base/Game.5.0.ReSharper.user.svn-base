@@ -1,0 +1,59 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Hero.cs" caret="12" fromTop="0" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="2105" fromTop="9" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="579" fromTop="16" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="840" fromTop="5" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="3001" fromTop="15" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="2191" fromTop="5" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="2348" fromTop="7" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="2686" fromTop="15" />
+      <File id="0D778373-3C59-4BF5-808E-188A53AD5D53/f:Game.cs" caret="2823" fromTop="7" />
+    </RecentEdits>
+  </RecentFiles>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerNUnit>
+    <NUnitInstallDir IsNull="False">
+    </NUnitInstallDir>
+    <UseAddins>Never</UseAddins>
+  </UnitTestRunnerNUnit>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="_timer" priority="1" />
+      <Item value="new" priority="0" />
+      <Item value="Timer" priority="0" />
+      <Item value="true" priority="0" />
+      <Item value="NetTcpStyleUriParser`0" priority="0" />
+      <Item value="event" priority="0" />
+      <Item value="while" priority="0" />
+      <Item value="iright" priority="0" />
+      <Item value="ileft" priority="2" />
+      <Item value="i" priority="2" />
+      <Item value="right" priority="1" />
+      <Item value="down" priority="1" />
+      <Item value="_map" priority="1" />
+      <Item value="GetLength`0" priority="1" />
+      <Item value="tracemap" priority="2" />
+      <Item value="left" priority="1" />
+      <Item value="up" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Timers.Timer">
+      <Item value="Enabled" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+</Configuration>

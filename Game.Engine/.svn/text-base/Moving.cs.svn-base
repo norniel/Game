@@ -1,0 +1,55 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Timers;
+
+namespace Game.Engine
+{
+    class Moving : IState
+    {
+        private readonly Hero _hero;
+        private readonly Point _destination;
+        private int _steps;
+        private readonly double _dx;
+        private readonly double _dy;
+
+        public Moving( Hero hero, Point destination )
+        {
+            _hero = hero;
+            _destination = destination;
+
+            double distance = Math.Sqrt((hero.Position.X - _destination.X) * (hero.Position.X - _destination.X) + (hero.Position.Y - _destination.Y) * (hero.Position.Y - _destination.Y));
+
+            if( distance >= 0.01 )
+            {
+                _steps = (int)(distance / hero.Speed);
+                _dx = ((double)hero.Position.X - (double)_destination.X) / distance;
+                _dy = ((double)hero.Position.Y - (double)_destination.Y) / distance;
+
+                if (Math.Abs(_dx) >= 0.0001)
+                    _hero.Angle = (180 * Math.Atan(_dy / _dx) / Math.PI) + (_dx > 0 ? 180 : 0);
+                else
+                    _hero.Angle = (_dy < 0) ? 90 : 270;
+            }
+        }
+
+        #region Implementation of IState
+
+        public event StateHandler NextState;
+
+        public void Act()
+        {
+            if (NextState == null)
+                return;
+
+            _hero.Position = new Point( (uint)(_destination.X + _dx * _steps * _hero.Speed), (uint)(_destination.Y + _dy * _steps * _hero.Speed));
+            _steps--;
+
+            if( _hero.Position == _destination || _steps <= -1 )
+                NextState( new Standing( _hero ) );
+        }
+
+        #endregion
+    }
+}
