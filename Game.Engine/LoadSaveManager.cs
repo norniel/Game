@@ -60,6 +60,18 @@ namespace Game.Engine
 
                 count--;
             }
+
+            while (true)
+            {
+                tmpX = rand.Next(width);
+                tmpY = rand.Next(height);
+
+                if (map[tmpX, tmpY] != null)
+                    continue;
+
+                map[tmpX, tmpY] = (FixedObject)new Fire();
+                break;
+            }
         }
 
     }

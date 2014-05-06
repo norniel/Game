@@ -33,6 +33,8 @@ namespace Game
         private BitmapImage bi4;
         private BitmapImage bi5;
 
+        private BitmapImage bi6;
+
         public WpfDrawer(Canvas canvas, ListBox listBox)
         {
             _drawSamples = new Dictionary<uint, IObjectDrawer>();
@@ -69,6 +71,11 @@ namespace Game
             bi5.BeginInit();
             bi5.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\plant icon.png", UriKind.RelativeOrAbsolute);
             bi5.EndInit();
+
+            bi6 = new BitmapImage();
+            bi6.BeginInit();
+            bi6.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\fire icon.png", UriKind.RelativeOrAbsolute);
+            bi6.EndInit();
 
             _appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
             Canvas.SetTop(_appearance, 0);
@@ -218,6 +225,15 @@ namespace Game
                 // _canvas.Children
                 var image = new Image();
                 image.Source = bi4;
+                _canvas.Children.Add(image);
+                Canvas.SetLeft(image, x);
+                Canvas.SetTop(image, y);
+            }
+            else if (id == 0x00000600)
+            {
+                // _canvas.Children
+                var image = new Image();
+                image.Source = bi6;
                 _canvas.Children.Add(image);
                 Canvas.SetLeft(image, x);
                 Canvas.SetTop(image, y);

@@ -66,6 +66,7 @@
     <Compile Include="Interfaces\IPicker.cs" />
     <Compile Include="IObjectDrawer.cs" />
     <Compile Include="Objects\Berry.cs" />
+    <Compile Include="Objects\Fire.cs" />
     <Compile Include="Objects\FixedObject.cs" />
     <Compile Include="Hero.cs" />
     <Compile Include="IDrawer.cs" />
