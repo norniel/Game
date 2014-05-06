@@ -4,6 +4,7 @@ using System.Linq;
 using Game.Engine.Interfaces;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
+using Game.Engine.Wrapers;
 
 namespace Game.Engine.Actions
 {
@@ -18,26 +19,18 @@ namespace Game.Engine.Actions
             return property == Property.CollectBerries;
         }
 
-        public void Do(Hero hero, IEnumerable<GameObject> objects)
+        public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
         {   
             // collect
             // change objects
-            var actionIsNotOver = objects.OfType<IHasBerries>().All(hb => this.CollectBerries(hb, hero));
+            var actionIsNotOver = objects.Select(o => o.GameObject).OfType<IHasBerries>().Any(hb => this.CollectBerries(hb, hero));
 
-            if (actionIsNotOver)
-            {
-                //hero.
-            }
-            {
-                
-            }
-
-            // hero.AddToBag();
+            return !actionIsNotOver;
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            return objects.Any(obj => obj.Properties.Contains(Property.CollectBerries));
+            return objects.Any(obj => obj.Properties.Contains(Property.CollectBerries) && ((IHasBerries)obj).BerriesCount > 0);
         }
 
         private bool CollectBerries(IHasBerries objectWithBerries, Hero hero)

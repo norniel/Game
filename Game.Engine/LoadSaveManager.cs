@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Game.Engine.Objects;
 
 namespace Game.Engine
 {
     class LoadSaveManager
     {
-        internal void LoadSnapshot( uint[,] map )
+        internal void LoadSnapshot( GameObject[,] map )
         {
             GenerateMap( map );
         }
@@ -24,7 +25,7 @@ namespace Game.Engine
         internal void SaveHero()
         {}
 
-        private void GenerateMap(uint[,] map )
+        private void GenerateMap(GameObject[,] map )
         {
             int width = map.GetLength(0) - 1;
             int height = map.GetLength(1) - 3;
@@ -39,10 +40,10 @@ namespace Game.Engine
                 tmpX = rand.Next(width);
                 tmpY = rand.Next(height);
 
-                if( map[tmpX,tmpY] != 0 )
+                if( map[tmpX,tmpY] != null )
                     continue;
 
-                map[tmpX, tmpY] = (uint)((count % 2 == 0) ? 0x0001100 : 0x00000100);
+                map[tmpX, tmpY] = ((count % 2 == 0) ? (FixedObject)new Plant() : (FixedObject)new Tree());
 
                 count--;
             }

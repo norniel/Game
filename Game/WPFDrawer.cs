@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Timers;
-using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Game.Engine;
 using Game.Engine.BridgeObjects;
@@ -27,6 +26,9 @@ namespace Game
         private RotateTransform _t;
         private PointCollection _visWayCollection;
         private Polyline _visibleWay;
+        private BitmapImage bi;
+        private BitmapImage bi2;
+        private BitmapImage bi3;
 
         public WpfDrawer(Canvas canvas, ListBox listBox)
         {
@@ -39,9 +41,26 @@ namespace Game
             _canvas = canvas;
             _listBox = listBox;
 
+            bi = new BitmapImage();
+            // BitmapImage.UriSource must be in a BeginInit/EndInit block.
+            bi.BeginInit();
+            bi.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\apple tree icon.png", UriKind.RelativeOrAbsolute);
+            bi.EndInit();
+            bi2 = new BitmapImage();
+            // BitmapImage.UriSource must be in a BeginInit/EndInit block.
+            bi2.BeginInit();
+            bi2.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\apple-tree1 icon.png", UriKind.RelativeOrAbsolute);
+            bi2.EndInit();
+            bi3 = new BitmapImage();
+            // BitmapImage.UriSource must be in a BeginInit/EndInit block.
+            bi3.BeginInit();
+            bi3.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\apple-tree2 icon.png", UriKind.RelativeOrAbsolute);
+            bi3.EndInit();
+
             _appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
             Canvas.SetTop(_appearance, 0);
             Canvas.SetLeft(_appearance, 0);
+            
             _hands = new LineGeometry();
             _hands.StartPoint = new System.Windows.Point(8, 0);
             _hands.EndPoint = new System.Windows.Point(8, 16);
@@ -137,12 +156,35 @@ namespace Game
             if (id == 0x00000100)
             {
                 // _canvas.Children
+                var image = new Image();
+                image.Source = bi;
+                _canvas.Children.Add(image);
+                Canvas.SetLeft(image, x);
+                Canvas.SetTop(image, y);/*
                 Ellipse rec = new Ellipse()
                                   {Fill = Brushes.ForestGreen, Stroke = Brushes.Green, Height = 20, Width = 20};
                 rec.ContextMenu = _canvas.ContextMenu;
                 _canvas.Children.Add(rec);
                 Canvas.SetLeft(rec, x);
-                Canvas.SetTop(rec, y);
+                Canvas.SetTop(rec, y);*/
+            }
+            else if (id == 0x00000200)
+            {
+                // _canvas.Children
+                var image = new Image();
+                image.Source = bi2;
+                _canvas.Children.Add(image);
+                Canvas.SetLeft(image, x);
+                Canvas.SetTop(image, y);
+            }
+            else if (id == 0x00000300)
+            {
+                // _canvas.Children
+                var image = new Image();
+                image.Source = bi3;
+                _canvas.Children.Add(image);
+                Canvas.SetLeft(image, x);
+                Canvas.SetTop(image, y);
             }
             else if (id == 0x00001100)
             {
@@ -173,9 +215,18 @@ namespace Game
 
         public void DrawMenu(int x, int y, IEnumerable<ClientAction> actions)
         {
+            
+            if (_canvas.ContextMenu == null)
+            {
+                _canvas.ContextMenu = new ContextMenu();
+            }
+
             var cm = _canvas.ContextMenu;
             if (cm != null)
             {
+                if (cm.IsOpen)
+                    cm.IsOpen = false;
+
                 cm.Items.Clear();
 
                 foreach (var act in actions)
@@ -202,7 +253,7 @@ namespace Game
         {
             _listBox.Items.Clear();
 
-            foreach (var gameObject in objects)
+            foreach (var gameObject in objects.GroupBy(go => go, (go, gobjs) => string.Format("{0}({1})", go, gobjs.Count())))
             {
                 _listBox.Items.Add(gameObject);
             }

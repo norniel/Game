@@ -17,11 +17,6 @@ namespace Game.Engine.Objects
             Id = 0x00001100;
         }
 
-        public void MakeAction()
-        {
-            throw new NotImplementedException();
-        }
-
         public override void InitializeProperties()
         {
             this.Properties = new HashSet<Property>

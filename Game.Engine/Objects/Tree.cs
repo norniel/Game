@@ -6,6 +6,9 @@ namespace Game.Engine
 {
     class Tree: FixedObject, IHasBerries
     {
+        private int _initialBerriesCount = 4;
+        private int _berriesCount = 4;
+
         public Tree()
         {
             IsPassable = false;
@@ -30,8 +33,8 @@ namespace Game.Engine
         }
         public int BerriesCount
         {
-            get { return 4; }
-            set { }
+            get { return _berriesCount; }
+            set { _berriesCount = value; }
         }
         public Berry GetBerry()
         {
@@ -41,6 +44,15 @@ namespace Game.Engine
         public override string Name
         {
             get { return "Tree"; }
+        }
+
+        public override uint GetDrawingCode()
+        {
+            if(this.BerriesCount > this._initialBerriesCount/2) return this.Id;
+
+            if (this.BerriesCount <= this._initialBerriesCount / 2 && this.BerriesCount > 0) return 0x00000200;
+
+            return 0x00000300;
         }
     }
 }

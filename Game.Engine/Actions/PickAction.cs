@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
+using Game.Engine.Wrapers;
 
 namespace Game.Engine
 {
@@ -12,10 +13,17 @@ namespace Game.Engine
         public string Name {
             get { return "Pick"; }
         }
-        public void Do(Hero hero, IEnumerable<GameObject> objects)
+        public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
         {
-            hero.AddToBag(objects);
+            hero.AddToBag(objects.Select(o => o.GameObject));
+
+            foreach (var removableObject in objects)
+            {
+                removableObject.RemoveFromContainer(removableObject.GameObject);
+            }
             // remove objects form location
+
+            return true;
         }
         
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

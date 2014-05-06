@@ -1,5 +1,10 @@
-﻿using System.Reactive.Subjects;
+﻿using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
+using Game.Engine.States;
+using Game.Engine.Wrapers;
 
 namespace Game.Engine
 {
@@ -12,7 +17,7 @@ namespace Game.Engine
 
     public class Hero : MobileObject, IPicker
     {
-        private Subject<IState> staSubject = new Subject<IState>();
+        private Subject<EventPattern<StateEventArgs>> staSubject = new Subject<EventPattern<StateEventArgs>>();
 
         public IState State { get; private set; }
 
@@ -24,7 +29,14 @@ namespace Game.Engine
 
         private Bag Bag;
 
+        private bool _isThen = false;
+
         public List<WeakReference> PointList{ get; private set;}
+
+        public IObservable<EventPattern<StateEventArgs>> States
+        {
+            get { return staSubject; }
+        }
 
         public Hero()
         {
@@ -36,15 +48,44 @@ namespace Game.Engine
             
             _stateQueue = new Queue<IState>();
             PointList = new List<WeakReference>();
+            State = new Standing(this);
+        //    staSubject.OnNext(new Standing(this));
 
-            staSubject.OnNext(new Standing(this));
+
+            Observable.FromEventPattern<StateHandler, StateEventArgs>(
+                ev => StateEvent.NextState += ev,
+                ev => StateEvent.NextState -= ev).Subscribe(staSubject);
+            staSubject.Subscribe(x =>
+            {
+                if (_stateQueue.Count > 0)
+                {
+                    IState nextState;
+                    while (_stateQueue.Count > 0)
+                    {
+                        nextState = _stateQueue.Dequeue();
+
+                        if (nextState == State || nextState == null)
+                            continue;
+
+                        State = nextState;
+
+                        return;
+                    }
+                }                
+                
+                if (_stateQueue.Count == 0 /* && state == null*/)
+                {
+                    State = new Standing(this);
+                }
+            });
+            //staSubject.
         }
 
        
-
+/*
         private void OnNextState( IState state )
         {
-
+            staSubject.OnNext(state);
             if (_stateQueue.Count == 0 && state == null)
                 return;
 
@@ -78,14 +119,26 @@ namespace Game.Engine
                 State.NextState += OnNextState;
             }
         }
+*/
+        /*
+        private void OnNextState(IState state)
+        {
 
-        
+        }
+        */
         public void StartMove( Point destination, Stack<Point> points )
         {
-            _stateQueue.Clear();
+            if (!_isThen)
+            {
+                _stateQueue.Clear();
+            }
+            else
+                _isThen = _stateQueue.Count > 0;
+
             if( points == null )
             {
-                OnNextState(new Moving(this, destination));
+                _stateQueue.Enqueue(new Moving(this, destination));
+                //OnNextState(new Moving(this, destination));
                 return;
             }
 
@@ -97,7 +150,11 @@ namespace Game.Engine
                 _stateQueue.Enqueue(new Moving(this, points.Pop()));
             }
 
-            OnNextState( null );
+            if (!_isThen)
+                StateEvent.FireEvent();
+
+            _isThen = false;
+            // OnNextState( null );
         }
 
         public void AddToBag(IEnumerable<GameObject> objects)
@@ -108,6 +165,29 @@ namespace Game.Engine
         public List<GameObject> GetContainerItems()
         {
             return Bag.GameObjects;
+        }
+
+        public Hero Then()
+        {
+            this._isThen = true;
+            return this;
+        }
+
+        public void StartActing(IAction action, Point destination, IEnumerable<RemovableWrapper<GameObject>> objects)
+        {
+            if (!_isThen)
+            {
+                _stateQueue.Clear();
+            }
+            else
+                _isThen = _stateQueue.Count > 0;
+
+            _stateQueue.Enqueue(new Acting(this, action, destination, objects));
+
+            if (!_isThen)
+                StateEvent.FireEvent();
+
+            _isThen = false;
         }
     }
 }

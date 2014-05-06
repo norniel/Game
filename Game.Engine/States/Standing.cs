@@ -16,7 +16,7 @@ namespace Game.Engine
 
         #region IState Members
 
-        public event StateHandler NextState;
+        //public event StateHandler NextState;
 
         public void Act()
         {

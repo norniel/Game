@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Security.Cryptography;
 using System.Timers;
 using Game.Engine.BridgeObjects;
 using Game.Engine.Interfaces;
+using Game.Engine.Interfaces.IActions;
+using Game.Engine.Wrapers;
 using Wintellect.PowerCollections;
 using Game.Engine.Objects;
 
@@ -17,11 +20,11 @@ namespace Game.Engine
 
         private const int CELL_MEASURE = 20;
 
-        readonly uint[,] _map;
+        readonly FixedObject[,] _map;
         Rect curRect;
 
         Dictionary< uint, Cell> _cellSamples;
-        Dictionary< uint, FixedObject > _objectSamples;
+        readonly Dictionary< uint, FixedObject > _objectSamples;
 
         private LoadSaveManager loadSaveManager;
 
@@ -37,7 +40,7 @@ namespace Game.Engine
         {
             curRect.Width = width;
             curRect.Height = height;
-            _map = new uint[curRect.Width / CELL_MEASURE, curRect.Height / CELL_MEASURE];
+            _map = new FixedObject[curRect.Width / CELL_MEASURE, curRect.Height / CELL_MEASURE];
 
             loadSaveManager = new LoadSaveManager();
             loadSaveManager.LoadSnapshot( _map );
@@ -47,18 +50,20 @@ namespace Game.Engine
             _objectSamples[0x00000100] = new Tree(); // automize
             _objectSamples[0x00001100] = new Plant(); // automize
 
-            _timer = new Timer(100);
-            _timer.Enabled = true;
+/*            _timer = new Timer(100) {Enabled = true};
             _timer.Elapsed += OnTimedEvent;
-
+            */
+            
             _hero = new Hero();
 
             ActionRepository = new ActionRepository();
 
             _drawer = drawer;
-            //_drawer.GetAction = (x, y) => GetActions(new Point(x, y));
-        }
 
+            var intervals = Observable.Interval(TimeSpan.FromMilliseconds(100));
+
+            intervals.CombineLatest(_hero.States, (tick, state) => state).Subscribe(x => { if (_hero.State != null) _hero.State.Act(); });
+        }
 
         private void LoadSettings()
         {
@@ -68,11 +73,6 @@ namespace Game.Engine
         private void SaveSettings()
         {
             Properties.Settings.Default.Save();
-        }
-
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
-        {
-            _hero.State.Act();
         }
 
         public void LClick( Point destination )
@@ -90,41 +90,62 @@ namespace Game.Engine
             this._drawer.DrawMenu(destination.X, destination.Y, GetActions(destination));
         }
         
-        private List<ClientAction> GetActions(Point destination)
+        private IEnumerable<ClientAction> GetActions(Point destination)
         {
             var destCell = PointToCell(destination);
 
-            if (_map[destCell.X, destCell.Y] == 0)
+            if (_map[destCell.X, destCell.Y] == null)
             {
                 return new List<ClientAction> {
                     new ClientAction
                     {
                         Name = "Go",
                         CanDo = true,
-                        Do = () => { }
+                        Do = () => MoveToDest(destination)
                     }
                 };
             }
 
             //return new List<string> { _objectSamples[_map[destCell.X, destCell.Y]] .GetType().FullName};
 
-            var gameObject = _objectSamples[_map[destCell.X, destCell.Y]];
+            var gameObject = _map[destCell.X, destCell.Y];//_objectSamples[_map[destCell.X, destCell.Y]];
 
             var possibleActions = ActionRepository.GetPossibleActions(gameObject).ToList();
 
-            var objects = _hero.GetContainerItems().Union(new[]{gameObject}).ToList();
+           // var objects = _hero.GetContainerItems().Union(new[] { gameObject }).ToList();
+           
+            var objects = new List<GameObject>(new[]{gameObject});
+            var removableObjects = objects.Select(go => this.PrepareRemovableObject(go, destination)).ToList();
             return possibleActions.Select(pa => new ClientAction
             {
                 Name = pa.Name,
                 CanDo = pa.CanDo(_hero, objects),
-                Do = () => pa.Do(_hero, objects)
-            }).ToList();
-
+                Do = () => MoveAndDoAction(pa, destination, removableObjects)
+            });
         }
 
         public void MoveToDest( Point destination )
         {
             _hero.StartMove( destination, GetEasiestWay( _hero.Position, destination ) );
+        }
+
+        private void MoveAndDoAction(IAction action, Point destination, IEnumerable<RemovableWrapper<GameObject>> objects)
+        {
+            _hero.StartMove(destination, GetEasiestWay(_hero.Position, destination));
+            _hero.Then().StartActing(action, destination, objects);
+        }
+
+        private Wrapers.RemovableWrapper<GameObject> PrepareRemovableObject(GameObject gObject, Point destination)
+        {
+            return new RemovableWrapper<GameObject>
+            {
+                GameObject = gObject,
+                RemoveFromContainer = ((gO) =>
+                {
+                    var destCell = PointToCell(destination);
+                    _map[destCell.X, destCell.Y] = null;
+                })
+            };
         }
 
         class WayPoint : IComparable<WayPoint>
@@ -160,8 +181,6 @@ namespace Game.Engine
                 return string.Format("Point: {0}, Cost: {1}", Point, Cost);
             }
         }
-
-
 
         public Stack<Point> GetEasiestWay(Point start, Point dest)
         {
@@ -205,7 +224,8 @@ namespace Game.Engine
                         if (temp.Y < 0 || temp.Y >= _map.GetLength(1))
                             continue;
 
-                        if (!_objectSamples[_map[temp.X, temp.Y] & OBJ_MASK].IsPassable)
+                        if (_map[temp.X, temp.Y] != null && !_map[temp.X, temp.Y].IsPassable
+                            && !destP.Equals(temp))
                             continue;
 
                         int tmpCost = (((dx + dy)%2 == 0) ? 14 : 10) + current.Cost;
@@ -237,8 +257,6 @@ namespace Game.Engine
                 }
 
                 current.IsProcessed = true;
-
-
             }
 
             if( workPoints.Count == 0 )
@@ -255,7 +273,10 @@ namespace Game.Engine
                 while( current != null )
                 {
                     stackPoint = new Point(current.Point.X * CELL_MEASURE  + CELL_MEASURE/2, current.Point.Y * CELL_MEASURE  + CELL_MEASURE/2);
-                    resultStack.Push( stackPoint );
+
+                    if (!current.Point.Equals(destP) || _map[destP.X, destP.Y] == null || _map[destP.X, destP.Y].IsPassable)
+                        resultStack.Push( stackPoint );
+
                     current = current.Parent;
                 }
           //  }
@@ -277,7 +298,8 @@ namespace Game.Engine
             {
                 for (int j = 0; j < _map.GetLength(1); j++)
                 {
-                    _drawer.DrawObject(_objectSamples[_map[i, j] & OBJ_MASK].Id, i * CELL_MEASURE, j * CELL_MEASURE);
+                    if (_map[i, j] != null)
+                        _drawer.DrawObject(_map[i, j].GetDrawingCode(), i * CELL_MEASURE, j * CELL_MEASURE);
                 }
             }
 

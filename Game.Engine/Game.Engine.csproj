@@ -92,6 +92,7 @@
     <Compile Include="Tools\Size.cs" />
     <Compile Include="States\Standing.cs" />
     <Compile Include="Objects\Tree.cs" />
+    <Compile Include="Wrapers\RemovableWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

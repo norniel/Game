@@ -43,7 +43,7 @@ namespace Game.Engine
 
         #region Implementation of IState
 
-        public event StateHandler NextState;
+       // public event StateHandler NextState;
 
         public void Act()
         {
@@ -53,8 +53,9 @@ namespace Game.Engine
             _hero.Position = new Point( (int) (_destination.X + _dx * _steps * _hero.Speed), (int)(_destination.Y + _dy * _steps * _hero.Speed));
             _steps--;
 
-            if( NextState != null && ( _hero.Position == _destination || _steps <= -1 ))
-                NextState( new Standing( _hero ) );
+            if( /*NextState != null && */( _hero.Position == _destination || _steps <= -1 ))
+                //NextState( new StateEventArgs(){State = new Standing( _hero )} );
+                StateEvent.FireEvent();
         }
 
         #endregion

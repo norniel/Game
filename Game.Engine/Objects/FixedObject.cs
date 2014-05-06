@@ -21,6 +21,11 @@ namespace Game.Engine
         {
             get { return "Fixed objects"; }
         }
+
+        public override uint GetDrawingCode()
+        {
+            return this.Id;
+        }
     }
 
 }

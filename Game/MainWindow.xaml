@@ -6,7 +6,7 @@
             <ColumnDefinition Width="128*" />
             <ColumnDefinition Width="375*" />
         </Grid.ColumnDefinitions>
-        <Canvas Height="394" HorizontalAlignment="Left" Name="canvas1" VerticalAlignment="Top" Width="564" Background="#FF509647" Grid.ColumnSpan="2" MouseLeftButtonDown="canvas1_MouseLeftButtonDown" DataContext="{Binding}" MouseRightButtonDown="canvas1_MouseRightButtonDown">
+        <Canvas Height="394" HorizontalAlignment="Left" Name="canvas1" VerticalAlignment="Top" Width="564" Background="#194719" Grid.ColumnSpan="2" MouseLeftButtonDown="canvas1_MouseLeftButtonDown" DataContext="{Binding}" MouseRightButtonDown="canvas1_MouseRightButtonDown">
             <Canvas.ContextMenu>
                 <ContextMenu/>
             </Canvas.ContextMenu>

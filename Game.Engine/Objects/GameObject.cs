@@ -18,5 +18,10 @@ namespace Game.Engine.Objects
         {
             this.Properties = new HashSet<Property>();
         }
+
+        public virtual uint GetDrawingCode()
+        {
+            return 0;
+        }
     }
 }

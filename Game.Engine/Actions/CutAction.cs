@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
+using Game.Engine.Wrapers;
 
 namespace Game.Engine
 {
@@ -18,9 +19,9 @@ namespace Game.Engine
             return property == Property.Cuttable;
         }
 
-        public void Do(Hero hero, IEnumerable<GameObject> objects)
+        public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
         {
-            
+            return true;
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
