@@ -43,7 +43,20 @@ namespace Game.Engine
                 if( map[tmpX,tmpY] != null )
                     continue;
 
-                map[tmpX, tmpY] = ((count % 2 == 0) ? (FixedObject)new Plant() : (FixedObject)new Tree());
+                map[tmpX, tmpY] = ((count % 3 == 0) ? (FixedObject)new Plant() : (FixedObject)new Tree());
+
+                switch (count % 3)
+                {
+                    case    0:
+                        map[tmpX, tmpY] = (FixedObject)new Tree();
+                        break;
+                    case 1:
+                        map[tmpX, tmpY] = (FixedObject)new Plant();
+                        break;
+                    case 2:
+                        map[tmpX, tmpY] = (FixedObject)new Rock();
+                        break;
+                }
 
                 count--;
             }

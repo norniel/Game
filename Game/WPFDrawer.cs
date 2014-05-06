@@ -30,6 +30,9 @@ namespace Game
         private BitmapImage bi2;
         private BitmapImage bi3;
 
+        private BitmapImage bi4;
+        private BitmapImage bi5;
+
         public WpfDrawer(Canvas canvas, ListBox listBox)
         {
             _drawSamples = new Dictionary<uint, IObjectDrawer>();
@@ -56,6 +59,16 @@ namespace Game
             bi3.BeginInit();
             bi3.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\apple-tree2 icon.png", UriKind.RelativeOrAbsolute);
             bi3.EndInit();
+
+            bi4 = new BitmapImage();
+            bi4.BeginInit();
+            bi4.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\rock icon2.png", UriKind.RelativeOrAbsolute);
+            bi4.EndInit();
+
+            bi5 = new BitmapImage();
+            bi5.BeginInit();
+            bi5.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\plant icon.png", UriKind.RelativeOrAbsolute);
+            bi5.EndInit();
 
             _appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
             Canvas.SetTop(_appearance, 0);
@@ -189,11 +202,25 @@ namespace Game
             else if (id == 0x00001100)
             {
                 // _canvas.Children
-                Ellipse rec = new Ellipse() { Fill = Brushes.GreenYellow, Stroke = Brushes.Green, Height = 10, Width = 10 };
+          /*      Ellipse rec = new Ellipse() { Fill = Brushes.GreenYellow, Stroke = Brushes.Green, Height = 10, Width = 10 };
                 rec.ContextMenu = _canvas.ContextMenu;
                 _canvas.Children.Add(rec);
                 Canvas.SetLeft(rec, x+10);
-                Canvas.SetTop(rec, y+10);
+                Canvas.SetTop(rec, y+10);*/
+                var image = new Image();
+                image.Source = bi5;
+                _canvas.Children.Add(image);
+                Canvas.SetLeft(image, x);
+                Canvas.SetTop(image, y);
+            }
+            else if (id == 0x00001000)
+            {
+                // _canvas.Children
+                var image = new Image();
+                image.Source = bi4;
+                _canvas.Children.Add(image);
+                Canvas.SetLeft(image, x);
+                Canvas.SetTop(image, y);
             }/*
             else
             {

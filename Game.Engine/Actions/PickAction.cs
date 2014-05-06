@@ -19,9 +19,8 @@ namespace Game.Engine
 
             foreach (var removableObject in objects)
             {
-                removableObject.RemoveFromContainer(removableObject.GameObject);
+                removableObject.RemoveFromContainer();
             }
-            // remove objects form location
 
             return true;
         }

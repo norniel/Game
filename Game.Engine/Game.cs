@@ -15,8 +15,8 @@ namespace Game.Engine
 {
     public class Game
     {
-        private const uint CELL_MASK = 0x11000000;
-        private const uint OBJ_MASK = 0x00111100;
+      //  private const uint CELL_MASK = 0x11000000;
+     //   private const uint OBJ_MASK = 0x00111100;
 
         private const int CELL_MEASURE = 20;
 
@@ -24,11 +24,10 @@ namespace Game.Engine
         Rect curRect;
 
         Dictionary< uint, Cell> _cellSamples;
-        readonly Dictionary< uint, FixedObject > _objectSamples;
 
         private LoadSaveManager loadSaveManager;
 
-        private readonly Timer _timer;
+     //   private readonly Timer _timer;
 
         private readonly Hero _hero;
 
@@ -44,11 +43,6 @@ namespace Game.Engine
 
             loadSaveManager = new LoadSaveManager();
             loadSaveManager.LoadSnapshot( _map );
-
-            _objectSamples = new Dictionary<uint, FixedObject>();
-            _objectSamples[0x00000000] = new FixedObject(); // automize
-            _objectSamples[0x00000100] = new Tree(); // automize
-            _objectSamples[0x00001100] = new Plant(); // automize
 
 /*            _timer = new Timer(100) {Enabled = true};
             _timer.Elapsed += OnTimedEvent;
@@ -106,8 +100,6 @@ namespace Game.Engine
                 };
             }
 
-            //return new List<string> { _objectSamples[_map[destCell.X, destCell.Y]] .GetType().FullName};
-
             var gameObject = _map[destCell.X, destCell.Y];//_objectSamples[_map[destCell.X, destCell.Y]];
 
             var possibleActions = ActionRepository.GetPossibleActions(gameObject).ToList();
@@ -135,12 +127,12 @@ namespace Game.Engine
             _hero.Then().StartActing(action, destination, objects);
         }
 
-        private Wrapers.RemovableWrapper<GameObject> PrepareRemovableObject(GameObject gObject, Point destination)
+        private RemovableWrapper<GameObject> PrepareRemovableObject(GameObject gObject, Point destination)
         {
             return new RemovableWrapper<GameObject>
             {
                 GameObject = gObject,
-                RemoveFromContainer = ((gO) =>
+                RemoveFromContainer = (() =>
                 {
                     var destCell = PointToCell(destination);
                     _map[destCell.X, destCell.Y] = null;

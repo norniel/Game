@@ -10,14 +10,22 @@
   <Class Name="Game.Engine.FixedObject" Collapsed="true">
     <Position X="2.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAkgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACIAAAAAAAkgAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Objects\FixedObject.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Engine.Hero">
     <Position X="4.5" Y="3.25" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Game.Engine.Hero.StateFirer" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Hero.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAEAAAiAAAAAACAAAAQBAAAAAAAAAEAABABEAAA=</HashCode>
+      <HashCode>AAAAAAEAAAiAAAAAASAQAAQBAAAAAAAAAEAABAAGAAA=</HashCode>
       <FileName>Hero.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -25,7 +33,7 @@
   <Class Name="Game.Engine.MobileObject">
     <Position X="4.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Objects\MobileObject.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -53,7 +61,7 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAIAAgAIIAIgAIAgAASAEAIgCAAIAAAAAEABAIBAAEA=</HashCode>
+      <HashCode>AAIAAAAAIAAgAIEgAASAFAIiCAAAAAAAAEABAIBAgEA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
   </Class>
