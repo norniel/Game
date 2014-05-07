@@ -31,9 +31,9 @@ namespace Game
         private BitmapImage bi3;
 
         private BitmapImage bi4;
-        private BitmapImage bi5;
+        private BitmapImage rockImage;
 
-        private BitmapImage bi6;
+        private BitmapImage fireImage;
 
         public WpfDrawer(Canvas canvas, ListBox listBox)
         {
@@ -46,36 +46,15 @@ namespace Game
             _canvas = canvas;
             _listBox = listBox;
 
-            bi = new BitmapImage();
-            // BitmapImage.UriSource must be in a BeginInit/EndInit block.
-            bi.BeginInit();
-            bi.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\apple tree icon.png", UriKind.RelativeOrAbsolute);
-            bi.EndInit();
-            bi2 = new BitmapImage();
-            // BitmapImage.UriSource must be in a BeginInit/EndInit block.
-            bi2.BeginInit();
-            bi2.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\apple-tree1 icon.png", UriKind.RelativeOrAbsolute);
-            bi2.EndInit();
-            bi3 = new BitmapImage();
-            // BitmapImage.UriSource must be in a BeginInit/EndInit block.
-            bi3.BeginInit();
-            bi3.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\apple-tree2 icon.png", UriKind.RelativeOrAbsolute);
-            bi3.EndInit();
+            bi = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple tree icon.png");
+            bi2 = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple-tree1 icon.png");
 
-            bi4 = new BitmapImage();
-            bi4.BeginInit();
-            bi4.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\rock icon2.png", UriKind.RelativeOrAbsolute);
-            bi4.EndInit();
+            bi3 = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple-tree2 icon.png");
+            bi4 = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\plant icon.png");
 
-            bi5 = new BitmapImage();
-            bi5.BeginInit();
-            bi5.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\plant icon.png", UriKind.RelativeOrAbsolute);
-            bi5.EndInit();
+            rockImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\rock icon2.png");
+            fireImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\fire icon.png");
 
-            bi6 = new BitmapImage();
-            bi6.BeginInit();
-            bi6.UriSource = new Uri(@"E:\Lena\Projects\Game - Copy\Game\fire icon.png", UriKind.RelativeOrAbsolute);
-            bi6.EndInit();
 
             _appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
             Canvas.SetTop(_appearance, 0);
@@ -122,25 +101,18 @@ namespace Game
                               };
             _visWayCollection = new PointCollection();
             _visibleWay.Points = _visWayCollection;
-
-            /*
-            _canvas.ContextMenuOpening += (sender, args) =>
-            {
-                FrameworkElement fe = args.Source as FrameworkElement;
-                ContextMenu cm = fe.ContextMenu;
-                if (cm != null)
-                {
-                     cm.Items.Clear();
-
-                    this.GetAction((int)args.CursorLeft, (int)args.CursorTop).ForEach(a => cm.Items.Add(new MenuItem() { Header = a })); ;
-                }
-
-               // fe.ContextMenu = cm
-            };
-*/
-            // polyline 
         }
 
+        private BitmapImage CreateBitmapImage(string uri)
+        {
+            var bi = new BitmapImage();
+            // BitmapImage.UriSource must be in a BeginInit/EndInit block.
+            bi.BeginInit();
+            bi.UriSource = new Uri(/**/uri, UriKind.RelativeOrAbsolute);
+            bi.EndInit();
+
+            return bi;
+        }
 
         #region Implementation of IDrawer
 
@@ -176,11 +148,8 @@ namespace Game
             if (id == 0x00000100)
             {
                 // _canvas.Children
-                var image = new Image();
-                image.Source = bi;
-                _canvas.Children.Add(image);
-                Canvas.SetLeft(image, x);
-                Canvas.SetTop(image, y);/*
+
+                DrawImage(bi, x, y);/*
                 Ellipse rec = new Ellipse()
                                   {Fill = Brushes.ForestGreen, Stroke = Brushes.Green, Height = 20, Width = 20};
                 rec.ContextMenu = _canvas.ContextMenu;
@@ -191,20 +160,14 @@ namespace Game
             else if (id == 0x00000200)
             {
                 // _canvas.Children
-                var image = new Image();
-                image.Source = bi2;
-                _canvas.Children.Add(image);
-                Canvas.SetLeft(image, x);
-                Canvas.SetTop(image, y);
+
+                DrawImage(bi2, x, y);
             }
             else if (id == 0x00000300)
             {
                 // _canvas.Children
-                var image = new Image();
-                image.Source = bi3;
-                _canvas.Children.Add(image);
-                Canvas.SetLeft(image, x);
-                Canvas.SetTop(image, y);
+
+                DrawImage(bi3, x, y);
             }
             else if (id == 0x00001100)
             {
@@ -214,29 +177,19 @@ namespace Game
                 _canvas.Children.Add(rec);
                 Canvas.SetLeft(rec, x+10);
                 Canvas.SetTop(rec, y+10);*/
-                var image = new Image();
-                image.Source = bi5;
-                _canvas.Children.Add(image);
-                Canvas.SetLeft(image, x);
-                Canvas.SetTop(image, y);
+
+                DrawImage(rockImage, x, y);
             }
             else if (id == 0x00001000)
             {
                 // _canvas.Children
-                var image = new Image();
-                image.Source = bi4;
-                _canvas.Children.Add(image);
-                Canvas.SetLeft(image, x);
-                Canvas.SetTop(image, y);
+
+                DrawImage(bi4, x, y);
             }
             else if (id == 0x00000600)
             {
                 // _canvas.Children
-                var image = new Image();
-                image.Source = bi6;
-                _canvas.Children.Add(image);
-                Canvas.SetLeft(image, x);
-                Canvas.SetTop(image, y);
+                DrawImage(fireImage, x, y);
             }/*
             else
             {
@@ -300,6 +253,15 @@ namespace Game
             {
                 _listBox.Items.Add(gameObject);
             }
+        }
+
+        private void DrawImage(BitmapImage bitmapImage, long x, long y)
+        {
+            var image = new Image();
+            image.Source = bitmapImage;
+            _canvas.Children.Add(image);
+            Canvas.SetLeft(image, x);
+            Canvas.SetTop(image, y);
         }
 
         #endregion
