@@ -52,16 +52,8 @@
   </Class>
   <Class Name="Game.Engine.Game">
     <Position X="6.75" Y="0.5" Width="1.5" />
-    <NestedTypes>
-      <Class Name="Game.Engine.Game.WayPoint" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Game.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAIAAAAAIAAgAIEgAASAFAIiCAAAAAAAAEABAIBAgEA=</HashCode>
+      <HashCode>AAIAAAAAIAAgAIEgAACAFAIiAAAAAAAAAAABAIhAgAA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
   </Class>

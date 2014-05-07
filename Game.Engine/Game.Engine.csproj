@@ -65,6 +65,7 @@
     <Compile Include="Interfaces\IHasBerries.cs" />
     <Compile Include="Interfaces\IPicker.cs" />
     <Compile Include="IObjectDrawer.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="Objects\Berry.cs" />
     <Compile Include="Objects\Fire.cs" />
     <Compile Include="Objects\FixedObject.cs" />

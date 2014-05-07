@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Game.Engine.Objects;
-
-namespace Game.Engine
+﻿namespace Game.Engine
 {
+    using System;
+    using Objects;
     class LoadSaveManager
     {
-        internal void LoadSnapshot( GameObject[,] map )
+        internal void LoadSnapshot( Map map )
         {
             GenerateMap( map );
         }
@@ -25,10 +21,11 @@ namespace Game.Engine
         internal void SaveHero()
         {}
 
-        private void GenerateMap(GameObject[,] map )
+        private void GenerateMap(Map map)
         {
-            int width = map.GetLength(0) - 1;
-            int height = map.GetLength(1) - 3;
+            var mapSize = map.GetSize();
+            int width = (int)mapSize.Width - 1;
+            int height = (int)mapSize.Height - 3;
 
             int count = (int)(width*height*0.35);
 
@@ -40,21 +37,19 @@ namespace Game.Engine
                 tmpX = rand.Next(width);
                 tmpY = rand.Next(height);
 
-                if( map[tmpX,tmpY] != null )
+                if( map.GetObjectFromCell(new Point(tmpX, tmpY)) != null )
                     continue;
-
-                map[tmpX, tmpY] = ((count % 3 == 0) ? (FixedObject)new Plant() : (FixedObject)new Tree());
 
                 switch (count % 3)
                 {
                     case    0:
-                        map[tmpX, tmpY] = (FixedObject)new Tree();
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Tree());
                         break;
                     case 1:
-                        map[tmpX, tmpY] = (FixedObject)new Plant();
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Plant());
                         break;
                     case 2:
-                        map[tmpX, tmpY] = (FixedObject)new Rock();
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Rock());
                         break;
                 }
 
@@ -66,10 +61,10 @@ namespace Game.Engine
                 tmpX = rand.Next(width);
                 tmpY = rand.Next(height);
 
-                if (map[tmpX, tmpY] != null)
+                if (map.GetObjectFromCell(new Point(tmpX, tmpY)) != null)
                     continue;
 
-                map[tmpX, tmpY] = (FixedObject)new Fire();
+                map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Fire());
                 break;
             }
         }
