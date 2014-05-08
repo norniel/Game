@@ -65,7 +65,7 @@
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\IActionRepository.cs" />
     <Compile Include="Interfaces\IHasBerries.cs" />
-    <Compile Include="Interfaces\IHasBranches.cs" />
+    <Compile Include="Interfaces\IHasSmthToCollect.cs" />
     <Compile Include="Interfaces\IPicker.cs" />
     <Compile Include="IObjectDrawer.cs" />
     <Compile Include="Map.cs" />

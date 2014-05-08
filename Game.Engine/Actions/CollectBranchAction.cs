@@ -21,5 +21,6 @@ namespace Game.Engine.Actions
         {
             return objects.Any(obj => obj.Properties.Contains(Property.CollectBranch) && ((IHasSmthToCollect<Branch>)obj).GetSmthTotalCount() > 0);
         }
+
     }
 }

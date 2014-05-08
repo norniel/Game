@@ -8,17 +8,17 @@ using Game.Engine.Wrapers;
 
 namespace Game.Engine.Actions
 {
-    internal class CollectBerriesAction:IAction
+    internal class CollectBerriesAction:CollectSmth<Berry>
     {
-        public string Name {
+        public override string Name {
             get { return "Collect berries"; }
         }
 
-        public bool IsApplicable(Property property)
+        public override bool IsApplicable(Property property)
         {
             return property == Property.CollectBerries;
         }
-
+        /*
         public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
         {   
             // collect
@@ -27,12 +27,13 @@ namespace Game.Engine.Actions
 
             return !actionIsNotOver;
         }
-
-        public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
+        */
+        public override bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            return objects.Any(obj => obj.Properties.Contains(Property.CollectBerries) && ((IHasBerries)obj).BerriesCount > 0);
+            return objects.Any(obj => obj.Properties.Contains(Property.CollectBerries) && ((IHasSmthToCollect<Berry>)obj).GetSmthTotalCount() > 0);
         }
 
+        /*
         private bool CollectBerries(IHasBerries objectWithBerries, Hero hero)
         {
             if (objectWithBerries.BerriesCount <= 0)
@@ -56,5 +57,6 @@ namespace Game.Engine.Actions
 
             return objectWithBerries.BerriesCount > 0;
         }
+        */
     }
 }

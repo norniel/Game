@@ -27,6 +27,7 @@ namespace Game.Engine.Actions
             return objects.Any(obj => obj.Properties.Contains(Property.CollectBerries) && ((IHasBerries)obj).BerriesCount > 0);
         }
         */
+
         private bool Collect(IHasSmthToCollect<T> objectWithSmth, Hero hero)
         {
             if (objectWithSmth.GetSmthTotalCount() <= 0)

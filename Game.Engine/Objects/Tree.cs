@@ -4,7 +4,7 @@ using Game.Engine.Objects;
 
 namespace Game.Engine
 {
-    class Tree : FixedObject, IHasBerries, IHasSmthToCollect<Branch>, IHasSmthToCollect<Berry>
+    class Tree : FixedObject, IHasSmthToCollect<Branch>, IHasSmthToCollect<Berry>
     {
         private int _initialBerriesCount = 4;
         private int _berriesCount = 4;
@@ -29,7 +29,7 @@ namespace Game.Engine
                 Property.CollectBranch
             };
         }
-
+        /*
         public int BerriesPerCollectCount {
             get { return 2; }
             set { }
@@ -43,7 +43,7 @@ namespace Game.Engine
         {
             return new Berry();
         }
-
+        */
         public override string Name
         {
             get { return "Tree"; }
@@ -51,9 +51,11 @@ namespace Game.Engine
 
         public override uint GetDrawingCode()
         {
-            if(this.BerriesCount > this._initialBerriesCount/2) return this.Id;
+            var berriesCount = ((IHasSmthToCollect<Berry>) this).GetSmthTotalCount();
 
-            if (this.BerriesCount <= this._initialBerriesCount / 2 && this.BerriesCount > 0) return 0x00000200;
+            if (_berriesCount > this._initialBerriesCount / 2) return this.Id;
+
+            if (berriesCount <= this._initialBerriesCount / 2 && berriesCount > 0) return 0x00000200;
 
             return 0x00000300;
         }
