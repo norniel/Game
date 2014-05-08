@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Game.Engine.Actions;
 using Game.Engine.Interfaces;
 using Game.Engine.Interfaces.IActions;
@@ -15,7 +14,8 @@ namespace Game.Engine
         {
             new CollectBerriesAction(),
             new CutAction(),
-            new PickAction()
+            new PickAction(),
+            new CollectBranchAction()
         };
 
         public IEnumerable<IAction> GetPossibleActions(GameObject gameObject)

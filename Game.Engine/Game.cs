@@ -2,22 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Security.Cryptography;
-using System.Timers;
 using Game.Engine.BridgeObjects;
 using Game.Engine.Interfaces;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Wrapers;
-using Wintellect.PowerCollections;
 using Game.Engine.Objects;
 
 namespace Game.Engine
 {
     public class Game
     {
-      //  private const uint CELL_MASK = 0x11000000;
-     //   private const uint OBJ_MASK = 0x00111100;
-
         Rect curRect;
 
         private readonly Map _mapClass;

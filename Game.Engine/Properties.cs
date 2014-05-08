@@ -11,6 +11,7 @@ namespace Game.Engine
         Pickable = 1,
         Cuttable = 2,
         Collectable = 3,
-        CollectBerries = 4
+        CollectBerries = 4,
+        CollectBranch
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Game.Engine.Objects;
+﻿using Game.Engine.Objects;
 
 namespace Game.Engine.Interfaces
 {

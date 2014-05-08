@@ -57,16 +57,20 @@
   <ItemGroup>
     <Compile Include="ActionRepository.cs" />
     <Compile Include="Actions\CollectBerriesAction.cs" />
+    <Compile Include="Actions\CollectBranchAction.cs" />
+    <Compile Include="Actions\CollectSmth.cs" />
     <Compile Include="Bag.cs" />
     <Compile Include="Actions\CutAction.cs" />
     <Compile Include="BridgeObjects\ClientAction.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\IActionRepository.cs" />
     <Compile Include="Interfaces\IHasBerries.cs" />
+    <Compile Include="Interfaces\IHasBranches.cs" />
     <Compile Include="Interfaces\IPicker.cs" />
     <Compile Include="IObjectDrawer.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Objects\Berry.cs" />
+    <Compile Include="Objects\Branch.cs" />
     <Compile Include="Objects\Fire.cs" />
     <Compile Include="Objects\FixedObject.cs" />
     <Compile Include="Hero.cs" />
