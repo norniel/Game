@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using Game.Engine.BridgeObjects;
+using Game.Engine.Heros;
 using Game.Engine.Interfaces;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Wrapers;
@@ -51,6 +52,7 @@ namespace Game.Engine
             var intervals = Observable.Interval(TimeSpan.FromMilliseconds(100));
 
             intervals.CombineLatest(_hero.States, (tick, state) => state).Subscribe(x => { if (_hero.State != null) _hero.State.Act(); });
+            intervals.Subscribe(_hero.HeroLifeCycle);
         }
 
         private void LoadSettings()
@@ -156,6 +158,8 @@ namespace Game.Engine
             _drawer.DrawHero( _hero.Position, _hero.Angle, _hero.PointList );
 
             _drawer.DrawContainer(_hero.GetContainerItems().Select(go => go.Name));
+
+            _drawer.DrawHeroProperties(_hero.GetProperties());
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using Game.Engine.Objects;
-using Game.Engine.Wrapers;
-
-namespace Game.Engine.Interfaces.IActions
+﻿namespace Game.Engine.Interfaces.IActions
 {
+    using System.Collections.Generic;
+    using Heros;
+    using Objects;
+    using Wrapers;
+    
     public interface IAction
     {
         string Name { get; }

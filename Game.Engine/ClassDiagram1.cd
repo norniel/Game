@@ -8,17 +8,18 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Game.Engine.Hero" Collapsed="true">
+  <Class Name="Game.Engine.Heros.Hero" Collapsed="true">
     <Position X="7.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAEAAAiAAAAAACAAAAQBAAAAAAAAAEAABABEAAA=</HashCode>
-      <FileName>Hero.cs</FileName>
+      <HashCode>AAAAAAEAEAiAAAAAASAQAAQBAAAAAAAAAEAABAAGAAA=</HashCode>
+      <FileName>Heros\Hero.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Game.Engine.CutAction">
     <Position X="13" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAQACAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Actions\CutAction.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -26,7 +27,7 @@
   <Enum Name="Game.Engine.Property">
     <Position X="3.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABCACAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAABDACAABAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAA=</HashCode>
       <FileName>Properties.cs</FileName>
     </TypeIdentifier>
   </Enum>

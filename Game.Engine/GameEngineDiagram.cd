@@ -14,19 +14,19 @@
       <FileName>Objects\FixedObject.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Game.Engine.Hero">
+  <Class Name="Game.Engine.Heros.Hero">
     <Position X="4.5" Y="3.25" Width="1.5" />
     <NestedTypes>
-      <Class Name="Game.Engine.Hero.StateFirer" Collapsed="true">
+      <Class Name="Game.Engine.Heros.Hero.StateFirer" Collapsed="true">
         <TypeIdentifier>
-          <NewMemberFileName>Hero.cs</NewMemberFileName>
+          <NewMemberFileName>Heros\Hero.cs</NewMemberFileName>
         </TypeIdentifier>
         <Lollipop Position="0.2" />
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAEAAAiAAAAAASAQAAQBAAAAAAAAAEAABAAGAAA=</HashCode>
-      <FileName>Hero.cs</FileName>
+      <HashCode>AAAAAAEAEAiAAAAAASAQAAQBAAAAAAAAAEAABAAGAAA=</HashCode>
+      <FileName>Heros\Hero.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>

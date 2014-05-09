@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Game.Engine.Heros;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
 using Game.Engine.Wrapers;
@@ -19,6 +19,8 @@ namespace Game.Engine
 
             foreach (var removableObject in objects)
             {
+                removableObject.GameObject.Properties.Remove(Property.Pickable);
+                removableObject.GameObject.Properties.Add(Property.Dropable);
                 removableObject.RemoveFromContainer();
             }
 

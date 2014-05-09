@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Game.Engine.Objects;
-using Game.Engine.Wrapers;
-
-namespace Game.Engine.States
+﻿namespace Game.Engine.States
 {
+    using System;
+    using System.Collections.Generic;
+    using Heros;
+    using Objects;
+    using Wrapers;
     class Acting : IState
     {
         private Hero hero;

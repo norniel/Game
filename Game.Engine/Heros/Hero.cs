@@ -1,4 +1,4 @@
-﻿namespace Game.Engine
+﻿namespace Game.Engine.Heros
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +22,14 @@
 
         private readonly Queue<IState> _stateQueue;
 
-        private Bag Bag;
+        private readonly Bag Bag;
+
+        private readonly HeroLifeCycle _heroLifeCycle;
+
+        internal HeroLifeCycle HeroLifeCycle
+        {
+            get { return _heroLifeCycle; }
+        }
 
         private bool _isThen = false;
 
@@ -40,6 +47,8 @@
             Angle = 0;
 
             Bag = new Bag();
+
+            _heroLifeCycle = new HeroLifeCycle();
 
             _stateQueue = new Queue<IState>();
             PointList = new List<WeakReference>();
@@ -137,6 +146,20 @@
 
                 _hero._isThen = false;
             }
+        }
+
+        public void Eat()
+        {
+            this.HeroLifeCycle.Eat();
+        }
+
+        public IEnumerable<KeyValuePair<string, int>> GetProperties()
+        {
+            return new List<KeyValuePair<string, int>>()
+            {
+                new KeyValuePair<string, int>("Health", _heroLifeCycle.HeroProperties.Health),
+                new KeyValuePair<string, int>("Satiety", _heroLifeCycle.HeroProperties.Satiety)
+            };
         }
     }
 }

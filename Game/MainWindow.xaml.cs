@@ -30,7 +30,7 @@ namespace Game
         {
             InitializeComponent();
 
-            _drawer = new WpfDrawer(canvas1, listBox1);
+            _drawer = new WpfDrawer(canvas1, listBox1, heroListBox);
             _game = new Engine.Game(_drawer, (uint)canvas1.Width, (uint)canvas1.Height);
         
             CompositionTarget.Rendering += DrawSnapshot;

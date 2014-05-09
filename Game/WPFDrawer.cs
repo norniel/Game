@@ -18,6 +18,7 @@ namespace Game
 
         private readonly Canvas _canvas;
         private readonly ListBox _listBox;
+        private readonly ListBox _heroListBox;
         private readonly Path _appearance;
         private readonly LineGeometry _hands;
         private readonly EllipseGeometry _hat;
@@ -26,16 +27,16 @@ namespace Game
         private RotateTransform _t;
         private PointCollection _visWayCollection;
         private Polyline _visibleWay;
-        private BitmapImage bi;
-        private BitmapImage bi2;
-        private BitmapImage bi3;
+        private BitmapImage appletreeImage;
+        private BitmapImage appletree1Image;
+        private BitmapImage appletree2Image;
 
-        private BitmapImage bi4;
+        private BitmapImage plantImage;
         private BitmapImage rockImage;
 
         private BitmapImage fireImage;
 
-        public WpfDrawer(Canvas canvas, ListBox listBox)
+        public WpfDrawer(Canvas canvas, ListBox listBox, ListBox heroListBox)
         {
             _drawSamples = new Dictionary<uint, IObjectDrawer>();
             _drawSamples[0x00000100] = new TreeDrawer(); // automize
@@ -45,12 +46,13 @@ namespace Game
 
             _canvas = canvas;
             _listBox = listBox;
+            _heroListBox = heroListBox;
 
-            bi = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple tree icon.png");
-            bi2 = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple-tree1 icon.png");
+            appletreeImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple tree icon.png");
+            appletree1Image = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple-tree1 icon.png");
 
-            bi3 = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple-tree2 icon.png");
-            bi4 = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\plant icon.png");
+            appletree2Image = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple-tree2 icon.png");
+            plantImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\plant icon.png");
 
             rockImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\rock icon2.png");
             fireImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\fire icon.png");
@@ -149,7 +151,7 @@ namespace Game
             {
                 // _canvas.Children
 
-                DrawImage(bi, x, y);/*
+                DrawImage(appletreeImage, x, y);/*
                 Ellipse rec = new Ellipse()
                                   {Fill = Brushes.ForestGreen, Stroke = Brushes.Green, Height = 20, Width = 20};
                 rec.ContextMenu = _canvas.ContextMenu;
@@ -161,13 +163,13 @@ namespace Game
             {
                 // _canvas.Children
 
-                DrawImage(bi2, x, y);
+                DrawImage(appletree1Image, x, y);
             }
             else if (id == 0x00000300)
             {
                 // _canvas.Children
 
-                DrawImage(bi3, x, y);
+                DrawImage(appletree2Image, x, y);
             }
             else if (id == 0x00001100)
             {
@@ -184,7 +186,7 @@ namespace Game
             {
                 // _canvas.Children
 
-                DrawImage(bi4, x, y);
+                DrawImage(plantImage, x, y);
             }
             else if (id == 0x00000600)
             {
@@ -241,8 +243,6 @@ namespace Game
                 
                 cm.IsOpen = true;
             }
-            
-            //_canvas.ContextMenu.o
         }
 
         public void DrawContainer(IEnumerable<string> objects)
@@ -252,6 +252,16 @@ namespace Game
             foreach (var gameObject in objects.GroupBy(go => go, (go, gobjs) => string.Format("{0}({1})", go, gobjs.Count())))
             {
                 _listBox.Items.Add(gameObject);
+            }
+        }
+
+        public void DrawHeroProperties(IEnumerable<KeyValuePair<string, int>> objects)
+        {
+            _heroListBox.Items.Clear();
+
+            foreach (var gameObject in objects)
+            {
+                _heroListBox.Items.Add(string.Format("{0} - {1}", gameObject.Key, gameObject.Value));
             }
         }
 

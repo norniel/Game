@@ -59,9 +59,12 @@
     <Compile Include="Actions\CollectBerriesAction.cs" />
     <Compile Include="Actions\CollectBranchAction.cs" />
     <Compile Include="Actions\CollectSmth.cs" />
+    <Compile Include="Actions\EatAction.cs" />
     <Compile Include="Bag.cs" />
     <Compile Include="Actions\CutAction.cs" />
     <Compile Include="BridgeObjects\ClientAction.cs" />
+    <Compile Include="Heros\HeroLifeCycle.cs" />
+    <Compile Include="Heros\HeroProperties.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\IActionRepository.cs" />
     <Compile Include="Interfaces\IHasBerries.cs" />
@@ -73,7 +76,7 @@
     <Compile Include="Objects\Branch.cs" />
     <Compile Include="Objects\Fire.cs" />
     <Compile Include="Objects\FixedObject.cs" />
-    <Compile Include="Hero.cs" />
+    <Compile Include="Heros\Hero.cs" />
     <Compile Include="IDrawer.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Objects\Plant.cs" />

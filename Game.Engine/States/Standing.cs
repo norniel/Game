@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Game.Engine
+﻿namespace Game.Engine
 {
+    using Heros;
     class Standing : IState
     {
         private Hero _hero;

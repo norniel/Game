@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Game.Engine
 {
@@ -12,6 +9,8 @@ namespace Game.Engine
         Cuttable = 2,
         Collectable = 3,
         CollectBerries = 4,
-        CollectBranch
+        CollectBranch = 5,
+        Eatable = 6,
+        Dropable
     }
 }
