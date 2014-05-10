@@ -161,5 +161,10 @@
                 new KeyValuePair<string, int>("Satiety", _heroLifeCycle.HeroProperties.Satiety)
             };
         }
+
+        public void RemoveFromContainer(GameObject gObject)
+        {
+            Bag.GameObjects.Remove(gObject);
+        }
     }
 }

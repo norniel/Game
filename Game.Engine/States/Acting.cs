@@ -42,8 +42,9 @@
 
         private bool IsNear(Point position, Point destination)
         {
-            return Math.Abs(position.X - destination.X) < 20 
-                && Math.Abs(position.Y - destination.Y) < 20;
+            return ReferenceEquals(destination, null) ||
+                (Math.Abs(position.X - destination.X) < 20 
+                && Math.Abs(position.Y - destination.Y) < 20);
         }
     }
 }

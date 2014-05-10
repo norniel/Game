@@ -15,7 +15,8 @@ namespace Game.Engine
             new CollectBerriesAction(),
             new CutAction(),
             new PickAction(),
-            new CollectBranchAction()
+            new CollectBranchAction(),
+            new EatAction()
         };
 
         public IEnumerable<IAction> GetPossibleActions(GameObject gameObject)

@@ -51,7 +51,7 @@ namespace Game.Engine
 
         public static bool operator ==(Point left, Point right)
         {
-            return left.Equals(right);
+            return !ReferenceEquals(null, right) && left.Equals(right);
         }
 
         public static bool operator !=(Point left, Point right)

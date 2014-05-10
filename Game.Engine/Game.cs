@@ -13,23 +13,23 @@ namespace Game.Engine
 {
     public class Game
     {
-        Rect curRect;
+        private Rect curRect;
 
         private readonly Map _mapClass;
 
-        Dictionary< uint, Cell> _cellSamples;
+        private Dictionary<uint, Cell> _cellSamples;
 
         private LoadSaveManager loadSaveManager;
 
-     //   private readonly Timer _timer;
+        //   private readonly Timer _timer;
 
         private readonly Hero _hero;
 
         private readonly IDrawer _drawer;
 
         private IActionRepository ActionRepository { get; set; }
-    
-        public Game( IDrawer drawer, uint width, uint height )
+
+        public Game(IDrawer drawer, uint width, uint height)
         {
             curRect.Width = width;
             curRect.Height = height;
@@ -37,12 +37,12 @@ namespace Game.Engine
             _mapClass = new Map(curRect);
 
             loadSaveManager = new LoadSaveManager();
-            loadSaveManager.LoadSnapshot( _mapClass );
+            loadSaveManager.LoadSnapshot(_mapClass);
 
 /*            _timer = new Timer(100) {Enabled = true};
             _timer.Elapsed += OnTimedEvent;
             */
-            
+
             _hero = new Hero();
 
             ActionRepository = new ActionRepository();
@@ -51,7 +51,8 @@ namespace Game.Engine
 
             var intervals = Observable.Interval(TimeSpan.FromMilliseconds(100));
 
-            intervals.CombineLatest(_hero.States, (tick, state) => state).Subscribe(x => { if (_hero.State != null) _hero.State.Act(); });
+            intervals.CombineLatest(_hero.States, (tick, state) => state)
+                .Subscribe(x => { if (_hero.State != null) _hero.State.Act(); });
             intervals.Subscribe(_hero.HeroLifeCycle);
         }
 
@@ -65,28 +66,29 @@ namespace Game.Engine
             Properties.Settings.Default.Save();
         }
 
-        public void LClick( Point destination )
+        public void LClick(Point destination)
         {
             MoveToDest(destination);
         }
-        
+
         public void RClick(Point destination)
         {
-           ShowActions(destination);
+            ShowActions(destination);
         }
 
         private void ShowActions(Point destination)
         {
             this._drawer.DrawMenu(destination.X, destination.Y, GetActions(destination));
         }
-        
+
         private IEnumerable<ClientAction> GetActions(Point destination)
         {
             var destObject = _mapClass.GetObjectFromDestination(destination);
 
             if (destObject == null)
             {
-                return new List<ClientAction> {
+                return new List<ClientAction>
+                {
                     new ClientAction
                     {
                         Name = "Go",
@@ -98,9 +100,9 @@ namespace Game.Engine
 
             var possibleActions = ActionRepository.GetPossibleActions(destObject).ToList();
 
-           // var objects = _hero.GetContainerItems().Union(new[] { gameObject }).ToList();
+            // var objects = _hero.GetContainerItems().Union(new[] { gameObject }).ToList();
 
-            var objects = new List<GameObject>(new[] { destObject });
+            var objects = new List<GameObject>(new[] {destObject});
             var removableObjects = objects.Select(go => this.PrepareRemovableObject(go, destination)).ToList();
             return possibleActions.Select(pa => new ClientAction
             {
@@ -110,15 +112,21 @@ namespace Game.Engine
             });
         }
 
-        public void MoveToDest( Point destination )
+        public void MoveToDest(Point destination)
         {
-            _hero.StartMove( destination, _mapClass.GetEasiestWay( _hero.Position, destination ) );
+            _hero.StartMove(destination, _mapClass.GetEasiestWay(_hero.Position, destination));
         }
 
-        private void MoveAndDoAction(IAction action, Point destination, IEnumerable<RemovableWrapper<GameObject>> objects)
+        private void MoveAndDoAction(IAction action, Point destination,
+            IEnumerable<RemovableWrapper<GameObject>> objects)
         {
             _hero.StartMove(destination, _mapClass.GetEasiestWay(_hero.Position, destination));
             _hero.Then().StartActing(action, destination, objects);
+        }
+
+        private void DoAction(IAction action, IEnumerable<RemovableWrapper<GameObject>> objects)
+        {
+            _hero.StartActing(action, null, objects);
         }
 
         private RemovableWrapper<GameObject> PrepareRemovableObject(GameObject gObject, Point destination)
@@ -133,10 +141,22 @@ namespace Game.Engine
             };
         }
 
+        private RemovableWrapper<GameObject> PrepareRemovableObject(GameObject gObject)
+        {
+            return new RemovableWrapper<GameObject>
+            {
+                GameObject = gObject,
+                RemoveFromContainer = (() =>
+                {
+                    _hero.RemoveFromContainer(gObject);
+                })
+            };
+        }
+
         public void DrawChanges()
         {
             _drawer.Clear();
-            
+
             _drawer.DrawSurface(curRect.Width, curRect.Height);
 
             var mapSize = _mapClass.GetSize();
@@ -155,11 +175,35 @@ namespace Game.Engine
                 }
             }
 
-            _drawer.DrawHero( _hero.Position, _hero.Angle, _hero.PointList );
+            _drawer.DrawHero(_hero.Position, _hero.Angle, _hero.PointList);
 
-            _drawer.DrawContainer(_hero.GetContainerItems().Select(go => go.Name));
+            var groupedItems = _hero.GetContainerItems()
+                .GroupBy(go => go.Name,
+                    (name, gos) =>
+                        new KeyValuePair<string, Func<IEnumerable<ClientAction>>>(
+                            string.Format("{0}({1})", name, gos.Count()),
+                            this.GetFuncForClientActions(gos.First())));
+            _drawer.DrawContainer(groupedItems);
 
             _drawer.DrawHeroProperties(_hero.GetProperties());
+        }
+
+        private Func<IEnumerable<ClientAction>> GetFuncForClientActions(GameObject first)
+        {
+            return (() =>
+            {
+                var possibleActions = ActionRepository.GetPossibleActions(first).ToList();
+
+                var objects = new List<GameObject>(new[] {first});
+                var removableObjects = objects.Select(go => this.PrepareRemovableObject(go)).ToList();
+                return possibleActions.Select(pa => new ClientAction
+                {
+                    Name = pa.Name,
+                    CanDo = pa.CanDo(_hero, objects),
+                    Do = () => DoAction(pa, removableObjects)
+                });
+
+            });
         }
     }
 }

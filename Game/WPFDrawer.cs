@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -61,12 +62,12 @@ namespace Game
             _appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
             Canvas.SetTop(_appearance, 0);
             Canvas.SetLeft(_appearance, 0);
-            
+
             _hands = new LineGeometry();
             _hands.StartPoint = new System.Windows.Point(8, 0);
             _hands.EndPoint = new System.Windows.Point(8, 16);
 
-            
+
             // Create the ellipse geometry to add to the Path
             _hat = new EllipseGeometry();
 
@@ -174,11 +175,11 @@ namespace Game
             else if (id == 0x00001100)
             {
                 // _canvas.Children
-          /*      Ellipse rec = new Ellipse() { Fill = Brushes.GreenYellow, Stroke = Brushes.Green, Height = 10, Width = 10 };
-                rec.ContextMenu = _canvas.ContextMenu;
-                _canvas.Children.Add(rec);
-                Canvas.SetLeft(rec, x+10);
-                Canvas.SetTop(rec, y+10);*/
+                /*      Ellipse rec = new Ellipse() { Fill = Brushes.GreenYellow, Stroke = Brushes.Green, Height = 10, Width = 10 };
+                      rec.ContextMenu = _canvas.ContextMenu;
+                      _canvas.Children.Add(rec);
+                      Canvas.SetLeft(rec, x+10);
+                      Canvas.SetTop(rec, y+10);*/
 
                 DrawImage(rockImage, x, y);
             }
@@ -213,7 +214,7 @@ namespace Game
 
         public void DrawMenu(int x, int y, IEnumerable<ClientAction> actions)
         {
-            
+
             if (_canvas.ContextMenu == null)
             {
                 _canvas.ContextMenu = new ContextMenu();
@@ -237,21 +238,28 @@ namespace Game
                     };
 
                     menuItem.Click += (sender, args) => action.Do();
-                    
+
                     cm.Items.Add(menuItem);
                 }
-                
+
                 cm.IsOpen = true;
             }
         }
 
-        public void DrawContainer(IEnumerable<string> objects)
+        public void DrawContainer(IEnumerable<KeyValuePair<string, Func<IEnumerable<ClientAction>>>> objects)
         {
             _listBox.Items.Clear();
 
-            foreach (var gameObject in objects.GroupBy(go => go, (go, gobjs) => string.Format("{0}({1})", go, gobjs.Count())))
+            foreach (var gameObject in objects)
             {
-                _listBox.Items.Add(gameObject);
+                TextBlock gameObjecttextBlock = new TextBlock();
+
+                gameObjecttextBlock.TextAlignment = TextAlignment.Center;
+                gameObjecttextBlock.Text = gameObject.Key;
+                gameObjecttextBlock.DataContext = gameObject.Value;
+                gameObjecttextBlock.ContextMenuOpening += HandlerForCMO;
+
+                _listBox.Items.Add(gameObjecttextBlock);
             }
         }
 
@@ -272,6 +280,35 @@ namespace Game
             _canvas.Children.Add(image);
             Canvas.SetLeft(image, x);
             Canvas.SetTop(image, y);
+        }
+
+        void HandlerForCMO(object sender, ContextMenuEventArgs e)
+        {
+            FrameworkElement fe = e.Source as FrameworkElement;
+            IEnumerable<ClientAction> actions = ((Func<IEnumerable<ClientAction>>)fe.DataContext)();
+            fe.ContextMenu = BuildMenu(actions);
+        }
+        ContextMenu BuildMenu(IEnumerable<ClientAction> actions)
+        {
+            ContextMenu theMenu = new ContextMenu();
+           // var actions = this.
+            foreach (var act in actions)
+            {
+                var action = act;
+                var menuItem = new MenuItem()
+                {
+                    Header = action.Name,
+                    IsEnabled = action.CanDo,
+                };
+
+                menuItem.Click += (sender, args) => action.Do();
+
+                theMenu.Items.Add(menuItem);
+            }
+
+            theMenu.IsOpen = true;
+
+            return theMenu;
         }
 
         #endregion
