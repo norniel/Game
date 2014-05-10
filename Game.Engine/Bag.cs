@@ -14,6 +14,12 @@ namespace Game.Engine
 
         public void Add(IEnumerable<GameObject> gameObjects)
         {
+            foreach (var gameObject in gameObjects)
+            {
+                gameObject.Properties.Remove(Property.Pickable);
+                gameObject.Properties.Add(Property.Dropable);
+            }
+
             GameObjects.AddRange(gameObjects);
         }
     }

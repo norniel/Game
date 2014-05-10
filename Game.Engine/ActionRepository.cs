@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+//using System.Reflection;
+using System.Reflection;
 using Game.Engine.Actions;
 using Game.Engine.Interfaces;
 using Game.Engine.Interfaces.IActions;
@@ -10,6 +12,10 @@ namespace Game.Engine
 {
     class ActionRepository : IActionRepository
     {
+        public ActionRepository()
+        {
+            Assembly.GetExecutingAssembly();
+        }
         List<IAction> actions = new List<IAction>()
         {
             new CollectBerriesAction(),

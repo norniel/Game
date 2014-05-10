@@ -19,8 +19,6 @@ namespace Game.Engine
 
             foreach (var removableObject in objects)
             {
-                removableObject.GameObject.Properties.Remove(Property.Pickable);
-                removableObject.GameObject.Properties.Add(Property.Dropable);
                 removableObject.RemoveFromContainer();
             }
 

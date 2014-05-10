@@ -57,3 +57,10 @@ E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Interfaces.dll
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Linq.xml
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Core.xml
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Interfaces.xml
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Game.exe.config
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.Configuration.dll
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.dll
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.dll
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.xml
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
