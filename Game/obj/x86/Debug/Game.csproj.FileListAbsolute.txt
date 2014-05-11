@@ -64,3 +64,4 @@ E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.Registrati
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.xml
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
+E:\Lena\Projects\Game - Copy\Game\obj\x86\Debug\Resources.baml

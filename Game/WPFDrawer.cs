@@ -34,8 +34,10 @@ namespace Game
 
         private BitmapImage plantImage;
         private BitmapImage rockImage;
-
         private BitmapImage fireImage;
+
+        private BitmapImage appleImage;
+        private BitmapImage branchImage;
 
         public WpfDrawer(Canvas canvas, ListBox listBox, ListBox heroListBox)
         {
@@ -49,14 +51,16 @@ namespace Game
             _listBox = listBox;
             _heroListBox = heroListBox;
 
-            appletreeImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple tree icon.png");
-            appletree1Image = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple-tree1 icon.png");
+            appletreeImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\apple tree icon.png");
+            appletree1Image = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\apple-tree1 icon.png");
 
-            appletree2Image = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\apple-tree2 icon.png");
-            plantImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\plant icon.png");
+            appletree2Image = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\apple-tree2 icon.png");
+            plantImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\plant icon.png");
 
-            rockImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\rock icon2.png");
-            fireImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\fire icon.png");
+            rockImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\rock icon2.png");
+            fireImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\fire icon.png");
+            appleImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\apple icon.png");
+            branchImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\branch icon.png");
 
 
             _appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
@@ -172,7 +176,7 @@ namespace Game
 
                 DrawImage(appletree2Image, x, y);
             }
-            else if (id == 0x00001100)
+            else if (id == 0x00001000)
             {
                 // _canvas.Children
                 /*      Ellipse rec = new Ellipse() { Fill = Brushes.GreenYellow, Stroke = Brushes.Green, Height = 10, Width = 10 };
@@ -183,7 +187,7 @@ namespace Game
 
                 DrawImage(rockImage, x, y);
             }
-            else if (id == 0x00001000)
+            else if (id == 0x00001100)
             {
                 // _canvas.Children
 
@@ -193,6 +197,16 @@ namespace Game
             {
                 // _canvas.Children
                 DrawImage(fireImage, x, y);
+            }
+            else if (id == 0x00000700)
+            {
+                // _canvas.Children
+                DrawImage(appleImage, x, y);
+            }
+            else if (id == 0x00000800)
+            {
+                // _canvas.Children
+                DrawImage(branchImage, x, y);
             }/*
             else
             {

@@ -96,6 +96,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -152,25 +156,31 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="apple tree icon.png" />
+    <Resource Include="Icons\apple tree icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="apple-tree1 icon.png" />
+    <Resource Include="Icons\apple-tree1 icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="apple-tree2 icon.png" />
+    <Resource Include="Icons\apple-tree2 icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="rock icon.png" />
+    <Resource Include="Icons\rock icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="rock icon2.png" />
+    <Resource Include="Icons\rock icon2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="plant icon.png" />
+    <Resource Include="Icons\plant icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="fire icon.png" />
+    <Resource Include="Icons\fire icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\apple icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\branch icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
