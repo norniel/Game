@@ -1,35 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-//using System.Reflection;
-using System.Reflection;
-using Game.Engine.Actions;
 using Game.Engine.Interfaces;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
+using Microsoft.Practices.Unity;
 
 namespace Game.Engine
 {
     class ActionRepository : IActionRepository
     {
-        public ActionRepository()
-        {
-            Assembly.GetExecutingAssembly();
-        }
-        List<IAction> actions = new List<IAction>()
+        [Dependency]
+        public IAction[] Actions { get; set; } /* = new List<IAction>()
         {
             new CollectBerriesAction(),
             new CutAction(),
             new PickAction(),
             new CollectBranchAction(),
             new EatAction()
-        };
+        };*/
 
         public IEnumerable<IAction> GetPossibleActions(GameObject gameObject)
         {
             var properties = gameObject.Properties;
 
-            var result = from action in actions
+            var result = from action in Actions
                          from property in properties
                          where action.IsApplicable(property)
                          select action;

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using Game.Engine.Actions;
 using Game.Engine.BridgeObjects;
 using Game.Engine.Heros;
 using Game.Engine.Interfaces;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Wrapers;
 using Game.Engine.Objects;
+using Microsoft.Practices.Unity;
 
 namespace Game.Engine
 {
@@ -15,13 +17,11 @@ namespace Game.Engine
     {
         private Rect curRect;
 
-        private readonly Map _mapClass;
+        private readonly Map _map;
 
         private Dictionary<uint, Cell> _cellSamples;
 
         private LoadSaveManager loadSaveManager;
-
-        //   private readonly Timer _timer;
 
         private readonly Hero _hero;
 
@@ -29,23 +29,24 @@ namespace Game.Engine
 
         private IActionRepository ActionRepository { get; set; }
 
+        private UnityContainer _unityContainer;
+
         public Game(IDrawer drawer, uint width, uint height)
-        {
+        {            
             curRect.Width = width;
             curRect.Height = height;
 
-            _mapClass = new Map(curRect);
+            _unityContainer = new UnityContainer();
+            this.RegisterInUnityContainer();
+
+            _map = _unityContainer.Resolve<Map>();
 
             loadSaveManager = new LoadSaveManager();
-            loadSaveManager.LoadSnapshot(_mapClass);
+            loadSaveManager.LoadSnapshot(_map);
 
-/*            _timer = new Timer(100) {Enabled = true};
-            _timer.Elapsed += OnTimedEvent;
-            */
+            _hero = _unityContainer.Resolve<Hero>();
 
-            _hero = new Hero();
-
-            ActionRepository = new ActionRepository();
+            ActionRepository = _unityContainer.Resolve<IActionRepository>();
 
             _drawer = drawer;
 
@@ -54,6 +55,29 @@ namespace Game.Engine
             intervals.CombineLatest(_hero.States, (tick, state) => state)
                 .Subscribe(x => { if (_hero.State != null) _hero.State.Act(); });
             intervals.Subscribe(_hero.HeroLifeCycle);
+            
+            
+        }
+
+        private void RegisterInUnityContainer()
+        {
+            _unityContainer.RegisterInstance(typeof (Hero), new Hero());
+            _unityContainer.RegisterInstance(typeof(Map), new Map(curRect));
+            _unityContainer.RegisterType(typeof(IActionRepository), typeof(ActionRepository), new ContainerControlledLifetimeManager());
+/*
+            _unityContainer.RegisterTypes(
+            AllClasses.FromLoadedAssemblies().Where(
+                t => !t.IsAbstract && t.IsAssignableFrom(typeof(IAction))),
+                t => new[] { typeof(IAction) },
+                WithName.Default,
+                WithLifetime.ContainerControlled);
+            */
+            _unityContainer.RegisterType<IAction, DropAction>("DropAction");
+            _unityContainer.RegisterType<IAction, EatAction>("EatAction");
+            _unityContainer.RegisterType<IAction, PickAction>("PickAction");
+            _unityContainer.RegisterType<IAction, CutAction>("CutAction");
+            _unityContainer.RegisterType<IAction, CollectBerriesAction>("CollectBerriesAction");
+            _unityContainer.RegisterType<IAction, CollectBranchAction>("CollectBranchAction");
         }
 
         private void LoadSettings()
@@ -83,7 +107,7 @@ namespace Game.Engine
 
         private IEnumerable<ClientAction> GetActions(Point destination)
         {
-            var destObject = _mapClass.GetObjectFromDestination(destination);
+            var destObject = _map.GetObjectFromDestination(destination);
 
             if (destObject == null)
             {
@@ -114,13 +138,13 @@ namespace Game.Engine
 
         public void MoveToDest(Point destination)
         {
-            _hero.StartMove(destination, _mapClass.GetEasiestWay(_hero.Position, destination));
+            _hero.StartMove(destination, _map.GetEasiestWay(_hero.Position, destination));
         }
 
         private void MoveAndDoAction(IAction action, Point destination,
             IEnumerable<RemovableWrapper<GameObject>> objects)
         {
-            _hero.StartMove(destination, _mapClass.GetEasiestWay(_hero.Position, destination));
+            _hero.StartMove(destination, _map.GetEasiestWay(_hero.Position, destination));
             _hero.Then().StartActing(action, destination, objects);
         }
 
@@ -136,7 +160,7 @@ namespace Game.Engine
                 GameObject = gObject,
                 RemoveFromContainer = (() =>
                 {
-                    _mapClass.SetObjectFromDestination(destination, null);
+                    _map.SetObjectFromDestination(destination, null);
                 })
             };
         }
@@ -159,13 +183,13 @@ namespace Game.Engine
 
             _drawer.DrawSurface(curRect.Width, curRect.Height);
 
-            var mapSize = _mapClass.GetSize();
+            var mapSize = _map.GetSize();
 
             for (int i = 0; i < mapSize.Width; i++)
             {
                 for (int j = 0; j < mapSize.Height; j++)
                 {
-                    var gameObject = _mapClass.GetObjectFromCell(new Point(i, j));
+                    var gameObject = _map.GetObjectFromCell(new Point(i, j));
                     if (gameObject != null)
                     {
                         var destination = Map.CellToPoint(new Point(i, j));

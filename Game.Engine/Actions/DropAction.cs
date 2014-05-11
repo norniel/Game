@@ -4,11 +4,15 @@ using Game.Engine.Heros;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
 using Game.Engine.Wrapers;
+using Microsoft.Practices.Unity;
 
 namespace Game.Engine.Actions
 {
     internal class DropAction : IAction
     {
+        [Dependency]
+        public Map Map { get; set; }
+
         public string Name {
             get { return "Drop"; }
         }
@@ -23,6 +27,7 @@ namespace Game.Engine.Actions
 
             foreach (var removableObject in objects)
             {
+                Map.SetObjectFromDestination(hero.Position, removableObject.GameObject as FixedObject);
                 removableObject.RemoveFromContainer();
             }
 
