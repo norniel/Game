@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reflection;
 using Game.Engine.Actions;
 using Game.Engine.BridgeObjects;
 using Game.Engine.Heros;
@@ -55,8 +56,6 @@ namespace Game.Engine
             intervals.CombineLatest(_hero.States, (tick, state) => state)
                 .Subscribe(x => { if (_hero.State != null) _hero.State.Act(); });
             intervals.Subscribe(_hero.HeroLifeCycle);
-            
-            
         }
 
         private void RegisterInUnityContainer()
@@ -64,21 +63,21 @@ namespace Game.Engine
             _unityContainer.RegisterInstance(typeof (Hero), new Hero());
             _unityContainer.RegisterInstance(typeof(Map), new Map(curRect));
             _unityContainer.RegisterType(typeof(IActionRepository), typeof(ActionRepository), new ContainerControlledLifetimeManager());
-/*
+
             _unityContainer.RegisterTypes(
-            AllClasses.FromLoadedAssemblies().Where(
-                t => !t.IsAbstract && t.IsAssignableFrom(typeof(IAction))),
-                t => new[] { typeof(IAction) },
-                WithName.Default,
-                WithLifetime.ContainerControlled);
-            */
+                Assembly.GetExecutingAssembly().GetTypes().Where(
+                type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type)),
+                WithMappings.FromAllInterfacesInSameAssembly,//t => new[] { typeof(IAction) },
+                t => t.FullName,
+                WithLifetime.PerResolve);
+            /*
             _unityContainer.RegisterType<IAction, DropAction>("DropAction");
             _unityContainer.RegisterType<IAction, EatAction>("EatAction");
             _unityContainer.RegisterType<IAction, PickAction>("PickAction");
             _unityContainer.RegisterType<IAction, CutAction>("CutAction");
             _unityContainer.RegisterType<IAction, CollectBerriesAction>("CollectBerriesAction");
             _unityContainer.RegisterType<IAction, CollectBranchAction>("CollectBranchAction");
-        }
+       */ }
 
         private void LoadSettings()
         {

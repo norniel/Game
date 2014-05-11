@@ -7,7 +7,7 @@ using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
 using Game.Engine.Wrapers;
 
-namespace Game.Engine
+namespace Game.Engine.Actions
 {
     public class CutAction : IAction
     {

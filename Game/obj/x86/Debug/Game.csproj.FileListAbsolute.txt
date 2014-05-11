@@ -34,13 +34,27 @@ D:\Лена\Projects\Game\Game\obj\x86\Debug\GenerateResource.read.1.tlog
 D:\Лена\Projects\Game\Game\obj\x86\Debug\GenerateResource.write.1.tlog
 D:\Лена\Projects\Game\Game\obj\x86\Debug\Game.exe
 D:\Лена\Projects\Game\Game\obj\x86\Debug\Game.pdb
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Game.exe.config
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\Game.exe
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\Game.pdb
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\Game.Engine.dll
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.Configuration.dll
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.dll
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.dll
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Linq.dll
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\PowerCollections.dll
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Core.dll
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Interfaces.dll
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\Game.Engine.pdb
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.xml
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Linq.xml
 E:\Lena\Projects\Game - Copy\Game\bin\Debug\PowerCollections.xml
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Core.xml
+E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Interfaces.xml
 E:\Lena\Projects\Game - Copy\Game\obj\x86\Debug\Game.csprojResolveAssemblyReference.cache
+E:\Lena\Projects\Game - Copy\Game\obj\x86\Debug\Resources.baml
 E:\Lena\Projects\Game - Copy\Game\obj\x86\Debug\MainWindow.g.cs
 E:\Lena\Projects\Game - Copy\Game\obj\x86\Debug\App.g.cs
 E:\Lena\Projects\Game - Copy\Game\obj\x86\Debug\Game_MarkupCompile.cache
@@ -51,17 +65,3 @@ E:\Lena\Projects\Game - Copy\Game\obj\x86\Debug\Game.Properties.Resources.resour
 E:\Lena\Projects\Game - Copy\Game\obj\x86\Debug\Game.csproj.GenerateResource.Cache
 E:\Lena\Projects\Game - Copy\Game\obj\x86\Debug\Game.exe
 E:\Lena\Projects\Game - Copy\Game\obj\x86\Debug\Game.pdb
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Linq.dll
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Core.dll
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Interfaces.dll
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Linq.xml
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Core.xml
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\System.Reactive.Interfaces.xml
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\Game.exe.config
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.Configuration.dll
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.dll
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.dll
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.xml
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.Configuration.xml
-E:\Lena\Projects\Game - Copy\Game\bin\Debug\Microsoft.Practices.Unity.RegistrationByConvention.xml
-E:\Lena\Projects\Game - Copy\Game\obj\x86\Debug\Resources.baml
