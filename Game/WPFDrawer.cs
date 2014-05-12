@@ -143,7 +143,6 @@ namespace Game
                 _visWayCollection.Add(point);
             }
 
-
             _canvas.Children.Add(_appearance);
             Canvas.SetLeft(_appearance, position.X - _dcenter);
             Canvas.SetTop(_appearance, position.Y - _dcenter);
@@ -266,6 +265,9 @@ namespace Game
 
             foreach (var gameObject in objects)
             {
+                var image = new Image();
+                image.Source = this.GetBitmapImageByName(gameObject.Key);
+               
                 TextBlock gameObjecttextBlock = new TextBlock();
 
                 gameObjecttextBlock.TextAlignment = TextAlignment.Center;
@@ -273,8 +275,28 @@ namespace Game
                 gameObjecttextBlock.DataContext = gameObject.Value;
                 gameObjecttextBlock.ContextMenuOpening += HandlerForCMO;
 
+                _listBox.Items.Add(image);
                 _listBox.Items.Add(gameObjecttextBlock);
             }
+        }
+
+        private ImageSource GetBitmapImageByName(string key)
+        {
+            string name = key.Remove(key.IndexOf('('));
+            switch (name)
+            {
+                case "Plant":
+                    return plantImage;
+                case "Berries":
+                    return appleImage;
+                case "Branch":
+                    return branchImage;
+                case "Rock":
+                    return rockImage;
+                case "Tree":
+                    return appletreeImage;
+            }
+            return appletreeImage;
         }
 
         public void DrawHeroProperties(IEnumerable<KeyValuePair<string, int>> objects)

@@ -59,19 +59,7 @@ namespace Game.Engine
 
             return 0x00000300;
         }
-/*
-        public int BranchesPerCollectCount {
-            get { return 2; }
-        }
-        public int BranchesCount {
-            get { return _branchesCount; }
-            set { _branchesCount = value; }
-        }
-        public Branch GetBranch()
-        {
-            return new Branch();
-        }
-        */
+
         int IHasSmthToCollect<Branch>.GetSmthPerCollectCount()
         {
             return 2;
