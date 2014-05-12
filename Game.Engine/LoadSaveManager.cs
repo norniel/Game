@@ -40,7 +40,7 @@
                 if( map.GetObjectFromCell(new Point(tmpX, tmpY)) != null )
                     continue;
 
-                switch (count % 3)
+                switch (count % 4)
                 {
                     case    0:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Tree());
@@ -50,6 +50,9 @@
                         break;
                     case 2:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Rock());
+                        break;
+                    case 3:
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Bush());
                         break;
                 }
 

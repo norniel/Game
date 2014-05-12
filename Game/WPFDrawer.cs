@@ -38,6 +38,8 @@ namespace Game
 
         private BitmapImage appleImage;
         private BitmapImage branchImage;
+        private BitmapImage bushImage;
+        private BitmapImage raspberryImage;
 
         public WpfDrawer(Canvas canvas, ListBox listBox, ListBox heroListBox)
         {
@@ -61,7 +63,8 @@ namespace Game
             fireImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\fire icon.png");
             appleImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\apple icon.png");
             branchImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\branch icon.png");
-
+            bushImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\brush icon.png");
+            raspberryImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\Raspberry icon.png");
 
             _appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
             Canvas.SetTop(_appearance, 0);
@@ -206,6 +209,16 @@ namespace Game
             {
                 // _canvas.Children
                 DrawImage(branchImage, x, y);
+            }
+            else if (id == 0x00001200)
+            {
+                // _canvas.Children
+                DrawImage(bushImage, x, y);
+            }
+            else if (id == 0x00000900)
+            {
+                // _canvas.Children
+                DrawImage(raspberryImage, x, y);
             }/*
             else
             {
@@ -295,6 +308,10 @@ namespace Game
                     return rockImage;
                 case "Tree":
                     return appletreeImage;
+                case "Bush":
+                    return bushImage;
+                case "Raspberries":
+                    return raspberryImage;
             }
             return appletreeImage;
         }

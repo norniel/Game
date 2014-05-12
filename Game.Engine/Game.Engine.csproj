@@ -91,6 +91,7 @@
     <Compile Include="Map.cs" />
     <Compile Include="Objects\Berry.cs" />
     <Compile Include="Objects\Branch.cs" />
+    <Compile Include="Objects\Bush.cs" />
     <Compile Include="Objects\Fire.cs" />
     <Compile Include="Objects\FixedObject.cs" />
     <Compile Include="Heros\Hero.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Objects\Plant.cs" />
     <Compile Include="Actions\PickAction.cs" />
+    <Compile Include="Objects\RaspBerries.cs" />
     <Compile Include="Objects\Rock.cs" />
     <Compile Include="Properties.cs" />
     <Compile Include="States\Acting.cs" />

@@ -2,7 +2,7 @@
 {
     using Objects;
     
-    interface IHasSmthToCollect<T> where T: GameObject
+    interface IHasSmthToCollect<out T> where T: GameObject
     {
         int GetSmthPerCollectCount();
 
