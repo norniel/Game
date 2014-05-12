@@ -10,7 +10,7 @@ namespace Game.Engine.Objects
 
             Size = new Size(1, 1);
 
-            Id = 0x00001100;
+            Id = 0x00000800;
         }
 
         public override void InitializeProperties()

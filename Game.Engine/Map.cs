@@ -35,6 +35,20 @@ namespace Game.Engine
 
         internal void SetObjectFromCell(Point cell, FixedObject gameObject)
         {
+            if (gameObject == null)
+            {
+                _map[cell.X, cell.Y] = null;
+                return;
+            }
+
+            if (gameObject.Properties.Contains(Property.Dropable))
+            {
+                gameObject.Properties.Remove(Property.Dropable);
+
+                if (!gameObject.Properties.Contains(Property.Pickable))
+                    gameObject.Properties.Add(Property.Pickable);
+            }
+
             _map[cell.X, cell.Y] = gameObject;
         }
 

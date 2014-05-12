@@ -16,8 +16,12 @@ namespace Game.Engine
         {
             foreach (var gameObject in gameObjects)
             {
-                gameObject.Properties.Remove(Property.Pickable);
-                gameObject.Properties.Add(Property.Dropable);
+                if (gameObject.Properties.Contains(Property.Pickable))
+                {
+                    gameObject.Properties.Remove(Property.Pickable);
+                    if (!gameObject.Properties.Contains(Property.Dropable))
+                        gameObject.Properties.Add(Property.Dropable);
+                }
             }
 
             GameObjects.AddRange(gameObjects);

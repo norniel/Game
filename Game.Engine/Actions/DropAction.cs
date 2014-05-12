@@ -23,8 +23,6 @@ namespace Game.Engine.Actions
 
         public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
         {
-            hero.AddToBag(objects.Select(o => o.GameObject));
-
             foreach (var removableObject in objects)
             {
                 Map.SetObjectFromDestination(hero.Position, removableObject.GameObject as FixedObject);
