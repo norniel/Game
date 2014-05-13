@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using Wintellect.PowerCollections;
 
 namespace Game.Engine
@@ -7,13 +8,23 @@ namespace Game.Engine
     public class Map
     {
         private const int CELL_MEASURE = 20;
+        private const int MAP_WIDTH = 1000;
+        private const int MAP_HEIGHT = 1000;
 
         private readonly FixedObject[,] _map;
 
+        private Rect _visibleRect;
+        public Rect VisibleRect {
+            get { return _visibleRect; }
+            set { _visibleRect = value; }
+        }
+
         public Map(Rect rect)
         {
-            var sizeInCells = RectToCellRect(rect);
-            _map = new FixedObject[sizeInCells.Width, sizeInCells.Height];
+            VisibleRect = rect;
+            _map = new FixedObject[MAP_WIDTH, MAP_HEIGHT];
+            //var sizeInCells = RectToCellRect(rect);
+            //_map = new FixedObject[sizeInCells.Width, sizeInCells.Height];
         }
 
         internal FixedObject GetObjectFromDestination(Point destination)
@@ -67,9 +78,9 @@ namespace Game.Engine
             return new Rect(0, 0, (uint)_map.GetLength(0), (uint)_map.GetLength(1));
         }
 
-        private static Rect RectToCellRect(Rect rect)
+        internal static Rect RectToCellRect(Rect rect)
         {
-            return new Rect(rect.Left, rect.Top, rect.Width / CELL_MEASURE, rect.Height / CELL_MEASURE);
+            return new Rect(rect.Left / CELL_MEASURE, rect.Top / CELL_MEASURE, rect.Width / CELL_MEASURE, rect.Height / CELL_MEASURE);
         }
 
         public Stack<Point> GetEasiestWay(Point start, Point dest)
@@ -206,6 +217,27 @@ namespace Game.Engine
             {
                 return String.Format("Point: {0}, Cost: {1}", Point, Cost);
             }
+        }
+
+        public Point GetRealDestinationFromVisibleDestination(Point visibleDestination)
+        {
+            return new Point(visibleDestination.X + VisibleRect.Left, visibleDestination.Y + VisibleRect.Top);
+        }
+
+        public Point GetVisibleDestinationFromRealDestination(Point realDestination)
+        {
+            return new Point(realDestination.X - VisibleRect.Left, realDestination.Y - VisibleRect.Top);
+        }
+
+        public void RecalcVisibleRect(Point centerPosition)
+        {
+            var x = centerPosition.X - (int)(VisibleRect.Width/2);
+            x = x < 0 ? 0 : (x + (int)VisibleRect.Width > MAP_WIDTH ? MAP_WIDTH - (int)VisibleRect.Width : x);
+
+            var y = centerPosition.Y - VisibleRect.Height / 2;
+            y = y < 0 ? 0 : (y + VisibleRect.Height > MAP_HEIGHT ? MAP_HEIGHT - VisibleRect.Height : y);
+
+            VisibleRect = new Rect(x, (int)y, VisibleRect.Width, VisibleRect.Height);
         }
     }
 }

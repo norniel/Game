@@ -70,14 +70,7 @@ namespace Game.Engine
                 WithMappings.FromAllInterfacesInSameAssembly,//t => new[] { typeof(IAction) },
                 t => t.FullName,
                 WithLifetime.PerResolve);
-            /*
-            _unityContainer.RegisterType<IAction, DropAction>("DropAction");
-            _unityContainer.RegisterType<IAction, EatAction>("EatAction");
-            _unityContainer.RegisterType<IAction, PickAction>("PickAction");
-            _unityContainer.RegisterType<IAction, CutAction>("CutAction");
-            _unityContainer.RegisterType<IAction, CollectBerriesAction>("CollectBerriesAction");
-            _unityContainer.RegisterType<IAction, CollectBranchAction>("CollectBranchAction");
-       */ }
+        }
 
         private void LoadSettings()
         {
@@ -89,8 +82,9 @@ namespace Game.Engine
             Properties.Settings.Default.Save();
         }
 
-        public void LClick(Point destination)
+        public void LClick(Point visibleDestination)
         {
+            var destination = _map.GetRealDestinationFromVisibleDestination(visibleDestination);
             MoveToDest(destination);
         }
 
@@ -104,8 +98,9 @@ namespace Game.Engine
             this._drawer.DrawMenu(destination.X, destination.Y, GetActions(destination));
         }
 
-        private IEnumerable<ClientAction> GetActions(Point destination)
+        private IEnumerable<ClientAction> GetActions(Point visibleDestination)
         {
+            var destination = _map.GetRealDestinationFromVisibleDestination(visibleDestination);
             var destObject = _map.GetObjectFromDestination(destination);
 
             if (destObject == null)
@@ -178,27 +173,30 @@ namespace Game.Engine
 
         public void DrawChanges()
         {
+            _map.RecalcVisibleRect(_hero.Position);
+
             _drawer.Clear();
 
             _drawer.DrawSurface(curRect.Width, curRect.Height);
 
-            var mapSize = _map.GetSize();
-
-            for (int i = 0; i < mapSize.Width; i++)
+            var visibleCells = Map.RectToCellRect(_map.VisibleRect);
+                
+            //var mapSize = _map.GetSize();
+            for (int i = visibleCells.Left; i < visibleCells.Left + visibleCells.Width; i++)
             {
-                for (int j = 0; j < mapSize.Height; j++)
+                for (int j = visibleCells.Top; j < visibleCells.Top+ visibleCells.Height; j++)
                 {
                     var gameObject = _map.GetObjectFromCell(new Point(i, j));
                     if (gameObject != null)
                     {
-                        var destination = Map.CellToPoint(new Point(i, j));
-                        _drawer.DrawObject(gameObject.GetDrawingCode(), destination.X, destination.Y);
+                        var visibleDestination = _map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
+                        _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y);
 
                     }
                 }
             }
 
-            _drawer.DrawHero(_hero.Position, _hero.Angle, _hero.PointList);
+            _drawer.DrawHero(_map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList);
 
             var groupedItems = _hero.GetContainerItems()
                 .GroupBy(go => go.Name,
@@ -206,6 +204,7 @@ namespace Game.Engine
                         new KeyValuePair<string, Func<IEnumerable<ClientAction>>>(
                             string.Format("{0}({1})", name, gos.Count()),
                             this.GetFuncForClientActions(gos.First())));
+
             _drawer.DrawContainer(groupedItems);
 
             _drawer.DrawHeroProperties(_hero.GetProperties());
