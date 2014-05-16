@@ -135,16 +135,19 @@ namespace Game
             _canvas.Children.Clear();
         }
 
-        public void DrawHero(Point position, double angle, List<WeakReference> wayList)
+        public void DrawHero(Point position, double angle, List<Point> wayList)
         {
             _canvas.Children.Add(_visibleWay);
             _visWayCollection.Clear();
-            foreach (var weakReference in wayList)
-            {
+
+            System.Windows.Point point = new System.Windows.Point(position.X, position.Y);
+            _visWayCollection.Add(point);
+            foreach (var wayPoint in wayList)
+            {/*
                 if (weakReference.Target == null)
                     continue;
-
-                System.Windows.Point point = new System.Windows.Point(((Point)weakReference.Target).X, ((Point)weakReference.Target).Y);
+                */
+                point = new System.Windows.Point(wayPoint.X, wayPoint.Y);
                 _visWayCollection.Add(point);
             }
 

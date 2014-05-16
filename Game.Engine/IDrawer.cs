@@ -10,7 +10,7 @@ namespace Game.Engine
 
         void Clear();
 
-        void DrawHero( Point position, double angle, List<WeakReference> pointList);
+        void DrawHero( Point position, double angle, List<Point> pointList);
 
         void DrawObject( uint id, long x, long y);
 

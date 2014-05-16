@@ -1,4 +1,6 @@
-﻿namespace Game.Engine
+﻿using System.Linq;
+
+namespace Game.Engine
 {
     using System;
     using Heros;
@@ -34,6 +36,9 @@
                     _hero.Angle = (_dy < 0) ? 90 : 270;
             }
 
+            if (_hero.PointList.Any())
+                _hero.PointList.RemoveAt(0);
+
             _isInitialized = true;
         }
 
@@ -49,9 +54,13 @@
             _hero.Position = new Point( (int) (_destination.X + _dx * _steps * _hero.Speed), (int)(_destination.Y + _dy * _steps * _hero.Speed));
             _steps--;
 
-            if( /*NextState != null && */( _hero.Position == _destination || _steps <= -1 ))
-                //NextState( new StateEventArgs(){State = new Standing( _hero )} );
+            if ( /*NextState != null && */(_hero.Position == _destination || _steps <= -1))
+            {
+               
+
                 StateEvent.FireEvent();
+            }
+            //NextState( new StateEventArgs(){State = new Standing( _hero )} );  
         }
 
         #endregion

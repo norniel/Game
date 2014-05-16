@@ -33,7 +33,7 @@
 
         private bool _isThen = false;
 
-        public List<WeakReference> PointList { get; private set; }
+        public List<Point> PointList { get; private set; }
 
         public IObservable<EventPattern<StateEventArgs>> States
         {
@@ -51,7 +51,7 @@
             _heroLifeCycle = new HeroLifeCycle();
 
             _stateQueue = new Queue<IState>();
-            PointList = new List<WeakReference>();
+            PointList = new List<Point>();
             State = new Standing(this);
 
             Observable.FromEventPattern<StateHandler, StateEventArgs>(
@@ -93,10 +93,10 @@
                 }
 
                 PointList.Clear();
-                PointList.Add(new WeakReference(Position));
+                PointList.Add(Position);
                 while (points.Count > 0)
                 {
-                    PointList.Add(new WeakReference(points.Peek()));
+                    PointList.Add(points.Peek());
                     _stateQueue.Enqueue(new Moving(this, points.Pop()));
                 }
             }
