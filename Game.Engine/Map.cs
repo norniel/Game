@@ -10,6 +10,8 @@ namespace Game.Engine
         private const int CELL_MEASURE = 20;
         private const int MAP_WIDTH = 1000;
         private const int MAP_HEIGHT = 1000;
+        private const int MAP_CELL_WIDTH = MAP_WIDTH / CELL_MEASURE;
+        private const int MAP_CELL_HEIGHT = MAP_HEIGHT / CELL_MEASURE;
 
         private readonly FixedObject[,] _map;
 
@@ -22,7 +24,7 @@ namespace Game.Engine
         public Map(Rect rect)
         {
             VisibleRect = rect;
-            _map = new FixedObject[MAP_WIDTH, MAP_HEIGHT];
+            _map = new FixedObject[MAP_CELL_WIDTH, MAP_CELL_HEIGHT];
             //var sizeInCells = RectToCellRect(rect);
             //_map = new FixedObject[sizeInCells.Width, sizeInCells.Height];
         }

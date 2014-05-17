@@ -15,6 +15,13 @@ namespace Game.Engine
             IsPassable = true;
         }
 
+        public FixedObject(Size size, uint id)
+        {
+            IsPassable = true;
+            Size = size;
+            Id = id;
+        }
+
         public void Draw(){}
 
         public override string Name

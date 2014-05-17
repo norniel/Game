@@ -224,6 +224,23 @@ namespace Game
             {
                 // _canvas.Children
                 DrawImage(raspberryImage, x, y);
+            }
+            else if (id == 0x00002000)
+            {
+                // _canvas.Children
+                Rectangle rec = new Rectangle() { Fill = Brushes.DarkBlue, Stroke = Brushes.DarkBlue, Height = 20, Width = 20 };
+                _canvas.Children.Add(rec);
+                Canvas.SetLeft(rec, x);
+                Canvas.SetTop(rec, y);
+
+            }
+            else if (id == 0x00002100)
+            {
+                // _canvas.Children
+                Rectangle rec = new Rectangle() { Fill = Brushes.Blue, Stroke = Brushes.Blue, Height = 20, Width = 20 };
+                _canvas.Children.Add(rec);
+                Canvas.SetLeft(rec, x);
+                Canvas.SetTop(rec, y);
             }/*
             else
             {
@@ -237,10 +254,10 @@ namespace Game
 
         public void DrawSurface(uint width, uint height)
         {
-            Rectangle rec = new Rectangle() { Fill = Brushes.DarkBlue, Stroke = Brushes.Blue, Height = 40, Width = width };
+           /* Rectangle rec = new Rectangle() { Fill = Brushes.DarkBlue, Stroke = Brushes.Blue, Height = 40, Width = width };
             _canvas.Children.Add(rec);
             Canvas.SetLeft(rec, 0);
-            Canvas.SetTop(rec, height - 40);
+            Canvas.SetTop(rec, height - 40);*/
         }
 
         public void DrawMenu(int x, int y, IEnumerable<ClientAction> actions)

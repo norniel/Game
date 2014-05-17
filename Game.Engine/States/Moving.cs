@@ -36,8 +36,8 @@ namespace Game.Engine
                     _hero.Angle = (_dy < 0) ? 90 : 270;
             }
 
-            if (_hero.PointList.Any())
-                _hero.PointList.RemoveAt(0);
+             if(_hero.PointList.Any())
+                    _hero.PointList.RemoveAt(0);
 
             _isInitialized = true;
         }
