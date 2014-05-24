@@ -1,4 +1,6 @@
-*/bin/*
-*/obj/*
+bin
+obj
 *.suo
+*.user
 Game.Engine/obj/Debug/Game.Engine.csproj.FileListAbsolute.txt
+_ReSharper.Game

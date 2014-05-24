@@ -52,19 +52,19 @@ namespace Game
             _canvas = canvas;
             _listBox = listBox;
             _heroListBox = heroListBox;
+            
+            appletreeImage = CreateBitmapImage(@"apple tree icon.png");
+            appletree1Image = CreateBitmapImage(@"apple-tree1 icon.png");
 
-            appletreeImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\apple tree icon.png");
-            appletree1Image = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\apple-tree1 icon.png");
+            appletree2Image = CreateBitmapImage(@"apple-tree2 icon.png");
+            plantImage = CreateBitmapImage(@"plant icon.png");
 
-            appletree2Image = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\apple-tree2 icon.png");
-            plantImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\plant icon.png");
-
-            rockImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\rock icon2.png");
-            fireImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\fire icon.png");
-            appleImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\apple icon.png");
-            branchImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\branch icon.png");
-            bushImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\brush icon.png");
-            raspberryImage = CreateBitmapImage(@"E:\Lena\Projects\Game - Copy\Game\Icons\Raspberry icon.png");
+            rockImage = CreateBitmapImage(@"rock icon2.png");
+            fireImage = CreateBitmapImage(@"fire icon.png");
+            appleImage = CreateBitmapImage(@"apple icon.png");
+            branchImage = CreateBitmapImage(@"branch icon.png");
+            bushImage = CreateBitmapImage(@"brush icon.png");
+            raspberryImage = CreateBitmapImage(@"Raspberry icon.png");
 
             _appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
             Canvas.SetTop(_appearance, 0);
@@ -115,10 +115,12 @@ namespace Game
 
         private BitmapImage CreateBitmapImage(string uri)
         {
+            var packUrl = new Uri("pack://application:,,,/Icons/" + uri);
+
             var bi = new BitmapImage();
             // BitmapImage.UriSource must be in a BeginInit/EndInit block.
             bi.BeginInit();
-            bi.UriSource = new Uri(/**/uri, UriKind.RelativeOrAbsolute);
+            bi.UriSource = packUrl;
             bi.EndInit();
 
             return bi;

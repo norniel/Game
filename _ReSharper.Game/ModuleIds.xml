@@ -1,5 +1,0 @@
-<Modules>
-  <Module PersistentId="0D778373-3C59-4BF5-808E-188A53AD5D53" ModuleId="Game.Engine" />
-  <Module PersistentId="ACFBCE8B-13DD-4514-8B72-8248030A419A" ModuleId="Game" />
-  <Module PersistentId="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="System" />
-</Modules>
