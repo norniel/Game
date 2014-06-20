@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game.Engine", "Game.Engine\
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject1", "ModelingProject1\ModelingProject1.modelproj", "{4F430436-0F94-4013-BCE0-D3CD04493E05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{35A99A0F-F438-4C0C-8A45-619AB1C8C7FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,16 @@ Global
 		{4F430436-0F94-4013-BCE0-D3CD04493E05}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4F430436-0F94-4013-BCE0-D3CD04493E05}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4F430436-0F94-4013-BCE0-D3CD04493E05}.Release|x86.ActiveCfg = Release|Any CPU
+		{35A99A0F-F438-4C0C-8A45-619AB1C8C7FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35A99A0F-F438-4C0C-8A45-619AB1C8C7FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35A99A0F-F438-4C0C-8A45-619AB1C8C7FD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{35A99A0F-F438-4C0C-8A45-619AB1C8C7FD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{35A99A0F-F438-4C0C-8A45-619AB1C8C7FD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{35A99A0F-F438-4C0C-8A45-619AB1C8C7FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35A99A0F-F438-4C0C-8A45-619AB1C8C7FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35A99A0F-F438-4C0C-8A45-619AB1C8C7FD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{35A99A0F-F438-4C0C-8A45-619AB1C8C7FD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{35A99A0F-F438-4C0C-8A45-619AB1C8C7FD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
