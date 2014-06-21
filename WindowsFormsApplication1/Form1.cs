@@ -9,6 +9,7 @@ namespace WindowsFormsApplication1
     using System;
     public partial class Form1 : Form
     {
+        private MapGeneratorEnum _currentGenerator = MapGeneratorEnum.DiamondSquare;
         public Form1()
         {
             InitializeComponent();
@@ -21,10 +22,45 @@ namespace WindowsFormsApplication1
 
         private void ilPanel1_Load(object sender, EventArgs e)
         {
-            Update1();
+            _currentGenerator = MapGeneratorEnum.DiamondSquare;
+            UpdateMap();
         }
 
-        private void Update1()
+        private void UpdateMap()
+        {
+            switch (_currentGenerator)
+            {
+                case MapGeneratorEnum.DiamondSquare:
+                    UpdateDiamondSquare();
+                    break;
+                case MapGeneratorEnum.Voronoy:
+                    UpdateVoronoy();
+                    break;
+                case MapGeneratorEnum.Combined:
+                    UpdateCombined();
+                    break;
+            }
+        }
+
+        private void UpdateCombined()
+        {
+            var combinedGenerator = new CombinedMapGenerator();
+            var resultMap = combinedGenerator.GetCombinedMap(tbPower.Value, tbHeight.Value, trackBar3.Value);
+            var scene = new ILScene { new ILPlotCube { new ILSurface(ILMath.tosingle((ILArray<float>)resultMap)) } };
+            ilPanel1.Scene = scene;
+            ilPanel1.Scene.First<ILPlotCube>().TwoDMode = false;
+        }
+
+        private void UpdateVoronoy()
+        {
+            var voronoyGenerator = new VoronoyGenerator();
+            var resultMap = voronoyGenerator.GenerateMapWithVoronoyDiagrams(tbPower.Value, trackBar3.Value);
+            var scene = new ILScene { new ILPlotCube { new ILSurface(ILMath.tosingle((ILArray<float>)resultMap)) } };
+            ilPanel1.Scene = scene;
+            ilPanel1.Scene.First<ILPlotCube>().TwoDMode = false;
+        }
+
+        private void UpdateDiamondSquare()
         {
             var diamondSquaredGenerator = new DiamondSquareGenerator();
             var resultMap = diamondSquaredGenerator.GenerateBaseMap(tbPower.Value, tbHeight.Value, trackBar3.Value);//GetFloatMap(tbPower.Value, tbHeight.Value, trackBar3.Value);
@@ -133,12 +169,37 @@ namespace WindowsFormsApplication1
 
         private void trackBar3_ValueChanged(object sender, EventArgs e)
         {
-            Update1();
+            UpdateMap();
         }
 
         private void tbHeight_Scroll(object sender, EventArgs e)
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _currentGenerator = MapGeneratorEnum.DiamondSquare;
+            UpdateMap();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            _currentGenerator = MapGeneratorEnum.Voronoy;
+            UpdateMap();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            _currentGenerator = MapGeneratorEnum.Combined;
+            UpdateMap();
+        }
+    }
+
+    public enum MapGeneratorEnum
+    {
+        DiamondSquare,
+        Voronoy,
+        Combined
     }
 }

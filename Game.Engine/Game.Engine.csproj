@@ -89,7 +89,9 @@
     <Compile Include="Interfaces\IPicker.cs" />
     <Compile Include="IObjectDrawer.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="MapGenerator\CombinedMapGenerator.cs" />
     <Compile Include="MapGenerator\DiamondSquareGenerator.cs" />
+    <Compile Include="MapGenerator\VoronoyGenerator.cs" />
     <Compile Include="Objects\Berry.cs" />
     <Compile Include="Objects\Branch.cs" />
     <Compile Include="Objects\Bush.cs" />
