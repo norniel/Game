@@ -24,7 +24,7 @@ namespace Tests
         {
             var testDiamondSquareGenerator = new TestDiamondSquareGenerator();
 
-            var expectedMap = new int[5, 5];
+            var expectedMap = new float[5, 5];
             expectedMap[0, 0] = 64;
             expectedMap[1, 0] = 1021;
             expectedMap[2, 0] = 760;
@@ -55,7 +55,7 @@ namespace Tests
             expectedMap[3, 4] = 1291;
             expectedMap[4, 4] = 1024;
 
-            var actualMap = new int[5,5];
+            var actualMap = new float[5,5];
             actualMap[0, 0] = 64;
             actualMap[4, 0] = 256;
             actualMap[0, 4] = 4096;
@@ -70,7 +70,7 @@ namespace Tests
     class TestDiamondSquareGenerator:DiamondSquareGenerator
     {
         internal List<Point> _seedPoints = new List<Point>();
-        internal Dictionary<Point, int> _seeds = new Dictionary<Point, int>();
+        internal Dictionary<Point, float> _seeds = new Dictionary<Point, float>();
 
         protected override List<Point> GenerateSeedPoints(int seedCount, int size)
         {
@@ -82,7 +82,7 @@ namespace Tests
             return seedPoints;
         }
 
-        protected override void GenerateSeeds(int maxheight, int seedCount, int size, int[,] resultMap)
+        protected override void GenerateSeeds(float maxheight, int seedCount, int size, float[,] resultMap)
         {
             base.GenerateSeeds(maxheight, seedCount, size, resultMap);
 
