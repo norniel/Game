@@ -14,6 +14,7 @@ namespace WindowsFormsApplication1
     {
         private System.Timers.Timer _timer = new System.Timers.Timer(5000);
         private HydraliticErosion _erosionGenerator = null;
+        private float[,] _resultMap = null;
 
         private MapGeneratorEnum _currentGenerator = MapGeneratorEnum.DiamondSquare;
         public Form1()
@@ -54,8 +55,7 @@ namespace WindowsFormsApplication1
 
         private void UpdateCombinedWithErosion()
         {
-            var combinedMap = GetCombinedMap();
-            _erosionGenerator = new HydraliticErosion(combinedMap, 20);
+            _erosionGenerator = new HydraliticErosion(_resultMap, 20);
 
             _timer.Enabled = true;
 
@@ -84,22 +84,22 @@ namespace WindowsFormsApplication1
         private float[,] GetCombinedMap()
         {
             var combinedGenerator = new CombinedMapGenerator();
-            var resultMap = combinedGenerator.GetCombinedMap(tbPower.Value, tbHeight.Value, trackBar3.Value);
-            return resultMap;
+            _resultMap = combinedGenerator.GetCombinedMap(tbPower.Value, tbHeight.Value, trackBar3.Value);
+            return _resultMap;
         }
 
         private void UpdateVoronoy()
         {
             var voronoyGenerator = new VoronoyGenerator();
-            var resultMap = voronoyGenerator.GenerateMapWithVoronoyDiagrams(tbPower.Value, trackBar3.Value);
-            DrawMap(resultMap);
+            _resultMap = voronoyGenerator.GenerateMapWithVoronoyDiagrams(tbPower.Value, trackBar3.Value);
+            DrawMap(_resultMap);
         }
 
         private void UpdateDiamondSquare()
         {
             var diamondSquaredGenerator = new DiamondSquareGenerator();
-            var resultMap = diamondSquaredGenerator.GenerateBaseMap(tbPower.Value, tbHeight.Value, trackBar3.Value);//GetFloatMap(tbPower.Value, tbHeight.Value, trackBar3.Value);
-            DrawMap(resultMap);
+            _resultMap = diamondSquaredGenerator.GenerateBaseMap(tbPower.Value, tbHeight.Value, trackBar3.Value);//GetFloatMap(tbPower.Value, tbHeight.Value, trackBar3.Value);
+            DrawMap(_resultMap);
         }
 
         private void Update()
@@ -243,6 +243,7 @@ namespace WindowsFormsApplication1
                 _timer.Stop();
                 _timer.Enabled = false;
                 _erosionGenerator = null;
+                _currentGenerator = MapGeneratorEnum.Combined;
                 SetElementsEnabled(true);
             }
         }
@@ -260,8 +261,7 @@ namespace WindowsFormsApplication1
 
         private void button5_Click(object sender, EventArgs e)
         {
-            var combinedMap = GetCombinedMap();
-            var erosionGenerator = new HydraliticErosion(combinedMap, 250);
+            var erosionGenerator = new HydraliticErosion(_resultMap, 250);
             var resultMap = erosionGenerator.ApplyErosion();
             var waterMap = erosionGenerator.GetWaterMap();
 
@@ -304,15 +304,15 @@ namespace WindowsFormsApplication1
 
                 flag.Save(@"D:\test.bmp", ImageFormat.Bmp);
             }
-
         }
 
         private Brush GetBlueBrushFromWater(float water, float maxWater, float minWater)
         {
             var dif = maxWater - minWater;
             var difWater = water - minWater;
+            float t = (difWater*difWater)/(dif*dif);
 
-            return new SolidBrush(Color.FromArgb((int)((255f * difWater)/dif), Color.MediumBlue));
+            return new SolidBrush(Color.FromArgb((int)(255f * t), Color.MediumBlue));
         }
 
         private Brush GetBrushFromHeight(float height, float maxHeight, float minHeight)
