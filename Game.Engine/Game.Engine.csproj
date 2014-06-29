@@ -91,6 +91,7 @@
     <Compile Include="Map.cs" />
     <Compile Include="MapGenerator\CombinedMapGenerator.cs" />
     <Compile Include="MapGenerator\DiamondSquareGenerator.cs" />
+    <Compile Include="MapGenerator\HydraliticErosion.cs" />
     <Compile Include="MapGenerator\VoronoyGenerator.cs" />
     <Compile Include="Objects\Berry.cs" />
     <Compile Include="Objects\Branch.cs" />
