@@ -6,7 +6,7 @@ namespace Game.Engine.MapGenerator
 {
     public class HydraliticErosion
     {
-        private float KWaterDrop = 0.01f;
+        private float KWaterDrop = 0f;//0.01f;
         private float KSolubility = 0.01f;
         private float KEvaporation = 0.5f;
         private float KSedimentCapacity = 0.01f;

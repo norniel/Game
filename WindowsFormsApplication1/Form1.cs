@@ -310,8 +310,11 @@ namespace WindowsFormsApplication1
         {
             var dif = maxWater - minWater;
             var difWater = water - minWater;
-            float t = (difWater*difWater)/(dif*dif);
-
+            
+            if(dif == 0)
+                return new SolidBrush(Color.MediumBlue);
+            
+            float t = difWater/dif;
             return new SolidBrush(Color.FromArgb((int)(255f * t), Color.MediumBlue));
         }
 
@@ -320,7 +323,12 @@ namespace WindowsFormsApplication1
             var dif = maxHeight - minHeight;
             var difHight = height - minHeight;
 
-            return new SolidBrush(ColorFromAhsb(100, (160f - ((160 * difHight) / dif)), 0.5f, 0.5f));
+            if (dif == 0)
+                return new SolidBrush(Color.MediumBlue);
+
+            var t = difHight /dif;
+
+            return new SolidBrush(ColorFromAhsb(100, (160f - (160f * t )), 0.5f, 0.5f));
         }
 
         public static Color ColorFromAhsb(int a, float h, float s, float b)
