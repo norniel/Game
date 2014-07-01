@@ -261,7 +261,7 @@ namespace WindowsFormsApplication1
 
         private void button5_Click(object sender, EventArgs e)
         {
-            var erosionGenerator = new HydraliticErosion(_resultMap, 250);
+            var erosionGenerator = new HydraliticErosion(_resultMap, 1000);
             var resultMap = erosionGenerator.ApplyErosion();
             var waterMap = erosionGenerator.GetWaterMap();
 
@@ -315,7 +315,7 @@ namespace WindowsFormsApplication1
                 return new SolidBrush(Color.MediumBlue);
             
             float t = difWater/dif;
-            return new SolidBrush(Color.FromArgb((int)(255f * t), Color.MediumBlue));
+            return new SolidBrush(Color.FromArgb((int)(255f * t*t), Color.MediumBlue));
         }
 
         private Brush GetBrushFromHeight(float height, float maxHeight, float minHeight)

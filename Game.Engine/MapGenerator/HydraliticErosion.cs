@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 
 namespace Game.Engine.MapGenerator
 {
     public class HydraliticErosion
     {
-        private float KWaterDrop = 0f;//0.01f;
+        private float KWaterDrop = 0.01f;
         private float KSolubility = 0.01f;
         private float KEvaporation = 0.5f;
         private float KSedimentCapacity = 0.01f;
@@ -44,7 +45,7 @@ namespace Game.Engine.MapGenerator
         {
             for (int i = 0; i < _itterationperStep; i++)
             {
-                MakeErosionItteration(_waterMap, _resultMap, _sedimentMap);
+                MakeErosionItteration(_waterMap, _resultMap, _sedimentMap, (i % 10) == 0);
             }
 
             return _resultMap;
@@ -55,9 +56,10 @@ namespace Game.Engine.MapGenerator
             return _waterMap;
         }
 
-        private void MakeErosionItteration(float[,] waterMap, float[,] resultMap, float[,] sedimentMap)
+        private void MakeErosionItteration(float[,] waterMap, float[,] resultMap, float[,] sedimentMap, bool rain)
         {
-            Step1_MakeRain(waterMap);
+            if(rain)
+                Step1_MakeRain(waterMap);
             Step2_GetSediments(resultMap, waterMap, sedimentMap);
             Step3_Distribution(resultMap, waterMap, sedimentMap);
             Step4_Evaporation(resultMap, waterMap, sedimentMap);
@@ -75,6 +77,10 @@ namespace Game.Engine.MapGenerator
                     var deltaSediment = Math.Max(0, sedimentMap[i, j] - maxSedimentInWater);
                     sedimentMap[i, j] -= deltaSediment;
                     resultMap[i, j] += deltaSediment;
+
+                    resultMap[i, j] = GetNewValue(resultMap[i, j]);
+                    waterMap[i, j] = GetNewValue(waterMap[i, j]);
+                    sedimentMap[i, j] = GetNewValue(sedimentMap[i, j]);
                 }
             }
         }
@@ -90,10 +96,14 @@ namespace Game.Engine.MapGenerator
                 {
                     var totalH = resultMap[i, j] + waterMap[i, j];
                     var lowerNeighbours = GetLowNeighbours(i, j, resultMap, waterMap);
-                    if (lowerNeighbours.Count <= 0)
+                    if (lowerNeighbours.Count <= 0 || waterMap[i, j] <= 0)
                         continue;
 
                     var sumTotalH = lowerNeighbours.Sum(p => GetTotalH(p.X, p.Y, resultMap, waterMap));
+
+                    if(sumTotalH <= 0)
+                        continue;
+                    
                     var avgTotalH = sumTotalH/lowerNeighbours.Count; //lowerNeighbours.Average(p => GetTotalH(p.X, p.Y, resultMap, waterMap));
                     var minWater = Math.Min(totalH - avgTotalH, waterMap[i, j]);
 
@@ -118,6 +128,8 @@ namespace Game.Engine.MapGenerator
                 {
                     waterMap[i, j] += deltaWaterMap[i, j];
                     sedimentMap[i, j] += deltaSedimentMap[i, j];
+                    waterMap[i, j] = GetNewValue(waterMap[i, j]);
+                    sedimentMap[i, j] = GetNewValue(sedimentMap[i, j]);
                 }
             }
         }
@@ -182,8 +194,8 @@ namespace Game.Engine.MapGenerator
             {
                 for (int j = 0; j < resultMap.GetLength(1); j++)
                 {
-                    resultMap[i, j] = resultMap[i, j] - KSolubility*waterMap[i,j];
-                    sedimentMap[i, j] = sedimentMap[i,j] + KSolubility*waterMap[i, j];
+                    resultMap[i, j] = GetNewValue(resultMap[i, j] - KSolubility * waterMap[i, j]);
+                    sedimentMap[i, j] = GetNewValue(sedimentMap[i, j] + KSolubility * waterMap[i, j]);
                 }
             }
         }
@@ -196,12 +208,17 @@ namespace Game.Engine.MapGenerator
                 {
                     if (_resultMap[i, j] <= _maxHeight && _resultMap[i, j] > _lowerMaxHeight)
                     {
-                        waterMap[i, j] += 1;
+                        waterMap[i, j] += KWaterDrop; //1;
                     }
                     else
                         waterMap[i, j] += KWaterDrop;
                 }
             }
+        }
+
+        private float GetNewValue(float prevValue)
+        {
+            return prevValue;// < 0.000001f ? 0 : prevValue;
         }
     }
 }
