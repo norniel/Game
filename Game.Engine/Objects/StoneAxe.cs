@@ -8,14 +8,15 @@ namespace Game.Engine.Objects
         {
             IsPassable = true;
             Size = new Size(1, 1);
-            Id = 0x00000100;
+            Id = 0x00001300;
         }
 
         public override void InitializeProperties()
         {
             this.Properties = new HashSet<Property>
             {
-                Property.Cutter
+                Property.Cutter,
+                Property.Pickable
             };
         }
 

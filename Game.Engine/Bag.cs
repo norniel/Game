@@ -26,5 +26,17 @@ namespace Game.Engine
 
             GameObjects.AddRange(gameObjects);
         }
+
+        public void Add(GameObject gameObject)
+        {
+            if (gameObject.Properties.Contains(Property.Pickable))
+            {
+                gameObject.Properties.Remove(Property.Pickable);
+                if (!gameObject.Properties.Contains(Property.Dropable))
+                    gameObject.Properties.Add(Property.Dropable);
+            }
+
+            GameObjects.Add(gameObject);
+        }
     }
 }

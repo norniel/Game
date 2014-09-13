@@ -9,6 +9,8 @@ namespace Game.Engine.Actions
 {
     public class CreateStoneAxeAction:IAction
     {
+
+
         public string Name {
             get { return "Create Stone axe"; }
             private set { }
@@ -21,7 +23,19 @@ namespace Game.Engine.Actions
 
         public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
         {
-            throw new System.NotImplementedException();
+            var branch = objects.SingleOrDefault(o => o.GameObject is Branch);
+            var stone = objects.SingleOrDefault(o => o.GameObject is Rock);
+
+            if (branch == null || stone == null)
+                return true;
+
+            branch.RemoveFromContainer();
+            stone.RemoveFromContainer();
+            var axe = new StoneAxe();
+
+            hero.AddToBag(axe);
+
+            return true;
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

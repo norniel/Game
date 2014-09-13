@@ -40,6 +40,7 @@ namespace Game
         private BitmapImage branchImage;
         private BitmapImage bushImage;
         private BitmapImage raspberryImage;
+        private BitmapImage stoneAxeImage;
 
         public WpfDrawer(Canvas canvas, ListBox listBox, ListBox heroListBox)
         {
@@ -65,6 +66,7 @@ namespace Game
             branchImage = CreateBitmapImage(@"branch icon.png");
             bushImage = CreateBitmapImage(@"brush icon.png");
             raspberryImage = CreateBitmapImage(@"Raspberry icon.png");
+            stoneAxeImage = CreateBitmapImage(@"Stone axe icon.png");
 
             _appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
             Canvas.SetTop(_appearance, 0);
@@ -200,6 +202,12 @@ namespace Game
 
                 DrawImage(plantImage, x, y);
             }
+            else if (id == 0x00001300)
+            {
+                // _canvas.Children
+
+                DrawImage(stoneAxeImage, x, y);
+            }
             else if (id == 0x00000600)
             {
                 // _canvas.Children
@@ -334,6 +342,8 @@ namespace Game
                     return bushImage;
                 case "Raspberries":
                     return raspberryImage;
+                case "Stone Axe":
+                    return stoneAxeImage;
             }
             return appletreeImage;
         }

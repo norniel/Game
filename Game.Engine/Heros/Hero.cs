@@ -104,6 +104,10 @@ namespace Game.Engine.Heros
             }
         }
 
+        public void AddToBag(GameObject gameObject)
+        {
+            Bag.Add(gameObject);
+        }
         public void AddToBag(IEnumerable<GameObject> objects)
         {
             Bag.Add(objects);

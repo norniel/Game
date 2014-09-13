@@ -20,7 +20,8 @@ namespace Game.Engine.Objects
         {
             this.Properties = new HashSet<Property>
             {
-                Property.Pickable
+                Property.Pickable,
+               Property.NeedToCreateStoneAxe
             };
         }
 
