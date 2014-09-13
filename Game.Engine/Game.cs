@@ -110,7 +110,7 @@ namespace Game.Engine
                     new ClientAction
                     {
                         Name = "Go",
-                        CanDo = true,
+                        //CanDo = true,
                         Do = () => MoveToDest(destination)
                     }
                 };
@@ -118,16 +118,22 @@ namespace Game.Engine
 
             var possibleActions = ActionRepository.GetPossibleActions(destObject).ToList();
 
-            // var objects = _hero.GetContainerItems().Union(new[] { gameObject }).ToList();
-
             var objects = new List<GameObject>(new[] {destObject});
-            var removableObjects = objects.Select(go => this.PrepareRemovableObject(go, destination)).ToList();
-            return possibleActions.Select(pa => new ClientAction
-            {
-                Name = pa.Name,
-                CanDo = pa.CanDo(_hero, objects),
-                Do = () => MoveAndDoAction(pa, destination, removableObjects)
-            });
+
+            // var objects = _hero.GetContainerItems().Union(new[] { gameObject }).ToList();
+            var removableObjects = objects.Select(o => this.PrepareRemovableObject(o, destination));
+            return (possibleActions.SelectMany(pa =>
+                {
+                    return pa.GetActionsWithNecessaryObjects(removableObjects, _hero).Select(objectsForAction =>
+                    new ClientAction
+                        {
+                            Name = pa.Name,
+                            //CanDo = pa.CanDo(_hero, objects),
+                            Do = () => MoveAndDoAction(pa, destination, objectsForAction)
+                        }
+                    );
+
+                }));
         }
 
         public void MoveToDest(Point destination)
@@ -217,14 +223,21 @@ namespace Game.Engine
                 var possibleActions = ActionRepository.GetPossibleActions(first).ToList();
 
                 var objects = new List<GameObject>(new[] {first});
-                var removableObjects = objects.Select(go => this.PrepareRemovableObject(go)).ToList();
-                return possibleActions.Select(pa => new ClientAction
-                {
-                    Name = pa.Name,
-                    CanDo = pa.CanDo(_hero, objects),
-                    Do = () => DoAction(pa, removableObjects)
-                });
 
+                // var objects = _hero.GetContainerItems().Union(new[] { gameObject }).ToList();
+                var removableObjects = objects.Select(o => this.PrepareRemovableObject(o));
+                return (possibleActions.SelectMany(pa =>
+                {
+                    return pa.GetActionsWithNecessaryObjects(removableObjects, _hero).Select(objectsForAction =>
+                    new ClientAction
+                    {
+                        Name = pa.Name,
+                        //CanDo = pa.CanDo(_hero, objects),
+                        Do = () => DoAction(pa, objectsForAction)
+                    }
+                    );
+
+                }));
             });
         }
     }

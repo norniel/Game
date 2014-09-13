@@ -29,5 +29,10 @@ namespace Game.Engine.Actions
         {
             return objects.All(o => o.Properties.Contains(Property.Cuttable));
         }
+
+        public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
+        {
+            yield return objects.Where(o => o.GameObject.Properties.Contains(Property.Cuttable)).ToList();
+        }
     }
 }

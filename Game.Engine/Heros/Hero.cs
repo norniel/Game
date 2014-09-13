@@ -1,4 +1,6 @@
-﻿namespace Game.Engine.Heros
+﻿using System.Linq;
+
+namespace Game.Engine.Heros
 {
     using System;
     using System.Collections.Generic;
@@ -107,9 +109,26 @@
             Bag.Add(objects);
         }
 
+        public void GetFromBag()
+        {
+
+        }
+
         public List<GameObject> GetContainerItems()
         {
             return Bag.GameObjects;
+        }
+
+        public List<RemovableWrapper<GameObject>> GetContainerItemsAsRemovable()
+        {
+            return Bag.GameObjects.Select(go => new RemovableWrapper<GameObject>
+            {
+                GameObject = go,
+                RemoveFromContainer = (() =>
+                {
+                    this.RemoveFromContainer(go);
+                })
+            }).ToList();
         }
 
         public Hero Then()

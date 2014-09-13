@@ -13,13 +13,18 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         private System.Timers.Timer _timer = new System.Timers.Timer(5000);
+        private System.Timers.Timer _timerForWater = new System.Timers.Timer(10);
         private HydraliticErosion _erosionGenerator = null;
+        private HydraliticErosion2 _erosionGeneratorForWater = null;
         private float[,] _resultMap = null;
+        private Bitmap _bitmapWater = null;
+        private Bitmap _bitmapTerrain = null;
 
         private MapGeneratorEnum _currentGenerator = MapGeneratorEnum.DiamondSquare;
         public Form1()
         {
             _timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            _timerForWater.Elapsed += new ElapsedEventHandler(OnTimedForWaterEvent);
             InitializeComponent();
         }
 
@@ -66,6 +71,70 @@ namespace WindowsFormsApplication1
         {
             var resultMap = _erosionGenerator.ApplyErosion();
             DrawMap(resultMap);
+        }
+
+        private void OnTimedForWaterEvent(object source, ElapsedEventArgs e)
+        {
+            _timerForWater.Stop();
+            var resultMap = _erosionGeneratorForWater.ApplyErosion();
+            DrawMapsToPanels(resultMap, _erosionGeneratorForWater.GetWaterMap());
+            _timerForWater.Start();
+        }
+
+        private void DrawMapsToPanels(float[,] resultMap, float[,] waterMap)
+        {
+            float maxHeight = 0f;
+            float minHeight = 0f;
+            float maxWater = 0f;
+            float minWater = 0f;
+
+            for (int i = 0; i < resultMap.GetLength(0); i++)
+            {
+                for (int j = 0; j < resultMap.GetLength(1); j++)
+                {
+                    maxHeight = (maxHeight - resultMap[i, j]) > 0.00001f ? maxHeight : resultMap[i, j];
+                    minHeight = (resultMap[i, j] - minHeight) > 0.00001f ? minHeight : resultMap[i, j];
+                    maxWater = (maxWater - waterMap[i, j]) > 0.00001f ? maxWater : waterMap[i, j];
+                    minWater = (waterMap[i, j] - minWater) > 0.00001f ? minWater : waterMap[i, j];
+                }
+            }
+
+                using (Graphics flagGraphics = Graphics.FromImage(_bitmapTerrain))
+                {
+                    for (int i = 0; i < resultMap.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < resultMap.GetLength(1); j++)
+                        {
+                            using (var brush = GetBrushFromHeight(resultMap[i, j], maxHeight, minHeight))
+                            {
+                                flagGraphics.FillRectangle(brush, i, j, 1, 1);
+                            }
+                        }
+                    }
+                }
+
+            this.terrainBox.Image = _bitmapTerrain;
+
+                using (Graphics flagGraphics = Graphics.FromImage(_bitmapWater))
+                {
+                    using (var white = new SolidBrush(Color.White))
+                    {
+                        flagGraphics.FillRectangle(white, 0, 0, resultMap.GetLength(0), resultMap.GetLength(1));
+                    }
+                    
+                    for (int i = 0; i < resultMap.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < resultMap.GetLength(1); j++)
+                        {
+                            using (var brush = GetBlueBrushFromWater(waterMap[i, j], maxWater, minWater))
+                            {
+                                flagGraphics.FillRectangle(brush, i, j, 1, 1);
+                            }
+                        }
+                    }
+                }
+
+                this.waterBox.Image = _bitmapWater;
         }
 
         private void UpdateCombined()
@@ -257,18 +326,20 @@ namespace WindowsFormsApplication1
             this.tbPower.Enabled = enabled;
             this.tbHeight.Enabled = enabled;
             this.trackBar3.Enabled = enabled;
+            this.drawFileButton.Enabled = enabled;
+            this.drawMapButton.Enabled = enabled;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            var erosionGenerator = new HydraliticErosion(_resultMap, 1000);
+            var erosionGenerator = new HydraliticErosion2(_resultMap, 1000);
             var resultMap = erosionGenerator.ApplyErosion();
             var waterMap = erosionGenerator.GetWaterMap();
 
-            float maxHeight = 0;
-            float minHeight = 0;
-            float maxWater = 0;
-            float minWater = 0;
+            float maxHeight = 0f;
+            float minHeight = 0f;
+            float maxWater = 0f;
+            float minWater = 0f;
 
             for (int i = 0; i < resultMap.GetLength(0); i++)
             {
@@ -312,10 +383,15 @@ namespace WindowsFormsApplication1
             var difWater = water - minWater;
             
             if(dif == 0)
-                return new SolidBrush(Color.MediumBlue);
+                return new SolidBrush(Color.FromArgb(255, 255, 255));
             
             float t = difWater/dif;
-            return new SolidBrush(Color.FromArgb((int)(255f * t*t), Color.MediumBlue));
+            float l = (float)Math.Sqrt(t);
+            int tt = ((int) ((l*255f)/10))*10;
+
+           return new SolidBrush(Color.FromArgb((int)(255f - tt), (int)(255f - tt), 255));
+
+
         }
 
         private Brush GetBrushFromHeight(float height, float maxHeight, float minHeight)
@@ -405,6 +481,45 @@ namespace WindowsFormsApplication1
                     return Color.FromArgb(a, iMax, iMin, iMid);
                 default:
                     return Color.FromArgb(a, iMax, iMid, iMin);
+            }
+        }
+
+        private void drawMapButton_Click(object sender, EventArgs e)
+        {
+            if (_erosionGeneratorForWater == null)
+            {
+                SetElementsEnabled(false);
+                this.drawMapButton.Enabled = true;
+                this.drawMapButton.Text = "Stop draw map";
+
+                _erosionGeneratorForWater = new HydraliticErosion2(_resultMap, 20);
+                _bitmapTerrain = new Bitmap(_resultMap.GetLength(0), _resultMap.GetLength(1));
+                _bitmapWater = new Bitmap(_resultMap.GetLength(0), _resultMap.GetLength(1));
+
+                _timerForWater.Enabled = true;
+
+                _timerForWater.Start();
+            }
+            else
+            {
+                _timerForWater.Stop();
+                _timerForWater.Enabled = false;
+                _erosionGeneratorForWater = null;
+                SetElementsEnabled(true);
+                this.drawMapButton.Enabled = true;
+
+                this.drawMapButton.Text = "Start draw map";
+                if (_bitmapWater != null)
+                {
+                    _bitmapWater.Dispose();
+                    _bitmapWater = null;
+                }
+
+                if (_bitmapTerrain != null)
+                {
+                    _bitmapTerrain.Dispose();
+                    _bitmapTerrain = null;
+                }
             }
         }
     }

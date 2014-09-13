@@ -22,12 +22,13 @@ namespace Game.Engine.Actions
         }
 
         public abstract bool CanDo(Hero hero, IEnumerable<GameObject> objects);
-/*
-        public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
+
+        public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
         {
-            return objects.Any(obj => obj.Properties.Contains(Property.CollectBerries) && ((IHasBerries)obj).BerriesCount > 0);
+           yield return objects.Where(obj => obj.GameObject.Properties.Any(this.IsApplicable)
+               && obj.GameObject is IHasSmthToCollect<T>
+               && (obj.GameObject as IHasSmthToCollect<T>).GetSmthTotalCount() > 0).ToList();
         }
-        */
 
         private bool Collect(IHasSmthToCollect<T> objectWithSmth, Hero hero)
         {

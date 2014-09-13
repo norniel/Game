@@ -26,5 +26,8 @@ namespace Game.Engine.Objects
         {
             get { return "Berries"; }
         }
+
+        public int Poisoness { get; set; }
+        public int Satiety { get; set; }
     }
 }

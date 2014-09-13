@@ -24,7 +24,7 @@ namespace Game.Engine.MapGenerator
 
             foreach (var point in seedList)
             {
-                resultMap[point.X, point.Y] = (float) random.NextDouble(); //*maxheight;
+                resultMap[point.X, point.Y] = 0f; //(float) random.NextDouble(); //*maxheight;
             }
         }
 

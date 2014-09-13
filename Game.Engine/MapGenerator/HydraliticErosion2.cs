@@ -5,27 +5,27 @@ using System.Runtime.Remoting.Messaging;
 
 namespace Game.Engine.MapGenerator
 {
-    public class HydraliticErosion
+    public class HydraliticErosion2
     {
         private float KWaterDrop = 0.01f;
         private float KSolubility = 0.01f;
-        private float KEvaporation = 0.5f;
+        private float KEvaporation = 0;//0.1f;
         private float KSedimentCapacity = 0.01f;
 
         readonly float[,] _resultMap;
         readonly float[,] _waterMap;
-        readonly float[,] _sedimentMap;
+      //  readonly float[,] _sedimentMap;
         private readonly int _itterationperStep;
         private readonly float _maxHeight;
         private readonly float _lowerMaxHeight;
 
-        public HydraliticErosion(float[,] mapToApply, int itterationperStep)
+        public HydraliticErosion2(float[,] mapToApply, int itterationperStep)
         {
             _resultMap = new float[mapToApply.GetLength(0), mapToApply.GetLength(1)];
             _waterMap = new float[mapToApply.GetLength(0), mapToApply.GetLength(1)];
-            _sedimentMap = new float[mapToApply.GetLength(0), mapToApply.GetLength(1)];
+            //_sedimentMap = new float[mapToApply.GetLength(0), mapToApply.GetLength(1)];
             float minHeight = 0;
-            
+
             for (int i = 0; i < mapToApply.GetLength(0); i++)
             {
                 for (int j = 0; j < mapToApply.GetLength(1); j++)
@@ -36,7 +36,7 @@ namespace Game.Engine.MapGenerator
                 }
             }
 
-            _lowerMaxHeight = _maxHeight - 0.1f*(_maxHeight - minHeight);
+            _lowerMaxHeight = _maxHeight - 0.1f * (_maxHeight - minHeight);
 
             _itterationperStep = itterationperStep;
         }
@@ -45,7 +45,7 @@ namespace Game.Engine.MapGenerator
         {
             for (int i = 0; i < _itterationperStep; i++)
             {
-                MakeErosionItteration(_waterMap, _resultMap, _sedimentMap/*, ((i/10) % 2) == 0*/);
+                MakeErosionItteration(_waterMap, _resultMap, null/*, ((i/10) % 2) == 0*/);
             }
 
             return _resultMap;
@@ -58,9 +58,9 @@ namespace Game.Engine.MapGenerator
 
         private void MakeErosionItteration(float[,] waterMap, float[,] resultMap, float[,] sedimentMap, bool rain = true)
         {
-            if(rain)
+            if (rain)
                 Step1_MakeRain(waterMap);
-            Step2_GetSediments(resultMap, waterMap, sedimentMap);
+         //   Step2_GetSediments(resultMap, waterMap, sedimentMap);
             Step3_Distribution(resultMap, waterMap, sedimentMap);
             Step4_Evaporation(resultMap, waterMap, sedimentMap);
         }
@@ -73,14 +73,14 @@ namespace Game.Engine.MapGenerator
                 {
                     waterMap[i, j] -= waterMap[i, j] * KEvaporation;
 
-                    var maxSedimentInWater = waterMap[i, j]*KSedimentCapacity;
-                    var deltaSediment = Math.Max(0, sedimentMap[i, j] - maxSedimentInWater);
-                    sedimentMap[i, j] -= deltaSediment;
-                    resultMap[i, j] += deltaSediment;
+                  //  var maxSedimentInWater = waterMap[i, j] * KSedimentCapacity;
+                 //   var deltaSediment = Math.Max(0, sedimentMap[i, j] - maxSedimentInWater);
+                    //sedimentMap[i, j] -= deltaSediment;
+                    //resultMap[i, j] += deltaSediment;
 
-                    resultMap[i, j] = GetNewValue(resultMap[i, j]);
+                   // resultMap[i, j] = GetNewValue(resultMap[i, j]);
                     waterMap[i, j] = GetNewValue(waterMap[i, j]);
-                    sedimentMap[i, j] = GetNewValue(sedimentMap[i, j]);
+                   // sedimentMap[i, j] = GetNewValue(sedimentMap[i, j]);
                 }
             }
         }
@@ -88,7 +88,7 @@ namespace Game.Engine.MapGenerator
         private void Step3_Distribution(float[,] resultMap, float[,] waterMap, float[,] sedimentMap)
         {
             var deltaWaterMap = new float[waterMap.GetLength(0), waterMap.GetLength(1)];
-            var deltaSedimentMap = new float[sedimentMap.GetLength(0), sedimentMap.GetLength(1)];
+            //var deltaSedimentMap = new float[sedimentMap.GetLength(0), sedimentMap.GetLength(1)];
 
             for (int i = 0; i < resultMap.GetLength(0); i++)
             {
@@ -101,14 +101,14 @@ namespace Game.Engine.MapGenerator
 
                     var sumTotalH = lowerNeighbours.Sum(p => GetTotalH(p.X, p.Y, resultMap, waterMap));
 
-                    if(sumTotalH <= 0)
+                    if (sumTotalH <= 0)
                         continue;
-                    
-                    var avgTotalH = sumTotalH/lowerNeighbours.Count; //lowerNeighbours.Average(p => GetTotalH(p.X, p.Y, resultMap, waterMap));
+
+                    var avgTotalH = sumTotalH / lowerNeighbours.Count; 
                     var minWater = Math.Min(totalH - avgTotalH, waterMap[i, j]);
 
                     deltaWaterMap[i, j] -= minWater;
-                    deltaSedimentMap[i, j] -= (minWater*sedimentMap[i, j])/waterMap[i, j];
+                  //  deltaSedimentMap[i, j] -= (minWater * sedimentMap[i, j]) / waterMap[i, j];
 
                     lowerNeighbours.ForEach(
                         p =>
@@ -117,7 +117,7 @@ namespace Game.Engine.MapGenerator
                                 minWater * (totalH - GetTotalH(p.X, p.Y, resultMap, waterMap)) / (totalH * lowerNeighbours.Count - sumTotalH);
                             deltaWaterMap[p.X, p.Y] += currentDeltaWater;
 
-                            deltaSedimentMap[p.X, p.Y] += (currentDeltaWater*sedimentMap[i, j])/waterMap[i, j];
+                          //  deltaSedimentMap[p.X, p.Y] += (currentDeltaWater * sedimentMap[i, j]) / waterMap[i, j];
                         });
                 }
             }
@@ -127,9 +127,9 @@ namespace Game.Engine.MapGenerator
                 for (int j = 0; j < resultMap.GetLength(1); j++)
                 {
                     waterMap[i, j] += deltaWaterMap[i, j];
-                    sedimentMap[i, j] += deltaSedimentMap[i, j];
+                 //   sedimentMap[i, j] += deltaSedimentMap[i, j];
                     waterMap[i, j] = GetNewValue(waterMap[i, j]);
-                    sedimentMap[i, j] = GetNewValue(sedimentMap[i, j]);
+                  //  sedimentMap[i, j] = GetNewValue(sedimentMap[i, j]);
                 }
             }
         }
@@ -146,11 +146,11 @@ namespace Game.Engine.MapGenerator
         }
 
         private IEnumerable<Point> GetNeighbours(int x, int y, int size)
-        { 
+        {
             if (x > 0)
             {
                 yield return new Point(x - 1, y);
-
+/*
                 if (y > 0)
                 {
                     yield return new Point(x - 1, y - 1);
@@ -159,13 +159,13 @@ namespace Game.Engine.MapGenerator
                 if (y < size - 1)
                 {
                     yield return new Point(x - 1, y + 1);
-                }
+                }*/
             }
 
             if (x < size - 1)
             {
                 yield return new Point(x + 1, y);
-
+                /*
                 if (y > 0)
                 {
                     yield return new Point(x + 1, y - 1);
@@ -174,7 +174,7 @@ namespace Game.Engine.MapGenerator
                 if (y < size - 1)
                 {
                     yield return new Point(x + 1, y + 1);
-                }
+                }*/
             }
 
             if (y > 0)
@@ -194,8 +194,8 @@ namespace Game.Engine.MapGenerator
             {
                 for (int j = 0; j < resultMap.GetLength(1); j++)
                 {
-                    resultMap[i, j] = GetNewValue(resultMap[i, j] - KSolubility * waterMap[i, j]);
-                    sedimentMap[i, j] = GetNewValue(sedimentMap[i, j] + KSolubility * waterMap[i, j]);
+                 //   resultMap[i, j] = GetNewValue(resultMap[i, j] - KSolubility * waterMap[i, j]);
+                  //  sedimentMap[i, j] = GetNewValue(sedimentMap[i, j] + KSolubility * waterMap[i, j]);
                 }
             }
         }
@@ -206,12 +206,12 @@ namespace Game.Engine.MapGenerator
             {
                 for (int j = 0; j < waterMap.GetLength(1); j++)
                 {
-                    if (_resultMap[i, j] == _maxHeight /* && _resultMap[i, j] > _lowerMaxHeight*/)
+                    if (_resultMap[i, j] == _maxHeight  && _resultMap[i, j] > _lowerMaxHeight)
                     {
-                        waterMap[i, j] += KWaterDrop;
+                        waterMap[i, j] += 0.01f; //KWaterDrop;
                     }
                     else
-                        waterMap[i, j] += KWaterDrop;
+                        waterMap[i, j] += 0; //KWaterDrop;
                 }
             }
         }

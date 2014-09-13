@@ -1,32 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Game.Engine.Objects
 {
-    class Rock : FixedObject
+    class StoneAxe: FixedObject
     {
-        public Rock() 
+        public StoneAxe()
         {
             IsPassable = true;
-
             Size = new Size(1, 1);
-
-            Id = 0x00001000;
+            Id = 0x00000100;
         }
-
-        public int Fragile { get; set; }
 
         public override void InitializeProperties()
         {
             this.Properties = new HashSet<Property>
             {
-                Property.Pickable
+                Property.Cutter
             };
         }
 
         public override string Name
         {
-            get { return "Rock"; }
+            get { return "Stone Axe"; }
         }
     }
 }

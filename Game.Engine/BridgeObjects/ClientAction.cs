@@ -6,7 +6,9 @@ namespace Game.Engine.BridgeObjects
     {
         public string Name { get; set; }
 
-        public bool CanDo { get; set; }
+        public bool CanDo {
+            get { return true; }
+        }
 
         public Action Do { get; set; }
     }

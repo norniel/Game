@@ -75,6 +75,7 @@
     <Compile Include="Actions\CollectBerriesAction.cs" />
     <Compile Include="Actions\CollectBranchAction.cs" />
     <Compile Include="Actions\CollectSmth.cs" />
+    <Compile Include="Actions\CreateStoneAxeAction.cs" />
     <Compile Include="Actions\DropAction.cs" />
     <Compile Include="Actions\EatAction.cs" />
     <Compile Include="Bag.cs" />
@@ -91,7 +92,9 @@
     <Compile Include="Map.cs" />
     <Compile Include="MapGenerator\CombinedMapGenerator.cs" />
     <Compile Include="MapGenerator\DiamondSquareGenerator.cs" />
+    <Compile Include="MapGenerator\HydraliticErosionWithVelocity.cs" />
     <Compile Include="MapGenerator\HydraliticErosion.cs" />
+    <Compile Include="MapGenerator\HydraliticErosion2.cs" />
     <Compile Include="MapGenerator\VoronoyGenerator.cs" />
     <Compile Include="Objects\Berry.cs" />
     <Compile Include="Objects\Branch.cs" />
@@ -100,11 +103,14 @@
     <Compile Include="Objects\FixedObject.cs" />
     <Compile Include="Heros\Hero.cs" />
     <Compile Include="IDrawer.cs" />
+    <Compile Include="Objects\Fruits\Apple.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Objects\Plant.cs" />
     <Compile Include="Actions\PickAction.cs" />
     <Compile Include="Objects\RaspBerries.cs" />
     <Compile Include="Objects\Rock.cs" />
+    <Compile Include="Objects\StoneAxe.cs" />
+    <Compile Include="Objects\Trees\AppleTree.cs" />
     <Compile Include="Properties.cs" />
     <Compile Include="States\Acting.cs" />
     <Compile Include="States\IState.cs" />

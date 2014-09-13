@@ -10,14 +10,7 @@ namespace Game.Engine
     class ActionRepository : IActionRepository
     {
         [Dependency]
-        public IAction[] Actions { get; set; } /* = new List<IAction>()
-        {
-            new CollectBerriesAction(),
-            new CutAction(),
-            new PickAction(),
-            new CollectBranchAction(),
-            new EatAction()
-        };*/
+        public IAction[] Actions { get; set; }
 
         public IEnumerable<IAction> GetPossibleActions(GameObject gameObject)
         {

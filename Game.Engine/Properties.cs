@@ -11,6 +11,8 @@ namespace Game.Engine
         CollectBerries = 4,
         CollectBranch = 5,
         Eatable = 6,
-        Dropable
+        Dropable,
+        Cutter,
+        NeedToCreateStoneAxe
     }
 }

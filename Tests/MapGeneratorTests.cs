@@ -65,7 +65,26 @@ namespace Tests
 
             CollectionAssert.AreEqual(expectedMap, actualMap);
         }
+
+        [TestMethod]
+        public void CheckHydroliticErosion()
+        {
+            var terrainMap = new float[,]
+            {
+                {0.8f, 0.7f, 0.6f, 0.4f, 0.3f},
+                {0.6f, 0.9f, 0.7f, 0.5f, 0.3f},
+                {0.7f, 0.9f, 1f, 0.7f, 0.5f},
+                {0.8f, 0.9f, 0.9f, 0.9f, 0.7f},
+                {0.8f, 0.8f, 0.8f, 0.7f, 0.6f}
+            };
+
+            var hydroliticErosion = new HydraliticErosion(terrainMap, 100);
+            hydroliticErosion.ApplyErosion();
+            int t = 0;
+        }
+
     }
+
 
     class TestDiamondSquareGenerator:DiamondSquareGenerator
     {

@@ -37,23 +37,29 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.drawFileButton = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.drawMapButton = new System.Windows.Forms.Button();
+            this.terrainBox = new System.Windows.Forms.PictureBox();
+            this.waterBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.tbPower)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.terrainBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.waterBox)).BeginInit();
             this.SuspendLayout();
             // 
             // ilPanel1
             // 
-            this.ilPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ilPanel1.Driver = ILNumerics.Drawing.RendererTypes.OpenGL;
             this.ilPanel1.Editor = null;
-            this.ilPanel1.Location = new System.Drawing.Point(0, 0);
+            this.ilPanel1.Location = new System.Drawing.Point(0, 156);
             this.ilPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ilPanel1.Name = "ilPanel1";
             this.ilPanel1.Rectangle = ((System.Drawing.RectangleF)(resources.GetObject("ilPanel1.Rectangle")));
             this.ilPanel1.ShowUIControls = false;
-            this.ilPanel1.Size = new System.Drawing.Size(643, 641);
+            this.ilPanel1.Size = new System.Drawing.Size(632, 553);
             this.ilPanel1.TabIndex = 0;
             this.ilPanel1.Load += new System.EventHandler(this.ilPanel1_Load);
             // 
@@ -64,7 +70,7 @@
             this.tbPower.Maximum = 8;
             this.tbPower.Minimum = 1;
             this.tbPower.Name = "tbPower";
-            this.tbPower.Size = new System.Drawing.Size(643, 45);
+            this.tbPower.Size = new System.Drawing.Size(1005, 45);
             this.tbPower.TabIndex = 1;
             this.tbPower.Value = 3;
             this.tbPower.ValueChanged += new System.EventHandler(this.trackBar3_ValueChanged);
@@ -76,7 +82,7 @@
             this.tbHeight.Maximum = 256;
             this.tbHeight.Minimum = 1;
             this.tbHeight.Name = "tbHeight";
-            this.tbHeight.Size = new System.Drawing.Size(643, 45);
+            this.tbHeight.Size = new System.Drawing.Size(1005, 45);
             this.tbHeight.TabIndex = 2;
             this.tbHeight.Value = 16;
             this.tbHeight.Scroll += new System.EventHandler(this.tbHeight_Scroll);
@@ -88,7 +94,7 @@
             this.trackBar3.Location = new System.Drawing.Point(0, 90);
             this.trackBar3.Minimum = 1;
             this.trackBar3.Name = "trackBar3";
-            this.trackBar3.Size = new System.Drawing.Size(643, 45);
+            this.trackBar3.Size = new System.Drawing.Size(1005, 45);
             this.trackBar3.TabIndex = 3;
             this.trackBar3.Value = 3;
             this.trackBar3.ValueChanged += new System.EventHandler(this.trackBar3_ValueChanged);
@@ -133,22 +139,59 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // button5
+            // drawFileButton
             // 
-            this.button5.Location = new System.Drawing.Point(506, 128);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(125, 23);
-            this.button5.TabIndex = 8;
-            this.button5.Text = "Draw map";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.drawFileButton.Location = new System.Drawing.Point(506, 128);
+            this.drawFileButton.Name = "drawFileButton";
+            this.drawFileButton.Size = new System.Drawing.Size(125, 23);
+            this.drawFileButton.TabIndex = 8;
+            this.drawFileButton.Text = "Draw file";
+            this.drawFileButton.UseVisualStyleBackColor = true;
+            this.drawFileButton.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.waterBox);
+            this.panel1.Controls.Add(this.terrainBox);
+            this.panel1.Location = new System.Drawing.Point(637, 156);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(368, 553);
+            this.panel1.TabIndex = 9;
+            // 
+            // drawMapButton
+            // 
+            this.drawMapButton.Location = new System.Drawing.Point(638, 127);
+            this.drawMapButton.Name = "drawMapButton";
+            this.drawMapButton.Size = new System.Drawing.Size(125, 23);
+            this.drawMapButton.TabIndex = 10;
+            this.drawMapButton.Text = "Start Draw";
+            this.drawMapButton.UseVisualStyleBackColor = true;
+            this.drawMapButton.Click += new System.EventHandler(this.drawMapButton_Click);
+            // 
+            // terrainBox
+            // 
+            this.terrainBox.Location = new System.Drawing.Point(1, 0);
+            this.terrainBox.Name = "terrainBox";
+            this.terrainBox.Size = new System.Drawing.Size(256, 256);
+            this.terrainBox.TabIndex = 0;
+            this.terrainBox.TabStop = false;
+            // 
+            // waterBox
+            // 
+            this.waterBox.Location = new System.Drawing.Point(3, 262);
+            this.waterBox.Name = "waterBox";
+            this.waterBox.Size = new System.Drawing.Size(256, 256);
+            this.waterBox.TabIndex = 1;
+            this.waterBox.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(643, 641);
-            this.Controls.Add(this.button5);
+            this.ClientSize = new System.Drawing.Size(1005, 708);
+            this.Controls.Add(this.drawMapButton);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.drawFileButton);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -163,6 +206,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbPower)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.terrainBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.waterBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,7 +224,11 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button drawFileButton;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button drawMapButton;
+        private System.Windows.Forms.PictureBox waterBox;
+        private System.Windows.Forms.PictureBox terrainBox;
     }
 }
 

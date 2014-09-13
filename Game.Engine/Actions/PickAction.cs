@@ -30,6 +30,11 @@ namespace Game.Engine
             return objects.All(x => x.Properties.Contains(Property.Pickable));// && hero.HasEmpptyContainer;
         }
 
+        public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
+        {
+            yield return objects.Where(x => x.GameObject.Properties.Contains(Property.Pickable)).ToList();// && hero.HasEmpptyContainer;
+        }
+
         public bool IsApplicable(Property property)
         {
             return property == Property.Pickable;

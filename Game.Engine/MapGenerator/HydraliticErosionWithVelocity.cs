@@ -5,7 +5,7 @@ using System.Runtime.Remoting.Messaging;
 
 namespace Game.Engine.MapGenerator
 {
-    public class HydraliticErosion
+    public class HydraliticErosionWithVelocity
     {
         private float KWaterDrop = 0.01f;
         private float KSolubility = 0.01f;
@@ -19,7 +19,7 @@ namespace Game.Engine.MapGenerator
         private readonly float _maxHeight;
         private readonly float _lowerMaxHeight;
 
-        public HydraliticErosion(float[,] mapToApply, int itterationperStep)
+        public HydraliticErosionWithVelocity(float[,] mapToApply, int itterationperStep)
         {
             _resultMap = new float[mapToApply.GetLength(0), mapToApply.GetLength(1)];
             _waterMap = new float[mapToApply.GetLength(0), mapToApply.GetLength(1)];
