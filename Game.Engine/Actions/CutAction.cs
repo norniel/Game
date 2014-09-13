@@ -1,28 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Runtime.Remoting.Messaging;
 using Game.Engine.Heros;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
+using Game.Engine.Objects.Trees;
 using Game.Engine.Wrapers;
+using Microsoft.Practices.Unity;
 
 namespace Game.Engine.Actions
 {
     public class CutAction : IAction
     {
+        [Dependency]
+        public Map Map { get; set; }
+
         public string Name {
             get { return "Cut"; }
         }
 
         public bool IsApplicable(Property property)
         {
-            return property == Property.Cuttable;
+            return property == Property.Cuttable || property == Property.Cutter;
         }
 
         public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
         {
-            return true;
+            // TODO: implement speed and time of cutting depending on quility and shapeness of cutter and hardness of cuttable
+            // TODO: implement damaging of cuttable and damaging of cutter depending of hardness of cuttable
+
+            var cuttableObject = objects.SingleOrDefault(o => o.GameObject.Properties.Contains(Property.Cuttable));
+            var cutter = objects.SingleOrDefault(o => o.GameObject.Properties.Contains(Property.Cutter));
+
+            if (cuttableObject == null || cutter == null)
+            {
+                return true;
+            }
+
+            if (this.TotalActionTime <= this.elapsedActionTime)
+            {
+                cuttableObject.RemoveFromContainer();
+
+                Map.SetObjectFromDestination(hero.Position, new Log());
+                return true;
+            }
+
+            this.elapsedActionTime++;
+
+            return false;
+        }
+
+        private int elapsedActionTime = 0;
+
+        private int TotalActionTime {
+            get { return 4; } 
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
@@ -32,7 +63,15 @@ namespace Game.Engine.Actions
 
         public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
         {
-            yield return objects.Where(o => o.GameObject.Properties.Contains(Property.Cuttable)).ToList();
+            var cuttableObject = objects.FirstOrDefault(o => o.GameObject.Properties.Contains(Property.Cuttable));
+
+            // TODO: implement choosing cutters with different quility
+            var cutter = hero.GetContainerItemsAsRemovable().FirstOrDefault(o => o.GameObject.Properties.Contains(Property.Cutter));
+
+            if (cuttableObject != null && cutter != null)
+            {
+                yield return new List<RemovableWrapper<GameObject>> { cuttableObject, cutter };
+            }
         }
     }
 }
