@@ -9,8 +9,6 @@ namespace Game.Engine.Actions
 {
     public class CreateStoneAxeAction:IAction
     {
-
-
         public string Name {
             get { return "Create Stone axe"; }
             private set { }
@@ -45,7 +43,9 @@ namespace Game.Engine.Actions
 
         public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
         {
-            var allObjects = objects.Union(hero.GetContainerItemsAsRemovable());
+            var allObjects =
+                objects.Union(hero.GetContainerItemsAsRemovable()).Distinct(new RemovableObjecctsComparer<GameObject>());
+
             var branch = allObjects.FirstOrDefault(ao => ao.GameObject is Branch);
             var stone = allObjects.FirstOrDefault(ao => ao.GameObject is Rock);
 
