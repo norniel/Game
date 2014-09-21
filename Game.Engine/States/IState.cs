@@ -10,6 +10,8 @@ namespace Game.Engine
        // event StateHandler NextState;
 
         void Act();
+
+        bool ShowActing { get; }
     }
 
     public class StateEvent

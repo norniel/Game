@@ -46,5 +46,11 @@
                 (Math.Abs(position.X - destination.X) < 20 
                 && Math.Abs(position.Y - destination.Y) < 20);
         }
+
+        public bool ShowActing
+        {
+            get { return true; }
+        }
+
     }
 }

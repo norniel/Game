@@ -63,6 +63,10 @@ namespace Game.Engine
             //NextState( new StateEventArgs(){State = new Standing( _hero )} );  
         }
 
+        public bool ShowActing
+        {
+            get { return false; }
+        }
         #endregion
     }
 }

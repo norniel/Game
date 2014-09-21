@@ -18,6 +18,10 @@
         {
         }
 
+        public bool ShowActing {
+            get { return false; }
+        }
+
         #endregion
     }
 }

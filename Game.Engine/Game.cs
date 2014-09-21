@@ -204,6 +204,8 @@ namespace Game.Engine
 
             _drawer.DrawHero(_map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => _map.GetVisibleDestinationFromRealDestination(p)).ToList());
 
+            _drawer.DrawActing(_hero.State.ShowActing);
+
             var groupedItems = _hero.GetContainerItems()
                 .GroupBy(go => go.Name,
                     (name, gos) =>

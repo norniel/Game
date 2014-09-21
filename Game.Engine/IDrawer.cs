@@ -21,5 +21,7 @@ namespace Game.Engine
         void DrawContainer(IEnumerable<KeyValuePair<string, Func<IEnumerable<ClientAction>>>> objects);
 
         void DrawHeroProperties(IEnumerable<KeyValuePair<string, int>> objects);
+
+        void DrawActing(bool showActing);
     }
 }

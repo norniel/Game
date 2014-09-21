@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -43,6 +44,9 @@ namespace Game
         private BitmapImage stoneAxeImage;
         private BitmapImage logImage;
 
+        private TextBlock _acting = new TextBlock();
+        private int _drawCount = 0;
+
         public WpfDrawer(Canvas canvas, ListBox listBox, ListBox heroListBox)
         {
             _drawSamples = new Dictionary<uint, IObjectDrawer>();
@@ -69,6 +73,8 @@ namespace Game
             raspberryImage = CreateBitmapImage(@"Raspberry icon.png");
             stoneAxeImage = CreateBitmapImage(@"Stone axe icon.png");
             logImage = CreateBitmapImage(@"Log icon.png");
+
+            CreateActing();
 
             _appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
             Canvas.SetTop(_appearance, 0);
@@ -364,6 +370,32 @@ namespace Game
             {
                 _heroListBox.Items.Add(string.Format("{0} - {1}", gameObject.Key, gameObject.Value));
             }
+        }
+
+        public void DrawActing(bool showActing)
+        {
+            _drawCount = (_drawCount + 1)%20;
+            if (showActing)
+            {
+                if (_drawCount == 0)
+                {
+                    _acting.Text = _acting.Text.Length == 9 ? "Acting." : _acting.Text.Length == 8 ? "Acting..." : "Acting..";
+                }
+
+                _canvas.Children.Add(_acting);
+                Canvas.SetLeft(_acting, _canvas.Width/2);
+                Canvas.SetTop(_acting, _canvas.Height/2);
+            }
+        }
+
+        private void CreateActing()
+        {
+            _acting.Foreground = Brushes.FloralWhite;
+            _acting.TextAlignment = TextAlignment.Center;
+            _acting.FontSize = 16;
+
+            _acting.Text =
+                "Acting...";
         }
 
         private void DrawImage(BitmapImage bitmapImage, long x, long y)
