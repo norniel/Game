@@ -106,6 +106,8 @@
     <Compile Include="Objects\Fruits\Apple.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Objects\Log.cs" />
+    <Compile Include="Objects\ObjectStates.cs" />
+    <Compile Include="Objects\ObjectWithState.cs" />
     <Compile Include="Objects\Plant.cs" />
     <Compile Include="Actions\PickAction.cs" />
     <Compile Include="Objects\RaspBerries.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Objects\StoneAxe.cs" />
     <Compile Include="Objects\Trees\AppleTree.cs" />
     <Compile Include="Properties.cs" />
+    <Compile Include="StateQueueManager.cs" />
     <Compile Include="States\Acting.cs" />
     <Compile Include="States\IState.cs" />
     <Compile Include="States\Moving.cs" />

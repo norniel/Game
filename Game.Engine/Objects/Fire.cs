@@ -2,7 +2,7 @@
 
 namespace Game.Engine.Objects
 {
-    internal class Fire: FixedObject 
+    internal class Fire : ObjectWithState
     {
         public Fire() 
         {
