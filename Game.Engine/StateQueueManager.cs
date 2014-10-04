@@ -14,6 +14,7 @@ namespace Game.Engine
         private OrderedBag< ObjectWithState> _queue = new OrderedBag<ObjectWithState>();
         public void OnNext(long value)
         {
+            // should be done with locking
             if (!_queue.Any())
             {
                 _currentTick++;
@@ -41,6 +42,7 @@ namespace Game.Engine
 
         public void AddObjectToQueue(int nextStateInterval, ObjectWithState objectWithState)
         {
+            // should be done with locking
             _queue.Remove(objectWithState);
             objectWithState.NextStateTick = _currentTick + nextStateInterval;
             _queue.Add(objectWithState);

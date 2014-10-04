@@ -87,6 +87,7 @@
     <Compile Include="Interfaces\IActionRepository.cs" />
     <Compile Include="Interfaces\IHasBerries.cs" />
     <Compile Include="Interfaces\IHasSmthToCollect.cs" />
+    <Compile Include="Interfaces\IObjectState.cs" />
     <Compile Include="Interfaces\IPicker.cs" />
     <Compile Include="IObjectDrawer.cs" />
     <Compile Include="Map.cs" />
@@ -96,6 +97,8 @@
     <Compile Include="MapGenerator\HydraliticErosion.cs" />
     <Compile Include="MapGenerator\HydraliticErosion2.cs" />
     <Compile Include="MapGenerator\VoronoyGenerator.cs" />
+    <Compile Include="ObjectStates\Attenuating.cs" />
+    <Compile Include="ObjectStates\Firing.cs" />
     <Compile Include="Objects\Berry.cs" />
     <Compile Include="Objects\Branch.cs" />
     <Compile Include="Objects\Bush.cs" />
@@ -106,7 +109,6 @@
     <Compile Include="Objects\Fruits\Apple.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Objects\Log.cs" />
-    <Compile Include="Objects\ObjectStates.cs" />
     <Compile Include="Objects\ObjectWithState.cs" />
     <Compile Include="Objects\Plant.cs" />
     <Compile Include="Actions\PickAction.cs" />

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using Game.Engine.ObjectStates;
 
 namespace Game.Engine.Objects
 {
     internal class Fire : ObjectWithState
     {
-        public Fire() 
+        public Fire()
+            :base(new List<ObjectStateInfo>(){new ObjectStateInfo(new Firing(), 100, 10), new ObjectStateInfo(new Attenuating(), 50, 10)}, false)
         {
             IsPassable = false;
 
