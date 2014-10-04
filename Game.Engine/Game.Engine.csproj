@@ -78,6 +78,7 @@
     <Compile Include="Actions\CreateStoneAxeAction.cs" />
     <Compile Include="Actions\DropAction.cs" />
     <Compile Include="Actions\EatAction.cs" />
+    <Compile Include="Actions\MakeFire.cs" />
     <Compile Include="Bag.cs" />
     <Compile Include="Actions\CutAction.cs" />
     <Compile Include="BridgeObjects\ClientAction.cs" />

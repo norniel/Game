@@ -13,6 +13,7 @@ namespace Game.Engine
         Eatable = 6,
         Dropable,
         Cutter,
-        NeedToCreateStoneAxe
+        NeedToCreateStoneAxe,
+        NeedToCreateFire
     }
 }
