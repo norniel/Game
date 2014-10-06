@@ -108,7 +108,7 @@ namespace Game.Engine.Objects
         // game ticks to next state should be calculated with random distribution
 
         // todo : maybe rewrite with empty ctor and virtual methods for state registration
-        public ObjectWithState(List<ObjectStateInfo> objectStateQueue, bool isCircling)
+        public ObjectWithState(List<IObjectState> objectStateQueue, bool isCircling)
         {
             _objectStateQueue = objectStateQueue;
             _isCircling = isCircling;
@@ -118,7 +118,7 @@ namespace Game.Engine.Objects
 
         public int NextStateTick { get; set; }
 
-        private readonly List<ObjectStateInfo> _objectStateQueue;
+        private readonly List<IObjectState> _objectStateQueue;
         private readonly bool _isCircling;
         private int _currentStateId = -1;
 
@@ -128,7 +128,7 @@ namespace Game.Engine.Objects
                 if (_currentStateId < 0 || _currentStateId >= _objectStateQueue.Count)
                     return null;
 
-                return _objectStateQueue[_currentStateId].ObjectState;
+                return _objectStateQueue[_currentStateId];
             }
         }
 
@@ -160,21 +160,6 @@ namespace Game.Engine.Objects
 
             // todo important!!!!!! replace with id or rewrite GetHashCode!!!!
             return this.GetHashCode().CompareTo(other.GetHashCode());
-        }
-
-        public class ObjectStateInfo
-        {
-            public readonly int TickCount;
-            public readonly int Distribution;
-
-            public readonly IObjectState ObjectState;
-
-            public ObjectStateInfo(IObjectState objectState, int tickCount, int distrubution)
-            {
-                ObjectState = objectState;
-                TickCount = tickCount;
-                Distribution = distrubution;
-            }
         }
     }
 }

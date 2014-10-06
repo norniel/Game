@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Engine.Interfaces;
 using Game.Engine.ObjectStates;
 
 namespace Game.Engine.Objects
@@ -6,7 +7,7 @@ namespace Game.Engine.Objects
     internal class Fire : ObjectWithState
     {
         public Fire()
-            :base(new List<ObjectStateInfo>(){new ObjectStateInfo(new Firing(), 60, 10), new ObjectStateInfo(new Attenuating(), 60, 10)}, false)
+            :base(new List<IObjectState>{new Firing{TickCount = 300, Distribution = 10}, new Attenuating{TickCount = 150, Distribution = 10}}, false)
         {
             IsPassable = false;
 

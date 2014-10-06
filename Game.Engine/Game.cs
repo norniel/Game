@@ -233,7 +233,6 @@ namespace Game.Engine
 
                 var objects = new List<GameObject>(new[] {first});
 
-                // var objects = _hero.GetContainerItems().Union(new[] { gameObject }).ToList();
                 var removableObjects = objects.Select(o => this.PrepareRemovableObject(o));
                 return (possibleActions.SelectMany(pa =>
                 {
