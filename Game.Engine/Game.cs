@@ -30,9 +30,11 @@ namespace Game.Engine
 
         private IActionRepository ActionRepository { get; set; }
 
-        private readonly StateQueueManager _stateQueueManager;
+       // private readonly StateQueueManager _stateQueueManager;
 
         private UnityContainer _unityContainer;
+
+        internal static StateQueueManager StateQueueManager = null;
 
         public Game(IDrawer drawer, uint width, uint height)
         {            
@@ -42,14 +44,14 @@ namespace Game.Engine
             _unityContainer = new UnityContainer();
             this.RegisterInUnityContainer();
 
+            StateQueueManager = _unityContainer.Resolve<StateQueueManager>();
             _map = _unityContainer.Resolve<Map>();
 
             loadSaveManager = new LoadSaveManager();
             loadSaveManager.LoadSnapshot(_map);
 
             _hero = _unityContainer.Resolve<Hero>();
-            
-            _stateQueueManager = _unityContainer.Resolve<StateQueueManager>();
+
 
             ActionRepository = _unityContainer.Resolve<IActionRepository>();
 
@@ -60,7 +62,7 @@ namespace Game.Engine
             intervals.CombineLatest(_hero.States, (tick, state) => state)
                 .Subscribe(x => { if (_hero.State != null) _hero.State.Act(); });
             intervals.Subscribe(_hero.HeroLifeCycle);
-            intervals.Subscribe(_stateQueueManager);
+            intervals.Subscribe(StateQueueManager);
         }
 
         private void RegisterInUnityContainer()

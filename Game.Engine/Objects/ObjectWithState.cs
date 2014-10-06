@@ -1,11 +1,105 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using Game.Engine.Interfaces;
+using Microsoft.Practices.Unity;
 
 namespace Game.Engine.Objects
 {
-    abstract class ObjectWithState: FixedObject, IComparable<ObjectWithState>
+    /*namespace MyNamespace
     {
+        interface IStateManager{
+            void ClearEvents(State value);
+            void AddEvents(State value);
+        }
+
+        class StateManager : IStateManager
+        {
+            public void ClearEvents(State value)
+            {
+                IEnumerable<Trigger> trigger = value.GetAllTriggers();
+            }
+
+            public void AddEvents(State value)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+
+        class ObjectWithState<TState> where TState:State
+        {
+            private TState _currentSate;
+            protected IStateManager StateManager { get; set; }
+
+            public TState CurrentSate
+            {
+                get { return _currentSate; }
+                protected set
+                {
+                    StateManager.ClearEvents(value);
+                    _currentSate = value;
+                    StateManager.AddEvents(value);
+                }
+            }
+        }
+
+        class Fire : ObjectWithState<FireState>
+        {
+            
+
+            public Fire()
+            {
+                CurrentSate = new FlameState(this, 10);
+            }
+
+
+            public void Погасни()
+            {
+                
+            }
+        }
+
+
+        abstract class State
+        {
+
+        }
+
+        class FireState:State { }
+
+        class FlameState : FireState
+        {
+            private readonly Fire _fire;
+            private readonly int _power;
+
+            public FlameState(Fire fire, int power)
+            {
+                _fire = fire;
+                _power = power;
+            }
+
+
+            IEnumerable<Trigger> Triggers
+            {
+                get { yield return new Погаснуть(_fire, _power); }
+            }
+
+        }
+
+        class FlameVanishState : FireState { }
+
+
+    
+    }
+
+
+
+    */
+
+    internal abstract class ObjectWithState: FixedObject, IComparable<ObjectWithState>
+    {
+
         // todo : object with state
         // to switch state objects are added to quiue in appropriate game tick
         // when appropriate tick is now - state of objects is changing
@@ -18,16 +112,43 @@ namespace Game.Engine.Objects
         {
             _objectStateQueue = objectStateQueue;
             _isCircling = isCircling;
+            
+            ChangeState();
         }
 
         public int NextStateTick { get; set; }
 
-        public readonly List<ObjectStateInfo> _objectStateQueue;
-        public readonly bool _isCircling;
+        private readonly List<ObjectStateInfo> _objectStateQueue;
+        private readonly bool _isCircling;
+        private int _currentStateId = -1;
+
+        public IObjectState CurrentState {
+            get
+            {
+                if (_currentStateId < 0 || _currentStateId >= _objectStateQueue.Count)
+                    return null;
+
+                return _objectStateQueue[_currentStateId].ObjectState;
+            }
+        }
 
         public virtual void ChangeState()
         {
+            _currentStateId++;
+            if (_currentStateId >= _objectStateQueue.Count)
+            {
+                if (!_isCircling)
+                {
+                    return;
+                }
 
+                _currentStateId = 0;
+            }
+
+            if (Game.StateQueueManager != null)
+            {
+                Game.StateQueueManager.AddObjectToQueue(_objectStateQueue[_currentStateId].TickCount, _objectStateQueue[_currentStateId].Distribution, this);
+            }
         }
 
         public int CompareTo(ObjectWithState other)
@@ -43,10 +164,10 @@ namespace Game.Engine.Objects
 
         public class ObjectStateInfo
         {
-            private readonly int TickCount;
-            private readonly int Distribution;
+            public readonly int TickCount;
+            public readonly int Distribution;
 
-            private readonly IObjectState ObjectState;
+            public readonly IObjectState ObjectState;
 
             public ObjectStateInfo(IObjectState objectState, int tickCount, int distrubution)
             {
@@ -57,3 +178,27 @@ namespace Game.Engine.Objects
         }
     }
 }
+/*
+namespace Game.Engine.Objects.MyNamespace
+{
+    interface ITrigger
+    {
+         
+    }
+
+    internal class Погаснуть : ITrigger
+    {
+        private readonly Fire _fire;
+
+        public Погаснуть(Fire fire, int timer)
+        {
+            _fire = fire;
+        }
+
+        void Do()
+        {
+            _fire.Погасни();
+        }
+
+    }
+}*/

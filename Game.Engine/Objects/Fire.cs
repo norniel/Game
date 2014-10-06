@@ -6,7 +6,7 @@ namespace Game.Engine.Objects
     internal class Fire : ObjectWithState
     {
         public Fire()
-            :base(new List<ObjectStateInfo>(){new ObjectStateInfo(new Firing(), 100, 10), new ObjectStateInfo(new Attenuating(), 50, 10)}, false)
+            :base(new List<ObjectStateInfo>(){new ObjectStateInfo(new Firing(), 60, 10), new ObjectStateInfo(new Attenuating(), 60, 10)}, false)
         {
             IsPassable = false;
 
@@ -24,6 +24,14 @@ namespace Game.Engine.Objects
         public override string Name
         {
             get { return "Fire"; }
+        }
+
+        public override uint GetDrawingCode()
+        {
+            if(CurrentState is Attenuating)
+                return 0x00001500;
+
+            return this.Id;
         }
     }
 }

@@ -43,6 +43,7 @@ namespace Game
         private BitmapImage raspberryImage;
         private BitmapImage stoneAxeImage;
         private BitmapImage logImage;
+        private BitmapImage attenuatingFireImage;
 
         private TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
@@ -73,6 +74,7 @@ namespace Game
             raspberryImage = CreateBitmapImage(@"Raspberry icon.png");
             stoneAxeImage = CreateBitmapImage(@"Stone axe icon.png");
             logImage = CreateBitmapImage(@"Log icon.png");
+            attenuatingFireImage = CreateBitmapImage(@"attenuating fire small.png");
 
             CreateActing();
 
@@ -246,6 +248,11 @@ namespace Game
             {
                 // _canvas.Children
                 DrawImage(raspberryImage, x, y);
+            }
+            else if (id == 0x00001500)
+            {
+                // _canvas.Children
+                DrawImage(attenuatingFireImage, x, y);
             }
             else if (id == 0x00002000)
             {

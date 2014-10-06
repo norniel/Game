@@ -72,7 +72,7 @@ namespace Game.Engine
 
                 count--;
             }
-
+/*
             while (true)
             {
                 tmpX = rand.Next(width);
@@ -83,7 +83,7 @@ namespace Game.Engine
 
                 map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Fire());
                 break;
-            }
+            }*/
         }
 
         private int[,] GenerateRiver(Map map)

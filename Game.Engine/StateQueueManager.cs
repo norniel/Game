@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
 using Game.Engine.Objects;
 using Wintellect.PowerCollections;
 
@@ -12,6 +9,7 @@ namespace Game.Engine
     {
         private int _currentTick = 0;
         private OrderedBag< ObjectWithState> _queue = new OrderedBag<ObjectWithState>();
+        private Random Random = new Random(1);
         public void OnNext(long value)
         {
             // should be done with locking
@@ -22,7 +20,7 @@ namespace Game.Engine
             }
 
             // todo maybe write use tasks here
-            while (_queue.GetFirst().NextStateTick <= _currentTick)
+            while (_queue.Any() && (_queue.GetFirst().NextStateTick <= _currentTick))
             {
                 _queue.GetFirst().ChangeState();
                 _queue.RemoveFirst();
@@ -40,11 +38,17 @@ namespace Game.Engine
             throw new NotImplementedException();
         }
 
-        public void AddObjectToQueue(int nextStateInterval, ObjectWithState objectWithState)
+        public void MoveObjectInQueue(int nextStateInterval, int distribution, ObjectWithState objectWithState)
         {
             // should be done with locking
             _queue.Remove(objectWithState);
-            objectWithState.NextStateTick = _currentTick + nextStateInterval;
+            AddObjectToQueue(nextStateInterval, distribution, objectWithState);
+        }
+
+        public void AddObjectToQueue(int nextStateInterval, int distribution, ObjectWithState objectWithState)
+        {
+            // should be done with locking
+            objectWithState.NextStateTick = _currentTick + nextStateInterval + 2 * distribution - (int)(distribution * Random.NextDouble());
             _queue.Add(objectWithState);
         }
     }
