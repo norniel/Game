@@ -128,10 +128,10 @@ namespace Game.Engine
 
             var objects = new List<GameObject>(new[] {destObject});
 
-            var removableObjects = objects.Select(o => this.PrepareRemovableObject(o, destination));
+          //  var removableObjects = objects.Select(o => this.PrepareRemovableObject(o, destination));
             return (possibleActions.SelectMany(pa =>
                 {
-                    return pa.GetActionsWithNecessaryObjects(removableObjects, _hero).Select(objectsForAction =>
+                    return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
                     new ClientAction
                         {
                             Name = pa.Name,
@@ -149,13 +149,13 @@ namespace Game.Engine
         }
 
         private void MoveAndDoAction(IAction action, Point destination,
-            IEnumerable<RemovableWrapper<GameObject>> objects)
+            IEnumerable<GameObject> objects)
         {
             _hero.StartMove(destination, _map.GetEasiestWay(_hero.Position, destination));
             _hero.Then().StartActing(action, destination, objects);
         }
 
-        private void DoAction(IAction action, IEnumerable<RemovableWrapper<GameObject>> objects)
+        private void DoAction(IAction action, IEnumerable<GameObject> objects)
         {
             _hero.StartActing(action, null, objects);
         }
@@ -233,10 +233,10 @@ namespace Game.Engine
 
                 var objects = new List<GameObject>(new[] {first});
 
-                var removableObjects = objects.Select(o => this.PrepareRemovableObject(o));
+              //  var removableObjects = objects.Select(o => this.PrepareRemovableObject(o));
                 return (possibleActions.SelectMany(pa =>
                 {
-                    return pa.GetActionsWithNecessaryObjects(removableObjects, _hero).Select(objectsForAction =>
+                    return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
                     new ClientAction
                     {
                         Name = pa.Name,

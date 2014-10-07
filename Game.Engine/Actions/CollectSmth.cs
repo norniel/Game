@@ -14,20 +14,20 @@ namespace Game.Engine.Actions
 
         public abstract bool IsApplicable(Property property);
 
-        public virtual bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
+        public virtual bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
-            var actionIsNotOver = objects.Select(o => o.GameObject).OfType<IHasSmthToCollect<T>>().Any(hb => this.Collect(hb, hero));
+            var actionIsNotOver = objects.OfType<IHasSmthToCollect<T>>().Any(hb => this.Collect(hb, hero));
 
             return !actionIsNotOver;
         }
 
         public abstract bool CanDo(Hero hero, IEnumerable<GameObject> objects);
 
-        public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
+        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-           yield return objects.Where(obj => obj.GameObject.Properties.Any(this.IsApplicable)
-               && obj.GameObject is IHasSmthToCollect<T>
-               && (obj.GameObject as IHasSmthToCollect<T>).GetSmthTotalCount() > 0).ToList();
+           yield return objects.Where(obj => obj.Properties.Any(this.IsApplicable)
+               && obj is IHasSmthToCollect<T>
+               && (obj as IHasSmthToCollect<T>).GetSmthTotalCount() > 0).ToList();
         }
 
         private bool Collect(IHasSmthToCollect<T> objectWithSmth, Hero hero)

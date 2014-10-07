@@ -54,6 +54,16 @@ namespace Game.Engine
                 return;
             }
 
+            if (gameObject.RemoveFromContainer != null)
+            {
+                gameObject.RemoveFromContainer();
+            }
+
+            gameObject.RemoveFromContainer = (() =>
+            {
+                this.SetObjectFromCell(cell, null);
+            });
+
             if (gameObject.Properties.Contains(Property.Dropable))
             {
                 gameObject.Properties.Remove(Property.Dropable);

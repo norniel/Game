@@ -122,8 +122,8 @@ namespace Game.Engine.Heros
         {
             return Bag.GameObjects;
         }
-
-        public List<RemovableWrapper<GameObject>> GetContainerItemsAsRemovable()
+        /*
+        public List<GameObject> GetContainerItemsAsRemovable()
         {
             return Bag.GameObjects.Select(go => new RemovableWrapper<GameObject>
             {
@@ -134,14 +134,14 @@ namespace Game.Engine.Heros
                 })
             }).ToList();
         }
-
+        */
         public Hero Then()
         {
             this._isThen = true;
             return this;
         }
 
-        public void StartActing(IAction action, Point destination, IEnumerable<RemovableWrapper<GameObject>> objects)
+        public void StartActing(IAction action, Point destination, IEnumerable<GameObject> objects)
         {
             using (new StateFirer(this))
             {

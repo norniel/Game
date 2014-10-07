@@ -21,12 +21,12 @@ namespace Game.Engine.Actions
             return property == Property.Dropable;
         }
 
-        public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
+        public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
             foreach (var removableObject in objects)
             {
-                Map.SetObjectFromDestination(hero.Position, removableObject.GameObject as FixedObject);
-                removableObject.RemoveFromContainer();
+                Map.SetObjectFromDestination(hero.Position, removableObject as FixedObject);
+              //  removableObject.RemoveFromContainer();
             }
 
             return true;
@@ -37,9 +37,9 @@ namespace Game.Engine.Actions
             return objects.All(x => x.Properties.Contains(Property.Dropable));
         }
 
-        public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
+        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-            yield return objects.Where(x => x.GameObject.Properties.Contains(Property.Dropable)).ToList();
+            yield return objects.Where(x => x.Properties.Contains(Property.Dropable)).ToList();
         }
     }
 }

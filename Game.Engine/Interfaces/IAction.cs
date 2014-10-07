@@ -11,9 +11,9 @@
 
         bool IsApplicable(Property property);
 
-        bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>>objects);
+        bool Do(Hero hero, IEnumerable<GameObject>objects);
 
         bool CanDo(Hero hero, IEnumerable<GameObject> objects);
-        IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero);
+        IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero);
     }
 }

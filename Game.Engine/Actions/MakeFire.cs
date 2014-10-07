@@ -22,10 +22,10 @@ namespace Game.Engine.Actions
             return property == Property.NeedToCreateFire;
         }
 
-        public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
+        public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
-            var branches = objects.Where(o => o.GameObject is Branch).ToList();
-            var plant = objects.SingleOrDefault(o => o.GameObject is Plant);
+            var branches = objects.Where(o => o is Branch).ToList();
+            var plant = objects.SingleOrDefault(o => o is Plant);
 
             if (branches.Count != 2 || plant == null)
                 return true;
@@ -44,13 +44,13 @@ namespace Game.Engine.Actions
             throw new NotImplementedException();
         }
 
-        public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
+        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var allObjects =
-                objects.Union(hero.GetContainerItemsAsRemovable()).Distinct(new RemovableObjecctsComparer<GameObject>());
+                objects.Union(hero.GetContainerItems()).Distinct();
 
-            var branches = allObjects.Where(ao => ao.GameObject is Branch).Select(ao => ao).Take(2).ToList();
-            var plant = allObjects.FirstOrDefault(ao => ao.GameObject is Plant);
+            var branches = allObjects.Where(ao => ao is Branch).Select(ao => ao).Take(2).ToList();
+            var plant = allObjects.FirstOrDefault(ao => ao is Plant);
 
             if (branches.Count == 2 && plant != null)
             {

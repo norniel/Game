@@ -13,15 +13,15 @@ namespace Game.Engine
         public string Name {
             get { return "Pick"; }
         }
-        public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
+        public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
-            hero.AddToBag(objects.Select(o => o.GameObject));
-
+            hero.AddToBag(objects);
+/*
             foreach (var removableObject in objects)
             {
                 removableObject.RemoveFromContainer();
             }
-
+            */
             return true;
         }
         
@@ -30,9 +30,9 @@ namespace Game.Engine
             return objects.All(x => x.Properties.Contains(Property.Pickable));// && hero.HasEmpptyContainer;
         }
 
-        public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
+        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-            yield return objects.Where(x => x.GameObject.Properties.Contains(Property.Pickable)).ToList();// && hero.HasEmpptyContainer;
+            yield return objects.Where(x => x.Properties.Contains(Property.Pickable)).ToList();// && hero.HasEmpptyContainer;
         }
 
         public bool IsApplicable(Property property)

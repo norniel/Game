@@ -16,15 +16,8 @@ namespace Game.Engine
         {
             foreach (var gameObject in gameObjects)
             {
-                if (gameObject.Properties.Contains(Property.Pickable))
-                {
-                    gameObject.Properties.Remove(Property.Pickable);
-                    if (!gameObject.Properties.Contains(Property.Dropable))
-                        gameObject.Properties.Add(Property.Dropable);
-                }
+                this.Add(gameObject);
             }
-
-            GameObjects.AddRange(gameObjects);
         }
 
         public void Add(GameObject gameObject)
@@ -35,6 +28,17 @@ namespace Game.Engine
                 if (!gameObject.Properties.Contains(Property.Dropable))
                     gameObject.Properties.Add(Property.Dropable);
             }
+
+
+            if (gameObject.RemoveFromContainer != null)
+            {
+                gameObject.RemoveFromContainer();
+            }
+
+            gameObject.RemoveFromContainer = (() =>
+            {
+                this.GameObjects.Remove(gameObject);
+            });
 
             GameObjects.Add(gameObject);
         }

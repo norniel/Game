@@ -19,10 +19,10 @@ namespace Game.Engine.Actions
                 Property.NeedToCreateStoneAxe == property;
         }
 
-        public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
+        public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
-            var branch = objects.SingleOrDefault(o => o.GameObject is Branch);
-            var stone = objects.SingleOrDefault(o => o.GameObject is Rock);
+            var branch = objects.SingleOrDefault(o => o is Branch);
+            var stone = objects.SingleOrDefault(o => o is Rock);
 
             if (branch == null || stone == null)
                 return true;
@@ -41,17 +41,17 @@ namespace Game.Engine.Actions
             return objects.OfType<Branch>().Any();
         }
 
-        public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
+        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var allObjects =
-                objects.Union(hero.GetContainerItemsAsRemovable()).Distinct(new RemovableObjecctsComparer<GameObject>());
+                objects.Union(hero.GetContainerItems()).Distinct();
 
-            var branch = allObjects.FirstOrDefault(ao => ao.GameObject is Branch);
-            var stone = allObjects.FirstOrDefault(ao => ao.GameObject is Rock);
+            var branch = allObjects.FirstOrDefault(ao => ao is Branch);
+            var stone = allObjects.FirstOrDefault(ao => ao is Rock);
 
             if (branch != null && stone != null)
             {
-                yield return new List<RemovableWrapper<GameObject>> { branch, stone };
+                yield return new List<GameObject> { branch, stone };
             }
         }
     }

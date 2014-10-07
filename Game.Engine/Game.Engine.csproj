@@ -90,6 +90,7 @@
     <Compile Include="Interfaces\IHasSmthToCollect.cs" />
     <Compile Include="Interfaces\IObjectState.cs" />
     <Compile Include="Interfaces\IPicker.cs" />
+    <Compile Include="Interfaces\IRemovableObject.cs" />
     <Compile Include="IObjectDrawer.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapGenerator\CombinedMapGenerator.cs" />

@@ -10,11 +10,11 @@
         private Hero hero;
         private Interfaces.IActions.IAction action;
         private Point destination;
-        private IEnumerable<RemovableWrapper<GameObject>> objects;
+        private IEnumerable<GameObject> objects;
         private const uint maxTimeStamp = 50;
         private uint timestamp;
 
-        public Acting(Hero hero, Interfaces.IActions.IAction action, Point destination, IEnumerable<RemovableWrapper<GameObject>> objects)
+        public Acting(Hero hero, Interfaces.IActions.IAction action, Point destination, IEnumerable<GameObject> objects)
         {
             // TODO: Complete member initialization
             this.hero = hero;

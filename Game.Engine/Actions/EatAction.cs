@@ -17,7 +17,7 @@ namespace Game.Engine.Actions
             return property == Property.Eatable;
         }
 
-        public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
+        public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
             foreach (var removableObject in objects)
             {
@@ -33,9 +33,9 @@ namespace Game.Engine.Actions
             return objects.All(x => x.Properties.Contains(Property.Eatable));
         }
 
-        public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
+        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-            yield return objects.Where(x => x.GameObject.Properties.Contains(Property.Eatable)).ToList();
+            yield return objects.Where(x => x.Properties.Contains(Property.Eatable)).ToList();
         }
     }
 }

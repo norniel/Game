@@ -24,13 +24,13 @@ namespace Game.Engine.Actions
             return property == Property.Cuttable || property == Property.Cutter;
         }
 
-        public bool Do(Hero hero, IEnumerable<RemovableWrapper<GameObject>> objects)
+        public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
             // TODO: implement speed and time of cutting depending on quility and shapeness of cutter and hardness of cuttable
             // TODO: implement damaging of cuttable and damaging of cutter depending of hardness of cuttable
 
-            var cuttableObject = objects.SingleOrDefault(o => o.GameObject.Properties.Contains(Property.Cuttable));
-            var cutter = objects.SingleOrDefault(o => o.GameObject.Properties.Contains(Property.Cutter));
+            var cuttableObject = objects.SingleOrDefault(o => o.Properties.Contains(Property.Cuttable));
+            var cutter = objects.SingleOrDefault(o => o.Properties.Contains(Property.Cutter));
 
             if (cuttableObject == null || cutter == null)
             {
@@ -61,16 +61,16 @@ namespace Game.Engine.Actions
             return objects.All(o => o.Properties.Contains(Property.Cuttable));
         }
 
-        public IEnumerable<List<RemovableWrapper<GameObject>>> GetActionsWithNecessaryObjects(IEnumerable<RemovableWrapper<GameObject>> objects, Hero hero)
+        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-            var cuttableObject = objects.FirstOrDefault(o => o.GameObject.Properties.Contains(Property.Cuttable));
+            var cuttableObject = objects.FirstOrDefault(o => o.Properties.Contains(Property.Cuttable));
 
             // TODO: implement choosing cutters with different quility
-            var cutter = hero.GetContainerItemsAsRemovable().FirstOrDefault(o => o.GameObject.Properties.Contains(Property.Cutter));
+            var cutter = hero.GetContainerItems().FirstOrDefault(o => o.Properties.Contains(Property.Cutter));
 
             if (cuttableObject != null && cutter != null)
             {
-                yield return new List<RemovableWrapper<GameObject>> { cuttableObject, cutter };
+                yield return new List<GameObject> { cuttableObject, cutter };
             }
         }
     }
