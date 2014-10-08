@@ -41,6 +41,8 @@ namespace Game.Engine.Actions
             {
                 cuttableObject.RemoveFromContainer();
 
+                this.elapsedActionTime = 0;
+
                 Map.SetObjectFromDestination(hero.Position, new Log());
                 return true;
             }
