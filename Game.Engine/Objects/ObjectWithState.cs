@@ -139,6 +139,7 @@ namespace Game.Engine.Objects
             {
                 if (!_isCircling)
                 {
+                    OnLastStateFinished();
                     return;
                 }
 
@@ -160,6 +161,11 @@ namespace Game.Engine.Objects
 
             // todo important!!!!!! replace with id or rewrite GetHashCode!!!!
             return this.GetHashCode().CompareTo(other.GetHashCode());
+        }
+
+        public virtual void OnLastStateFinished()
+        {
+            this.RemoveFromContainer();
         }
     }
 }
