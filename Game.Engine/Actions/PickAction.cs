@@ -16,12 +16,7 @@ namespace Game.Engine
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
             hero.AddToBag(objects);
-/*
-            foreach (var removableObject in objects)
-            {
-                removableObject.RemoveFromContainer();
-            }
-            */
+
             return true;
         }
         
@@ -33,6 +28,11 @@ namespace Game.Engine
         public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             yield return objects.Where(x => x.Properties.Contains(Property.Pickable)).ToList();// && hero.HasEmpptyContainer;
+        }
+
+        public string GetName(IEnumerable<GameObject> objects)
+        {
+            return Name;
         }
 
         public bool IsApplicable(Property property)

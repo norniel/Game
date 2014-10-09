@@ -16,6 +16,12 @@ namespace Game.Engine.Actions
         public string Name {
             get { return "Drop"; }
         }
+
+        public string GetName(IEnumerable<GameObject> objects)
+        {
+            return Name;
+        }
+
         public bool IsApplicable(Property property)
         {
             return property == Property.Dropable;

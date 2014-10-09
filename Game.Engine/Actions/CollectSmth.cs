@@ -12,6 +12,11 @@ namespace Game.Engine.Actions
     {
         public abstract string Name { get; }
 
+        public string GetName(IEnumerable<GameObject> objects)
+        {
+            return Name;
+        }
+
         public abstract bool IsApplicable(Property property);
 
         public virtual bool Do(Hero hero, IEnumerable<GameObject> objects)

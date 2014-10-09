@@ -113,12 +113,23 @@ namespace Game.Engine.Objects
             _objectStateQueue = objectStateQueue;
             _isCircling = isCircling;
             
-            ChangeState();
+            NextState();
         }
 
         public int NextStateTick { get; set; }
+        public int TicksToNextState {
+            get
+            {
+                if (Game.StateQueueManager != null)
+                {
+                    return NextStateTick - Game.StateQueueManager.CurrentTick;
+                }
 
-        private readonly List<IObjectState> _objectStateQueue;
+                return 0;
+            }
+        }
+
+        protected readonly List<IObjectState> _objectStateQueue;
         private readonly bool _isCircling;
         private int _currentStateId = -1;
 
@@ -132,7 +143,7 @@ namespace Game.Engine.Objects
             }
         }
 
-        public virtual void ChangeState()
+        public virtual void NextState()
         {
             _currentStateId++;
             if (_currentStateId >= _objectStateQueue.Count)
@@ -145,6 +156,13 @@ namespace Game.Engine.Objects
 
                 _currentStateId = 0;
             }
+
+            ChangeState(_currentStateId);
+        }
+
+        public virtual void ChangeState(int newstateId)
+        {
+            _currentStateId = newstateId;
 
             if (Game.StateQueueManager != null)
             {

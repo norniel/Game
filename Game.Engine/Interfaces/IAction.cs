@@ -9,6 +9,8 @@
     {
         string Name { get; }
 
+        string GetName(IEnumerable<GameObject>objects);
+
         bool IsApplicable(Property property);
 
         bool Do(Hero hero, IEnumerable<GameObject>objects);

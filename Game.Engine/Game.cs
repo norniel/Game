@@ -134,7 +134,7 @@ namespace Game.Engine
                     return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
                     new ClientAction
                         {
-                            Name = pa.Name,
+                            Name = pa.GetName(objectsForAction),
                             //CanDo = pa.CanDo(_hero, objects),
                             Do = () => MoveAndDoAction(pa, destination, objectsForAction)
                         }
@@ -239,7 +239,7 @@ namespace Game.Engine
                     return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
                     new ClientAction
                     {
-                        Name = pa.Name,
+                        Name = pa.GetName(objectsForAction),
                         //CanDo = pa.CanDo(_hero, objects),
                         Do = () => DoAction(pa, objectsForAction)
                     }

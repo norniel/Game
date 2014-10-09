@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionRepository.cs" />
+    <Compile Include="Actions\BurnAction.cs" />
     <Compile Include="Actions\CollectBerriesAction.cs" />
     <Compile Include="Actions\CollectBranchAction.cs" />
     <Compile Include="Actions\CollectSmth.cs" />
@@ -86,6 +87,8 @@
     <Compile Include="Heros\HeroProperties.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\IActionRepository.cs" />
+    <Compile Include="Interfaces\IBurnable.cs" />
+    <Compile Include="Interfaces\IBurning.cs" />
     <Compile Include="Interfaces\IHasBerries.cs" />
     <Compile Include="Interfaces\IHasSmthToCollect.cs" />
     <Compile Include="Interfaces\IObjectState.cs" />

@@ -14,6 +14,7 @@ namespace Game.Engine
         Dropable,
         Cutter,
         NeedToCreateStoneAxe,
-        NeedToCreateFire
+        NeedToCreateFire,
+        Burning
     }
 }

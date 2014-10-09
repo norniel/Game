@@ -3,7 +3,6 @@ using System.Linq;
 using Game.Engine.Heros;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
-using Game.Engine.Wrapers;
 
 namespace Game.Engine.Actions
 {
@@ -12,6 +11,12 @@ namespace Game.Engine.Actions
         public string Name {
             get { return "Eat"; }
         }
+
+        public string GetName(IEnumerable<GameObject> objects)
+        {
+            return Name;
+        }
+
         public bool IsApplicable(Property property)
         {
             return property == Property.Eatable;

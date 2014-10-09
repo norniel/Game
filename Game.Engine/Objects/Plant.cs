@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Game.Engine.Interfaces;
 
 namespace Game.Engine.Objects
 {
-    internal class Plant: FixedObject
+    internal class Plant: FixedObject, IBurnable
     {
         public Plant() 
         {
@@ -25,6 +26,10 @@ namespace Game.Engine.Objects
         public override string Name
         {
             get { return "Plant"; }
+        }
+
+        public int TimeOfBurning {
+            get { return 100; }
         }
     }
 }

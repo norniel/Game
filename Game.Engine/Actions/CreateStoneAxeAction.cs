@@ -11,8 +11,13 @@ namespace Game.Engine.Actions
     {
         public string Name {
             get { return "Create Stone axe"; }
-            private set { }
         }
+
+        public string GetName(IEnumerable<GameObject> objects)
+        {
+            return Name;
+        }
+
         public bool IsApplicable(Property property)
         {
             return 
