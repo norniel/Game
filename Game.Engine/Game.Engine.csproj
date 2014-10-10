@@ -112,6 +112,7 @@
     <Compile Include="Heros\Hero.cs" />
     <Compile Include="IDrawer.cs" />
     <Compile Include="Objects\Fruits\Apple.cs" />
+    <Compile Include="Objects\Fruits\Cone.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Objects\Log.cs" />
     <Compile Include="Objects\ObjectWithState.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Objects\Rock.cs" />
     <Compile Include="Objects\StoneAxe.cs" />
     <Compile Include="Objects\Trees\AppleTree.cs" />
+    <Compile Include="Objects\Trees\SpruceTree.cs" />
     <Compile Include="Properties.cs" />
     <Compile Include="StateQueueManager.cs" />
     <Compile Include="States\Acting.cs" />

@@ -12,7 +12,7 @@ namespace Game.Engine.Actions
     {
         public abstract string Name { get; }
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public virtual string GetName(IEnumerable<GameObject> objects)
         {
             return Name;
         }

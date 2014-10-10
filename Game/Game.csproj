@@ -197,6 +197,12 @@
   <ItemGroup>
     <Resource Include="Icons\attenuating fire small.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\spruce tree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\cone small.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

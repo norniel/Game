@@ -14,6 +14,19 @@ using Microsoft.Practices.Unity;
 
 namespace Game.Engine
 {
+    //todo
+    //1 Variety of species
+    //2 Lifecycle of species
+    //3 Seasons
+    //4 Temperature, weather
+    //5 Surface variety
+    //6 Soil
+    //7 Water
+    //8 Physics in states of objects
+    //9 Alive species
+    //10 Containers
+    //11 Built objects
+    //12 Hero properties
     public class Game
     {
         private Rect curRect;

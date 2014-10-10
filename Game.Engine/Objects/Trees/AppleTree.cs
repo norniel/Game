@@ -4,7 +4,7 @@ using Game.Engine.Objects.Fruits;
 
 namespace Game.Engine.Objects.Trees
 {
-    class AppleTree : Tree, IHasSmthToCollect<Branch>, IHasSmthToCollect<Berry>
+    class AppleTree : Tree, IHasSmthToCollect<Berry>
     {
         private int _initialBerriesCount = 4;
         private int _berriesCount = 4;
@@ -21,16 +21,9 @@ namespace Game.Engine.Objects.Trees
             get { return "Apple tree"; }
         }
 
-        public int Hardness { get; set; }
-
         Berry IHasSmthToCollect<Berry>.GetSmth()
         {
             return new Apple();
-        }
-
-        Branch IHasSmthToCollect<Branch>.GetSmth()
-        {
-            return new Branch();
         }
     }
 }

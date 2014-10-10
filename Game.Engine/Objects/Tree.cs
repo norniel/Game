@@ -60,7 +60,7 @@ namespace Game.Engine
             return 0x00000300;
         }
 
-        public int Hardness { get; set; }
+        public virtual int Hardness { get; set; }
 
         int IHasSmthToCollect<Branch>.GetSmthPerCollectCount()
         {

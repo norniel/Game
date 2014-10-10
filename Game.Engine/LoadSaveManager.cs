@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Game.Engine.Objects.Trees;
 
 namespace Game.Engine
 {
@@ -54,7 +55,7 @@ namespace Game.Engine
                 if( map.GetObjectFromCell(new Point(tmpX, tmpY)) != null )
                     continue;
 
-                switch (count % 4)
+                switch (count % 5)
                 {
                     case    0:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Tree());
@@ -67,6 +68,9 @@ namespace Game.Engine
                         break;
                     case 3:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Bush());
+                        break;
+                    case 4:
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new SpruceTree());
                         break;
                 }
 

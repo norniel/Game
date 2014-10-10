@@ -44,6 +44,8 @@ namespace Game
         private BitmapImage stoneAxeImage;
         private BitmapImage logImage;
         private BitmapImage attenuatingFireImage;
+        private BitmapImage spruceTreeImage;
+        private BitmapImage coneImage;
 
         private TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
@@ -75,6 +77,8 @@ namespace Game
             stoneAxeImage = CreateBitmapImage(@"Stone axe icon.png");
             logImage = CreateBitmapImage(@"Log icon.png");
             attenuatingFireImage = CreateBitmapImage(@"attenuating fire small.png");
+            spruceTreeImage = CreateBitmapImage(@"spruce tree.png");
+            coneImage = CreateBitmapImage(@"cone small.png");
 
             CreateActing();
 
@@ -254,6 +258,16 @@ namespace Game
                 // _canvas.Children
                 DrawImage(attenuatingFireImage, x, y);
             }
+            else if (id == 0x00001600)
+            {
+                // _canvas.Children
+                DrawImage(spruceTreeImage, x, y);
+            }
+            else if (id == 0x00001700)
+            {
+                // _canvas.Children
+                DrawImage(coneImage, x, y);
+            }
             else if (id == 0x00002000)
             {
                 // _canvas.Children
@@ -365,6 +379,8 @@ namespace Game
                     return raspberryImage;
                 case "Stone Axe":
                     return stoneAxeImage;
+                case "Cone":
+                    return coneImage;
             }
             return appletreeImage;
         }

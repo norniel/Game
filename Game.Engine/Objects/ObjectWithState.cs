@@ -99,7 +99,6 @@ namespace Game.Engine.Objects
 
     internal abstract class ObjectWithState: FixedObject, IComparable<ObjectWithState>
     {
-
         // todo : object with state
         // to switch state objects are added to quiue in appropriate game tick
         // when appropriate tick is now - state of objects is changing
@@ -145,30 +144,37 @@ namespace Game.Engine.Objects
 
         public virtual void NextState()
         {
-            _currentStateId++;
-            if (_currentStateId >= _objectStateQueue.Count)
+            var nextStateId = _currentStateId;
+            nextStateId++;
+            if (nextStateId >= _objectStateQueue.Count)
             {
                 if (!_isCircling)
                 {
+                    _currentStateId = nextStateId;
                     OnLastStateFinished();
                     return;
                 }
 
-                _currentStateId = 0;
+                nextStateId = 0;
             }
 
-            ChangeState(_currentStateId);
+            ChangeState(nextStateId);
         }
 
         public virtual void ChangeState(int newstateId)
         {
+            var oldState = _objectStateQueue[_currentStateId];
             _currentStateId = newstateId;
 
             if (Game.StateQueueManager != null)
             {
                 Game.StateQueueManager.AddObjectToQueue(_objectStateQueue[_currentStateId].TickCount, _objectStateQueue[_currentStateId].Distribution, this);
+                OnChangeState(oldState);
             }
         }
+
+        protected virtual void OnChangeState(IObjectState oldState)
+        {}
 
         public int CompareTo(ObjectWithState other)
         {
