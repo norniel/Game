@@ -12,7 +12,7 @@ namespace Game.Engine.Objects.Trees
 
         public override string Name
         {
-            get { return "Spruce"; }
+            get { return "Spruce tree"; }
         }
 
         public override uint GetDrawingCode()

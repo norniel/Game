@@ -58,7 +58,7 @@ namespace Game.Engine
                 switch (count % 5)
                 {
                     case    0:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Tree());
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new AppleTree());
                         break;
                     case 1:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Plant());

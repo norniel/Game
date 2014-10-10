@@ -14,7 +14,14 @@ namespace Game.Engine.Actions
 
         public virtual string GetName(IEnumerable<GameObject> objects)
         {
-            return Name;
+            var objectToCollectFrom = objects.OfType<IHasSmthToCollect<T>>().FirstOrDefault();
+
+            if (objectToCollectFrom == null)
+            {
+                return Name;
+            }
+
+            return string.Format("Collect {0}", objectToCollectFrom.GetSmth().Name);
         }
 
         public abstract bool IsApplicable(Property property);

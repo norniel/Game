@@ -381,6 +381,8 @@ namespace Game
                     return stoneAxeImage;
                 case "Cone":
                     return coneImage;
+                case "Apple":
+                    return appleImage;
             }
             return appletreeImage;
         }
