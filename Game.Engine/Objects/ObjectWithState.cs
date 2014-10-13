@@ -163,7 +163,7 @@ namespace Game.Engine.Objects
 
         public virtual void ChangeState(int newstateId)
         {
-            var oldState = _objectStateQueue[_currentStateId];
+            var oldState = (_currentStateId >= _objectStateQueue.Count || _currentStateId < 0) ? null :_objectStateQueue[_currentStateId];
             _currentStateId = newstateId;
 
             if (Game.StateQueueManager != null)

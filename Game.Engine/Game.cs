@@ -16,16 +16,16 @@ namespace Game.Engine
 {
     //todo
     //1 Variety of species
+    //10 Containers
+    //11 Built objects    
+    //6 Soil
+    //7 Water
     //2 Lifecycle of species
+    //9 Alive species
     //3 Seasons
     //4 Temperature, weather
     //5 Surface variety
-    //6 Soil
-    //7 Water
     //8 Physics in states of objects
-    //9 Alive species
-    //10 Containers
-    //11 Built objects
     //12 Hero properties
     public class Game
     {
@@ -47,18 +47,24 @@ namespace Game.Engine
 
         private UnityContainer _unityContainer;
 
+        //todo - change to lazy
         internal static StateQueueManager StateQueueManager = null;
+
+        //todo - change to lazy
+        internal static IObservable<long> Intervals = null;
 
         public Game(IDrawer drawer, uint width, uint height)
         {            
             curRect.Width = width;
             curRect.Height = height;
-
+            
+            Intervals = Observable.Interval(TimeSpan.FromMilliseconds(100));
             _unityContainer = new UnityContainer();
             this.RegisterInUnityContainer();
 
             StateQueueManager = _unityContainer.Resolve<StateQueueManager>();
-            _map = _unityContainer.Resolve<Map>();
+            _map = _unityContainer.Resolve<Map>();            
+            
 
             loadSaveManager = new LoadSaveManager();
             loadSaveManager.LoadSnapshot(_map);
@@ -70,12 +76,7 @@ namespace Game.Engine
 
             _drawer = drawer;
 
-            var intervals = Observable.Interval(TimeSpan.FromMilliseconds(100));
-
-            intervals.CombineLatest(_hero.States, (tick, state) => state)
-                .Subscribe(x => { if (_hero.State != null) _hero.State.Act(); });
-            intervals.Subscribe(_hero.HeroLifeCycle);
-            intervals.Subscribe(StateQueueManager);
+            Intervals.Subscribe(StateQueueManager);
         }
 
         private void RegisterInUnityContainer()

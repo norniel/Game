@@ -3,11 +3,11 @@
     using Heros;
     class Standing : IState
     {
-        private Hero _hero;
+       // private Hero _hero;
 
-        public Standing( Hero hero )
+        public Standing( /*Hero hero*/ )
         {
-            _hero = hero;
+            //_hero = hero;
         }
 
         #region IState Members

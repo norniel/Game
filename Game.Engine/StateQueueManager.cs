@@ -9,6 +9,8 @@ namespace Game.Engine
     {
         public int CurrentTick { get; set; }
         private OrderedBag< ObjectWithState> _queue = new OrderedBag<ObjectWithState>();
+
+        //todo - get through dependency/ make single random for all game needs
         private Random Random = new Random(1);
         public void OnNext(long value)
         {

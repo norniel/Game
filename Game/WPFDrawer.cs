@@ -46,6 +46,7 @@ namespace Game
         private BitmapImage attenuatingFireImage;
         private BitmapImage spruceTreeImage;
         private BitmapImage coneImage;
+        private BitmapImage dikabrozikImage;
 
         private TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
@@ -79,6 +80,7 @@ namespace Game
             attenuatingFireImage = CreateBitmapImage(@"attenuating fire small.png");
             spruceTreeImage = CreateBitmapImage(@"spruce tree.png");
             coneImage = CreateBitmapImage(@"cone small.png");
+            dikabrozikImage = CreateBitmapImage(@"dikabroyozik small.png");
 
             CreateActing();
 
@@ -267,6 +269,11 @@ namespace Game
             {
                 // _canvas.Children
                 DrawImage(coneImage, x, y);
+            }
+            else if (id == 0x00001800)
+            {
+                // _canvas.Children
+                DrawImage(dikabrozikImage, x, y);
             }
             else if (id == 0x00002000)
             {

@@ -2,7 +2,7 @@
 
 namespace Game.Engine
 {
-    class FixedObject : GameObject
+    public class FixedObject : GameObject
     {
         public bool IsPassable { get; protected set; }
 

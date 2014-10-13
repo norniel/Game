@@ -7,7 +7,7 @@ namespace Game.Engine.MapGenerator
 {
     public class VoronoyGenerator
     {
-        private Random _random = new Random();
+        private readonly Random _random = new Random();
         public float[,] GenerateMapWithVoronoyDiagrams(int power, int seedCounts)
         {
             var size = 1 << power + 1;

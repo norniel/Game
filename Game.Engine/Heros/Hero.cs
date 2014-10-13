@@ -14,15 +14,11 @@ namespace Game.Engine.Heros
     using Wrapers;
     public class Hero : MobileObject, IPicker
     {
-        private Subject<EventPattern<StateEventArgs>> staSubject = new Subject<EventPattern<StateEventArgs>>();
+      //  private Subject<EventPattern<StateEventArgs>> staSubject = new Subject<EventPattern<StateEventArgs>>();
 
-        public IState State { get; private set; }
+      //  public uint Speed { get; set; }
 
-        public uint Speed { get; set; }
-
-        public double Angle { get; set; }
-
-        private readonly Queue<IState> _stateQueue;
+     //   public double Angle { get; set; }
 
         private readonly Bag Bag;
 
@@ -34,27 +30,27 @@ namespace Game.Engine.Heros
         }
 
         private bool _isThen = false;
-
+        /*
         public List<Point> PointList { get; private set; }
 
         public IObservable<EventPattern<StateEventArgs>> States
         {
             get { return staSubject; }
         }
-
+        */
         public Hero()
         {
-            Position = new Point();
+          //  Position = new Point();
             Speed = 2;
             Angle = 0;
 
             Bag = new Bag();
 
             _heroLifeCycle = new HeroLifeCycle();
-
+            /*
             _stateQueue = new Queue<IState>();
             PointList = new List<Point>();
-            State = new Standing(this);
+            State = new Standing();
 
             Observable.FromEventPattern<StateHandler, StateEventArgs>(
                 ev => StateEvent.NextState += ev,
@@ -79,9 +75,13 @@ namespace Game.Engine.Heros
 
                 if (_stateQueue.Count == 0)
                 {
-                    State = new Standing(this);
+                    State = new Standing();
                 }
-            });
+            });*/
+
+            //todo - extract to method
+
+            Game.Intervals.Subscribe(HeroLifeCycle);
         }
 
         public void StartMove(Point destination, Stack<Point> points)
