@@ -16,9 +16,9 @@ namespace Game.Engine
 
     public class StateEvent
     {
-        public static event StateHandler NextState;
+        public event StateHandler NextState;
 
-        public static void FireEvent()
+        public void FireEvent()
         {
             if (NextState != null)
                 NextState(null, new StateEventArgs());

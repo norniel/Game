@@ -5,19 +5,20 @@
     using Heros;
     using Objects;
     using Wrapers;
+   //this state only for hero
     class Acting : IState
     {
-        private Hero hero;
+        private MobileObject mobileObject;
         private Interfaces.IActions.IAction action;
         private Point destination;
         private IEnumerable<GameObject> objects;
         private const uint maxTimeStamp = 50;
         private uint timestamp;
 
-        public Acting(Hero hero, Interfaces.IActions.IAction action, Point destination, IEnumerable<GameObject> objects)
+        public Acting(MobileObject mobileObject, Interfaces.IActions.IAction action, Point destination, IEnumerable<GameObject> objects)
         {
             // TODO: Complete member initialization
-            this.hero = hero;
+            this.mobileObject = mobileObject;
             this.action = action;
             this.destination = destination;
             this.objects = objects;
@@ -28,16 +29,16 @@
         {
             if (this.timestamp < maxTimeStamp)
             {
-                this.timestamp+= hero.Speed;
+                this.timestamp += mobileObject.Speed;
                 return;
             }
 
             this.timestamp = 0;
 
-            bool isFinished = !this.IsNear(hero.Position, destination) || action.Do(hero, objects);
+            bool isFinished = !this.IsNear(mobileObject.Position, destination) || action.Do(mobileObject as Hero, objects);
 
             if(isFinished)
-                StateEvent.FireEvent();
+                mobileObject.StateEvent.FireEvent();
         }
 
         private bool IsNear(Point position, Point destination)

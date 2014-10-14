@@ -17,6 +17,8 @@ namespace Game.Engine
 
         protected Queue<IState> _stateQueue;
 
+        public StateEvent StateEvent { get; private set; }
+
         public uint Speed { get; set; }
 
         public double Angle { get; set; }
@@ -33,6 +35,7 @@ namespace Game.Engine
             Speed = 2;
             Angle = 0;
 
+            StateEvent = new StateEvent();
             _stateQueue = new Queue<IState>();
             PointList = new List<Point>();
             State = new Standing();

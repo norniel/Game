@@ -165,7 +165,7 @@ namespace Game.Engine.Heros
             public void Dispose()
             {
                 if (!_hero._isThen)
-                    StateEvent.FireEvent();
+                    _hero.StateEvent.FireEvent();
 
                 _hero._isThen = false;
             }

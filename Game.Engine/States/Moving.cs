@@ -6,38 +6,38 @@ namespace Game.Engine
     using Heros;
     class Moving : IState
     {
-        private readonly Hero _hero;
+        private readonly MobileObject _mobileObject;
         private readonly Point _destination;
         private int _steps;
         private double _dx;
         private double _dy;
         private bool _isInitialized;
 
-        public Moving( Hero hero, Point destination )
+        public Moving(MobileObject mobileObject, Point destination)
         {
-            _hero = hero;
+            _mobileObject = mobileObject;
             _destination = destination;
             _isInitialized = false;
         }
 
         private void Initialize()
         {
-            double distance = Math.Sqrt((_hero.Position.X - _destination.X) * (_hero.Position.X - _destination.X) + (_hero.Position.Y - _destination.Y) * (_hero.Position.Y - _destination.Y));
+            double distance = Math.Sqrt((_mobileObject.Position.X - _destination.X) * (_mobileObject.Position.X - _destination.X) + (_mobileObject.Position.Y - _destination.Y) * (_mobileObject.Position.Y - _destination.Y));
 
             if (distance >= 0.01)
             {
-                _steps = (int)(distance / _hero.Speed);
-                _dx = ((double)_hero.Position.X - (double)_destination.X) / distance;
-                _dy = ((double)_hero.Position.Y - (double)_destination.Y) / distance;
+                _steps = (int)(distance / _mobileObject.Speed);
+                _dx = ((double)_mobileObject.Position.X - (double)_destination.X) / distance;
+                _dy = ((double)_mobileObject.Position.Y - (double)_destination.Y) / distance;
 
                 if (Math.Abs(_dx) >= 0.0001)
-                    _hero.Angle = (180 * Math.Atan(_dy / _dx) / Math.PI) + (_dx > 0 ? 180 : 0);
+                    _mobileObject.Angle = (180 * Math.Atan(_dy / _dx) / Math.PI) + (_dx > 0 ? 180 : 0);
                 else
-                    _hero.Angle = (_dy < 0) ? 90 : 270;
+                    _mobileObject.Angle = (_dy < 0) ? 90 : 270;
             }
 
-             if(_hero.PointList.Any())
-                    _hero.PointList.RemoveAt(0);
+            if (_mobileObject.PointList.Any())
+                _mobileObject.PointList.RemoveAt(0);
 
             _isInitialized = true;
         }
@@ -51,14 +51,14 @@ namespace Game.Engine
             if(_isInitialized == false)
                 Initialize();
 
-            _hero.Position = new Point( (int) (_destination.X + _dx * _steps * _hero.Speed), (int)(_destination.Y + _dy * _steps * _hero.Speed));
+            _mobileObject.Position = new Point((int)(_destination.X + _dx * _steps * _mobileObject.Speed), (int)(_destination.Y + _dy * _steps * _mobileObject.Speed));
             _steps--;
 
-            if ( /*NextState != null && */(_hero.Position == _destination || _steps <= -1))
+            if ( /*NextState != null && */(_mobileObject.Position == _destination || _steps <= -1))
             {
-               
 
-                StateEvent.FireEvent();
+
+                _mobileObject.StateEvent.FireEvent();
             }
             //NextState( new StateEventArgs(){State = new Standing( _hero )} );  
         }
