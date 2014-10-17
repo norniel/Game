@@ -35,6 +35,12 @@ namespace Game.Engine.Objects
 
         public override IState GetNextState()
         {
+            var dice = Game.Random.Next(3);
+            if (dice == 2)
+            {
+                return new Resting(this);
+            }
+
             return new Wondering(this, this.ViewSight);
         }
 
@@ -45,6 +51,16 @@ namespace Game.Engine.Objects
 
         public override bool CheckForUnExpected()
         {
+            for (int i = 0; i < ViewSight.Width; i++)
+            {
+                for (int j = 0; j < ViewSight.Height; j++)
+                {
+                    if(i == 0 && j == 0)
+                        continue;
+
+
+                }
+            }
             return true;
         }
     }
