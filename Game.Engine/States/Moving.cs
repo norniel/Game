@@ -6,8 +6,8 @@ namespace Game.Engine
     using Heros;
     class Moving : IState
     {
-        private readonly MobileObject _mobileObject;
-        private readonly Point _destination;
+        protected readonly MobileObject _mobileObject;
+        protected Point _destination;
         private int _steps;
         private double _dx;
         private double _dy;
@@ -20,7 +20,7 @@ namespace Game.Engine
             _isInitialized = false;
         }
 
-        private void Initialize()
+        protected virtual void Initialize()
         {
             double distance = Math.Sqrt((_mobileObject.Position.X - _destination.X) * (_mobileObject.Position.X - _destination.X) + (_mobileObject.Position.Y - _destination.Y) * (_mobileObject.Position.Y - _destination.Y));
 

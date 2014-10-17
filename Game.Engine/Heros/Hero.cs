@@ -1,17 +1,11 @@
-﻿using System.Linq;
-
-namespace Game.Engine.Heros
+﻿namespace Game.Engine.Heros
 {
     using System;
     using System.Collections.Generic;
     using Interfaces;
-    using System.Reactive;
-    using System.Reactive.Linq;
-    using System.Reactive.Subjects;
     using Interfaces.IActions;
     using Objects;
     using States;
-    using Wrapers;
     public class Hero : MobileObject, IPicker
     {
       //  private Subject<EventPattern<StateEventArgs>> staSubject = new Subject<EventPattern<StateEventArgs>>();

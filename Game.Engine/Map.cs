@@ -14,6 +14,8 @@ namespace Game.Engine
 
         private readonly FixedObject[,] _map;
 
+        private readonly List<MobileObject> _mobileObjects;
+
         private Rect _visibleRect;
         public Rect VisibleRect {
             get { return _visibleRect; }
@@ -24,6 +26,7 @@ namespace Game.Engine
         {
             VisibleRect = rect;
             _map = new FixedObject[MAP_CELL_WIDTH, MAP_CELL_HEIGHT];
+            _mobileObjects = new List<MobileObject>();
             //var sizeInCells = RectToCellRect(rect);
             //_map = new FixedObject[sizeInCells.Width, sizeInCells.Height];
         }
@@ -79,7 +82,7 @@ namespace Game.Engine
             return new Point(point.X * CELL_MEASURE, point.Y * CELL_MEASURE);
         }
 
-        private static Point PointToCell(Point point)
+        internal static Point PointToCell(Point point)
         {
             return new Point(point.X / CELL_MEASURE, point.Y / CELL_MEASURE);
         }
@@ -92,6 +95,11 @@ namespace Game.Engine
         internal static Rect RectToCellRect(Rect rect)
         {
             return new Rect(rect.Left / CELL_MEASURE, rect.Top / CELL_MEASURE, rect.Width / CELL_MEASURE, rect.Height / CELL_MEASURE);
+        }
+
+        internal void AddMobileObject(MobileObject mobileObject)
+        {
+            _mobileObjects.Add(mobileObject);
         }
 
         public Stack<Point> GetEasiestWay(Point start, Point dest)
@@ -249,6 +257,17 @@ namespace Game.Engine
             y = y < 0 ? 0 : (y + VisibleRect.Height > MAP_HEIGHT ? MAP_HEIGHT - VisibleRect.Height : y);
 
             VisibleRect = new Rect(x, (int)y, VisibleRect.Width, VisibleRect.Height);
+        }
+
+        public List<MobileObject> GetMobileObjects()
+        {
+            return _mobileObjects;
+        }
+
+        public bool PointInVisibleRect(Point point)
+        {
+            return VisibleRect.Left <= point.X && (VisibleRect.Left + VisibleRect.Width) > point.X &&
+                   VisibleRect.Top <= point.Y && (VisibleRect.Top + VisibleRect.Height) > point.Y;
         }
     }
 }

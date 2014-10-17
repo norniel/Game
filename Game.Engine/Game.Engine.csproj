@@ -130,6 +130,7 @@
     <Compile Include="States\Acting.cs" />
     <Compile Include="States\IState.cs" />
     <Compile Include="States\Moving.cs" />
+    <Compile Include="States\Wondering.cs" />
     <Compile Include="Tools\Point.cs" />
     <Compile Include="Tools\Rect.cs" />
     <Compile Include="Game.cs" />

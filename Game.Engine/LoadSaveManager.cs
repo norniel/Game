@@ -85,7 +85,7 @@ namespace Game.Engine
                 if (map.GetObjectFromCell(new Point(tmpX, tmpY)) != null)
                     continue;
 
-                map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Dikabryozik());
+                map.AddMobileObject(new Dikabryozik(new Point(tmpX, tmpY)));
                 break;
             }
         }

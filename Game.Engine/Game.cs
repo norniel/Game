@@ -31,7 +31,7 @@ namespace Game.Engine
     {
         private Rect curRect;
 
-        private readonly Map _map;
+        internal static Map Map;
 
         private Dictionary<uint, Cell> _cellSamples;
 
@@ -53,6 +53,8 @@ namespace Game.Engine
         //todo - change to lazy
         internal static IObservable<long> Intervals = null;
 
+        internal static Random Random = new Random();
+
         public Game(IDrawer drawer, uint width, uint height)
         {            
             curRect.Width = width;
@@ -63,11 +65,11 @@ namespace Game.Engine
             this.RegisterInUnityContainer();
 
             StateQueueManager = _unityContainer.Resolve<StateQueueManager>();
-            _map = _unityContainer.Resolve<Map>();            
+            Map = _unityContainer.Resolve<Map>();            
             
 
             loadSaveManager = new LoadSaveManager();
-            loadSaveManager.LoadSnapshot(_map);
+            loadSaveManager.LoadSnapshot(Map);
 
             _hero = _unityContainer.Resolve<Hero>();
 
@@ -106,7 +108,7 @@ namespace Game.Engine
 
         public void LClick(Point visibleDestination)
         {
-            var destination = _map.GetRealDestinationFromVisibleDestination(visibleDestination);
+            var destination = Map.GetRealDestinationFromVisibleDestination(visibleDestination);
             MoveToDest(destination);
         }
 
@@ -122,8 +124,8 @@ namespace Game.Engine
 
         private IEnumerable<ClientAction> GetActions(Point visibleDestination)
         {
-            var destination = _map.GetRealDestinationFromVisibleDestination(visibleDestination);
-            var destObject = _map.GetObjectFromDestination(destination);
+            var destination = Map.GetRealDestinationFromVisibleDestination(visibleDestination);
+            var destObject = Map.GetObjectFromDestination(destination);
 
             if (destObject == null)
             {
@@ -159,13 +161,13 @@ namespace Game.Engine
 
         public void MoveToDest(Point destination)
         {
-            _hero.StartMove(destination, _map.GetEasiestWay(_hero.Position, destination));
+            _hero.StartMove(destination, Map.GetEasiestWay(_hero.Position, destination));
         }
 
         private void MoveAndDoAction(IAction action, Point destination,
             IEnumerable<GameObject> objects)
         {
-            _hero.StartMove(destination, _map.GetEasiestWay(_hero.Position, destination));
+            _hero.StartMove(destination, Map.GetEasiestWay(_hero.Position, destination));
             _hero.Then().StartActing(action, destination, objects);
         }
 
@@ -181,7 +183,7 @@ namespace Game.Engine
                 GameObject = gObject,
                 RemoveFromContainer = (() =>
                 {
-                    _map.SetObjectFromDestination(destination, null);
+                    Map.SetObjectFromDestination(destination, null);
                 })
             };
         }
@@ -200,30 +202,40 @@ namespace Game.Engine
 
         public void DrawChanges()
         {
-            _map.RecalcVisibleRect(_hero.Position);
+            Map.RecalcVisibleRect(_hero.Position);
 
             _drawer.Clear();
 
             _drawer.DrawSurface(curRect.Width, curRect.Height);
 
-            var visibleCells = Map.RectToCellRect(_map.VisibleRect);
+            var visibleCells = Map.RectToCellRect(Map.VisibleRect);
                 
             //var mapSize = _map.GetSize();
             for (int i = visibleCells.Left; i < visibleCells.Left + visibleCells.Width; i++)
             {
                 for (int j = visibleCells.Top; j < visibleCells.Top+ visibleCells.Height; j++)
                 {
-                    var gameObject = _map.GetObjectFromCell(new Point(i, j));
+                    var gameObject = Map.GetObjectFromCell(new Point(i, j));
                     if (gameObject != null)
                     {
-                        var visibleDestination = _map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
+                        var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
                         _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y);
 
                     }
                 }
             }
 
-            _drawer.DrawHero(_map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => _map.GetVisibleDestinationFromRealDestination(p)).ToList());
+            var mobileObjects = Map.GetMobileObjects();
+            foreach (var mobileObject in mobileObjects)
+            {
+                if (Map.PointInVisibleRect(mobileObject.Position))
+                {
+                    var visibleDestination = Map.GetVisibleDestinationFromRealDestination(mobileObject.Position);
+                    _drawer.DrawObject(mobileObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y);
+                }
+            }
+
+            _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList());
 
             _drawer.DrawActing(_hero.State.ShowActing);
 

@@ -22,7 +22,8 @@ namespace Game.Engine
         public uint Speed { get; set; }
 
         public double Angle { get; set; }
-            
+
+        public Size ViewSight { get; set; }
         public List<Point> PointList { get; private set; }
 
         public IObservable<EventPattern<StateEventArgs>> States
@@ -31,6 +32,7 @@ namespace Game.Engine
         }
         public MobileObject()
         {
+            ViewSight = new Size();
             Position = new Point();
             Speed = 2;
             Angle = 0;
@@ -63,16 +65,30 @@ namespace Game.Engine
 
                 if (_stateQueue.Count == 0)
                 {
-                    State = new Standing();
+                    State = GetNextState();
                 }
             });
 
-            Game.Intervals.CombineLatest(States, (tick, state) => state).Subscribe(x => { if (State != null) State.Act(); });
+            Game.Intervals.CombineLatest(States, (tick, state) => state).Subscribe(x =>
+            {
+                if (State != null && CheckForUnExpected()) 
+                    State.Act();
+            });
         }
 
         public override string Name
         {
             get { return "Mobile object"; }
+        }
+
+        public virtual IState GetNextState()
+        {
+            return new Standing();
+        }
+
+        public virtual bool CheckForUnExpected()
+        {
+            return true;
         }
     }
 }

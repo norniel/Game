@@ -144,6 +144,7 @@ namespace Game
             return bi;
         }
 
+
         #region Implementation of IDrawer
 
         public Func<int, int, List<string>> GetAction { get; set; }
@@ -270,10 +271,9 @@ namespace Game
                 // _canvas.Children
                 DrawImage(coneImage, x, y);
             }
-            else if (id == 0x00001800)
+            else if ((id/0x1000) == 0x00018)
             {
-                // _canvas.Children
-                DrawImage(dikabrozikImage, x, y);
+                DrawRotatedImage(dikabrozikImage, x, y, id % 0x1000);
             }
             else if (id == 0x00002000)
             {
@@ -430,10 +430,21 @@ namespace Game
                 "Acting...";
         }
 
-        private void DrawImage(BitmapImage bitmapImage, long x, long y)
+        private void DrawImage(BitmapSource bitmapImage, long x, long y)
         {
             var image = new Image();
             image.Source = bitmapImage;
+            _canvas.Children.Add(image);
+            Canvas.SetLeft(image, x);
+            Canvas.SetTop(image, y);
+        }
+
+        private void DrawRotatedImage(BitmapImage bitmapImage, long x, long y, uint number)
+        {   
+            var image = new Image();
+            image.Source = bitmapImage;
+            image.RenderTransform = new RotateTransform((int)number-90);
+            image.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
             _canvas.Children.Add(image);
             Canvas.SetLeft(image, x);
             Canvas.SetTop(image, y);
