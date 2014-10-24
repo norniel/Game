@@ -151,6 +151,7 @@ namespace Game
 
         public void Clear()
         {
+            _canvas.UpdateLayout();
             _canvas.Children.Clear();
         }
 
