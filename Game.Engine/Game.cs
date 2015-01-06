@@ -33,6 +33,8 @@ namespace Game.Engine
 
         internal static Map Map;
 
+        public const int TimeStep = 100;
+
         private Dictionary<uint, Cell> _cellSamples;
 
         private LoadSaveManager loadSaveManager;
@@ -59,8 +61,8 @@ namespace Game.Engine
         {            
             curRect.Width = width;
             curRect.Height = height;
-            
-            Intervals = Observable.Interval(TimeSpan.FromMilliseconds(100));
+
+            Intervals = Observable.Interval(TimeSpan.FromMilliseconds(TimeStep));
             _unityContainer = new UnityContainer();
             this.RegisterInUnityContainer();
 
@@ -72,7 +74,6 @@ namespace Game.Engine
             loadSaveManager.LoadSnapshot(Map);
 
             _hero = _unityContainer.Resolve<Hero>();
-
 
             ActionRepository = _unityContainer.Resolve<IActionRepository>();
 

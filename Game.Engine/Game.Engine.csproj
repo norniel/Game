@@ -104,7 +104,10 @@
     <Compile Include="MapGenerator\HydraliticErosion2.cs" />
     <Compile Include="MapGenerator\VoronoyGenerator.cs" />
     <Compile Include="ObjectStates\Attenuating.cs" />
+    <Compile Include="ObjectStates\Drying.cs" />
     <Compile Include="ObjectStates\Firing.cs" />
+    <Compile Include="ObjectStates\Growing.cs" />
+    <Compile Include="ObjectStates\Staying.cs" />
     <Compile Include="Objects\Berry.cs" />
     <Compile Include="Objects\Branch.cs" />
     <Compile Include="Objects\Bush.cs" />

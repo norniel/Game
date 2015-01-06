@@ -34,6 +34,8 @@ namespace Game
         private BitmapImage appletree2Image;
 
         private BitmapImage plantImage;
+        private BitmapImage dryplantImage;
+        private BitmapImage growingPlantImage;
         private BitmapImage rockImage;
         private BitmapImage fireImage;
 
@@ -68,6 +70,8 @@ namespace Game
 
             appletree2Image = CreateBitmapImage(@"apple-tree2 icon.png");
             plantImage = CreateBitmapImage(@"plant icon.png");
+            dryplantImage = CreateBitmapImage(@"dry plant icon.png");
+            growingPlantImage = CreateBitmapImage(@"growing plant icon.png");
 
             rockImage = CreateBitmapImage(@"rock icon2.png");
             fireImage = CreateBitmapImage(@"fire icon.png");
@@ -219,6 +223,14 @@ namespace Game
                 // _canvas.Children
 
                 DrawImage(plantImage, x, y);
+            }
+            else if (id == 0x10001100)
+            {
+                DrawImage(growingPlantImage, x, y);
+            }
+            else if (id == 0x20001100)
+            {
+                DrawImage(dryplantImage, x, y);
             }
             else if (id == 0x00001300)
             {
@@ -372,7 +384,7 @@ namespace Game
             switch (name)
             {
                 case "Plant":
-                    return plantImage;
+                    return dryplantImage;
                 case "Berries":
                     return appleImage;
                 case "Branch":

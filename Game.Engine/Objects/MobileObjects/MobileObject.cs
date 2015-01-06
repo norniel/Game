@@ -53,12 +53,12 @@ namespace Game.Engine
                     {
                         nextState = _stateQueue.Dequeue();
 
-                        if (nextState == State || nextState == null)
-                            continue;
+                        if (nextState != State && nextState != null)
+                        {
+                            State = nextState;
 
-                        State = nextState;
-
-                        return;
+                            return;
+                        }
                     }
                 }
 

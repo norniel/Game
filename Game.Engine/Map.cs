@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Wintellect.PowerCollections;
 
 namespace Game.Engine
@@ -50,6 +51,9 @@ namespace Game.Engine
 
         internal void SetObjectFromCell(Point cell, FixedObject gameObject)
         {
+            if (cell == null)
+                return;
+
             if (gameObject == null)
             {
                 _map[cell.X, cell.Y] = null;
@@ -64,6 +68,11 @@ namespace Game.Engine
             gameObject.RemoveFromContainer = (() =>
             {
                 this.SetObjectFromCell(cell, null);
+
+                if (gameObject.Properties.Contains(Property.Regrowable) && gameObject is ICloneable)
+                {
+                    this.SetObjectFromCell(this.GetRandomNearEmptyPoint(cell, 3), (FixedObject)(gameObject as ICloneable).Clone());
+                }
             });
 
             if (gameObject.Properties.Contains(Property.Dropable))
@@ -75,6 +84,34 @@ namespace Game.Engine
             }
 
             _map[cell.X, cell.Y] = gameObject;
+        }
+
+        private Point GetRandomNearEmptyPoint(Point cell, int radius)
+        {
+            var nearestPoints = new List<Point>();
+
+            for (int i = cell.X - radius < 0 ? 0 : cell.X - radius; i < (cell.X + radius >= MAP_CELL_WIDTH ? MAP_CELL_WIDTH - 1 : cell.X + radius); i++)
+            {
+                for (int j = cell.Y - radius < 0 ? 0 : cell.Y - radius; j < (cell.Y + radius >= MAP_CELL_HEIGHT ? MAP_CELL_HEIGHT - 1 : cell.Y + radius); j++)
+                {
+                    nearestPoints.Add(new Point(i, j));
+                }
+            }
+
+            var random = new Random();
+
+            while (nearestPoints.Any())
+            {
+                var p = random.Next(nearestPoints.Count);
+                if (this.GetObjectFromCell(nearestPoints[p]) != null)
+                {
+                    return nearestPoints[p];
+                }
+
+                nearestPoints.RemoveAt(p);
+            }
+
+            return null;
         }
 
         internal static Point CellToPoint(Point point)

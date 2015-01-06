@@ -8,7 +8,7 @@ namespace Game.Engine.Heros
         private const int INITIAL_HEALTH = 100;
         private const int INITIAL_SATIETY = 100;
         private readonly HeroProperties _heroProperties;
-        private const uint maxTimeStamp = 200;
+        private const uint maxTimeStamp = 20000 / Game.TimeStep;
         private uint timestamp;
 
         public HeroProperties HeroProperties {

@@ -15,6 +15,7 @@ namespace Game.Engine
         Cutter,
         NeedToCreateStoneAxe,
         NeedToCreateFire,
-        Burning
+        Burning,
+        Regrowable
     }
 }
