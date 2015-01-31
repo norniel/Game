@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Engine.Interfaces;
+using Game.Engine.Objects.Fruits;
+using Game.Engine.Objects.Trees;
 using Game.Engine.ObjectStates;
 using Game.Engine.States;
 
@@ -44,15 +47,23 @@ namespace Game.Engine.Objects
             get { return "Dikabryozik"; }
         }
 
-        public override IState GetNextState()
+        public override void EnqueueNextState()
         {
+            if (ObjectWithState.CurrentState is Hungry)
+            {
+                StartLookingForFood();
+                return;
+            }
+
             var dice = Game.Random.Next(3);
             if (dice == 2)
             {
-                return new Resting(this);
+                _stateQueue.Enqueue(new Resting(this));
+                return;
             }
 
-            return new Wondering(this, this.ViewSight);
+            _stateQueue.Enqueue(new Wondering(this, this.ViewSight));
+            return;
         }
 
         public override uint GetDrawingCode()
@@ -77,17 +88,59 @@ namespace Game.Engine.Objects
 
         public void StartLookingForFood()
         {
-          /*  for (int i = 0; i < ViewSight.Width; i++)
+            _stateQueue.Clear();
+
+            var destination = Position;
+            var neighbourList = Game.Map.GetNearestToPointList(Position, 1);
+
+            var eatablePoint = neighbourList.FirstOrDefault(p =>
             {
-                for (int j = 0; j < ViewSight.Height; j++)
-                {
-                    if (i == 0 && j == 0)
-                        continue;
+                var obj = Game.Map.GetObjectFromCell(p);
+                if (obj is Apple)
+                    return true;
 
+                return false;
+            });
 
-                }
+            if (eatablePoint != null)
+            {
+                _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(eatablePoint)));
+                _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(eatablePoint)));
+                return;
             }
-            return true;*/
+
+            var treePoint = neighbourList.FirstOrDefault(p =>
+            {
+                var obj = Game.Map.GetObjectFromCell(p);
+                if (obj is AppleTree)
+                    return true;
+
+                return false;
+            });
+
+            if (treePoint != null)
+            {
+                _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(treePoint)));
+                _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(eatablePoint)));
+                return;
+            }
+
+            while (neighbourList.Any())
+            {
+                var p = Game.Random.Next(neighbourList.Count);
+
+                var obj = Game.Map.GetObjectFromCell(neighbourList[p]);
+                if (obj != null && !obj.IsPassable)
+                {
+                    neighbourList.RemoveAt(p);
+                    continue;
+                }
+
+                destination = Map.CellToPoint(neighbourList[p]);
+                break;
+            }
+
+            _stateQueue.Enqueue(new Moving(this, destination));
         }
     }
 }

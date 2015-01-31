@@ -45,7 +45,12 @@ namespace Game.Engine
                 ev => StateEvent.NextState += ev,
                 ev => StateEvent.NextState -= ev).Subscribe(staSubject);
             staSubject.Subscribe(x =>
-            {
+            {   
+                if (_stateQueue.Count == 0)
+                {
+                    EnqueueNextState();
+                }
+
                 if (_stateQueue.Count > 0)
                 {
                     IState nextState;
@@ -62,10 +67,7 @@ namespace Game.Engine
                     }
                 }
 
-                if (_stateQueue.Count == 0)
-                {
-                    State = GetNextState();
-                }
+
             });
 
             Game.Intervals.CombineLatest(States, (tick, state) => state).Subscribe(x =>
@@ -80,9 +82,9 @@ namespace Game.Engine
             get { return "Mobile object"; }
         }
 
-        public virtual IState GetNextState()
+        public virtual void EnqueueNextState()
         {
-            return new Standing();
+            _stateQueue.Enqueue(new Standing());
         }
 
         public virtual bool CheckForUnExpected()
