@@ -6,7 +6,7 @@ using Microsoft.Practices.Unity;
 
 namespace Game.Engine.Objects
 {
-    internal abstract class ObjectWithState: FixedObject, IComparable<ObjectWithState>
+    internal class ObjectWithState: IComparable<ObjectWithState>
     {
         // todo : object with state
         // to switch state objects are added to quiue in appropriate game tick
@@ -16,13 +16,24 @@ namespace Game.Engine.Objects
         // game ticks to next state should be calculated with random distribution
 
         // todo : maybe rewrite with empty ctor and virtual methods for state registration
-        public ObjectWithState(List<IObjectState> objectStateQueue, bool isCircling)
+
+        private readonly Action NextStateHandler;
+        public readonly Action LastStateHandler;
+
+        public ObjectWithState(List<IObjectState> objectStateQueue, bool isCircling, Action lastStateHandler, Action nextStateHandler)
         {
             _objectStateQueue = objectStateQueue;
             _isCircling = isCircling;
-            
+
+            LastStateHandler = lastStateHandler;
+            NextStateHandler = nextStateHandler;
+
             NextState();
         }
+
+        public ObjectWithState(List<IObjectState> objectStateQueue, bool isCircling, Action lastStateHandler)
+            :this(objectStateQueue, isCircling, lastStateHandler, null)
+        {}
 
         public int NextStateTick { get; set; }
         public int TicksToNextState {
@@ -70,10 +81,12 @@ namespace Game.Engine.Objects
             ChangeState(nextStateId);
         }
 
-        public virtual void ChangeState(int newstateId)
+        public virtual void ChangeState(int newstateId, int? newTicksCount = null)
         {
             var oldState = (_currentStateId >= _objectStateQueue.Count || _currentStateId < 0) ? null :_objectStateQueue[_currentStateId];
             _currentStateId = newstateId;
+
+            _objectStateQueue[_currentStateId].TickCount = newTicksCount ?? _objectStateQueue[_currentStateId].TickCount;
 
             if (Game.StateQueueManager != null)
             {
@@ -83,7 +96,10 @@ namespace Game.Engine.Objects
         }
 
         protected virtual void OnChangeState(IObjectState oldState)
-        {}
+        {
+            if (NextStateHandler != null)
+                NextStateHandler();
+        }
 
         public int CompareTo(ObjectWithState other)
         {
@@ -98,7 +114,8 @@ namespace Game.Engine.Objects
 
         public virtual void OnLastStateFinished()
         {
-            this.RemoveFromContainer();
+            if (LastStateHandler != null)
+                LastStateHandler();
         }
     }
 }

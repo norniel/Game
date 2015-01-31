@@ -1,19 +1,31 @@
 ﻿using System.Collections.Generic;
 using Game.Engine.Interfaces;
 using Game.Engine.ObjectStates;
+using Wintellect.PowerCollections;
 
 namespace Game.Engine.Objects
 {
-    internal class Fire : ObjectWithState, IBurning
+    internal class Fire : FixedObject, IBurning
     {
+        private ObjectWithState ObjectWithState { get; set; }
+
         public Fire()
-            :base(new List<IObjectState>{new Firing{TickCount = 300, Distribution = 10}, new Attenuating{TickCount = 150, Distribution = 10}}, false)
         {
             IsPassable = false;
 
             Size = new Size(1, 1);
 
             Id = 0x00000600;
+
+            ObjectWithState =
+                new ObjectWithState(
+                    new List<IObjectState>
+                    {
+                        new Firing {TickCount = 300, Distribution = 10},
+                        new Attenuating {TickCount = 150, Distribution = 10}
+                    }, 
+                    false,
+                    OnLastStateFinished);
         }
 
         public override void InitializeProperties()
@@ -31,26 +43,30 @@ namespace Game.Engine.Objects
         public int TimeOfBurning {
             get
             {
-                if (this.CurrentState is Firing)
+                if (this.ObjectWithState.CurrentState is Firing)
                 {
-                    return this.TicksToNextState;
+                    return this.ObjectWithState.TicksToNextState;
                 }
 
                 return 0;
             }
             set
             {
-                this._objectStateQueue[0].TickCount = value;
-                this.ChangeState(0);
+                this.ObjectWithState.ChangeState(0, value);
             }
         }
 
         public override uint GetDrawingCode()
         {
-            if(CurrentState is Attenuating)
+            if (this.ObjectWithState.CurrentState is Attenuating)
                 return 0x00001500;
 
             return this.Id;
+        }
+
+        public void OnLastStateFinished()
+        {
+            this.RemoveFromContainer();
         }
     }
 }

@@ -24,14 +24,7 @@
         }
 
         private bool _isThen = false;
-        /*
-        public List<Point> PointList { get; private set; }
 
-        public IObservable<EventPattern<StateEventArgs>> States
-        {
-            get { return staSubject; }
-        }
-        */
         public Hero()
         {
           //  Position = new Point();
@@ -41,37 +34,6 @@
             Bag = new Bag();
 
             _heroLifeCycle = new HeroLifeCycle();
-            /*
-            _stateQueue = new Queue<IState>();
-            PointList = new List<Point>();
-            State = new Standing();
-
-            Observable.FromEventPattern<StateHandler, StateEventArgs>(
-                ev => StateEvent.NextState += ev,
-                ev => StateEvent.NextState -= ev).Subscribe(staSubject);
-            staSubject.Subscribe(x =>
-            {
-                if (_stateQueue.Count > 0)
-                {
-                    IState nextState;
-                    while (_stateQueue.Count > 0)
-                    {
-                        nextState = _stateQueue.Dequeue();
-
-                        if (nextState == State || nextState == null)
-                            continue;
-
-                        State = nextState;
-
-                        return;
-                    }
-                }
-
-                if (_stateQueue.Count == 0)
-                {
-                    State = new Standing();
-                }
-            });*/
 
             //todo - extract to method
 

@@ -5,16 +5,28 @@ using Game.Engine.ObjectStates;
 
 namespace Game.Engine.Objects
 {
-    internal class Plant: ObjectWithState, IBurnable, ICloneable
+    internal class Plant: FixedObject, IBurnable, ICloneable
     {
+        private ObjectWithState ObjectWithState { get; set; }
+
         public Plant()
-            : base(new List<IObjectState> { new Growing { TickCount = 300, Distribution = 10 }, new Staying() { TickCount = 1000, Distribution = 100 }, new Drying() { TickCount = 300, Distribution = 30 } }, false)
         {
             IsPassable = true;
 
             Size = new Size(1, 1);
 
             Id = 0x00001100;
+
+            ObjectWithState =
+                new ObjectWithState(
+                    new List<IObjectState>
+                    {
+                        new Growing {TickCount = 300, Distribution = 30},
+                        new Staying() {TickCount = 1000, Distribution = 100},
+                        new Drying() {TickCount = 300, Distribution = 30}
+                    }, 
+                    false, 
+                    OnLastStateFinished);
         }
 
         public override void InitializeProperties()
@@ -33,10 +45,21 @@ namespace Game.Engine.Objects
         }
 
         public int TimeOfBurning {
-            get { return 100; }
+            get
+            {
+                if (ObjectWithState.CurrentState is Growing)
+                {
+                    var tToNext = ObjectWithState.TicksToNextState;
+                    var tCount = ObjectWithState.CurrentState.TickCount;
+
+                    return tCount > 0 ? (tToNext/tCount)*100 : 0;
+                }
+
+                return 100;
+            }
         }
 
-        public override void OnLastStateFinished()
+        public void OnLastStateFinished()
         {
             this.RemoveFromContainer();
         }
@@ -48,10 +71,10 @@ namespace Game.Engine.Objects
 
         public override uint GetDrawingCode()
         {
-            if (CurrentState is Growing)
+            if (ObjectWithState.CurrentState is Growing)
                 return 0x10001100;
 
-            if (CurrentState is Drying)
+            if (ObjectWithState.CurrentState is Drying)
                 return 0x20001100;
 
             return this.Id;
