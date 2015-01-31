@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Engine.Actions;
 using Game.Engine.Interfaces;
 using Game.Engine.Objects.Fruits;
 using Game.Engine.Objects.Trees;
@@ -24,15 +25,16 @@ namespace Game.Engine.Objects
 
             ViewSight = new Size(6, 6);
             Position = position;
-            this.StateEvent.FireEvent();
 
             ObjectWithState = new ObjectWithState(
                 new List<IObjectState>
                     {
-                        new Staying() {TickCount = 1000, Distribution = 100, Eternal = false},
+                        new Staying() {TickCount = 100, Distribution = 10, Eternal = false},
                         new Hungry() {TickCount = 300, Distribution = 30, Eternal = true}
                     },
                     false, null, StartLookingForFood);
+
+            this.StateEvent.FireEvent();
         }
 
         public override void InitializeProperties()
@@ -92,7 +94,7 @@ namespace Game.Engine.Objects
 
             var destination = Position;
             var neighbourList = Game.Map.GetNearestToPointList(Position, 1);
-
+/*
             var eatablePoint = neighbourList.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
@@ -105,14 +107,14 @@ namespace Game.Engine.Objects
             if (eatablePoint != null)
             {
                 _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(eatablePoint)));
-                _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(eatablePoint)));
+                _stateQueue.Enqueue(new Acting(this, new EatAction(), Map.CellToPoint(eatablePoint)));
                 return;
             }
-
+            */
             var treePoint = neighbourList.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
-                if (obj is AppleTree)
+                if (obj is AppleTree && (obj as IHasSmthToCollect<Berry>).GetSmthTotalCount() > 0)
                     return true;
 
                 return false;
@@ -121,7 +123,7 @@ namespace Game.Engine.Objects
             if (treePoint != null)
             {
                 _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(treePoint)));
-                _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(eatablePoint)));
+                _stateQueue.Enqueue(new ShakingTree(this, Game.Map.GetObjectFromCell(treePoint) as AppleTree));
                 return;
             }
 

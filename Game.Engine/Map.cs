@@ -320,5 +320,32 @@ namespace Game.Engine
 
             return nearestPoints;
         }
+
+        public Point GetNearestRandomEmptyCellFromPoint(Point positionPoint)
+        {
+            Point result = null;
+
+            var neighbourList = Game.Map.GetNearestToPointList(positionPoint, 1);
+
+            var positionCell = Map.PointToCell(positionPoint);
+            neighbourList.Remove(positionCell);
+
+            while (neighbourList.Any())
+            {
+                var p = Game.Random.Next(neighbourList.Count);
+
+                var obj = Game.Map.GetObjectFromCell(neighbourList[p]);
+                if (obj != null && !obj.IsPassable)
+                {
+                    neighbourList.RemoveAt(p);
+                    continue;
+                }
+
+                result = neighbourList[p];
+                break;
+            }
+
+            return result;
+        }
     }
 }

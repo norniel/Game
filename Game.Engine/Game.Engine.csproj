@@ -135,6 +135,7 @@
     <Compile Include="States\IState.cs" />
     <Compile Include="States\Moving.cs" />
     <Compile Include="States\Resting.cs" />
+    <Compile Include="States\ShakingTree.cs" />
     <Compile Include="States\Wondering.cs" />
     <Compile Include="Tools\Point.cs" />
     <Compile Include="Tools\Rect.cs" />
