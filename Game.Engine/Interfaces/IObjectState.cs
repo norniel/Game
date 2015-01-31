@@ -4,5 +4,6 @@
     {
         int TickCount { get; set; }
         int Distribution { get; set; }
+        bool Eternal { get; set; }
     }
 }

@@ -21,8 +21,8 @@ namespace Game.Engine.Objects
                 new ObjectWithState(
                     new List<IObjectState>
                     {
-                        new Firing {TickCount = 300, Distribution = 10},
-                        new Attenuating {TickCount = 150, Distribution = 10}
+                        new Firing {TickCount = 300, Distribution = 10, Eternal = false},
+                        new Attenuating {TickCount = 150, Distribution = 10, Eternal = false}
                     }, 
                     false,
                     OnLastStateFinished);

@@ -22,7 +22,7 @@ namespace Game.Engine
             }
 
             // todo maybe write use tasks here
-            while (_queue.Any() && (_queue.GetFirst().NextStateTick <= CurrentTick))
+            while (_queue.Any() && (!_queue.GetFirst().CurrentState.Eternal && _queue.GetFirst().NextStateTick <= CurrentTick))
             {
                 _queue.GetFirst().NextState();
                 _queue.RemoveFirst();

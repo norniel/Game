@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Engine.Interfaces;
+using Game.Engine.ObjectStates;
 using Game.Engine.States;
 
 namespace Game.Engine.Objects
 {
     class Dikabryozik: MobileObject
     {
+        private ObjectWithState ObjectWithState { get; set; }
         public Dikabryozik(Point position)
         {
             IsPassable = false;
@@ -19,6 +22,14 @@ namespace Game.Engine.Objects
             ViewSight = new Size(6, 6);
             Position = position;
             this.StateEvent.FireEvent();
+
+            ObjectWithState = new ObjectWithState(
+                new List<IObjectState>
+                    {
+                        new Staying() {TickCount = 1000, Distribution = 100, Eternal = false},
+                        new Hungry() {TickCount = 300, Distribution = 30, Eternal = true}
+                    },
+                    false, null, StartLookingForFood);
         }
 
         public override void InitializeProperties()
@@ -62,6 +73,21 @@ namespace Game.Engine.Objects
                 }
             }
             return true;
+        }
+
+        public void StartLookingForFood()
+        {
+          /*  for (int i = 0; i < ViewSight.Width; i++)
+            {
+                for (int j = 0; j < ViewSight.Height; j++)
+                {
+                    if (i == 0 && j == 0)
+                        continue;
+
+
+                }
+            }
+            return true;*/
         }
     }
 }

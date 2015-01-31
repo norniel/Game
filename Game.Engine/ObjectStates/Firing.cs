@@ -6,5 +6,6 @@ namespace Game.Engine.ObjectStates
     {
         public int TickCount { get; set; }
         public int Distribution { get; set; }
+        public bool Eternal { get; set; }
     }
 }

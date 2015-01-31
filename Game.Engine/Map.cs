@@ -88,15 +88,7 @@ namespace Game.Engine
 
         private Point GetRandomNearEmptyPoint(Point cell, int radius)
         {
-            var nearestPoints = new List<Point>();
-
-            for (int i = cell.X - radius < 0 ? 0 : cell.X - radius; i < (cell.X + radius >= MAP_CELL_WIDTH ? MAP_CELL_WIDTH - 1 : cell.X + radius); i++)
-            {
-                for (int j = cell.Y - radius < 0 ? 0 : cell.Y - radius; j < (cell.Y + radius >= MAP_CELL_HEIGHT ? MAP_CELL_HEIGHT - 1 : cell.Y + radius); j++)
-                {
-                    nearestPoints.Add(new Point(i, j));
-                }
-            }
+            var nearestPoints = GetNearestToCellList(cell, radius);
 
             var random = new Random();
 
@@ -305,6 +297,28 @@ namespace Game.Engine
         {
             return VisibleRect.Left <= point.X && (VisibleRect.Left + VisibleRect.Width) > point.X &&
                    VisibleRect.Top <= point.Y && (VisibleRect.Top + VisibleRect.Height) > point.Y;
+        }
+
+        public List<Point> GetNearestToPointList(Point positionPoint, int radius)
+        {
+            var cell = PointToCell(positionPoint);
+
+            return GetNearestToCellList(cell, radius);
+        }
+
+        public List<Point> GetNearestToCellList(Point positionCell, int radius)
+        {
+            var nearestPoints = new List<Point>();
+
+            for (int i = positionCell.X - radius < 0 ? 0 : positionCell.X - radius; i <= (positionCell.X + radius >= MAP_CELL_WIDTH ? MAP_CELL_WIDTH - 1 : positionCell.X + radius); i++)
+            {
+                for (int j = positionCell.Y - radius < 0 ? 0 : positionCell.Y - radius; j <= (positionCell.Y + radius >= MAP_CELL_HEIGHT ? MAP_CELL_HEIGHT - 1 : positionCell.Y + radius); j++)
+                {
+                    nearestPoints.Add(new Point(i, j));
+                }
+            }
+
+            return nearestPoints;
         }
     }
 }

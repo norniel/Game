@@ -2,7 +2,7 @@
 
 namespace Game.Engine.ObjectStates
 {
-    class Staying:IObjectState
+    class Hungry:IObjectState
     {
         public int TickCount { get; set; }
         public int Distribution { get; set; }
