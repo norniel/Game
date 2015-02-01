@@ -10,7 +10,7 @@ using Game.Engine.States;
 
 namespace Game.Engine.Objects
 {
-    class Dikabryozik: MobileObject
+    class Dikabryozik: MobileObject, IEater
     {
         private ObjectWithState ObjectWithState { get; set; }
         public Dikabryozik(Point position)
@@ -32,7 +32,7 @@ namespace Game.Engine.Objects
                         new Staying() {TickCount = 100, Distribution = 10, Eternal = false},
                         new Hungry() {TickCount = 300, Distribution = 30, Eternal = true}
                     },
-                    false, null, StartLookingForFood);
+                    false, null, OnChangeState);
 
             this.StateEvent.FireEvent();
         }
@@ -88,13 +88,21 @@ namespace Game.Engine.Objects
             return true;
         }
 
+        public void OnChangeState()
+        {
+            if (ObjectWithState != null && ObjectWithState.CurrentState is Hungry)
+            {
+                StartLookingForFood();
+            }
+        }
+
         public void StartLookingForFood()
         {
             _stateQueue.Clear();
 
             var destination = Position;
             var neighbourList = Game.Map.GetNearestToPointList(Position, 1);
-/*
+
             var eatablePoint = neighbourList.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
@@ -107,10 +115,10 @@ namespace Game.Engine.Objects
             if (eatablePoint != null)
             {
                 _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(eatablePoint)));
-                _stateQueue.Enqueue(new Acting(this, new EatAction(), Map.CellToPoint(eatablePoint)));
+                _stateQueue.Enqueue(new Eating(this, Game.Map.GetObjectFromCell(eatablePoint)));
                 return;
             }
-            */
+            
             var treePoint = neighbourList.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
@@ -143,6 +151,11 @@ namespace Game.Engine.Objects
             }
 
             _stateQueue.Enqueue(new Moving(this, destination));
+        }
+
+        public void Eat()
+        {
+            ObjectWithState.ChangeState(0);
         }
     }
 }

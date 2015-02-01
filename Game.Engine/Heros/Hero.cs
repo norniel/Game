@@ -6,7 +6,7 @@
     using Interfaces.IActions;
     using Objects;
     using States;
-    public class Hero : MobileObject, IPicker
+    public class Hero : MobileObject, IPicker, IEater
     {
       //  private Subject<EventPattern<StateEventArgs>> staSubject = new Subject<EventPattern<StateEventArgs>>();
 
