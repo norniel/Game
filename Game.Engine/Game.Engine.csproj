@@ -151,6 +151,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Tools\ShadowCasting.cs" />
     <Compile Include="Tools\Size.cs" />
     <Compile Include="States\Standing.cs" />
     <Compile Include="Objects\Tree.cs" />

@@ -43,6 +43,11 @@ namespace Game.Engine
             return _map[cell.X, cell.Y];
         }
 
+        internal FixedObject GetObjectFromCellXY(int x, int y)
+        {
+            return _map[x, y];
+        }
+
         internal void SetObjectFromDestination(Point destination, FixedObject gameObject)
         {
             var cell = PointToCell(destination);
@@ -347,5 +352,7 @@ namespace Game.Engine
 
             return result;
         }
+
+
     }
 }
