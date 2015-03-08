@@ -1,17 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using Game.Engine.Interfaces;
 
 namespace Game.Engine.Tools
 {
-    class ShadowCasting
+    public class ShadowCasting
     {
         private readonly Point _startingCell;
         private readonly int _radius;
-        private readonly Map _map;
+        private readonly IMap _map;
         private readonly int _mapWidth;
         private readonly int _mapHeight;
 
-        public ShadowCasting(Point startingCell, int radius, Map map)
+        public static ShadowCasting For(Point startingCell, int radius, IMap map)
+        {
+            return new ShadowCasting(startingCell, radius, map);
+        }
+
+        private ShadowCasting(Point startingCell, int radius, IMap map)
         {
             _startingCell = startingCell;
             _radius = radius;
@@ -49,14 +57,12 @@ namespace Game.Engine.Tools
                 if (ActualYOutOfRange(j, quoterNumber))
                     break;
 
-                var startingI = (int)(startingSlope * j);
-                var endingI = (int)(endingSlope * j);
+                var startingI = (int)Math.Floor(startingSlope * j);
+                var endingI = (int)Math.Ceiling(endingSlope * j);
                 // 0) j = _startingCell.Y - y; i = x - _startingCell.X ;
                 // 1) j = _startingCell.X - x; i = _startingCell.Y - y;
                 // 2) j = y - _startingCell.Y; i = _startingCell.X - x;
                 // 3) j = x - _startingCell.X; i = y -_startingCell.Y;
-                //var startingX = (int)(startingSlope*(y - _startingCell.Y) + _startingCell.X);
-                //var endingX = (int)(endingSlope * (y - _startingCell.Y) + _startingCell.X);
 
                 var iBound = ReturnIBound(quoterNumber, startingI, endingI);
                 startingI = iBound.X;
@@ -64,19 +70,22 @@ namespace Game.Engine.Tools
 
                 for (int i = startingI; i <= endingI; i++)
                 {
-                    if (GetObjectFromCellInQuoter(quoterNumber, i, j).IsPassable && i < endingI && !GetObjectFromCellInQuoter(quoterNumber, i + 1, j).IsPassable)
+                    if (ObjectFromCellInQuoterIsPassable(quoterNumber, i, j) && i < endingI && !ObjectFromCellInQuoterIsPassable(quoterNumber, i + 1, j))
                     {
-                        CalculateVisibleCellsFromQuoter(quoterNumber, startingSlope, GetNewSlope(i - 0.5m, j + ((i < 0) ? 0.5m : -0.5m)), j);
+                        foreach (var point in CalculateVisibleCellsFromQuoter(quoterNumber, startingSlope, GetNewSlope(i + 0.5m, j - ((i + 0.5m < 0) ? 0.5m : -0.5m)), j + 1))
+                        {
+                            yield return point;
+                        }
                     }
-                    else if (!GetObjectFromCellInQuoter(quoterNumber, i, j).IsPassable && i < endingI && GetObjectFromCellInQuoter(quoterNumber, i + 1, j).IsPassable)
+                    else if (!ObjectFromCellInQuoterIsPassable(quoterNumber, i, j) && i < endingI && ObjectFromCellInQuoterIsPassable(quoterNumber, i + 1, j))
                     {
-                        startingSlope = GetNewSlope(i + 0.5m, j - ((i < 0) ? 0.5m : -0.5m));
+                        startingSlope = GetNewSlope(i + 0.5m, j + ((i + 0.5m < 0) ? 0.5m : -0.5m));
                     }
 
                     yield return new PointWithDistance() { Distance = 0, Point = GetCellFromIJInQuoter(quoterNumber, i, j) };
                 }
 
-                if (!GetObjectFromCellInQuoter(quoterNumber, endingI, j).IsPassable)
+                if (endingI < startingI || !ObjectFromCellInQuoterIsPassable(quoterNumber, endingI, j))
                     break;
             }
         }
@@ -106,7 +115,7 @@ namespace Game.Engine.Tools
                 case 1:
                     result.X = _startingCell.Y - startingI >= _mapHeight ? _startingCell.Y - _mapHeight + 1 : startingI;
                     result.Y = _startingCell.Y - endingI < 0 ? _startingCell.Y : endingI;
-                    break;
+                     break;
                 case 2:
                     result.X = _startingCell.X - startingI >= _mapWidth ? _startingCell.X - _mapWidth + 1 : startingI;
                     result.Y = _startingCell.X - endingI < 0 ? _startingCell.X : endingI;
@@ -137,15 +146,35 @@ namespace Game.Engine.Tools
             return null;
         }
 
-        private FixedObject GetObjectFromCellInQuoter(int quoter, int i, int j)
+        private bool ObjectFromCellInQuoterIsPassable(int quoter, int i, int j)
         {
-            return _map.GetObjectFromCell(GetCellFromIJInQuoter(quoter, i, j));
+            var obj = _map.GetObjectFromCell(GetCellFromIJInQuoter(quoter, i, j));
+
+            return obj == null || obj.IsPassable;
         }
     }
 
-    internal class PointWithDistance
+    public class PointWithDistance
     {
         public Point Point { get; set; }
         public int Distance { get; set; }
+
+        protected bool Equals(PointWithDistance other)
+        {
+            return Equals(Point, other.Point);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((PointWithDistance) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Point != null ? Point.GetHashCode() : 0);
+        }
     }
 }

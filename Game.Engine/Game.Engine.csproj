@@ -93,6 +93,7 @@
     <Compile Include="Interfaces\IEater.cs" />
     <Compile Include="Interfaces\IHasBerries.cs" />
     <Compile Include="Interfaces\IHasSmthToCollect.cs" />
+    <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="Interfaces\IObjectState.cs" />
     <Compile Include="Interfaces\IPicker.cs" />
     <Compile Include="Interfaces\IRemovableObject.cs" />

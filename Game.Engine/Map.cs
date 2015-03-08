@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Engine.Interfaces;
 using Wintellect.PowerCollections;
 
 namespace Game.Engine
 {
-    public class Map
+    public class Map: IMap
     {
         private const int CELL_MEASURE = 20;
         private const int MAP_WIDTH = 1000;
@@ -32,13 +33,13 @@ namespace Game.Engine
             //_map = new FixedObject[sizeInCells.Width, sizeInCells.Height];
         }
 
-        internal FixedObject GetObjectFromDestination(Point destination)
+        public FixedObject GetObjectFromDestination(Point destination)
         {
             var cell = PointToCell(destination);
             return this.GetObjectFromCell(cell);
         }
 
-        internal FixedObject GetObjectFromCell(Point cell)
+        public FixedObject GetObjectFromCell(Point cell)
         {
             return _map[cell.X, cell.Y];
         }
@@ -121,7 +122,7 @@ namespace Game.Engine
             return new Point(point.X / CELL_MEASURE, point.Y / CELL_MEASURE);
         }
 
-        internal Rect GetSize()
+        public Rect GetSize()
         {
             return new Rect(0, 0, (uint)_map.GetLength(0), (uint)_map.GetLength(1));
         }
