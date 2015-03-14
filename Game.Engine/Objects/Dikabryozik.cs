@@ -7,6 +7,8 @@ using Game.Engine.Objects.Fruits;
 using Game.Engine.Objects.Trees;
 using Game.Engine.ObjectStates;
 using Game.Engine.States;
+using Game.Engine.Tools;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace Game.Engine.Objects
 {
@@ -23,13 +25,14 @@ namespace Game.Engine.Objects
 
             Speed = 1;
 
-            ViewSight = new Size(6, 6);
+            ViewRadius = 3;
+            ViewSight = new Size((uint)ViewRadius, (uint)ViewRadius);
             Position = position;
 
             ObjectWithState = new ObjectWithState(
                 new List<IObjectState>
                     {
-                        new Staying() {TickCount = 100, Distribution = 10, Eternal = false},
+                        //new Staying() {TickCount = 100, Distribution = 10, Eternal = false},
                         new Hungry() {TickCount = 300, Distribution = 30, Eternal = true}
                     },
                     false, null, OnChangeState);
@@ -101,9 +104,11 @@ namespace Game.Engine.Objects
             _stateQueue.Clear();
 
             var destination = Position;
-            var neighbourList = Game.Map.GetNearestToPointList(Position, 1);
 
-            var eatablePoint = neighbourList.FirstOrDefault(p =>
+            var visiblePoints = ShadowCasting.For(PositionCell, ViewRadius, Game.Map).GetVisibleCells().OrderBy(p => p.Distance).ToList();
+            //var neighbourList = Game.Map.GetNearestToPointList(Position, 1);
+
+            var eatablePoint = visiblePoints.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
                 if (obj is Apple)
@@ -114,12 +119,12 @@ namespace Game.Engine.Objects
 
             if (eatablePoint != null)
             {
-                _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(eatablePoint)));
+                EnqueueMovingToDestination(eatablePoint);
                 _stateQueue.Enqueue(new Eating(this, Game.Map.GetObjectFromCell(eatablePoint)));
                 return;
             }
-            
-            var treePoint = neighbourList.FirstOrDefault(p =>
+
+            var treePoint = visiblePoints.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
                 if (obj is AppleTree && (obj as IHasSmthToCollect<Berry>).GetSmthTotalCount() > 0)
@@ -130,32 +135,58 @@ namespace Game.Engine.Objects
 
             if (treePoint != null)
             {
-                _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(treePoint)));
+                EnqueueMovingToDestination(treePoint);
                 _stateQueue.Enqueue(new ShakingTree(this, Game.Map.GetObjectFromCell(treePoint) as AppleTree));
                 return;
             }
 
-            while (neighbourList.Any())
+            while (visiblePoints.Any())
             {
-                var p = Game.Random.Next(neighbourList.Count);
+               // var maxDistance = visiblePoints.Last().Distance;
+             //   var farestVisible = visiblePoints.Where(p => p.Distance == maxDistance).ToList();
+                var randNumber = Game.Random.Next(visiblePoints.Count);
 
-                var obj = Game.Map.GetObjectFromCell(neighbourList[p]);
+                var obj = Game.Map.GetObjectFromCell(visiblePoints[randNumber]);
                 if (obj != null && !obj.IsPassable)
                 {
-                    neighbourList.RemoveAt(p);
+                    visiblePoints.RemoveAt(randNumber);
                     continue;
                 }
 
-                destination = Map.CellToPoint(neighbourList[p]);
+                destination = Map.CellToPoint(visiblePoints[randNumber]);
                 break;
             }
 
-            _stateQueue.Enqueue(new Moving(this, destination));
+            EnqueueMovingToDestination(destination);
         }
 
         public void Eat()
         {
             ObjectWithState.ChangeState(0);
+        }
+
+        private IEnumerable<Point> GetMovingPointsToDestination(Point destinationPoint)
+        {
+            var deltaX = PositionCell.X - destinationPoint.X;
+            var deltaY = PositionCell.Y - destinationPoint.Y;
+            var maxDist = Math.Max(Math.Abs(deltaX), Math.Abs(deltaY));
+
+            for (int i = 1; i < maxDist; i++)
+            {
+                var xi = (int)Math.Round((i*deltaX)/(double)maxDist + PositionCell.X);
+                var yi = (int)Math.Round((i * deltaY) / (double)maxDist + PositionCell.Y);
+                yield return new Point(xi, yi);
+            }
+
+            yield return destinationPoint;
+        }
+
+        private void EnqueueMovingToDestination(Point destinationPoint)
+        {
+            GetMovingPointsToDestination(destinationPoint).ForEach(p =>
+            {
+                _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(p)));
+            });
         }
     }
 }

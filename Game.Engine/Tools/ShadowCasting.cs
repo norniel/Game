@@ -82,7 +82,7 @@ namespace Game.Engine.Tools
                         startingSlope = GetNewSlope(i + 0.5m, j + ((i + 0.5m < 0) ? 0.5m : -0.5m));
                     }
 
-                    yield return new PointWithDistance() { Distance = 0, Point = GetCellFromIJInQuoter(quoterNumber, i, j) };
+                    yield return new PointWithDistance() { Distance = (i*i + j*j), Point = GetCellFromIJInQuoter(quoterNumber, i, j) };
                 }
 
                 if (endingI < startingI || !ObjectFromCellInQuoterIsPassable(quoterNumber, endingI, j))
@@ -175,6 +175,11 @@ namespace Game.Engine.Tools
         public override int GetHashCode()
         {
             return (Point != null ? Point.GetHashCode() : 0);
+        }
+
+        public static implicit operator Point(PointWithDistance p)
+        {
+            return p.Point;
         }
     }
 }

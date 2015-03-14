@@ -10,7 +10,32 @@ namespace Game.Engine
     {
         protected Subject<EventPattern<StateEventArgs>> staSubject = new Subject<EventPattern<StateEventArgs>>();
 
-        public Point Position { get; set; }
+        private Point _position;
+        private Point _positionCell;
+        private bool _positionChanged = true;
+
+        public Point Position {
+            get { return _position; }
+            set
+            {
+                _position = value;
+                _positionChanged = true;
+            }
+        }
+
+        public Point PositionCell
+        {
+            get
+            {
+                if (_positionChanged)
+                {
+                    _positionCell = Map.PointToCell(_position);
+                    _positionChanged = false;
+                }
+
+                return _positionCell;
+            }
+        }
 
         public IState State { get; protected set; }
 
@@ -21,6 +46,8 @@ namespace Game.Engine
         public uint Speed { get; set; }
 
         public double Angle { get; set; }
+
+        public int ViewRadius { get; set; }
 
         public Size ViewSight { get; set; }
         public List<Point> PointList { get; private set; }
