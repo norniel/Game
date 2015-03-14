@@ -123,6 +123,7 @@
     <Compile Include="Objects\Fruits\Cone.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Objects\Log.cs" />
+    <Compile Include="Objects\Mushroom.cs" />
     <Compile Include="Objects\ObjectWithState.cs" />
     <Compile Include="Objects\Plant.cs" />
     <Compile Include="Actions\PickAction.cs" />

@@ -55,7 +55,7 @@ namespace Game.Engine
                 if( map.GetObjectFromCell(new Point(tmpX, tmpY)) != null )
                     continue;
 
-                switch (count % 5)
+                switch (count % 6)
                 {
                     case    0:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new AppleTree());
@@ -71,6 +71,9 @@ namespace Game.Engine
                         break;
                     case 4:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new SpruceTree());
+                        break;
+                    case 5:
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Mushroom());
                         break;
                 }
 

@@ -50,6 +50,9 @@ namespace Game
         private BitmapImage coneImage;
         private BitmapImage dikabrozikImage;
 
+        private BitmapImage mushroomImage;
+        private BitmapImage growingMushroomImage;
+
         private TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
 
@@ -85,6 +88,9 @@ namespace Game
             spruceTreeImage = CreateBitmapImage(@"spruce tree.png");
             coneImage = CreateBitmapImage(@"cone small.png");
             dikabrozikImage = CreateBitmapImage(@"dikabroyozik small.png");
+
+            mushroomImage = CreateBitmapImage(@"mushroom small.png");
+            growingMushroomImage = CreateBitmapImage(@"mushroom growing small.png");
 
             CreateActing();
 
@@ -284,6 +290,16 @@ namespace Game
                 // _canvas.Children
                 DrawImage(coneImage, x, y);
             }
+            else if (id == 0x00001900)
+            {
+                // _canvas.Children
+                DrawImage(mushroomImage, x, y);
+            }
+            else if (id == 0x10001900)
+            {
+                // _canvas.Children
+                DrawImage(growingMushroomImage, x, y);
+            }
             else if ((id/0x1000) == 0x00018)
             {
                 DrawRotatedImage(dikabrozikImage, x, y, id % 0x1000);
@@ -403,6 +419,8 @@ namespace Game
                     return coneImage;
                 case "Apple":
                     return appleImage;
+                case "Mushroom":
+                    return mushroomImage;
             }
             return appletreeImage;
         }

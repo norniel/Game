@@ -32,7 +32,7 @@ namespace Game.Engine.Objects
             ObjectWithState = new ObjectWithState(
                 new List<IObjectState>
                     {
-                        //new Staying() {TickCount = 100, Distribution = 10, Eternal = false},
+                        new Staying() {TickCount = 300, Distribution = 30, Eternal = false},
                         new Hungry() {TickCount = 300, Distribution = 30, Eternal = true}
                     },
                     false, null, OnChangeState);
@@ -111,7 +111,7 @@ namespace Game.Engine.Objects
             var eatablePoint = visiblePoints.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
-                if (obj is Apple)
+                if (obj is Apple || obj is Mushroom)
                     return true;
 
                 return false;
@@ -175,7 +175,7 @@ namespace Game.Engine.Objects
             {
                 var xi = (int)Math.Round((i*deltaX)/(double)maxDist + PositionCell.X);
                 var yi = (int)Math.Round((i * deltaY) / (double)maxDist + PositionCell.Y);
-                yield return new Point(xi, yi);
+                yield return new Point(xi < 0 ? 0 : xi, yi < 0 ? 0 : yi);
             }
 
             yield return destinationPoint;
