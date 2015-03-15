@@ -90,6 +90,7 @@
     <Compile Include="Interfaces\IBurnable.cs" />
     <Compile Include="Interfaces\IBurning.cs" />
     <Compile Include="Interfaces\IContainer.cs" />
+    <Compile Include="Interfaces\IEatable.cs" />
     <Compile Include="Interfaces\IEater.cs" />
     <Compile Include="Interfaces\IHasBerries.cs" />
     <Compile Include="Interfaces\IHasSmthToCollect.cs" />

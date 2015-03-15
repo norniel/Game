@@ -5,7 +5,7 @@
     using Interfaces;
     using ObjectStates;
 
-    internal class Mushroom : FixedObject, ICloneable
+    internal class Mushroom : FixedObject, ICloneable, IEatable
     {
         private ObjectWithState ObjectWithState { get; set; }
 
@@ -41,7 +41,7 @@
 
         public override string Name
         {
-            get { return "Mushroom"; }
+            get { return "Burovik"; }
         }
 
 
@@ -61,6 +61,25 @@
                 return 0x10001900;
 
             return this.Id;
+        }
+
+        public int Poisoness
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public int Satiety
+        {
+            get
+            {
+                if (ObjectWithState.CurrentState is Growing)
+                    return 1;
+
+                return 2;
+            }
         }
     }
 }

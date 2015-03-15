@@ -101,7 +101,7 @@ namespace Game.Engine
             while (nearestPoints.Any())
             {
                 var p = random.Next(nearestPoints.Count);
-                if (this.GetObjectFromCell(nearestPoints[p]) != null)
+                if (this.GetObjectFromCell(nearestPoints[p]) == null)
                 {
                     return nearestPoints[p];
                 }

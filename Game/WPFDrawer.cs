@@ -419,7 +419,7 @@ namespace Game
                     return coneImage;
                 case "Apple":
                     return appleImage;
-                case "Mushroom":
+                case "Burovik":
                     return mushroomImage;
             }
             return appletreeImage;

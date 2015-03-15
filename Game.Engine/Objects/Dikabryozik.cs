@@ -160,7 +160,7 @@ namespace Game.Engine.Objects
             EnqueueMovingToDestination(destination);
         }
 
-        public void Eat()
+        public void Eat(int satiety)
         {
             ObjectWithState.ChangeState(0);
         }

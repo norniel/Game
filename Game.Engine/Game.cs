@@ -27,6 +27,9 @@ namespace Game.Engine
     //5 Surface variety
     //8 Physics in states of objects
     //12 Hero properties
+    //13 Day and Night
+    //14 Hostile creatures
+
     public class Game
     {
         private Rect curRect;

@@ -57,7 +57,7 @@ namespace Game.Engine.Heros
             throw new NotImplementedException();
         }
 
-        public void Eat()
+        public void Eat(int satiety)
         {
             if (_heroProperties.Satiety >= INITIAL_SATIETY && _heroProperties.Health >= INITIAL_HEALTH)
                 return;
@@ -67,9 +67,9 @@ namespace Game.Engine.Heros
                 if (_heroProperties.Satiety < INITIAL_SATIETY || _heroProperties.Health < INITIAL_HEALTH)
                 {
                     if (_heroProperties.Satiety < INITIAL_SATIETY)
-                        _heroProperties.Satiety++;
+                        _heroProperties.Satiety = Math.Min(_heroProperties.Satiety+ satiety, INITIAL_SATIETY);
                     if (_heroProperties.Health < INITIAL_HEALTH)
-                        _heroProperties.Health++;
+                        _heroProperties.Health = Math.Min(_heroProperties.Health + satiety, INITIAL_HEALTH);
                 }
             }
         }

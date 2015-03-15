@@ -2,6 +2,6 @@
 {
     interface IEater
     {
-        void Eat();
+        void Eat(int satiety);
     }
 }

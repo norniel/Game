@@ -127,9 +127,9 @@
             }
         }
 
-        public void Eat()
+        public void Eat(int satiety)
         {
-            this.HeroLifeCycle.Eat();
+            this.HeroLifeCycle.Eat(satiety);
         }
 
         public IEnumerable<KeyValuePair<string, int>> GetProperties()

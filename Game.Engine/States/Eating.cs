@@ -6,7 +6,7 @@ namespace Game.Engine.States
     class Eating:IState
     {
         private readonly IEater _eater;
-        private GameObject _objectToEat;
+        private readonly GameObject _objectToEat;
 
         public Eating(IEater eater, GameObject objectToEat)
         {
@@ -15,9 +15,15 @@ namespace Game.Engine.States
         }
         public void Act()
         {
-            _eater.Eat();
-            _objectToEat.RemoveFromContainer();
-            (_eater as MobileObject).StateEvent.FireEvent();
+            var eatable = _objectToEat as IEatable;
+            if (eatable != null) {
+                _eater.Eat(eatable.Satiety);
+                _objectToEat.RemoveFromContainer();
+            }
+
+            var mobileObject = _eater as MobileObject;
+            if (mobileObject != null) 
+                mobileObject.StateEvent.FireEvent();
         }
 
         public bool ShowActing {

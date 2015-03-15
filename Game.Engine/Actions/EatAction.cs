@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Game.Engine.Heros;
+using Game.Engine.Interfaces;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
 
@@ -24,10 +25,10 @@ namespace Game.Engine.Actions
 
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
-            foreach (var removableObject in objects)
+            foreach (var removableObject in objects.OfType<IEatable>())
             {
-                hero.Eat();
-                removableObject.RemoveFromContainer();
+                hero.Eat(removableObject.Satiety);
+                (removableObject as GameObject).RemoveFromContainer();
             }
 
             return true;
