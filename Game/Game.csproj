@@ -218,6 +218,10 @@
   <ItemGroup>
     <Resource Include="Icons\mushroom growing small.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\roasted apple icon.png" />
+    <Resource Include="Icons\roasted mushroom small.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

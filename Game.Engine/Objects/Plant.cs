@@ -21,7 +21,7 @@ namespace Game.Engine.Objects
                 new ObjectWithState(
                     new List<IObjectState>
                     {
-                        new Growing {TickCount = 300, Distribution = 30, Eternal = false},
+                        new Growing {TickCount = 300, Distribution = 50, Eternal = false},
                         new Staying() {TickCount = 1000, Distribution = 100, Eternal = false},
                         new Drying() {TickCount = 300, Distribution = 30, Eternal = false}
                     }, 

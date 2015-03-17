@@ -16,6 +16,7 @@ namespace Game.Engine
         NeedToCreateStoneAxe,
         NeedToCreateFire,
         Burning,
-        Regrowable
+        Regrowable,
+        Roastable
     }
 }

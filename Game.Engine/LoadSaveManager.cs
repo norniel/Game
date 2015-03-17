@@ -58,22 +58,22 @@ namespace Game.Engine
                 switch (count % 6)
                 {
                     case    0:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new AppleTree());
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), new AppleTree());
                         break;
                     case 1:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Plant());
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), new Plant());
                         break;
                     case 2:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Rock());
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), new Rock());
                         break;
                     case 3:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Bush());
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), new Bush());
                         break;
                     case 4:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new SpruceTree());
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), new SpruceTree());
                         break;
                     case 5:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), (FixedObject)new Mushroom());
+                        map.SetObjectFromCell(new Point(tmpX, tmpY), new Mushroom());
                         break;
                 }
 

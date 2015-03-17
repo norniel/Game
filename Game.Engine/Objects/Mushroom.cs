@@ -5,7 +5,7 @@
     using Interfaces;
     using ObjectStates;
 
-    internal class Mushroom : FixedObject, ICloneable, IEatable
+    internal class Mushroom : FixedObject, ICloneable, IEatable, IRoastable
     {
         private ObjectWithState ObjectWithState { get; set; }
 
@@ -21,7 +21,7 @@
                 new ObjectWithState(
                     new List<IObjectState>
                     {
-                        new Growing {TickCount = 300, Distribution = 30, Eternal = false},
+                        new Growing {TickCount = 300, Distribution = 50, Eternal = false},
                         new Staying{TickCount = 1000, Distribution = 100, Eternal = false}
                     },
                     false,
@@ -35,7 +35,8 @@
             {
                Property.Pickable,
                Property.Regrowable,
-               Property.Eatable
+               Property.Eatable,
+               Property.Roastable
             };
         }
 
@@ -80,6 +81,11 @@
 
                 return 2;
             }
+        }
+
+        public GameObject GetRoasted()
+        {
+            return new RoastedMushroom();
         }
     }
 }

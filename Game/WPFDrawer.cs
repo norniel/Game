@@ -53,6 +53,9 @@ namespace Game
         private BitmapImage mushroomImage;
         private BitmapImage growingMushroomImage;
 
+        private BitmapImage roastedMushroomImage;
+        private BitmapImage roastedAppleImage;
+
         private TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
 
@@ -91,6 +94,9 @@ namespace Game
 
             mushroomImage = CreateBitmapImage(@"mushroom small.png");
             growingMushroomImage = CreateBitmapImage(@"mushroom growing small.png");
+
+            roastedMushroomImage = CreateBitmapImage(@"roasted mushroom small.png");
+            roastedAppleImage = CreateBitmapImage(@"roasted apple icon.png");
 
             CreateActing();
 
@@ -300,6 +306,16 @@ namespace Game
                 // _canvas.Children
                 DrawImage(growingMushroomImage, x, y);
             }
+            else if (id == 0x00001A00)
+            {
+                // _canvas.Children
+                DrawImage(roastedMushroomImage, x, y);
+            }
+            else if (id == 0x00001B00)
+            {
+                // _canvas.Children
+                DrawImage(roastedAppleImage, x, y);
+            }
             else if ((id/0x1000) == 0x00018)
             {
                 DrawRotatedImage(dikabrozikImage, x, y, id % 0x1000);
@@ -421,6 +437,10 @@ namespace Game
                     return appleImage;
                 case "Burovik":
                     return mushroomImage;
+                case "Roasted burovik":
+                    return roastedMushroomImage;
+                case "Roasted apple":
+                    return roastedAppleImage;
             }
             return appletreeImage;
         }

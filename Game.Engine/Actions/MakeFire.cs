@@ -4,7 +4,6 @@ using System.Linq;
 using Game.Engine.Heros;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
-using Game.Engine.Wrapers;
 using Microsoft.Practices.Unity;
 
 namespace Game.Engine.Actions
