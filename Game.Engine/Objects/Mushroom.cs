@@ -9,6 +9,7 @@
     {
         private ObjectWithState ObjectWithState { get; set; }
 
+        public override int Weight {get { return 2; }}
         public Mushroom()
         {
             IsPassable = true;

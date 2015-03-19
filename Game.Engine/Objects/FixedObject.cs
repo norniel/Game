@@ -1,4 +1,5 @@
 ﻿using Game.Engine.Objects;
+using Wintellect.PowerCollections;
 
 namespace Game.Engine
 {
@@ -9,6 +10,8 @@ namespace Game.Engine
         public Size Size { get; protected set; }
 
         public uint Id { get; protected set; }
+
+        public virtual int Weight {get { return 1; }}
 
         public FixedObject()
         {

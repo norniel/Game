@@ -14,6 +14,7 @@ namespace Game.Engine.Objects
             Id = 0x00001A00;
         }
 
+        public override int Weight { get { return 2; } }
 
         public override void InitializeProperties()
         {

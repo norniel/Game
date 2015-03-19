@@ -11,6 +11,8 @@ namespace Game.Engine.Objects
             Id = 0x00001300;
         }
 
+        public override int Weight { get { return 10; } }
+
         public override void InitializeProperties()
         {
             this.Properties = new HashSet<Property>

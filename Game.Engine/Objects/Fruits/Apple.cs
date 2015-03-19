@@ -5,6 +5,8 @@ namespace Game.Engine.Objects.Fruits
 {
     class Apple: Berry, IEatable, IRoastable
     {
+        public override int Weight { get { return 2; } }
+
         public override string Name
         {
             get { return "Apple"; }

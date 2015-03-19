@@ -13,6 +13,8 @@ namespace Game.Engine.Objects.Fruits
             Id = 0x00001700;
         }
 
+        public override int Weight { get { return 2; } }
+
         public override void InitializeProperties()
         {
             this.Properties = new HashSet<Property>
