@@ -36,11 +36,15 @@ namespace Game.Engine.Actions
             }
 
             branch.RemoveFromContainer();
-            roastable.ForEach(r =>
+            foreach (var r in roastable)
             {
-                hero.AddToBag(r.GetRoasted());
+                var roasted = r.GetRoasted();
+
+                if (!hero.AddToBag(roasted))
+                    break;
+
                 ((GameObject) r).RemoveFromContainer();
-            });
+            }
 
             return true;
         }

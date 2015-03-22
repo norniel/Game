@@ -11,8 +11,6 @@ namespace Game.Engine
 
         public uint Id { get; protected set; }
 
-        public virtual int Weight {get { return 1; }}
-
         public FixedObject()
         {
             IsPassable = true;

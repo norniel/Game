@@ -14,7 +14,7 @@
 
      //   public double Angle { get; set; }
 
-        private readonly Bag Bag;
+        private readonly Bag _bag;
 
         private readonly HeroLifeCycle _heroLifeCycle;
 
@@ -31,7 +31,7 @@
             Speed = 2;
             Angle = 0;
 
-            Bag = new Bag();
+            _bag = new Bag(20, 20);
 
             _heroLifeCycle = new HeroLifeCycle();
 
@@ -39,6 +39,8 @@
 
             Game.Intervals.Subscribe(HeroLifeCycle);
         }
+
+        public Bag Bag {get { return _bag; }}
 
         public void StartMove(Point destination, Stack<Point> points)
         {
@@ -60,13 +62,13 @@
             }
         }
 
-        public void AddToBag(GameObject gameObject)
+        public bool AddToBag(GameObject gameObject)
         {
-            Bag.Add(gameObject);
+            return _bag.Add(gameObject);
         }
         public void AddToBag(IEnumerable<GameObject> objects)
         {
-            Bag.Add(objects);
+            _bag.Add(objects);
         }
 
         public void GetFromBag()
@@ -76,7 +78,7 @@
 
         public List<GameObject> GetContainerItems()
         {
-            return Bag.GameObjects;
+            return _bag.GameObjects;
         }
         /*
         public List<GameObject> GetContainerItemsAsRemovable()
@@ -143,7 +145,7 @@
 
         public void RemoveFromContainer(GameObject gObject)
         {
-            Bag.GameObjects.Remove(gObject);
+            _bag.GameObjects.Remove(gObject);
         }
     }
 }

@@ -36,7 +36,10 @@ namespace Game.Engine.Actions
             stone.RemoveFromContainer();
             var axe = new StoneAxe();
 
-            hero.AddToBag(axe);
+            if (!hero.AddToBag(axe))
+            {
+                Game.Map.SetObjectFromDestination(hero.Position, axe);
+            }
 
             return true;
         }

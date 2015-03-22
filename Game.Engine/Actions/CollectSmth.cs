@@ -51,19 +51,22 @@ namespace Game.Engine.Actions
                 objectWithSmth.GetSmthTotalCount() :
                 objectWithSmth.GetSmthPerCollectCount();
 
-            objectWithSmth.SetSmthTotalCount(objectWithSmth.GetSmthTotalCount() < objectWithSmth.GetSmthPerCollectCount()
-                ? 0
-                : objectWithSmth.GetSmthTotalCount() - objectWithSmth.GetSmthPerCollectCount());
-
-            var smthtoBag = new List<T>();
+            var addedToBagCount = 0;
 
             for (int i = 0; i < smthToBagCount; i++)
             {
-                smthtoBag.Add(objectWithSmth.GetSmth());
-            }
-            hero.AddToBag(smthtoBag);
+                var objToBag = objectWithSmth.GetSmth();
+                if(!hero.AddToBag(objToBag))
+                    break;
 
-            return objectWithSmth.GetSmthTotalCount() > 0;
+                addedToBagCount++;
+            }
+
+            objectWithSmth.SetSmthTotalCount(objectWithSmth.GetSmthTotalCount() < addedToBagCount
+                ? 0
+                : objectWithSmth.GetSmthTotalCount() - addedToBagCount);
+
+            return objectWithSmth.GetSmthTotalCount() > 0 && addedToBagCount == smthToBagCount && !hero.Bag.IsFull;
         }
     }
 }

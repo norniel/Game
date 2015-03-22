@@ -11,6 +11,8 @@ namespace Game.Engine.Objects
 
         public abstract string Name { get; }
 
+        public virtual int Weight { get { return 1; } }
+
         public GameObject()
         {
             this.InitializeProperties();

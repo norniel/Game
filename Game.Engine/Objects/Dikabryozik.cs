@@ -175,7 +175,15 @@ namespace Game.Engine.Objects
             {
                 var xi = (int)Math.Round((i*deltaX)/(double)maxDist + PositionCell.X);
                 var yi = (int)Math.Round((i * deltaY) / (double)maxDist + PositionCell.Y);
-                yield return new Point(xi < 0 ? 0 : xi, yi < 0 ? 0 : yi);
+
+                xi = Math.Max(xi, 0);
+                yi = Math.Max(yi, 0);
+
+                var size = Game.Map.GetSize();
+                xi = Math.Min(xi, (int)size.Width);
+                yi = Math.Min(yi, (int)size.Height);
+                
+                yield return new Point(xi, yi);
             }
 
             yield return destinationPoint;
