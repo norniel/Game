@@ -3,8 +3,10 @@ using Game.Engine.Interfaces;
 
 namespace Game.Engine.Objects
 {
-    class Branch : FixedObject, IBurnable
+    class Branch : FixedObject, IBurnable, IHasSmthToCollect<Twig>
     {
+        private int _twigCount = 4;
+
         public Branch() 
         {
             IsPassable = true;
@@ -22,7 +24,8 @@ namespace Game.Engine.Objects
             {
                Property.Pickable,
                Property.NeedToCreateStoneAxe,
-               Property.NeedToCreateFire
+               Property.NeedToCreateFire,
+               Property.CollectTwig
             };
         }
 
@@ -33,6 +36,26 @@ namespace Game.Engine.Objects
 
         public int TimeOfBurning {
             get { return 300; }
+        }
+
+        public int GetSmthPerCollectCount()
+        {
+            return 2;
+        }
+
+        public int GetSmthTotalCount()
+        {
+            return _twigCount;
+        }
+
+        public void SetSmthTotalCount(int totalCount)
+        {
+            _twigCount = totalCount;
+        }
+
+        public Twig GetSmth()
+        {
+            return new Twig();
         }
     }
 }

@@ -27,15 +27,15 @@ namespace Game.Engine.Actions
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var burnable = objects.FirstOrDefault(o => o is IBurnable);
-            var branch = objects.OfType<Branch>().FirstOrDefault();
+            var twig = objects.OfType<Twig>().FirstOrDefault();
             var roastable = objects.OfType<IRoastable>().ToList();
 
-            if (burnable == null || branch == null || !roastable.Any())
+            if (burnable == null || twig == null || !roastable.Any())
             {
                 return true;
             }
 
-            branch.RemoveFromContainer();
+            twig.RemoveFromContainer();
             foreach (var r in roastable)
             {
                 var roasted = r.GetRoasted();
@@ -61,10 +61,10 @@ namespace Game.Engine.Actions
                 .GroupBy(o => o.GetType())
                 .Select(gr => gr.First());
 
-            var branch = hero.GetContainerItems().OfType<Branch>().FirstOrDefault();
+            var twig = hero.GetContainerItems().OfType<Twig>().FirstOrDefault();
 
-            if (branch != null)
-                return roastingObjects.Select(bo => new List<GameObject> { bo, branch }.Union(objects).ToList());
+            if (twig != null)
+                return roastingObjects.Select(bo => new List<GameObject> { bo, twig }.Union(objects).ToList());
 
             return new List<List<GameObject>>();
         }

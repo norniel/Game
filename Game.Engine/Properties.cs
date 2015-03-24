@@ -17,6 +17,7 @@ namespace Game.Engine
         NeedToCreateFire,
         Burning,
         Regrowable,
-        Roastable
+        Roastable,
+        CollectTwig
     }
 }

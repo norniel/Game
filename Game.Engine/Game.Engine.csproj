@@ -76,6 +76,7 @@
     <Compile Include="Actions\CollectBerriesAction.cs" />
     <Compile Include="Actions\CollectBranchAction.cs" />
     <Compile Include="Actions\CollectSmth.cs" />
+    <Compile Include="Actions\CollectTwig.cs" />
     <Compile Include="Actions\CreateStoneAxeAction.cs" />
     <Compile Include="Actions\DropAction.cs" />
     <Compile Include="Actions\EatAction.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Objects\Tool\StoneAxe.cs" />
     <Compile Include="Objects\Trees\AppleTree.cs" />
     <Compile Include="Objects\Trees\SpruceTree.cs" />
+    <Compile Include="Objects\Twig.cs" />
     <Compile Include="Properties.cs" />
     <Compile Include="StateQueueManager.cs" />
     <Compile Include="States\Acting.cs" />

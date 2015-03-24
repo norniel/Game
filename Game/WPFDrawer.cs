@@ -56,6 +56,8 @@ namespace Game
         private BitmapImage roastedMushroomImage;
         private BitmapImage roastedAppleImage;
 
+        private BitmapImage twigImage;
+
         private TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
 
@@ -97,6 +99,8 @@ namespace Game
 
             roastedMushroomImage = CreateBitmapImage(@"roasted mushroom small.png");
             roastedAppleImage = CreateBitmapImage(@"roasted apple icon.png");
+
+            twigImage = CreateBitmapImage(@"twig icon.png");
 
             CreateActing();
 
@@ -316,6 +320,11 @@ namespace Game
                 // _canvas.Children
                 DrawImage(roastedAppleImage, x, y);
             }
+            else if (id == 0x00001C00)
+            {
+                // _canvas.Children
+                DrawImage(twigImage, x, y);
+            }
             else if ((id/0x1000) == 0x00018)
             {
                 DrawRotatedImage(dikabrozikImage, x, y, id % 0x1000);
@@ -441,6 +450,8 @@ namespace Game
                     return roastedMushroomImage;
                 case "Roasted apple":
                     return roastedAppleImage;
+                case "Twig":
+                    return twigImage;
             }
             return appletreeImage;
         }

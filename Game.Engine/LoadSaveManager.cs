@@ -55,24 +55,29 @@ namespace Game.Engine
                 if( map.GetObjectFromCell(new Point(tmpX, tmpY)) != null )
                     continue;
 
-                switch (count % 6)
+                switch (count % 11)
                 {
-                    case    0:
+                    case 0:
+                    case 1:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), new AppleTree());
                         break;
-                    case 1:
+                    case 2:
+                    case 3:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), new Plant());
                         break;
-                    case 2:
+                    case 4:
+                    case 5:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), new Rock());
                         break;
-                    case 3:
+                    case 6:
+                    case 7:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), new Bush());
                         break;
-                    case 4:
+                    case 8:
+                    case 9:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), new SpruceTree());
                         break;
-                    case 5:
+                    case 10:
                         map.SetObjectFromCell(new Point(tmpX, tmpY), new Mushroom());
                         break;
                 }

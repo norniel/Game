@@ -35,6 +35,10 @@ namespace Game.Engine
     //sum of items weight = containerWeight
     //Container is full = containerWeight >= MaxContainerCapacity
 
+    //small items should appear only when smbody is looking at the.
+    //they should be kept for a period of time and then disapper
+    //there should be 2 arrays in the cell - with constatly kept items and temporarily kept items
+
     public class Game
     {
         private Rect curRect;
