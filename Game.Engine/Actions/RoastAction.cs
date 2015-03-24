@@ -59,12 +59,12 @@ namespace Game.Engine.Actions
             var roastingObjects = hero.GetContainerItems()
                 .Where(o => o.Properties.Contains(Property.Roastable) && o is IRoastable)
                 .GroupBy(o => o.GetType())
-                .Select(gr => gr.First());
+                .Select(gr => gr.Take(3));
 
             var twig = hero.GetContainerItems().OfType<Twig>().FirstOrDefault();
 
             if (twig != null)
-                return roastingObjects.Select(bo => new List<GameObject> { bo, twig }.Union(objects).ToList());
+                return roastingObjects.Select(bo => bo.Union(new List<GameObject> {twig}).Union(objects).ToList());
 
             return new List<List<GameObject>>();
         }
