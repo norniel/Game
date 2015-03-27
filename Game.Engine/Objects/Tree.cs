@@ -84,7 +84,7 @@ namespace Game.Engine
 
             _branchesCount = (int)Math.Ceiling((double)_twigCount / Tree._twigInBranch) == _branchesCount
                 ? _branchesCount
-                : _twigCount * Tree._twigInBranch;
+                : (int)Math.Ceiling((double)_twigCount / Tree._twigInBranch);
         }
 
         Twig IHasSmthToCollect<Twig>.GetSmth()
@@ -113,7 +113,7 @@ namespace Game.Engine
 
             _twigCount = (int) Math.Ceiling((double) _twigCount/Tree._twigInBranch) == _branchesCount
                 ? _twigCount
-                : (int) Math.Ceiling((double) _branchesCount/Tree._twigInBranch);
+                : (int) Math.Ceiling((double) _branchesCount*Tree._twigInBranch);
         }
 
         Berry IHasSmthToCollect<Berry>.GetSmth()

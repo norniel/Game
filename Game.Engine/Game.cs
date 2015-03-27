@@ -30,7 +30,6 @@ namespace Game.Engine
     //13 Day and Night
     //14 Hostile creatures
     
-    //Prutik - is crafted from tree or branch(used for fire and roasting)
     //Container- quantity of stacks and capacity of stack. MaxContainerCapacity = quantityOfStacks * capacityOfStack
     //sum of items weight = containerWeight
     //Container is full = containerWeight >= MaxContainerCapacity
