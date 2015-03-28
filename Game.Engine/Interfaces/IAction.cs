@@ -7,6 +7,7 @@
     
     public interface IAction
     {
+        //TODO Add method FillContext and CheckContext
         string Name { get; }
 
         string GetName(IEnumerable<GameObject>objects);

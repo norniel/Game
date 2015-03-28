@@ -10,30 +10,30 @@ using Microsoft.Practices.Unity;
 
 namespace Game.Engine.Actions
 {
-    public class CutAction : IAction
+    class CutAction : LongActionBase
     {
+        // TODO: implement speed and time of cutting depending on quility and shapeness of cutter and hardness of cuttable
+        // TODO: implement damaging of cuttable and damaging of cutter depending of hardness of cuttable
+
         [Dependency]
         public Map Map { get; set; }
 
-        public string Name {
+        public override string Name {
             get { return "Cut"; }
         }
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public override string GetName(IEnumerable<GameObject> objects)
         {
             return Name;
         }
 
-        public bool IsApplicable(Property property)
+        public override bool IsApplicable(Property property)
         {
             return property == Property.Cuttable || property == Property.Cutter;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        protected override bool DoNotLast(Hero hero, IEnumerable<GameObject> objects)
         {
-            // TODO: implement speed and time of cutting depending on quility and shapeness of cutter and hardness of cuttable
-            // TODO: implement damaging of cuttable and damaging of cutter depending of hardness of cuttable
-
             var cuttableObject = objects.SingleOrDefault(o => o.Properties.Contains(Property.Cuttable));
             var cutter = objects.SingleOrDefault(o => o.Properties.Contains(Property.Cutter));
 
@@ -42,33 +42,36 @@ namespace Game.Engine.Actions
                 return true;
             }
 
-            if (this.TotalActionTime <= this.elapsedActionTime)
-            {
-                cuttableObject.RemoveFromContainer();
-
-                this.elapsedActionTime = 0;
-
-                Map.SetObjectFromDestination(hero.Position, new Log());
-                return true;
-            }
-
-            this.elapsedActionTime++;
-
             return false;
         }
 
-        private int elapsedActionTime = 0;
+        protected override void DoLast(Hero hero, IEnumerable<GameObject> objects)
+        {
+            var cuttableObject = objects.SingleOrDefault(o => o.Properties.Contains(Property.Cuttable));
+            var cutter = objects.SingleOrDefault(o => o.Properties.Contains(Property.Cutter));
 
-        private int TotalActionTime {
+            if (cuttableObject == null || cutter == null)
+            {
+                return;
+            }
+
+            cuttableObject.RemoveFromContainer();
+
+            Map.SetObjectFromDestination(hero.Position, new Log());
+            return;
+
+        }
+
+        protected override int TotalActionTime {
             get { return 4; } 
         }
 
-        public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
+        public override bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
             return objects.All(o => o.Properties.Contains(Property.Cuttable));
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public override IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var cuttableObject = objects.FirstOrDefault(o => o.Properties.Contains(Property.Cuttable));
 
@@ -80,5 +83,7 @@ namespace Game.Engine.Actions
                 yield return new List<GameObject> { cuttableObject, cutter };
             }
         }
+
+        protected override int ElapsedActionTime{ get; set; }
     }
 }
