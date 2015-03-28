@@ -2,29 +2,28 @@
 using System.Linq;
 using Game.Engine.Heros;
 using Game.Engine.Interfaces;
-using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
 
 namespace Game.Engine.Actions
 {
-    internal class RoastAction : IAction
+    internal class RoastAction : LongActionBase
     {
-        public string Name
+        public override string Name
         {
             get { return "Roast"; }
         }
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public override string GetName(IEnumerable<GameObject> objects)
         {
             return string.Format("Roast {0}", objects.First().Name);
         }
 
-        public bool IsApplicable(Property property)
+        public override bool IsApplicable(Property property)
         {
             return property == Property.Burning;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        protected override bool DoNotLast(Hero hero, IEnumerable<GameObject> objects)
         {
             var burnable = objects.FirstOrDefault(o => o is IBurnable);
             var twig = objects.OfType<Twig>().FirstOrDefault();
@@ -35,6 +34,20 @@ namespace Game.Engine.Actions
                 return true;
             }
 
+            return false;
+        }
+
+        protected override void DoLast(Hero hero, IEnumerable<GameObject> objects)
+        {
+            var burnable = objects.FirstOrDefault(o => o is IBurnable);
+            var twig = objects.OfType<Twig>().FirstOrDefault();
+            var roastable = objects.OfType<IRoastable>().ToList();
+
+            if (burnable == null || twig == null || !roastable.Any())
+            {
+                return;
+            }
+
             twig.RemoveFromContainer();
             foreach (var r in roastable)
             {
@@ -43,18 +56,16 @@ namespace Game.Engine.Actions
                 if (!hero.AddToBag(roasted))
                     break;
 
-                ((GameObject) r).RemoveFromContainer();
+                ((GameObject)r).RemoveFromContainer();
             }
-
-            return true;
         }
 
-        public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
+        public override bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public override IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var roastingObjects = hero.GetContainerItems()
                 .Where(o => o.Properties.Contains(Property.Roastable) && o is IRoastable)
@@ -67,6 +78,13 @@ namespace Game.Engine.Actions
                 return roastingObjects.Select(bo => bo.Union(new List<GameObject> {twig}).Union(objects).ToList());
 
             return new List<List<GameObject>>();
+        }
+
+        protected override int ElapsedActionTime{ get; set; }
+
+        protected override int TotalActionTime
+        {
+            get { return 2; }
         }
     }
 }
