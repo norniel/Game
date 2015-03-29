@@ -15,6 +15,11 @@ namespace Game.Engine.Objects
     class Dikabryozik: MobileObject, IEater
     {
         private ObjectWithState ObjectWithState { get; set; }
+
+        private readonly Bag _bundle;
+
+        private const int STAYING_BASE_TICKCOUNT = 300;
+
         public Dikabryozik(Point position)
         {
             IsPassable = false;
@@ -29,10 +34,12 @@ namespace Game.Engine.Objects
             ViewSight = new Size((uint)ViewRadius, (uint)ViewRadius);
             Position = position;
 
+            _bundle = new Bag(2, 2);
+
             ObjectWithState = new ObjectWithState(
                 new List<IObjectState>
                     {
-                        new Staying() {TickCount = 300, Distribution = 30, Eternal = false},
+                        new Staying() {TickCount = STAYING_BASE_TICKCOUNT, Distribution = STAYING_BASE_TICKCOUNT/10, Eternal = false},
                         new Hungry() {TickCount = 300, Distribution = 30, Eternal = true}
                     },
                     false, null, OnChangeState);
@@ -73,21 +80,44 @@ namespace Game.Engine.Objects
 
         public override uint GetDrawingCode()
         {
-            return base.GetDrawingCode() + 90+(uint)this.Angle;
+            if(_bundle.IsEmpty)
+                return base.GetDrawingCode() + 90+(uint)this.Angle;
+
+            return 0x10018000 + 90 + (uint)this.Angle;
         }
 
         public override bool CheckForUnExpected()
         {
-            for (int i = 0; i < ViewSight.Width; i++)
+            if (_bundle.IsFull || !(State is Resting || State is Wondering))
+                return true;
+
+            var visiblePoints = ShadowCasting.For(PositionCell, ViewRadius - 1, Game.Map).GetVisibleCells().OrderBy(p => p.Distance).ToList();
+
+            var eatablePoint = visiblePoints.FirstOrDefault(p =>
             {
-                for (int j = 0; j < ViewSight.Height; j++)
+                var obj = Game.Map.GetObjectFromCell(p);
+                if (obj is Apple || obj is Mushroom)
+                    return true;
+
+                return false;
+            });
+
+            if (eatablePoint != null)
+            {
+                _stateQueue.Clear();
+                EnqueueMovingToDestination(eatablePoint);
+                _stateQueue.Enqueue(new Doing(this, () =>
                 {
-                    if(i == 0 && j == 0)
-                        continue;
+                    var obj = Game.Map.GetObjectFromCell(eatablePoint);
+                    if(obj != null)
+                        _bundle.Add(obj);
 
+                }));
 
-                }
+                StateEvent.FireEvent();
+                return false;
             }
+
             return true;
         }
 
@@ -102,6 +132,12 @@ namespace Game.Engine.Objects
         public void StartLookingForFood()
         {
             _stateQueue.Clear();
+
+            if (!_bundle.IsEmpty)
+            {
+                _stateQueue.Enqueue(new Eating(this, _bundle.GameObjects.First()));
+                return;
+            }
 
             var destination = Position;
 
@@ -143,7 +179,7 @@ namespace Game.Engine.Objects
             while (visiblePoints.Any())
             {
                // var maxDistance = visiblePoints.Last().Distance;
-             //   var farestVisible = visiblePoints.Where(p => p.Distance == maxDistance).ToList();
+               //var farestVisible = visiblePoints.Where(p => p.Distance == maxDistance).ToList();
                 var randNumber = Game.Random.Next(visiblePoints.Count);
 
                 var obj = Game.Map.GetObjectFromCell(visiblePoints[randNumber]);
@@ -162,7 +198,7 @@ namespace Game.Engine.Objects
 
         public void Eat(int satiety)
         {
-            ObjectWithState.ChangeState(0);
+            ObjectWithState.ChangeState(0, STAYING_BASE_TICKCOUNT + (int)(STAYING_BASE_TICKCOUNT * satiety * 0.1));
         }
 
         private IEnumerable<Point> GetMovingPointsToDestination(Point destinationPoint)

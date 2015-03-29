@@ -96,7 +96,6 @@
     <Compile Include="Interfaces\IContainer.cs" />
     <Compile Include="Interfaces\IEatable.cs" />
     <Compile Include="Interfaces\IEater.cs" />
-    <Compile Include="Interfaces\IHasBerries.cs" />
     <Compile Include="Interfaces\IHasSmthToCollect.cs" />
     <Compile Include="Interfaces\IMap.cs" />
     <Compile Include="Interfaces\IObjectState.cs" />
@@ -144,6 +143,7 @@
     <Compile Include="Properties.cs" />
     <Compile Include="StateQueueManager.cs" />
     <Compile Include="States\Acting.cs" />
+    <Compile Include="States\Doing.cs" />
     <Compile Include="States\Eating.cs" />
     <Compile Include="States\IState.cs" />
     <Compile Include="States\Moving.cs" />

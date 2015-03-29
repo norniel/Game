@@ -48,7 +48,9 @@ namespace Game
         private BitmapImage attenuatingFireImage;
         private BitmapImage spruceTreeImage;
         private BitmapImage coneImage;
+
         private BitmapImage dikabrozikImage;
+        private BitmapImage dikabrozikWithBundleImage;
 
         private BitmapImage mushroomImage;
         private BitmapImage growingMushroomImage;
@@ -92,7 +94,9 @@ namespace Game
             attenuatingFireImage = CreateBitmapImage(@"attenuating fire small.png");
             spruceTreeImage = CreateBitmapImage(@"spruce tree.png");
             coneImage = CreateBitmapImage(@"cone small.png");
+
             dikabrozikImage = CreateBitmapImage(@"dikabroyozik small.png");
+            dikabrozikWithBundleImage = CreateBitmapImage(@"dikabroyozik with bundle small.png");
 
             mushroomImage = CreateBitmapImage(@"mushroom small.png");
             growingMushroomImage = CreateBitmapImage(@"mushroom growing small.png");
@@ -161,6 +165,8 @@ namespace Game
             bi.UriSource = packUrl;
             bi.EndInit();
 
+            bi.Freeze();
+
             return bi;
         }
 
@@ -172,6 +178,10 @@ namespace Game
         public void Clear()
         {
             _canvas.UpdateLayout();
+            foreach (var disposableChild in _canvas.Children.OfType<IDisposable>())
+            {
+                disposableChild.Dispose();
+            }
             _canvas.Children.Clear();
         }
 
@@ -328,6 +338,10 @@ namespace Game
             else if ((id/0x1000) == 0x00018)
             {
                 DrawRotatedImage(dikabrozikImage, x, y, id % 0x1000);
+            }
+            else if ((id / 0x1000) == 0x10018)
+            {
+                DrawRotatedImage(dikabrozikWithBundleImage, x, y, id % 0x1000);
             }
             else if (id == 0x00002000)
             {

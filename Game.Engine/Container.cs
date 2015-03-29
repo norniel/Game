@@ -39,6 +39,11 @@ namespace Game.Engine
             get { return ContainerCapacity >= MaxContainerCapacity; }
         }
 
+        public bool IsEmpty
+        {
+            get { return ContainerCapacity <= 0; }
+        }
+
         public virtual bool Add(GameObject gameObject)
         {
             if (!IsGameObjectFits(gameObject))

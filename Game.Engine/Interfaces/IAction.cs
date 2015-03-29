@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using Heros;
     using Objects;
-    using Wrapers;
     
     public interface IAction
     {
