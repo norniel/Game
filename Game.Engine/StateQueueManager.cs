@@ -22,10 +22,17 @@ namespace Game.Engine
             }
 
             // todo maybe write use tasks here
-            while (_queue.Any() && (!_queue.GetFirst().CurrentState.Eternal && _queue.GetFirst().NextStateTick <= CurrentTick))
+            while (_queue.Any() && (_queue.GetFirst().NextStateTick <= CurrentTick))
             {
-                _queue.GetFirst().NextState();
-                _queue.RemoveFirst();
+                if (_queue.GetFirst().CurrentState.Eternal)
+                {
+                    _queue.GetFirst().NextStateTick += 1;
+                }
+                else
+                {
+                    _queue.GetFirst().NextState();
+                    _queue.RemoveFirst();
+                }
             }
             CurrentTick++;
         }
@@ -38,6 +45,12 @@ namespace Game.Engine
         public void OnCompleted()
         {
             throw new NotImplementedException();
+        }
+
+        public void RemoveObjectFromQueue(ObjectWithState objectWithState)
+        {
+            // should be done with locking
+            _queue.Remove(objectWithState);
         }
 
         public void MoveObjectInQueue(int nextStateInterval, int distribution, ObjectWithState objectWithState)

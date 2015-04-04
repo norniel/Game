@@ -78,10 +78,16 @@ namespace Game.Engine.Objects
                 nextStateId = 0;
             }
 
-            ChangeState(nextStateId);
+            ChangeStateInternal(nextStateId);
         }
 
         public virtual void ChangeState(int newstateId, int? newTicksCount = null)
+        {
+            Game.StateQueueManager.RemoveObjectFromQueue(this);
+            this.ChangeStateInternal(newstateId, newTicksCount);
+        }
+
+        protected virtual void ChangeStateInternal(int newstateId, int? newTicksCount = null)
         {
             var oldState = (_currentStateId >= _objectStateQueue.Count || _currentStateId < 0) ? null :_objectStateQueue[_currentStateId];
             _currentStateId = newstateId;
