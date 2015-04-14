@@ -128,6 +128,8 @@
     <Compile Include="Objects\Fruits\Apple.cs" />
     <Compile Include="Objects\Fruits\Cone.cs" />
     <Compile Include="Objects\GameObject.cs" />
+    <Compile Include="Objects\LargeObjects\LargeObjectInner.cs" />
+    <Compile Include="Objects\LargeObjects\LargeObjectOuter.cs" />
     <Compile Include="Objects\Log.cs" />
     <Compile Include="Objects\Mushroom.cs" />
     <Compile Include="Objects\ObjectWithState.cs" />
