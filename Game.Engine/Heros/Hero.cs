@@ -14,6 +14,8 @@
 
      //   public double Angle { get; set; }
 
+        private const int INITIAl_SPEED = 20;
+
         private readonly Bag _bag;
 
         private readonly HeroLifeCycle _heroLifeCycle;
@@ -28,7 +30,6 @@
         public Hero()
         {
           //  Position = new Point();
-            Speed = 2;
             Angle = 0;
 
             _bag = new Bag(20, 20);
@@ -139,13 +140,48 @@
             return new List<KeyValuePair<string, int>>()
             {
                 new KeyValuePair<string, int>("Health", _heroLifeCycle.HeroProperties.Health),
-                new KeyValuePair<string, int>("Satiety", _heroLifeCycle.HeroProperties.Satiety)
+                new KeyValuePair<string, int>("Satiety", _heroLifeCycle.HeroProperties.Satiety),
+                new KeyValuePair<string, int>("Tiredness", _heroLifeCycle.HeroProperties.Tiredness)
             };
         }
 
         public void RemoveFromContainer(GameObject gObject)
         {
             _bag.GameObjects.Remove(gObject);
+        }
+
+        public override uint Speed
+        {
+            get { return (uint)(INITIAl_SPEED *_heroLifeCycle.GetSpeedCoefficient()); }
+            set {  }
+        }
+
+        public void Sleep()
+        {
+            _stateQueue.Clear();
+            _stateQueue.Enqueue(new Sleeping(this));
+        }
+
+        public void FallUnconscios()
+        {
+            _stateQueue.Clear();
+            _stateQueue.Enqueue(new Unconscios(this));
+            StateEvent.FireEvent();
+        }
+
+        public override bool CheckForUnExpected()
+        {
+            if (!HeroLifeCycle.TotallyTired() || State is Unconscios)
+                return true;
+
+            FallUnconscios();
+
+            return false;
+        }
+
+        public bool IsUnconscios()
+        {
+            return State is Unconscios;
         }
     }
 }

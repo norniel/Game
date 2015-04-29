@@ -12,7 +12,7 @@
         private Interfaces.IActions.IAction action;
         private Point destination;
         private IEnumerable<GameObject> objects;
-        private const uint maxTimeStamp = 50;
+        private const uint maxTimeStamp = 500;
         private uint timestamp;
 
         public Acting(MobileObject mobileObject, Interfaces.IActions.IAction action, Point destination, IEnumerable<GameObject> objects)
@@ -35,7 +35,13 @@
 
             this.timestamp = 0;
 
-            bool isFinished = !this.IsNear(mobileObject.Position, destination) || action.Do(mobileObject as Hero, objects);
+            bool isFinished = !this.IsNear(mobileObject.Position, destination);
+            if (!isFinished)
+            {
+                var hero = mobileObject as Hero;
+                isFinished = action.Do(hero, objects);
+                hero.HeroLifeCycle.IncreaseTiredness(action.GetTiredness());
+            }
 
             if(isFinished)
                 mobileObject.StateEvent.FireEvent();

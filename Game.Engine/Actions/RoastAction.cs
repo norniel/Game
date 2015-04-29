@@ -80,6 +80,11 @@ namespace Game.Engine.Actions
             return new List<List<GameObject>>();
         }
 
+        public override double GetTiredness()
+        {
+            return 0.1;
+        }
+
         protected override int ElapsedActionTime{ get; set; }
 
         protected override int TotalActionTime

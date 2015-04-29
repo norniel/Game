@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.Engine.Interfaces;
+using Game.Engine.Objects.LargeObjects;
+using Microsoft.Practices.ObjectBuilder2;
 using Wintellect.PowerCollections;
 
 namespace Game.Engine
@@ -39,6 +41,19 @@ namespace Game.Engine
             return this.GetObjectFromCell(cell);
         }
 
+        public FixedObject GetRealObjectFromDestination(Point destination)
+        {
+            var cell = PointToCell(destination);
+            var obj = this.GetObjectFromCell(cell);
+
+            var largeObjectOuter = obj as LargeObjectOuterAbstract;
+
+            if (largeObjectOuter != null)
+                return largeObjectOuter.InnerObject;
+
+            return obj;
+        }
+
         public FixedObject GetObjectFromCell(Point cell)
         {
             return _map[cell.X, cell.Y];
@@ -63,6 +78,18 @@ namespace Game.Engine
             if (gameObject == null)
             {
                 _map[cell.X, cell.Y] = null;
+                return;
+            }
+
+            var largeObjectInner = gameObject as LargeObjectInner;
+
+            if (largeObjectInner != null)
+            {
+                largeObjectInner.OuterObjects.ForEach(outerObject =>
+                {
+                    SetObjectFromCell(new Point(cell.X + outerObject.PlaceInObject.X, cell.Y + outerObject.PlaceInObject.Y), outerObject);
+                });
+
                 return;
             }
 

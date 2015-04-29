@@ -56,5 +56,10 @@ namespace Game.Engine.Actions
 
             return burningObjects.Select(bo => new List<GameObject> {bo}.Union(objects).ToList());
         }
+
+        public double GetTiredness()
+        {
+            return 0.2;
+        }
     }
 }

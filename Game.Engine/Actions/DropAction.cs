@@ -47,5 +47,10 @@ namespace Game.Engine.Actions
         {
             yield return objects.Where(x => x.Properties.Contains(Property.Dropable)).ToList();
         }
+
+        public double GetTiredness()
+        {
+            return 0.1;
+        }
     }
 }

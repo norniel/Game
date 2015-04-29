@@ -42,6 +42,8 @@ namespace Game.Engine.Actions
                && (obj as IHasSmthToCollect<T>).GetSmthTotalCount() > 0).ToList();
         }
 
+        public abstract double GetTiredness();
+
         private bool Collect(IHasSmthToCollect<T> objectWithSmth, Hero hero)
         {
             if (objectWithSmth.GetSmthTotalCount() <= 0)

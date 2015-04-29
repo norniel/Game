@@ -23,5 +23,9 @@ namespace Game.Engine.Actions
             return objects.Any(obj => obj.Properties.Contains(Property.CollectBranch) && ((IHasSmthToCollect<Branch>)obj).GetSmthTotalCount() > 0);
         }
 
+        public override double GetTiredness()
+        {
+            return 0.5;
+        }
     }
 }

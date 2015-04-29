@@ -28,7 +28,7 @@ namespace Game.Engine.Objects
 
             Id = 0x00018000;
 
-            Speed = 1;
+            Speed = 10;
 
             ViewRadius = 3;
             ViewSight = new Size((uint)ViewRadius, (uint)ViewRadius);

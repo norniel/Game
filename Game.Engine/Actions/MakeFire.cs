@@ -63,5 +63,10 @@ namespace Game.Engine.Actions
                 yield return branches.ToList();
             }
         }
+
+        public double GetTiredness()
+        {
+            return 10;
+        }
     }
 }

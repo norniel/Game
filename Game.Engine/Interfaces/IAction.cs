@@ -1,4 +1,6 @@
-﻿namespace Game.Engine.Interfaces.IActions
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace Game.Engine.Interfaces.IActions
 {
     using System.Collections.Generic;
     using Heros;
@@ -17,5 +19,6 @@
 
         bool CanDo(Hero hero, IEnumerable<GameObject> objects);
         IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero);
+        double GetTiredness();
     }
 }

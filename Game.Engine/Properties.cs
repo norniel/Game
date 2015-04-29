@@ -18,6 +18,8 @@ namespace Game.Engine
         Burning,
         Regrowable,
         Roastable,
-        CollectTwig
+        CollectTwig,
+        NeedToBuildGrassBed,
+        NeedToSleep
     }
 }

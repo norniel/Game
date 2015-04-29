@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Game.Engine.Heros;
-using Game.Engine.Interfaces;
 using Game.Engine.Interfaces.IActions;
 using Game.Engine.Objects;
+using Game.Engine.Objects.LargeObjects;
 
 namespace Game.Engine.Actions
 {
-    internal class EatAction : IAction
+    class SleepAction:IAction
     {
         public string Name {
-            get { return "Eat"; }
+            get { return "Sleep"; }
         }
-
         public string GetName(IEnumerable<GameObject> objects)
         {
             return Name;
@@ -20,28 +19,28 @@ namespace Game.Engine.Actions
 
         public bool IsApplicable(Property property)
         {
-            return property == Property.Eatable;
+            return property == Property.NeedToSleep;
         }
 
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
-            foreach (var removableObject in objects.OfType<IEatable>())
-            {
-                hero.Eat(removableObject.Satiety);
-                (removableObject as GameObject).RemoveFromContainer();
-            }
-
+            hero.Sleep();
             return true;
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            return objects.All(x => x.Properties.Contains(Property.Eatable));
+            throw new System.NotImplementedException();
         }
 
         public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-            yield return objects.Where(x => x.Properties.Contains(Property.Eatable)).ToList();
+            var grassBed = (GrassBed)objects.FirstOrDefault(o => o is GrassBed);
+
+            if (grassBed != null && grassBed.IsBuild)
+            {
+                yield return new List<GameObject>() {grassBed};
+            }
         }
 
         public double GetTiredness()

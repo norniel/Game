@@ -7,6 +7,10 @@ namespace Game.Engine.Heros
     {
         private const int INITIAL_HEALTH = 100;
         private const int INITIAL_SATIETY = 100;
+        private const int INITIAl_TIREDNESS = 0;
+        private const int MIDDLE_TIREDNESS = 50;
+        private const int STRONG_TIREDNESS = 100;
+        private const int FINAL_TIREDNESS = 150;
         private readonly HeroProperties _heroProperties;
         private const uint maxTimeStamp = 20000 / Game.TimeStep;
         private uint timestamp;
@@ -22,7 +26,8 @@ namespace Game.Engine.Heros
             _heroProperties = new HeroProperties
             {
                 Health = INITIAL_HEALTH,
-                Satiety = INITIAL_SATIETY
+                Satiety = INITIAL_SATIETY,
+                InnerTiredNess = INITIAl_TIREDNESS
             };
         }
 
@@ -72,6 +77,35 @@ namespace Game.Engine.Heros
                         _heroProperties.Health = Math.Min(_heroProperties.Health + satiety, INITIAL_HEALTH);
                 }
             }
+        }
+
+
+        public double GetSpeedCoefficient()
+        {
+            if (_heroProperties.Tiredness < MIDDLE_TIREDNESS)
+                return 1.0;
+            
+            if (_heroProperties.Tiredness > STRONG_TIREDNESS)
+                return 0.25;
+
+            return 1 - (_heroProperties.Tiredness - MIDDLE_TIREDNESS) * 0.75 / MIDDLE_TIREDNESS;
+        }
+
+        public void IncreaseTiredness(double value)
+        {
+            _heroProperties.InnerTiredNess += value;
+            _heroProperties.InnerTiredNess = Math.Min(_heroProperties.InnerTiredNess, FINAL_TIREDNESS);
+        }
+
+        public void DecreaseTiredness(double value)
+        {
+            _heroProperties.InnerTiredNess -= value;
+            _heroProperties.InnerTiredNess = Math.Max(_heroProperties.InnerTiredNess, INITIAl_TIREDNESS);
+        }
+
+        public bool TotallyTired()
+        {
+            return HeroProperties.Tiredness >= FINAL_TIREDNESS;
         }
     }
 }

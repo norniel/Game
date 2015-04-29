@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Practices.ObjectBuilder2;
+
 namespace Game.Engine.Objects.LargeObjects
 {
     class LargeObjectInner:FixedObject
@@ -9,6 +11,10 @@ namespace Game.Engine.Objects.LargeObjects
         public LargeObjectInner()
         {
             _lazyObjectsOuter = new Lazy<List<LargeObjectOuter>>(InitOuterObjects, true);
+            RemoveFromContainer = (() =>
+            {
+                OuterObjects.ForEach(oo => oo.RemoveFromContainer());
+            });
         }
   
         protected virtual List<LargeObjectOuter> InitOuterObjects()

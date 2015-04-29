@@ -35,7 +35,8 @@ namespace Game.Engine.Objects
             {
                Property.Pickable,
                Property.NeedToCreateFire,
-               Property.Regrowable
+               Property.Regrowable,
+               Property.NeedToBuildGrassBed
             };
         }
 

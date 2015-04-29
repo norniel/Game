@@ -77,12 +77,14 @@
     <Compile Include="Actions\CollectBranchAction.cs" />
     <Compile Include="Actions\CollectSmth.cs" />
     <Compile Include="Actions\CollectTwig.cs" />
+    <Compile Include="Actions\CreateGrassBed.cs" />
     <Compile Include="Actions\CreateStoneAxeAction.cs" />
     <Compile Include="Actions\DropAction.cs" />
     <Compile Include="Actions\EatAction.cs" />
     <Compile Include="Actions\LongActionBase.cs" />
     <Compile Include="Actions\MakeFire.cs" />
     <Compile Include="Actions\RoastAction.cs" />
+    <Compile Include="Actions\SleepAction.cs" />
     <Compile Include="Bag.cs" />
     <Compile Include="Actions\CutAction.cs" />
     <Compile Include="BridgeObjects\ClientAction.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Objects\Fruits\Apple.cs" />
     <Compile Include="Objects\Fruits\Cone.cs" />
     <Compile Include="Objects\GameObject.cs" />
+    <Compile Include="Objects\LargeObjects\GrassBed.cs" />
     <Compile Include="Objects\LargeObjects\LargeObjectInner.cs" />
     <Compile Include="Objects\LargeObjects\LargeObjectOuter.cs" />
     <Compile Include="Objects\Log.cs" />
@@ -151,6 +154,9 @@
     <Compile Include="States\Moving.cs" />
     <Compile Include="States\Resting.cs" />
     <Compile Include="States\ShakingTree.cs" />
+    <Compile Include="States\Sleeping.cs" />
+    <Compile Include="States\StateWithBreaks.cs" />
+    <Compile Include="States\Unconscios.cs" />
     <Compile Include="States\Wondering.cs" />
     <Compile Include="Tools\Point.cs" />
     <Compile Include="Tools\Rect.cs" />

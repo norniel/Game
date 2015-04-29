@@ -62,5 +62,10 @@ namespace Game.Engine.Actions
                 yield return new List<GameObject> { branch, stone };
             }
         }
+
+        public double GetTiredness()
+        {
+            return 10;
+        }
     }
 }

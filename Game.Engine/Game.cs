@@ -11,6 +11,7 @@ using Game.Engine.Interfaces.IActions;
 using Game.Engine.Wrapers;
 using Game.Engine.Objects;
 using Microsoft.Practices.Unity;
+using Game.Engine.Objects.LargeObjects;
 
 namespace Game.Engine
 {
@@ -120,12 +121,18 @@ namespace Game.Engine
 
         public void LClick(Point visibleDestination)
         {
+            if (_hero.IsUnconscios())
+                return;
+
             var destination = Map.GetRealDestinationFromVisibleDestination(visibleDestination);
             MoveToDest(destination);
         }
 
         public void RClick(Point destination)
         {
+            if (_hero.IsUnconscios())
+                return;
+
             ShowActions(destination);
         }
 
@@ -137,7 +144,7 @@ namespace Game.Engine
         private IEnumerable<ClientAction> GetActions(Point visibleDestination)
         {
             var destination = Map.GetRealDestinationFromVisibleDestination(visibleDestination);
-            var destObject = Map.GetObjectFromDestination(destination);
+            var destObject = Map.GetRealObjectFromDestination(destination);
 
             if (destObject == null)
             {
@@ -228,7 +235,8 @@ namespace Game.Engine
                 for (int j = visibleCells.Top; j < visibleCells.Top+ visibleCells.Height; j++)
                 {
                     var gameObject = Map.GetObjectFromCell(new Point(i, j));
-                    if (gameObject != null)
+                    var largeObjectOuter = gameObject as LargeObjectOuterAbstract;
+                    if (gameObject != null && (largeObjectOuter == null || largeObjectOuter.isLeftCorner))
                     {
                         var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
                         _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y);

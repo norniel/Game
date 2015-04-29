@@ -3,18 +3,20 @@
     abstract class LargeObjectOuterAbstract : FixedObject
     {
         private readonly LargeObjectInner _innerObject;
-        private readonly Point _placeInObject;
+        public Point PlaceInObject { get; private set; }
 
         public bool IsTransparent { get; private set; }
 
         public LargeObjectOuterAbstract(LargeObjectInner largeObjectInner, Point placeInObject, bool isTransparent)
         {
             _innerObject = largeObjectInner;
-            _placeInObject = placeInObject;
+            PlaceInObject = placeInObject;
             IsTransparent = IsTransparent;
             IsPassable = false;
             Size = new Size(1, 1);
         }
+
+        public LargeObjectInner InnerObject { get { return _innerObject; } }
 
         public override string Name
         {
@@ -23,7 +25,9 @@
 
         public override uint GetDrawingCode()
         {
-            return _innerObject.Id;
+            return _innerObject.GetDrawingCode();
         }
+
+        public bool isLeftCorner { get { return PlaceInObject != null && PlaceInObject.X == 0 && PlaceInObject.Y == 0; } }
     }
 }

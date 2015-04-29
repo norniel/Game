@@ -84,6 +84,11 @@ namespace Game.Engine.Actions
             }
         }
 
+        public override double GetTiredness()
+        {
+            return 3;
+        }
+
         protected override int ElapsedActionTime{ get; set; }
     }
 }

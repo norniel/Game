@@ -28,6 +28,11 @@ namespace Game.Engine
             yield return objects.Where(x => x.Properties.Contains(Property.Pickable)).ToList();// && hero.HasEmpptyContainer;
         }
 
+        public double GetTiredness()
+        {
+            return 0.5;
+        }
+
         public string GetName(IEnumerable<GameObject> objects)
         {
             return Name;

@@ -31,6 +31,11 @@ namespace Game.Engine.Actions
             return objects.Any(obj => obj.Properties.Contains(Property.CollectBerries) && ((IHasSmthToCollect<Berry>)obj).GetSmthTotalCount() > 0);
         }
 
+        public override double GetTiredness()
+        {
+            return 0.1;
+        }
+
         /*
         private bool CollectBerries(IHasBerries objectWithBerries, Hero hero)
         {

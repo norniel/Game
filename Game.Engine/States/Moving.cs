@@ -26,7 +26,7 @@ namespace Game.Engine
 
             if (distance >= 0.01)
             {
-                _steps = (int)(distance / _mobileObject.Speed);
+                _steps = (int)(distance*10/ _mobileObject.Speed);
                 _dx = ((double)_mobileObject.Position.X - (double)_destination.X) / distance;
                 _dy = ((double)_mobileObject.Position.Y - (double)_destination.Y) / distance;
 
@@ -51,12 +51,17 @@ namespace Game.Engine
             if(_isInitialized == false)
                 Initialize();
 
-            _mobileObject.Position = new Point((int)(_destination.X + _dx * _steps * _mobileObject.Speed), (int)(_destination.Y + _dy * _steps * _mobileObject.Speed));
+            _mobileObject.Position = new Point((int)(_destination.X + _dx * _steps * _mobileObject.Speed/10), (int)(_destination.Y + _dy * _steps * _mobileObject.Speed/10));
             _steps--;
 
             if ( /*NextState != null && */(_mobileObject.Position == _destination || _steps <= -1))
             {
 
+                var hero = _mobileObject as Hero;
+                if (hero != null)
+                {
+                    hero.HeroLifeCycle.IncreaseTiredness(0.1);
+                }
 
                 _mobileObject.StateEvent.FireEvent();
             }

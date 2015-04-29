@@ -22,5 +22,10 @@ namespace Game.Engine.Actions
         {
             return objects.Any(obj => obj.Properties.Contains(Property.CollectTwig) && ((IHasSmthToCollect<Twig>)obj).GetSmthTotalCount() > 0);
         }
+
+        public override double GetTiredness()
+        {
+            return 0.1;
+        }
     }
 }

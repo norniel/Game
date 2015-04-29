@@ -43,7 +43,7 @@ namespace Game.Engine
 
         public StateEvent StateEvent { get; private set; }
 
-        public uint Speed { get; set; }
+        public virtual uint Speed { get;set; }
 
         public double Angle { get; set; }
 

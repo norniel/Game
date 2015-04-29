@@ -59,6 +59,10 @@ namespace Game
         private BitmapImage roastedAppleImage;
 
         private BitmapImage twigImage;
+        private BitmapImage grassBed0;
+        private BitmapImage grassBed1;
+        private BitmapImage grassBed2;
+        private BitmapImage grassBed3;
 
         private TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
@@ -105,6 +109,11 @@ namespace Game
             roastedAppleImage = CreateBitmapImage(@"roasted apple icon.png");
 
             twigImage = CreateBitmapImage(@"twig icon.png");
+
+            grassBed0 = CreateBitmapImage(@"grassbed0.png");
+            grassBed1 = CreateBitmapImage(@"grassbed1.png");
+            grassBed2 = CreateBitmapImage(@"grassbed2.png");
+            grassBed3 = CreateBitmapImage(@"grassbed3.png");
 
             CreateActing();
 
@@ -334,6 +343,18 @@ namespace Game
             {
                 // _canvas.Children
                 DrawImage(twigImage, x, y);
+            }
+            else if ((id/0x100) == 0x00001D)
+            {
+                var innerId = id % 0x10;
+               
+                switch(innerId){
+                    case 0: DrawImage(grassBed0, x, y); break;
+                    case 1: DrawImage(grassBed1, x, y); break;
+                    case 2: DrawImage(grassBed2, x, y); break;
+                    case 3: DrawImage(grassBed3, x, y); break;
+                }
+                // _canvas.Children
             }
             else if ((id/0x1000) == 0x00018)
             {
