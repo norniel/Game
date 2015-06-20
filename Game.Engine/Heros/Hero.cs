@@ -183,5 +183,10 @@
         {
             return State is Unconscios;
         }
+
+        public bool IsHorizontal()
+        {
+            return State is Unconscios || State is Sleeping;
+        }
     }
 }

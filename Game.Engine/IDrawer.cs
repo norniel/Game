@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Engine.BridgeObjects;
+using Game.Engine.Interfaces;
 
 namespace Game.Engine
 {
@@ -10,7 +11,7 @@ namespace Game.Engine
 
         void Clear();
 
-        void DrawHero( Point position, double angle, List<Point> pointList);
+        void DrawHero( Point position, double angle, List<Point> pointList, bool isHorizontal);
 
         void DrawObject( uint id, long x, long y);
 
@@ -23,5 +24,7 @@ namespace Game.Engine
         void DrawHeroProperties(IEnumerable<KeyValuePair<string, int>> objects);
 
         void DrawActing(bool showActing);
+
+        void DrawDayNight(double lightness, GameDateTime gameDateTime, List<BurningProps> lightObjects);
     }
 }

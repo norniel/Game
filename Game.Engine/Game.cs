@@ -69,6 +69,10 @@ namespace Game.Engine
 
         internal static Random Random = new Random();
 
+        internal static DateTime StartDate = DateTime.UtcNow;
+
+        private DayNightCycle _dayNightCycle;
+
         public Game(IDrawer drawer, uint width, uint height)
         {            
             curRect.Width = width;
@@ -80,7 +84,6 @@ namespace Game.Engine
 
             StateQueueManager = _unityContainer.Resolve<StateQueueManager>();
             Map = _unityContainer.Resolve<Map>();            
-            
 
             loadSaveManager = new LoadSaveManager();
             loadSaveManager.LoadSnapshot(Map);
@@ -92,6 +95,9 @@ namespace Game.Engine
             _drawer = drawer;
 
             Intervals.Subscribe(StateQueueManager);
+
+            _dayNightCycle = new DayNightCycle();
+            Intervals.Subscribe(_dayNightCycle);
         }
 
         private void RegisterInUnityContainer()
@@ -228,6 +234,8 @@ namespace Game.Engine
             _drawer.DrawSurface(curRect.Width, curRect.Height);
 
             var visibleCells = Map.RectToCellRect(Map.VisibleRect);
+
+            var lightObjectsList = new List<BurningProps>();
                 
             //var mapSize = _map.GetSize();
             for (int i = visibleCells.Left; i < visibleCells.Left + visibleCells.Width; i++)
@@ -235,12 +243,19 @@ namespace Game.Engine
                 for (int j = visibleCells.Top; j < visibleCells.Top+ visibleCells.Height; j++)
                 {
                     var gameObject = Map.GetObjectFromCell(new Point(i, j));
+  
+
                     var largeObjectOuter = gameObject as LargeObjectOuterAbstract;
                     if (gameObject != null && (largeObjectOuter == null || largeObjectOuter.isLeftCorner))
                     {
                         var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
                         _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y);
 
+                        var burnable = gameObject as IBurning;
+                        if (burnable != null)
+                        {
+                            lightObjectsList.Add(new BurningProps(visibleDestination, burnable.LightRadius));
+                        }
                     }
                 }
             }
@@ -255,7 +270,9 @@ namespace Game.Engine
                 }
             }
 
-            _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList());
+            _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
+
+            _drawer.DrawDayNight(this._dayNightCycle.Lightness(), this._dayNightCycle.CurrentGameDate, lightObjectsList);
 
             _drawer.DrawActing(_hero.State.ShowActing);
 

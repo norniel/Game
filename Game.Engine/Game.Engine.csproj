@@ -89,6 +89,7 @@
     <Compile Include="Actions\CutAction.cs" />
     <Compile Include="BridgeObjects\ClientAction.cs" />
     <Compile Include="Container.cs" />
+    <Compile Include="DayNightCycle.cs" />
     <Compile Include="Heros\HeroLifeCycle.cs" />
     <Compile Include="Heros\HeroProperties.cs" />
     <Compile Include="Interfaces\IAction.cs" />

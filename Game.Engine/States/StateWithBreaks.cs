@@ -3,7 +3,7 @@
     class StateWithBreaks
     { 
         private const uint maxTimeStamp = 50;
-        private uint timestamp;
+        protected uint timestamp;
 
         public StateWithBreaks()
         {

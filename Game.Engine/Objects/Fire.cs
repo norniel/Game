@@ -56,6 +56,16 @@ namespace Game.Engine.Objects
             }
         }
 
+        public int LightRadius {
+            get
+            {
+                if (this.ObjectWithState.CurrentState is Attenuating)
+                    return 1;
+
+                return 3;
+            }
+        }
+
         public override uint GetDrawingCode()
         {
             if (this.ObjectWithState.CurrentState is Attenuating)

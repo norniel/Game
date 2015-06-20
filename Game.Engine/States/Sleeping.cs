@@ -8,6 +8,7 @@ namespace Game.Engine.States
         public Sleeping(Hero hero)
         {
             _hero = hero;
+            this.timestamp = 0;
         }
         public void Act()
         {

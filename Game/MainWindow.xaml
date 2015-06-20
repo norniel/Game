@@ -13,11 +13,16 @@
             <Image Height="150" Name="image2" Stretch="Fill" Width="200" Canvas.Left="383" Canvas.Top="242" />
         </Canvas>
         <Image Grid.Column="1" Height="93" HorizontalAlignment="Left" Margin="432,375,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="154" />
-        <ListBox Name="listBox1" HorizontalAlignment="Left" Height="491" Margin="382,0,0,0" VerticalAlignment="Top" Width="150" RenderTransformOrigin="3.295,0.501" Grid.Column="1">
+        <ListBox Name="listBox1" HorizontalAlignment="Left" Height="448" Margin="382,43,0,0" VerticalAlignment="Top" Width="150" RenderTransformOrigin="3.295,0.501" Grid.Column="1">
             <ListBox.ContextMenu>
                 <ContextMenu/>
             </ListBox.ContextMenu>
         </ListBox>
         <ListBox Name="heroListBox" HorizontalAlignment="Left" Height="97" Margin="0,394,0,0" VerticalAlignment="Top" Width="564" Grid.ColumnSpan="2"/>
+        <ListBox x:Name="listBoxDateTime" HorizontalAlignment="Left" Height="43" Margin="382,0,0,0" VerticalAlignment="Top" Width="150" RenderTransformOrigin="3.295,0.501" Grid.Column="1">
+            <ListBox.ContextMenu>
+                <ContextMenu/>
+            </ListBox.ContextMenu>
+        </ListBox>
     </Grid>
 </Window>

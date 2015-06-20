@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Game.Engine;
 using Game.Engine.BridgeObjects;
+using Game.Engine.Interfaces;
 using Point = Game.Engine.Point;
 
 namespace Game
@@ -21,10 +22,12 @@ namespace Game
         private readonly Canvas _canvas;
         private readonly ListBox _listBox;
         private readonly ListBox _heroListBox;
-        private readonly Path _appearance;
-        private readonly LineGeometry _hands;
-        private readonly EllipseGeometry _hat;
-        private readonly EllipseGeometry _nose;
+        private readonly ListBox _ListBoxDateTime;
+        private Path _appearance;
+        private Path _horizontalAppearance;
+        private LineGeometry _hands;
+        private EllipseGeometry _hat;
+        private EllipseGeometry _nose;
         private readonly int _dcenter;
         private RotateTransform _t;
         private PointCollection _visWayCollection;
@@ -67,7 +70,7 @@ namespace Game
         private TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
 
-        public WpfDrawer(Canvas canvas, ListBox listBox, ListBox heroListBox)
+        public WpfDrawer(Canvas canvas, ListBox listBox, ListBox heroListBox, ListBox listBoxDateTime)
         {
             _drawSamples = new Dictionary<uint, IObjectDrawer>();
             _drawSamples[0x00000100] = new TreeDrawer(); // automize
@@ -78,6 +81,7 @@ namespace Game
             _canvas = canvas;
             _listBox = listBox;
             _heroListBox = heroListBox;
+            _ListBoxDateTime = listBoxDateTime;
             
             appletreeImage = CreateBitmapImage(@"apple tree icon.png");
             appletree1Image = CreateBitmapImage(@"apple-tree1 icon.png");
@@ -117,7 +121,22 @@ namespace Game
 
             CreateActing();
 
-            _appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
+            PrepareAppearance();
+
+            // polyline
+            _visibleWay = new Polyline
+                              {
+                                  Stroke = System.Windows.Media.Brushes.DarkSlateGray,
+                                  StrokeThickness = 2//,
+                                  // FillRule = FillRule.EvenOdd
+                              };
+            _visWayCollection = new PointCollection();
+            _visibleWay.Points = _visWayCollection;
+        }
+
+        private void PrepareAppearance()
+        {
+            _appearance = new Path {Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16};
             Canvas.SetTop(_appearance, 0);
             Canvas.SetLeft(_appearance, 0);
 
@@ -153,15 +172,40 @@ namespace Game
             _appearance.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
             _canvas.Children.Add(_appearance);
 
-            // polyline
-            _visibleWay = new Polyline
-                              {
-                                  Stroke = System.Windows.Media.Brushes.DarkSlateGray,
-                                  StrokeThickness = 2//,
-                                  // FillRule = FillRule.EvenOdd
-                              };
-            _visWayCollection = new PointCollection();
-            _visibleWay.Points = _visWayCollection;
+            _horizontalAppearance = new Path {Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 36, Width = 16};
+
+            var hands2 = new LineGeometry();
+            hands2.StartPoint = new System.Windows.Point(0, 11);
+            hands2.EndPoint = new System.Windows.Point(16, 11);
+
+            // Create the ellipse geometry to add to the Path
+            var hat2 = new EllipseGeometry();
+            hat2.Center = new System.Windows.Point(8, 5);
+            hat2.RadiusX = 5;
+            hat2.RadiusY = 5;
+
+            var body = new LineGeometry();
+            body.StartPoint = new System.Windows.Point(8, 10);
+            body.EndPoint = new System.Windows.Point(8, 18);
+
+            var legLeft = new LineGeometry();
+            legLeft.StartPoint = new System.Windows.Point(8, 18);
+            legLeft.EndPoint = new System.Windows.Point(6, 30);
+
+            var legRight = new LineGeometry();
+            legRight.StartPoint = new System.Windows.Point(8, 18);
+            legRight.EndPoint = new System.Windows.Point(10, 30);
+
+            GeometryGroup ggroup2 = new GeometryGroup();
+
+            ggroup2.Children.Add(hands2);
+            ggroup2.Children.Add(hat2);
+            ggroup2.Children.Add(body);
+            ggroup2.Children.Add(legLeft);
+            ggroup2.Children.Add(legRight);
+            ggroup2.FillRule = FillRule.Nonzero;
+
+            _horizontalAppearance.Data = ggroup2;
         }
 
         private BitmapImage CreateBitmapImage(string uri)
@@ -194,7 +238,7 @@ namespace Game
             _canvas.Children.Clear();
         }
 
-        public void DrawHero(Point position, double angle, List<Point> wayList)
+        public void DrawHero(Point position, double angle, List<Point> wayList, bool isHorizontal)
         {
             _canvas.Children.Add(_visibleWay);
             _visWayCollection.Clear();
@@ -209,11 +253,19 @@ namespace Game
                 point = new System.Windows.Point(wayPoint.X, wayPoint.Y);
                 _visWayCollection.Add(point);
             }
-
-            _canvas.Children.Add(_appearance);
-            Canvas.SetLeft(_appearance, position.X - _dcenter);
-            Canvas.SetTop(_appearance, position.Y - _dcenter);
-            _t.Angle = angle;
+            if (isHorizontal)
+            {
+                _canvas.Children.Add(_horizontalAppearance);
+                Canvas.SetLeft(_horizontalAppearance, position.X - _dcenter);
+                Canvas.SetTop(_horizontalAppearance, position.Y - _dcenter);
+            }
+            else
+            {
+                _canvas.Children.Add(_appearance);
+                Canvas.SetLeft(_appearance, position.X - _dcenter);
+                Canvas.SetTop(_appearance, position.Y - _dcenter);
+                _t.Angle = angle;
+            }
         }
 
         public void DrawObject(uint id, long x, long y)
@@ -517,6 +569,54 @@ namespace Game
             }
         }
 
+        public void DrawDayNight(double lightness, GameDateTime gameDateTime, List<BurningProps> lightObjects)
+        {
+            var drawingGroup = new DrawingGroup();
+
+            // Create a DrawingBrush.
+            DrawingBrush myDrawingBrush = new DrawingBrush();
+
+            // Create a drawing.
+            GeometryDrawing myBlackDrawing = new GeometryDrawing();
+            // myGeometryDrawing.Brush
+            myBlackDrawing.Brush = Brushes.Black;
+            myBlackDrawing.Pen = new Pen(Brushes.Black, 1);
+            GeometryGroup rectangle = new GeometryGroup();
+            rectangle.FillRule = FillRule.EvenOdd;
+            rectangle.Children.Add(new RectangleGeometry(new System.Windows.Rect(){Height = _canvas.Height, Width = _canvas.Width}));
+
+            GeometryGroup rectangle11 = new GeometryGroup();
+            rectangle11.FillRule = FillRule.Nonzero;
+            foreach (var lightObject in lightObjects)
+            {
+                rectangle11.Children.Add(
+                    new EllipseGeometry(new System.Windows.Point(lightObject.Point.X + 10, lightObject.Point.Y + 10),
+                        20*lightObject.LightRadius, 20*lightObject.LightRadius));
+            }
+            rectangle.Children.Add(rectangle11);
+            var combined = new CombinedGeometry(GeometryCombineMode.Exclude, rectangle, rectangle11);
+            myBlackDrawing.Geometry = combined;
+
+            drawingGroup.Children.Add(myBlackDrawing);
+            myDrawingBrush.Drawing = drawingGroup;
+            Rectangle rec = new Rectangle()
+            {
+                Fill = myDrawingBrush,
+                Stroke = Brushes.Black,
+                Height = _canvas.Height,
+                Width = _canvas.Width,
+                Opacity = lightness,
+                IsEnabled = false
+            };
+
+            _canvas.Children.Add(rec);
+            Canvas.SetLeft(rec, 0);
+            Canvas.SetTop(rec, 0);
+
+            _ListBoxDateTime.Items.Clear();
+            _ListBoxDateTime.Items.Add(string.Format("{0}:{1}:{2}", gameDateTime.Day, gameDateTime.Hour, gameDateTime.Minute));
+        }
+
         private void CreateActing()
         {
             _acting.Foreground = Brushes.FloralWhite;
@@ -537,7 +637,10 @@ namespace Game
         }
 
         private void DrawRotatedImage(BitmapImage bitmapImage, long x, long y, uint number)
-        {   
+        {
+            var appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
+            Canvas.SetTop(_appearance, 0);
+            Canvas.SetLeft(_appearance, 0);
             var image = new Image();
             image.Source = bitmapImage;
             image.RenderTransform = new RotateTransform((int)number-90);
