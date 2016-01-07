@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Academy.Collections.Generic;
 using Engine.Interfaces;
 using Engine.Objects.LargeObjects;
 using Microsoft.Practices.ObjectBuilder2;
+using Wintellect.PowerCollections;
 
 namespace Engine
 {
@@ -83,7 +83,8 @@ namespace Engine
             {
                 largeObjectInner.OuterObjects.ForEach(outerObject =>
                 {
-                    SetObjectFromCell(new Point(cell.X + outerObject.PlaceInObject.X, cell.Y + outerObject.PlaceInObject.Y), outerObject);
+                    var outerO = outerObject;
+                    SetObjectFromCell(new Point(cell.X + outerO.PlaceInObject.X, cell.Y + outerO.PlaceInObject.Y), outerO);
                 });
 
                 return;
@@ -165,7 +166,7 @@ namespace Engine
             Stack<Point> resultStack = new Stack<Point>();
             resultStack.Push(dest);
 
-            PriorityQueue<WayPoint> workPoints = new PriorityQueue<WayPoint>();
+            OrderedBag<WayPoint> workPoints = new OrderedBag<WayPoint>();
             Dictionary<Point, WayPoint> processedPoints = new Dictionary<Point, WayPoint>();
 
             Point startP = PointToCell(start);
@@ -177,13 +178,13 @@ namespace Engine
             int totdistX = Math.Abs(destP.X - startP.X);
             int totdistY = Math.Abs(destP.Y - startP.Y);
             WayPoint startWayP = new WayPoint(null, startP, 0, (totdistX > totdistY ? totdistY * 14 + 10 * (totdistX - totdistY) : totdistX * 14 + 10 * (totdistY - totdistX)));
-            workPoints.Enqueue(startWayP);
+            workPoints.Add(startWayP);
             processedPoints.Add(startWayP.Point, startWayP);
             WayPoint current = null;
 
             while (workPoints.Count > 0 /*&& !destP.Equals( workPoints.First().Point ) */)
             {
-                current = workPoints.Dequeue();
+                current = workPoints.RemoveFirst();
                 if (destP.Equals(current.Point))
                     break;
 
@@ -228,7 +229,7 @@ namespace Engine
                                 (int)(distX > distY ? distY * 14 + 10 * (distX - distY) : distX * 14 + 10 * (distY - distX));
                             WayPoint next = new WayPoint(current, temp, tmpCost, tmpEvristic);
 
-                            workPoints.Enqueue(next);
+                            workPoints.Add(next);
                             processedPoints.Add(next.Point, next);
                         }
                     }

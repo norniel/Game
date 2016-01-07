@@ -11,7 +11,7 @@
         {
             _innerObject = largeObjectInner;
             PlaceInObject = placeInObject;
-            IsTransparent = IsTransparent;
+            IsTransparent = isTransparent;
             IsPassable = false;
             Size = new Size(1, 1);
         }

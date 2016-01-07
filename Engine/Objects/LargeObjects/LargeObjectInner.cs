@@ -11,7 +11,9 @@ namespace Engine.Objects.LargeObjects
 
         private readonly Lazy<BuilderPlan> _builderPlanLazy;
 
-        public BuilderPlan BuilderPlan { get; set; }
+        public BuilderPlan BuilderPlan {
+            get { return _builderPlanLazy.Value; }
+        }
 
         public LargeObjectInner()
         {
