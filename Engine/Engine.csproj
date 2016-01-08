@@ -175,6 +175,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ActionsResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\HeroResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HeroResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -213,6 +218,11 @@
       <LastGenOutput>ActionsResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ActionsResource.ru-RU.resx" />
+    <EmbeddedResource Include="Resources\HeroResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>HeroResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\HeroResource.ru-RU.resx" />
     <EmbeddedResource Include="Resources\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>

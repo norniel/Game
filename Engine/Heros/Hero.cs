@@ -1,4 +1,6 @@
-﻿namespace Engine.Heros
+﻿using Engine.Resources;
+
+namespace Engine.Heros
 {
     using System;
     using System.Collections.Generic;
@@ -139,9 +141,9 @@
         {
             return new List<KeyValuePair<string, int>>()
             {
-                new KeyValuePair<string, int>("Health", _heroLifeCycle.HeroProperties.Health),
-                new KeyValuePair<string, int>("Satiety", _heroLifeCycle.HeroProperties.Satiety),
-                new KeyValuePair<string, int>("Tiredness", _heroLifeCycle.HeroProperties.Tiredness)
+                new KeyValuePair<string, int>(HeroResource.Health, _heroLifeCycle.HeroProperties.Health),
+                new KeyValuePair<string, int>(HeroResource.Satiety, _heroLifeCycle.HeroProperties.Satiety),
+                new KeyValuePair<string, int>(HeroResource.Tiredness, _heroLifeCycle.HeroProperties.Tiredness)
             };
         }
 
