@@ -126,6 +126,12 @@
   <data name="Collect" xml:space="preserve">
     <value>Collect {0}</value>
   </data>
+  <data name="CreateDiggingStick" xml:space="preserve">
+    <value>Create Digging stick</value>
+  </data>
+  <data name="CreateSharpStone" xml:space="preserve">
+    <value>Create Sharp stone</value>
+  </data>
   <data name="CreateStoneAxe" xml:space="preserve">
     <value>Create Stone axe</value>
   </data>

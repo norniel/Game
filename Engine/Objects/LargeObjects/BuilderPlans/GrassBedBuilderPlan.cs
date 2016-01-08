@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Engine.Objects;
 using Engine.Objects.LargeObjects.Builder;
 
 namespace Engine.Objects.LargeObjects.BuilderPlans

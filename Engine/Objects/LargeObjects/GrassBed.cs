@@ -13,8 +13,6 @@ namespace Engine.Objects.LargeObjects
             Id = 0x00001D00;
         }
 
-        public static int CountToBuild = 8; 
-
         public override string Name
         {
             get { return "Grass bed"; }
@@ -45,13 +43,6 @@ namespace Engine.Objects.LargeObjects
                Property.NeedToBuildGrassBed,
                Property.NeedToSleep
             };
-        }
-
-        private int _countLeftToBuild = CountToBuild;
-
-        public int CountLeftToBuild { 
-            get { return _countLeftToBuild; } 
-            set { _countLeftToBuild = value > 0 ? value : 0; } 
         }
 
         public bool IsBuild { get { return BuilderPlan.IsCompleted; } }

@@ -106,6 +106,15 @@ namespace Engine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Digging stick.
+        /// </summary>
+        internal static string DiggingStick {
+            get {
+                return ResourceManager.GetString("DiggingStick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Plant.
         /// </summary>
         internal static string Plant {
@@ -138,6 +147,15 @@ namespace Engine.Resources {
         internal static string Rock {
             get {
                 return ResourceManager.GetString("Rock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sharp stone.
+        /// </summary>
+        internal static string SharpStone {
+            get {
+                return ResourceManager.GetString("SharpStone", resourceCulture);
             }
         }
         

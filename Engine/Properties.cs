@@ -20,6 +20,10 @@ namespace Engine
         Roastable,
         CollectTwig,
         NeedToBuildGrassBed,
-        NeedToSleep
+        NeedToSleep,
+        NeedToBuildWickiup,
+        Digger,
+        Stone,
+        Branch
     }
 }

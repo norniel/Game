@@ -67,6 +67,9 @@ namespace Game
         private BitmapImage grassBed2;
         private BitmapImage grassBed3;
 
+        private BitmapImage diggingStickImage;
+        private BitmapImage sharpStoneImage;
+
         private TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
 
@@ -117,6 +120,9 @@ namespace Game
             grassBed1 = CreateBitmapImage(@"grassbed1.png");
             grassBed2 = CreateBitmapImage(@"grassbed2.png");
             grassBed3 = CreateBitmapImage(@"grassbed3.png");
+
+            diggingStickImage = CreateBitmapImage(@"digging stick icon.png");
+            sharpStoneImage = CreateBitmapImage(@"sharp stone icon.png");
 
             CreateActing();
 
@@ -408,6 +414,16 @@ namespace Game
                 }
                 // _canvas.Children
             }
+            else if (id == 0x00002200)
+            {
+                // _canvas.Children
+                DrawImage(sharpStoneImage, x, y);
+            }
+            else if (id == 0x00002300)
+            {
+                // _canvas.Children
+                DrawImage(diggingStickImage, x, y);
+            }
             else if ((id / 0x1000) == 0x00018)
             {
                 DrawRotatedImage(dikabrozikImage, x, y, id % 0x1000);
@@ -537,6 +553,10 @@ namespace Game
                     return roastedAppleImage;
                 case 0x00001C00:
                     return twigImage;
+                case 0x00002300:
+                    return diggingStickImage;
+                case 0x00002200:
+                    return sharpStoneImage;
             }
             return appletreeImage;
         }

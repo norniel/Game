@@ -83,6 +83,8 @@
     <Compile Include="Actions\CollectSmth.cs" />
     <Compile Include="Actions\CollectTwig.cs" />
     <Compile Include="Actions\CreateGrassBed.cs" />
+    <Compile Include="Actions\CreateSharpStone.cs" />
+    <Compile Include="Actions\CreateDiggingStickAction.cs" />
     <Compile Include="Actions\CreateStoneAxeAction.cs" />
     <Compile Include="Actions\CutAction.cs" />
     <Compile Include="Actions\DropAction.cs" />
@@ -158,6 +160,8 @@
     <Compile Include="Objects\Plant.cs" />
     <Compile Include="Objects\RaspBerries.cs" />
     <Compile Include="Objects\Rock.cs" />
+    <Compile Include="Objects\Tool\DiggingStick.cs" />
+    <Compile Include="Objects\Tool\SharpStone.cs" />
     <Compile Include="Objects\Tool\StoneAxe.cs" />
     <Compile Include="Objects\Tree.cs" />
     <Compile Include="Objects\Trees\AppleTree.cs" />

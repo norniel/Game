@@ -88,6 +88,24 @@ namespace Engine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Digging stick.
+        /// </summary>
+        internal static string CreateDiggingStick {
+            get {
+                return ResourceManager.GetString("CreateDiggingStick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Sharp stone.
+        /// </summary>
+        internal static string CreateSharpStone {
+            get {
+                return ResourceManager.GetString("CreateSharpStone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Stone axe.
         /// </summary>
         internal static string CreateStoneAxe {

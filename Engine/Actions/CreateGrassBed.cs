@@ -136,16 +136,6 @@ namespace Engine.Actions
             }
 
             _plants = _grassBed.BuilderPlan.CurrentStep.BuildAction(_plants);
-            /*
-                        var plantsToUseCount = 2;
-                        for (int i = 0; i < plantsToUseCount && _plants.Any(); i++)
-                        {
-                            _plants[0].RemoveFromContainer();
-                            _plants.RemoveAt(0);
-
-                            _grassBed.CountLeftToBuild = _grassBed.CountLeftToBuild - 1;
-                        }
-                        */
 
             if (_grassBed.BuilderPlan.CurrentStep.IsCompleted)
             {

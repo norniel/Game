@@ -126,6 +126,12 @@
   <data name="Collect" xml:space="preserve">
     <value>Собрать {0}</value>
   </data>
+  <data name="CreateDiggingStick" xml:space="preserve">
+    <value>Сделать палку-копалку</value>
+  </data>
+  <data name="CreateSharpStone" xml:space="preserve">
+    <value>Сделать заостренный камень</value>
+  </data>
   <data name="CreateStoneAxe" xml:space="preserve">
     <value>Сделать каменный топор</value>
   </data>

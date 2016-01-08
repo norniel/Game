@@ -26,7 +26,8 @@ namespace Engine.Objects
                Property.Pickable,
                Property.NeedToCreateStoneAxe,
                Property.NeedToCreateFire,
-               Property.CollectTwig
+               Property.CollectTwig,
+               Property.Branch
             };
         }
 

@@ -22,7 +22,8 @@ namespace Engine.Objects
             this.Properties = new HashSet<Property>
             {
                 Property.Pickable,
-               Property.NeedToCreateStoneAxe
+                Property.NeedToCreateStoneAxe,
+                Property.Stone
             };
         }
 

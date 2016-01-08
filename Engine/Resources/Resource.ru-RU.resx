@@ -132,6 +132,9 @@
   <data name="Cone" xml:space="preserve">
     <value>Шишка</value>
   </data>
+  <data name="DiggingStick" xml:space="preserve">
+    <value>Палка-копалка</value>
+  </data>
   <data name="Plant" xml:space="preserve">
     <value>Растение</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="Rock" xml:space="preserve">
     <value>Камень</value>
+  </data>
+  <data name="SharpStone" xml:space="preserve">
+    <value>Острый камень</value>
   </data>
   <data name="StoneAxe" xml:space="preserve">
     <value>Каменный топор</value>
