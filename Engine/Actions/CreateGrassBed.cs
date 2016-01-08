@@ -6,6 +6,7 @@ using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.LargeObjects;
 using Engine.Objects.LargeObjects.BuilderPlans;
+using Engine.Resources;
 
 namespace Engine.Actions
 {
@@ -21,7 +22,7 @@ namespace Engine.Actions
 
         public string Name
         {
-            get { return "Build grass bed"; }
+            get { return ActionsResource.BuildGrassBed; }
         }
 
         public string GetName(IEnumerable<GameObject> objects)

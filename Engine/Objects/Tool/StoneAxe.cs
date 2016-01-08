@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Engine.Resources;
 
 namespace Engine.Objects
 {
@@ -24,7 +25,7 @@ namespace Engine.Objects
 
         public override string Name
         {
-            get { return "Stone Axe"; }
+            get { return Resource.StoneAxe; }
         }
     }
 }

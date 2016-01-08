@@ -120,8 +120,14 @@
   <data name="AddToFire" xml:space="preserve">
     <value>Подбросить {0} в костер</value>
   </data>
+  <data name="BuildGrassBed" xml:space="preserve">
+    <value>Сделать лежанку из травы</value>
+  </data>
   <data name="Collect" xml:space="preserve">
     <value>Собрать {0}</value>
+  </data>
+  <data name="CreateStoneAxe" xml:space="preserve">
+    <value>Сделать каменный топор</value>
   </data>
   <data name="MakeFire" xml:space="preserve">
     <value>Разжечь костер</value>

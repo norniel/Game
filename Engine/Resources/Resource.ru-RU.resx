@@ -144,6 +144,9 @@
   <data name="Rock" xml:space="preserve">
     <value>Камень</value>
   </data>
+  <data name="StoneAxe" xml:space="preserve">
+    <value>Каменный топор</value>
+  </data>
   <data name="Twig" xml:space="preserve">
     <value>Прутик</value>
   </data>

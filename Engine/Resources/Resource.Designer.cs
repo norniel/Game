@@ -142,6 +142,15 @@ namespace Engine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stone Axe.
+        /// </summary>
+        internal static string StoneAxe {
+            get {
+                return ResourceManager.GetString("StoneAxe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Twig.
         /// </summary>
         internal static string Twig {

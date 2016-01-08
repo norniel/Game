@@ -70,11 +70,29 @@ namespace Engine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Build grass bed.
+        /// </summary>
+        internal static string BuildGrassBed {
+            get {
+                return ResourceManager.GetString("BuildGrassBed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Collect {0}.
         /// </summary>
         internal static string Collect {
             get {
                 return ResourceManager.GetString("Collect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Stone axe.
+        /// </summary>
+        internal static string CreateStoneAxe {
+            get {
+                return ResourceManager.GetString("CreateStoneAxe", resourceCulture);
             }
         }
         

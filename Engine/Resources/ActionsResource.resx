@@ -120,8 +120,14 @@
   <data name="AddToFire" xml:space="preserve">
     <value>Add {0} to fire</value>
   </data>
+  <data name="BuildGrassBed" xml:space="preserve">
+    <value>Build grass bed</value>
+  </data>
   <data name="Collect" xml:space="preserve">
     <value>Collect {0}</value>
+  </data>
+  <data name="CreateStoneAxe" xml:space="preserve">
+    <value>Create Stone axe</value>
   </data>
   <data name="MakeFire" xml:space="preserve">
     <value>Make Fire</value>

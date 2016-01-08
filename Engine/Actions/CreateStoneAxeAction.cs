@@ -3,14 +3,14 @@ using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
-using Engine.Wrapers;
+using Engine.Resources;
 
 namespace Engine.Actions
 {
     public class CreateStoneAxeAction:IAction
     {
         public string Name {
-            get { return "Create Stone axe"; }
+            get { return ActionsResource.CreateStoneAxe; }
         }
 
         public string GetName(IEnumerable<GameObject> objects)
