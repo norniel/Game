@@ -4,6 +4,7 @@ using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
+using Engine.Resources;
 
 namespace Engine.Actions
 {
@@ -21,7 +22,7 @@ namespace Engine.Actions
                 return Name;
             }
 
-            return string.Format("Add {0} to fire", burnable.Name);
+            return string.Format(ActionsResource.AddToFire, burnable.Name);
         }
 
         public bool IsApplicable(Property property)

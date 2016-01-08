@@ -3,13 +3,14 @@ using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
+using Engine.Resources;
 
 namespace Engine
 {
     internal class PickAction : IAction
     {
         public string Name {
-            get { return "Pick"; }
+            get { return ActionsResource.Pick; }
         }
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {

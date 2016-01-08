@@ -144,6 +144,9 @@
   <data name="Rock" xml:space="preserve">
     <value>Камень</value>
   </data>
+  <data name="Twig" xml:space="preserve">
+    <value>Прутик</value>
+  </data>
   <data name="Wickiup" xml:space="preserve">
     <value>Шалаш</value>
   </data>

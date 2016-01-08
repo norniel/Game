@@ -4,6 +4,7 @@ using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
+using Engine.Resources;
 using Engine.Wrapers;
 
 namespace Engine.Actions
@@ -21,7 +22,7 @@ namespace Engine.Actions
                 return Name;
             }
 
-            return string.Format("Collect {0}", objectToCollectFrom.GetSmth().Name);
+            return string.Format(ActionsResource.Collect, objectToCollectFrom.GetSmth().Name);
         }
 
         public abstract bool IsApplicable(Property property);

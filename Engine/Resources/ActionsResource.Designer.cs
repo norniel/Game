@@ -22,14 +22,14 @@ namespace Engine.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resource {
+    internal class ActionsResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resource() {
+        internal ActionsResource() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Engine.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Engine.Resources.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Engine.Resources.ActionsResource", typeof(ActionsResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,101 +61,38 @@ namespace Engine.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Apple.
+        ///   Looks up a localized string similar to Add {0} to fire.
         /// </summary>
-        internal static string Apple {
+        internal static string AddToFire {
             get {
-                return ResourceManager.GetString("Apple", resourceCulture);
+                return ResourceManager.GetString("AddToFire", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Branch.
+        ///   Looks up a localized string similar to Collect {0}.
         /// </summary>
-        internal static string Branch {
+        internal static string Collect {
             get {
-                return ResourceManager.GetString("Branch", resourceCulture);
+                return ResourceManager.GetString("Collect", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Burovik.
+        ///   Looks up a localized string similar to Make Fire.
         /// </summary>
-        internal static string Burovik {
+        internal static string MakeFire {
             get {
-                return ResourceManager.GetString("Burovik", resourceCulture);
+                return ResourceManager.GetString("MakeFire", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bush.
+        ///   Looks up a localized string similar to Pick.
         /// </summary>
-        internal static string Bush {
+        internal static string Pick {
             get {
-                return ResourceManager.GetString("Bush", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cone.
-        /// </summary>
-        internal static string Cone {
-            get {
-                return ResourceManager.GetString("Cone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Plant.
-        /// </summary>
-        internal static string Plant {
-            get {
-                return ResourceManager.GetString("Plant", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Roasted apple.
-        /// </summary>
-        internal static string RoastedApple {
-            get {
-                return ResourceManager.GetString("RoastedApple", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Roasted burovik.
-        /// </summary>
-        internal static string RoastedBurovik {
-            get {
-                return ResourceManager.GetString("RoastedBurovik", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Rock.
-        /// </summary>
-        internal static string Rock {
-            get {
-                return ResourceManager.GetString("Rock", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Twig.
-        /// </summary>
-        internal static string Twig {
-            get {
-                return ResourceManager.GetString("Twig", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Wickiup.
-        /// </summary>
-        internal static string Wickiup {
-            get {
-                return ResourceManager.GetString("Wickiup", resourceCulture);
+                return ResourceManager.GetString("Pick", resourceCulture);
             }
         }
     }

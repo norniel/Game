@@ -4,6 +4,7 @@ using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
+using Engine.Resources;
 using Microsoft.Practices.Unity;
 
 namespace Engine.Actions
@@ -14,7 +15,7 @@ namespace Engine.Actions
         public Map Map { get; set; }
 
         public string Name {
-            get { return "Make Fire"; }
+            get { return ActionsResource.MakeFire; }
         }
 
         public string GetName(IEnumerable<GameObject> objects)
