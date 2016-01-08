@@ -61,11 +61,92 @@ namespace Engine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apple.
+        /// </summary>
+        internal static string Apple {
+            get {
+                return ResourceManager.GetString("Apple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Branch.
+        /// </summary>
+        internal static string Branch {
+            get {
+                return ResourceManager.GetString("Branch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Burovik.
         /// </summary>
         internal static string Burovik {
             get {
                 return ResourceManager.GetString("Burovik", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bush.
+        /// </summary>
+        internal static string Bush {
+            get {
+                return ResourceManager.GetString("Bush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cone.
+        /// </summary>
+        internal static string Cone {
+            get {
+                return ResourceManager.GetString("Cone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plant.
+        /// </summary>
+        internal static string Plant {
+            get {
+                return ResourceManager.GetString("Plant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roasted apple.
+        /// </summary>
+        internal static string RoastedApple {
+            get {
+                return ResourceManager.GetString("RoastedApple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roasted burovik.
+        /// </summary>
+        internal static string RoastedBurovik {
+            get {
+                return ResourceManager.GetString("RoastedBurovik", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rock.
+        /// </summary>
+        internal static string Rock {
+            get {
+                return ResourceManager.GetString("Rock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wickiup.
+        /// </summary>
+        internal static string Wickiup {
+            get {
+                return ResourceManager.GetString("Wickiup", resourceCulture);
             }
         }
     }

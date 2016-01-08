@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Engine.Interfaces;
 using Engine.ObjectStates;
+using Engine.Resources;
 
 namespace Engine.Objects
 {
@@ -42,7 +43,7 @@ namespace Engine.Objects
 
         public override string Name
         {
-            get { return "Plant"; }
+            get { return Resource.Plant; }
         }
 
         public int TimeOfBurning {

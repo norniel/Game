@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Engine.Objects.LargeObjects;
 using Engine.Objects.LargeObjects.Builder;
+using Engine.Resources;
 
 namespace Engine.Objects
 {
@@ -17,7 +18,7 @@ namespace Engine.Objects
 
         public override string Name
         {
-            get { return "Wickiup"; }
+            get { return Resource.Wickiup; }
         }
 
         public override uint GetDrawingCode()

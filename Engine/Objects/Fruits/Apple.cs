@@ -1,16 +1,14 @@
 ﻿using Engine.Interfaces;
 using Engine.Objects.Food;
+using Engine.Resources;
 
 namespace Engine.Objects.Fruits
 {
     class Apple: Berry, IEatable, IRoastable
     {
-        public override int Weight { get { return 2; } }
+        public override int Weight => 2;
 
-        public override string Name
-        {
-            get { return "Apple"; }
-        }
+        public override string Name => Resource.Apple;
 
         public override void InitializeProperties()
         {
@@ -18,8 +16,9 @@ namespace Engine.Objects.Fruits
             this.Properties.Add(Property.Roastable);
         }
 
-        public int Poisoness { get { return 0; } }
-        public int Satiety { get { return 2; } }
+        public int Poisoness => 0;
+        public int Satiety => 2;
+
         public GameObject GetRoasted()
         {
             return new RoastedApple();

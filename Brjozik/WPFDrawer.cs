@@ -485,20 +485,20 @@ namespace Game
             }
         }
 
-        public void DrawContainer(IEnumerable<KeyValuePair<string, Func<IEnumerable<ClientAction>>>> objects)
+        public void DrawContainer(IEnumerable<MenuItems> objects)
         {
             _listBox.Items.Clear();
 
             foreach (var gameObject in objects)
             {
                 var image = new Image();
-                image.Source = this.GetBitmapImageByName(gameObject.Key);
+                image.Source = this.GetBitmapImageById(gameObject.Id);
 
                 TextBlock gameObjecttextBlock = new TextBlock();
 
                 gameObjecttextBlock.TextAlignment = TextAlignment.Center;
-                gameObjecttextBlock.Text = gameObject.Key;
-                gameObjecttextBlock.DataContext = gameObject.Value;
+                gameObjecttextBlock.Text = gameObject.Name;
+                gameObjecttextBlock.DataContext = gameObject.GetClientActions;
                 gameObjecttextBlock.ContextMenuOpening += HandlerForCMO;
 
                 _listBox.Items.Add(image);
@@ -506,38 +506,36 @@ namespace Game
             }
         }
 
-        private ImageSource GetBitmapImageByName(string key)
+        private ImageSource GetBitmapImageById(uint id)
         {
-            string name = key.Remove(key.IndexOf('('));
-            switch (name)
+           // string name = key.Remove(key.IndexOf('('));
+            switch (id)
             {
-                case "Plant":
+                case 0x00001100:
                     return dryplantImage;
-                case "Berries":
+                case 0x00000700:
                     return appleImage;
-                case "Branch":
+                case 0x00000800:
                     return branchImage;
-                case "Rock":
+                case 0x00001000:
                     return rockImage;
-                case "Tree":
+                case 0x00000100:
                     return appletreeImage;
-                case "Bush":
+                case 0x00001200:
                     return bushImage;
-                case "Raspberries":
+                case 0x00000900:
                     return raspberryImage;
-                case "Stone Axe":
+                case 0x00001300:
                     return stoneAxeImage;
-                case "Cone":
+                case 0x00001700:
                     return coneImage;
-                case "Apple":
-                    return appleImage;
-                case "Burovik":
+                case 0x00001900:
                     return mushroomImage;
-                case "Roasted burovik":
+                case 0x00001A00:
                     return roastedMushroomImage;
-                case "Roasted apple":
+                case 0x00001B00:
                     return roastedAppleImage;
-                case "Twig":
+                case 0x00001C00:
                     return twigImage;
             }
             return appletreeImage;

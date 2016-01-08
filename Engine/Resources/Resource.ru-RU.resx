@@ -117,7 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Apple" xml:space="preserve">
+    <value>Яблоко</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Ветка</value>
+  </data>
   <data name="Burovik" xml:space="preserve">
     <value>Буровик</value>
+  </data>
+  <data name="Bush" xml:space="preserve">
+    <value>Куст</value>
+  </data>
+  <data name="Cone" xml:space="preserve">
+    <value>Шишка</value>
+  </data>
+  <data name="Plant" xml:space="preserve">
+    <value>Растение</value>
+  </data>
+  <data name="RoastedApple" xml:space="preserve">
+    <value>Печеное яблоко</value>
+  </data>
+  <data name="RoastedBurovik" xml:space="preserve">
+    <value>Печеный буровик</value>
+  </data>
+  <data name="Rock" xml:space="preserve">
+    <value>Камень</value>
+  </data>
+  <data name="Wickiup" xml:space="preserve">
+    <value>Шалаш</value>
   </data>
 </root>

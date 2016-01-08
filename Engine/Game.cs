@@ -279,9 +279,11 @@ namespace Engine
             var groupedItems = _hero.GetContainerItems()
                 .GroupBy(go => go.Name,
                     (name, gos) =>
-                        new KeyValuePair<string, Func<IEnumerable<ClientAction>>>(
-                            string.Format("{0}({1})", name, gos.Count()),
-                            this.GetFuncForClientActions(gos.First())));
+                    new MenuItems {
+                        Name = string.Format("{0}({1})", name, gos.Count()),
+                        Id = gos.First().Id,
+                        GetClientActions = this.GetFuncForClientActions(gos.First())
+                    });
 
             _drawer.DrawContainer(groupedItems);
 
@@ -311,5 +313,12 @@ namespace Engine
                 }));
             });
         }
+    }
+
+    public class MenuItems
+    {
+        public string Name { get; set; }
+        public uint Id { get; set; }
+        public Func<IEnumerable<ClientAction>> GetClientActions { get; set; }
     }
 }

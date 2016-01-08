@@ -8,8 +8,6 @@ namespace Engine
 
         public Size Size { get; protected set; }
 
-        public uint Id { get; protected set; }
-
         public FixedObject()
         {
             IsPassable = true;

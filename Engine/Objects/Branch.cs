@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Engine.Interfaces;
+using Engine.Resources;
 
 namespace Engine.Objects
 {
@@ -31,7 +32,7 @@ namespace Engine.Objects
 
         public override string Name
         {
-            get { return "Branch"; }
+            get { return Resource.Branch; }
         }
 
         public int TimeOfBurning {

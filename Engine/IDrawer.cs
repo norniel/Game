@@ -19,7 +19,7 @@ namespace Engine
 
         void DrawMenu(int x, int y, IEnumerable<ClientAction> actions);
 
-        void DrawContainer(IEnumerable<KeyValuePair<string, Func<IEnumerable<ClientAction>>>> objects);
+        void DrawContainer(IEnumerable<MenuItems> objects);
 
         void DrawHeroProperties(IEnumerable<KeyValuePair<string, int>> objects);
 

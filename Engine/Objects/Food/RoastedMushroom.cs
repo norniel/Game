@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Engine.Interfaces;
+using Engine.Resources;
 
 namespace Engine.Objects
 {
@@ -27,7 +28,7 @@ namespace Engine.Objects
 
         public override string Name
         {
-            get { return "Roasted burovik"; }
+            get { return Resource.RoastedBurovik; }
         }
 
         public int Poisoness
