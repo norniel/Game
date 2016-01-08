@@ -1,4 +1,6 @@
-﻿namespace Engine.Objects
+﻿using Engine.Resources;
+
+namespace Engine.Objects
 {
     using System;
     using System.Collections.Generic;
@@ -43,7 +45,7 @@
 
         public override string Name
         {
-            get { return "Burovik"; }
+            get { return Resource.Burovik; }
         }
 
 
