@@ -51,6 +51,9 @@ namespace Engine
 
         public static bool operator ==(Point left, Point right)
         {
+            if (ReferenceEquals(null, left))
+                return ReferenceEquals(null, right);
+
             return !ReferenceEquals(null, right) && left.Equals(right);
         }
 

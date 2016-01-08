@@ -69,7 +69,9 @@ namespace Engine
         internal void SetObjectFromCell(Point cell, FixedObject gameObject)
         {
             if (cell == null)
+            {
                 return;
+            }
 
             if (gameObject == null)
             {
@@ -97,8 +99,11 @@ namespace Engine
 
             gameObject.RemoveFromContainer = (() =>
             {
-                this.SetObjectFromCell(cell, null);
-
+                if (gameObject == _map[cell.X, cell.Y])
+                {
+                    this.SetObjectFromCell(cell, null);
+                }
+                    
                 if (gameObject.Properties.Contains(Property.Regrowable) && gameObject is ICloneable)
                 {
                     this.SetObjectFromCell(this.GetRandomNearEmptyPoint(cell, 3), (FixedObject)(gameObject as ICloneable).Clone());

@@ -28,15 +28,14 @@ namespace Engine.Objects.LargeObjects
             var buildProcents = BuilderPlan.CurrentStep.PercentCompleted;//CountLeftToBuild * 100 / CountToBuild;
             if (buildProcents <= 30)
             {
-                ;
-                return 0x00001D01;
+                return 0x00001D03;
             }
             else if (buildProcents <= 60)
             {
                 return 0x00001D02;
             }
 
-            return 0x00001D03;
+            return 0x00001D01;
         }
 
         public override void InitializeProperties()

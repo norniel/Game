@@ -3,7 +3,7 @@
     abstract class LargeObjectOuterAbstract : FixedObject
     {
         private readonly LargeObjectInner _innerObject;
-        public Point PlaceInObject { get; private set; }
+        public Point PlaceInObject { get; }
 
         public bool IsTransparent { get; private set; }
 
@@ -16,18 +16,15 @@
             Size = new Size(1, 1);
         }
 
-        public LargeObjectInner InnerObject { get { return _innerObject; } }
+        public LargeObjectInner InnerObject => _innerObject;
 
-        public override string Name
-        {
-            get { return _innerObject.Name; }
-        }
+        public override string Name => _innerObject.Name;
 
         public override uint GetDrawingCode()
         {
             return _innerObject.GetDrawingCode();
         }
 
-        public bool isLeftCorner { get { return PlaceInObject != null && PlaceInObject.X == 0 && PlaceInObject.Y == 0; } }
+        public bool isLeftCorner => PlaceInObject != null && PlaceInObject.X == 0 && PlaceInObject.Y == 0;
     }
 }
