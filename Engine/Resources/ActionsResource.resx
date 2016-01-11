@@ -126,6 +126,9 @@
   <data name="Collect" xml:space="preserve">
     <value>Collect {0}</value>
   </data>
+  <data name="ContinueBuilding" xml:space="preserve">
+    <value>Continue building</value>
+  </data>
   <data name="CreateDiggingStick" xml:space="preserve">
     <value>Create Digging stick</value>
   </data>
@@ -135,10 +138,25 @@
   <data name="CreateStoneAxe" xml:space="preserve">
     <value>Create Stone axe</value>
   </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Drop" xml:space="preserve">
+    <value>Drop</value>
+  </data>
+  <data name="Eat" xml:space="preserve">
+    <value>Eat</value>
+  </data>
   <data name="MakeFire" xml:space="preserve">
     <value>Make Fire</value>
   </data>
   <data name="Pick" xml:space="preserve">
     <value>Pick</value>
+  </data>
+  <data name="Roast" xml:space="preserve">
+    <value>Roast {0}</value>
+  </data>
+  <data name="Sleep" xml:space="preserve">
+    <value>Sleep</value>
   </data>
 </root>

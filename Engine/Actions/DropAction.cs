@@ -3,6 +3,7 @@ using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
+using Engine.Resources;
 using Engine.Wrapers;
 using Microsoft.Practices.Unity;
 
@@ -14,7 +15,7 @@ namespace Engine.Actions
         public Map Map { get; set; }
 
         public string Name {
-            get { return "Drop"; }
+            get { return ActionsResource.Drop; }
         }
 
         public string GetName(IEnumerable<GameObject> objects)

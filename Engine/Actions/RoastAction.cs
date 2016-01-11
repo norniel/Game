@@ -3,6 +3,7 @@ using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Objects;
+using Engine.Resources;
 
 namespace Engine.Actions
 {
@@ -15,7 +16,7 @@ namespace Engine.Actions
 
         public override string GetName(IEnumerable<GameObject> objects)
         {
-            return string.Format("Roast {0}", objects.First().Name);
+            return string.Format(ActionsResource.Roast, objects.First().Name);
         }
 
         public override bool IsApplicable(Property property)

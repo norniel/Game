@@ -29,7 +29,7 @@ namespace Engine.Actions
         {
             if (objects.Any(o => o is GrassBed))
             {
-                return "Continue building";
+                return ActionsResource.ContinueBuilding;
             }
 
             return Name;

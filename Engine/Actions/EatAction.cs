@@ -4,13 +4,14 @@ using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
+using Engine.Resources;
 
 namespace Engine.Actions
 {
     internal class EatAction : IAction
     {
         public string Name {
-            get { return "Eat"; }
+            get { return ActionsResource.Eat; }
         }
 
         public string GetName(IEnumerable<GameObject> objects)

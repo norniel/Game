@@ -5,6 +5,7 @@ using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.Trees;
+using Engine.Resources;
 using Engine.Wrapers;
 using Microsoft.Practices.Unity;
 
@@ -19,7 +20,7 @@ namespace Engine.Actions
         public Map Map { get; set; }
 
         public override string Name {
-            get { return "Cut"; }
+            get { return ActionsResource.Cut; }
         }
 
         public override string GetName(IEnumerable<GameObject> objects)

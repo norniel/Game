@@ -65,7 +65,7 @@ namespace Engine.Actions
 
         public double GetTiredness()
         {
-            return 5;
+            return 2;
         }
     }
 }

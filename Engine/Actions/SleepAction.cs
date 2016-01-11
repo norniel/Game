@@ -4,13 +4,14 @@ using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.LargeObjects;
+using Engine.Resources;
 
 namespace Engine.Actions
 {
     class SleepAction:IAction
     {
         public string Name {
-            get { return "Sleep"; }
+            get { return ActionsResource.Sleep; }
         }
         public string GetName(IEnumerable<GameObject> objects)
         {

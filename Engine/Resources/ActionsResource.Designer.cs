@@ -88,6 +88,15 @@ namespace Engine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue building.
+        /// </summary>
+        internal static string ContinueBuilding {
+            get {
+                return ResourceManager.GetString("ContinueBuilding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Digging stick.
         /// </summary>
         internal static string CreateDiggingStick {
@@ -115,6 +124,33 @@ namespace Engine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cut.
+        /// </summary>
+        internal static string Cut {
+            get {
+                return ResourceManager.GetString("Cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drop.
+        /// </summary>
+        internal static string Drop {
+            get {
+                return ResourceManager.GetString("Drop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eat.
+        /// </summary>
+        internal static string Eat {
+            get {
+                return ResourceManager.GetString("Eat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Make Fire.
         /// </summary>
         internal static string MakeFire {
@@ -129,6 +165,24 @@ namespace Engine.Resources {
         internal static string Pick {
             get {
                 return ResourceManager.GetString("Pick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roast {0}.
+        /// </summary>
+        internal static string Roast {
+            get {
+                return ResourceManager.GetString("Roast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sleep.
+        /// </summary>
+        internal static string Sleep {
+            get {
+                return ResourceManager.GetString("Sleep", resourceCulture);
             }
         }
     }

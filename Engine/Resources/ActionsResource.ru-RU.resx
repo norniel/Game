@@ -126,6 +126,9 @@
   <data name="Collect" xml:space="preserve">
     <value>Собрать {0}</value>
   </data>
+  <data name="ContinueBuilding" xml:space="preserve">
+    <value>Продолжить строительство</value>
+  </data>
   <data name="CreateDiggingStick" xml:space="preserve">
     <value>Сделать палку-копалку</value>
   </data>
@@ -135,10 +138,25 @@
   <data name="CreateStoneAxe" xml:space="preserve">
     <value>Сделать каменный топор</value>
   </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Срубить</value>
+  </data>
+  <data name="Drop" xml:space="preserve">
+    <value>Бросить</value>
+  </data>
+  <data name="Eat" xml:space="preserve">
+    <value>Есть</value>
+  </data>
   <data name="MakeFire" xml:space="preserve">
     <value>Разжечь костер</value>
   </data>
   <data name="Pick" xml:space="preserve">
     <value>Собрать</value>
+  </data>
+  <data name="Roast" xml:space="preserve">
+    <value>Испечь {0}</value>
+  </data>
+  <data name="Sleep" xml:space="preserve">
+    <value>Спать</value>
   </data>
 </root>
