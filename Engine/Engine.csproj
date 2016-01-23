@@ -80,6 +80,7 @@
     <Compile Include="Actions\BurnAction.cs" />
     <Compile Include="Actions\CollectBerriesAction.cs" />
     <Compile Include="Actions\CollectBranchAction.cs" />
+    <Compile Include="Actions\CollectRoot.cs" />
     <Compile Include="Actions\CollectSmth.cs" />
     <Compile Include="Actions\CollectTwig.cs" />
     <Compile Include="Actions\CreateGrassBed.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Objects\Plant.cs" />
     <Compile Include="Objects\RaspBerries.cs" />
     <Compile Include="Objects\Rock.cs" />
+    <Compile Include="Objects\Root.cs" />
     <Compile Include="Objects\Tool\DiggingStick.cs" />
     <Compile Include="Objects\Tool\SharpStone.cs" />
     <Compile Include="Objects\Tool\StoneAxe.cs" />

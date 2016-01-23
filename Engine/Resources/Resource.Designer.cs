@@ -151,6 +151,15 @@ namespace Engine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Root.
+        /// </summary>
+        internal static string Root {
+            get {
+                return ResourceManager.GetString("Root", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sharp stone.
         /// </summary>
         internal static string SharpStone {

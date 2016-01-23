@@ -5,7 +5,6 @@ using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
-using Engine.Wrapers;
 
 namespace Engine.Actions
 {
@@ -36,11 +35,18 @@ namespace Engine.Actions
 
         public abstract bool CanDo(Hero hero, IEnumerable<GameObject> objects);
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public virtual IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-           yield return objects.Where(obj => obj.Properties.Any(this.IsApplicable)
+            var necessaryObjects = objects.Where(obj => obj.Properties.Any(this.IsApplicable)
                && obj is IHasSmthToCollect<T>
                && (obj as IHasSmthToCollect<T>).GetSmthTotalCount() > 0).ToList();
+
+            if(necessaryObjects.Any())
+                yield return necessaryObjects;
+            else
+            {
+                yield break;
+            }
         }
 
         public abstract double GetTiredness();

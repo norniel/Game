@@ -35,21 +35,7 @@ namespace Engine
                 Property.CollectTwig
             };
         }
-        /*
-        public int BerriesPerCollectCount {
-            get { return 2; }
-            set { }
-        }
-        public int BerriesCount
-        {
-            get { return _berriesCount; }
-            set { _berriesCount = value; }
-        }
-        public Berry GetBerry()
-        {
-            return new Berry();
-        }
-        */
+        
         public override string Name
         {
             get { return "Tree"; }

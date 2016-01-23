@@ -70,6 +70,8 @@ namespace Game
         private BitmapImage diggingStickImage;
         private BitmapImage sharpStoneImage;
 
+        private BitmapImage rootImage;
+
         private TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
 
@@ -123,6 +125,8 @@ namespace Game
 
             diggingStickImage = CreateBitmapImage(@"digging stick icon.png");
             sharpStoneImage = CreateBitmapImage(@"sharp stone icon.png");
+
+            rootImage = CreateBitmapImage(@"root icon.png");
 
             CreateActing();
 
@@ -424,6 +428,11 @@ namespace Game
                 // _canvas.Children
                 DrawImage(diggingStickImage, x, y);
             }
+            else if (id == 0x00002400)
+            {
+                // _canvas.Children
+                DrawImage(rootImage, x, y);
+            }
             else if ((id / 0x1000) == 0x00018)
             {
                 DrawRotatedImage(dikabrozikImage, x, y, id % 0x1000);
@@ -557,6 +566,8 @@ namespace Game
                     return diggingStickImage;
                 case 0x00002200:
                     return sharpStoneImage;
+                case 0x00002400:
+                    return rootImage;
             }
             return appletreeImage;
         }

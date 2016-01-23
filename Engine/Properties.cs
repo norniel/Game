@@ -24,6 +24,8 @@ namespace Engine
         NeedToBuildWickiup,
         Digger,
         Stone,
-        Branch
+        Branch,
+        Diggable,
+        CollectRoot
     }
 }

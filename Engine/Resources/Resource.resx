@@ -147,6 +147,9 @@
   <data name="Rock" xml:space="preserve">
     <value>Rock</value>
   </data>
+  <data name="Root" xml:space="preserve">
+    <value>Root</value>
+  </data>
   <data name="SharpStone" xml:space="preserve">
     <value>Sharp stone</value>
   </data>
