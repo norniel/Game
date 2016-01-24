@@ -27,7 +27,8 @@ namespace Engine.Objects
                Property.NeedToCreateStoneAxe,
                Property.NeedToCreateFire,
                Property.CollectTwig,
-               Property.Branch
+               Property.Branch,
+               Property.NeedToBuildWickiup
             };
         }
 

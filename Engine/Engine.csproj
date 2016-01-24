@@ -88,6 +88,7 @@
     <Compile Include="Actions\CreateSharpStone.cs" />
     <Compile Include="Actions\CreateDiggingStickAction.cs" />
     <Compile Include="Actions\CreateStoneAxeAction.cs" />
+    <Compile Include="Actions\CreateWickiup.cs" />
     <Compile Include="Actions\CutAction.cs" />
     <Compile Include="Actions\DropAction.cs" />
     <Compile Include="Actions\EatAction.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Objects\Fruits\Apple.cs" />
     <Compile Include="Objects\Fruits\Cone.cs" />
     <Compile Include="Objects\GameObject.cs" />
+    <Compile Include="Objects\LargeObjects\BuilderPlans\WickiupBuilderPlan.cs" />
     <Compile Include="Objects\LargeObjects\BuilderPlans\GrassBedBuilderPlan.cs" />
     <Compile Include="Objects\LargeObjects\Builder\BuilderPlan.cs" />
     <Compile Include="Objects\LargeObjects\Builder\BuildItem.cs" />
@@ -223,6 +225,7 @@
     <EmbeddedResource Include="Resources\ActionsResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ActionsResource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ActionsResource.ru-RU.resx" />
     <EmbeddedResource Include="Resources\HeroResource.resx">
@@ -233,6 +236,7 @@
     <EmbeddedResource Include="Resources\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resource.ru-RU.resx" />
   </ItemGroup>

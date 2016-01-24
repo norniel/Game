@@ -22,7 +22,7 @@ namespace Engine.Objects.LargeObjects
         {
             if(IsBuild)
                 return this.Id;
-
+            /*
             var buildProcents = BuilderPlan.CurrentStep.PercentCompleted;//CountLeftToBuild * 100 / CountToBuild;
             if (buildProcents <= 30)
             {
@@ -32,8 +32,8 @@ namespace Engine.Objects.LargeObjects
             {
                 return 0x00001D02;
             }
-
-            return 0x00001D01;
+            */
+            return this.Id + BuilderPlan.CurrentDrawingOrder;
         }
 
         public override void InitializeProperties()

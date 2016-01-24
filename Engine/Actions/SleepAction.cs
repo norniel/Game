@@ -36,11 +36,11 @@ namespace Engine.Actions
 
         public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-            var grassBed = (GrassBed)objects.FirstOrDefault(o => o is GrassBed);
+            var bed = (LargeObjectInner)objects.FirstOrDefault(o => o.Properties.Any(IsApplicable));
 
-            if (grassBed != null && grassBed.IsBuild)
+            if (bed != null && bed.IsBuild)
             {
-                yield return new List<GameObject>() {grassBed};
+                yield return new List<GameObject>() { bed };
             }
         }
 

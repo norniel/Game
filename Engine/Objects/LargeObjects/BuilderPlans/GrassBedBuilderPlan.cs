@@ -43,5 +43,21 @@ namespace Engine.Objects.LargeObjects.BuilderPlans
 
             return (objectOnPlace == null && objectOnNextPlace == null);
         }
+
+        public override uint CurrentDrawingOrder {
+            get
+            {
+                var buildProcents = CurrentStep.PercentCompleted; //CountLeftToBuild * 100 / CountToBuild;
+                if (buildProcents <= 30)
+                {
+                    return 0x3;
+                }
+                else if (buildProcents <= 60)
+                {
+                    return 0x2;
+                }
+                return 0x1;
+            }
+        }
     }
 }

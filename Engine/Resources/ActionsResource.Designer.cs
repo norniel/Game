@@ -124,6 +124,15 @@ namespace Engine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Wickiup.
+        /// </summary>
+        internal static string CreateWickiup {
+            get {
+                return ResourceManager.GetString("CreateWickiup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cut.
         /// </summary>
         internal static string Cut {

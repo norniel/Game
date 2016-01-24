@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Engine.Objects.LargeObjects;
 using Engine.Objects.LargeObjects.Builder;
+using Engine.Objects.LargeObjects.BuilderPlans;
 using Engine.Resources;
 
 namespace Engine.Objects
@@ -13,9 +14,7 @@ namespace Engine.Objects
             IsPassable = false;
             Id = 0x00001E00;
         }
-
-        public static int CountToBuild = 8; 
-
+        
         public override string Name
         {
             get { return Resource.Wickiup; }
@@ -26,36 +25,21 @@ namespace Engine.Objects
             if(IsBuild)
                 return this.Id;
 
-            var buildProcents = CountLeftToBuild * 100 / CountToBuild;
-            if (buildProcents <= 30) {
-                return 0x00001D01;
-            }
-            else if (buildProcents <= 60)
-            {
-                return 0x00001D02;
-            }
-
-            return 0x00001D03;
+            return this.Id + BuilderPlan.CurrentDrawingOrder;
         }
 
         public override void InitializeProperties()
         {
             this.Properties = new HashSet<Property>
             {
+               Property.NeedToBuildWickiup,
+               Property.NeedToSleep
             };
         }
-
-        private int _countLeftToBuild = CountToBuild;
-
-        public int CountLeftToBuild { 
-            get { return _countLeftToBuild; } 
-            set { _countLeftToBuild = value > 0 ? value : 0; } 
-        }
-
-        public bool IsBuild { get { return CountLeftToBuild <= 0; } }
+        
         protected override BuilderPlan GetBuilderPlan()
         {
-            throw new System.NotImplementedException();
+            return new WickiupBuilderPlan();
         }
     }
 }

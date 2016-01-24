@@ -10,7 +10,7 @@ namespace Engine.Objects.LargeObjects.Builder
             get { return Steps.All(s => s.IsCompleted); }
         }
 
-        private int _currentStepIndex = 0;
+        protected int _currentStepIndex = 0;
         
         public List<Step> Steps = new List<Step>();
 
@@ -25,7 +25,8 @@ namespace Engine.Objects.LargeObjects.Builder
             _currentStepIndex = _currentStepIndex + 1 < Steps.Count ? _currentStepIndex + 1 : _currentStepIndex;
         }
 
-
         public abstract bool CheckAvailablePlace(Point cell);
+
+        public abstract uint CurrentDrawingOrder{get;}
     }
 }

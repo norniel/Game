@@ -82,7 +82,7 @@ namespace Engine.Actions
                 var cell = Map.PointToCell(hero.Position);
                // var mapSize = Game.Map.GetSize();
 
-                if (_builderPlan.CheckAvailablePlace(cell))
+                if (!_builderPlan.CheckAvailablePlace(cell))
                     yield break;
                 /*
                 var objectOnPlace = Game.Map.GetObjectFromCell(cell);

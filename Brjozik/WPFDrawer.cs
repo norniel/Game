@@ -72,6 +72,14 @@ namespace Game
 
         private BitmapImage rootImage;
 
+        private BitmapImage wickiupImage0;
+        private BitmapImage wickiupImage1;
+        private BitmapImage wickiupImage2;
+        private BitmapImage wickiupImage3;
+        private BitmapImage wickiupImage4;
+        private BitmapImage wickiupImage5;
+        private BitmapImage wickiupImage6;
+
         private TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
 
@@ -127,6 +135,16 @@ namespace Game
             sharpStoneImage = CreateBitmapImage(@"sharp stone icon.png");
 
             rootImage = CreateBitmapImage(@"root icon.png");
+
+            rootImage = CreateBitmapImage(@"root icon.png");
+
+            wickiupImage0 = CreateBitmapImage(@"Wickiup0 icon.png");
+            wickiupImage1 = CreateBitmapImage(@"Wickiup1 icon.png");
+            wickiupImage2 = CreateBitmapImage(@"Wickiup2 icon.png");
+            wickiupImage3 = CreateBitmapImage(@"Wickiup3 icon.png");
+            wickiupImage4 = CreateBitmapImage(@"Wickiup4 icon.png");
+            wickiupImage5 = CreateBitmapImage(@"Wickiup5 icon.png");
+            wickiupImage6 = CreateBitmapImage(@"Wickiup6 icon.png");
 
             CreateActing();
 
@@ -415,6 +433,22 @@ namespace Game
                     case 1: DrawImage(grassBed1, x, y); break;
                     case 2: DrawImage(grassBed2, x, y); break;
                     case 3: DrawImage(grassBed3, x, y); break;
+                }
+                // _canvas.Children
+            }
+            else if ((id / 0x100) == 0x00001E)
+            {
+                var innerId = id % 0x10;
+
+                switch (innerId)
+                {
+                    case 0: DrawImage(wickiupImage0, x, y); break;
+                    case 1: DrawImage(wickiupImage1, x, y); break;
+                    case 2: DrawImage(wickiupImage2, x, y); break;
+                    case 3: DrawImage(wickiupImage3, x, y); break;
+                    case 4: DrawImage(wickiupImage4, x, y); break;
+                    case 5: DrawImage(wickiupImage5, x, y); break;
+                    case 6: DrawImage(wickiupImage6, x, y); break;
                 }
                 // _canvas.Children
             }

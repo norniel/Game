@@ -138,6 +138,9 @@
   <data name="CreateStoneAxe" xml:space="preserve">
     <value>Сделать каменный топор</value>
   </data>
+  <data name="CreateWickiup" xml:space="preserve">
+    <value>Сделать шалаш</value>
+  </data>
   <data name="Cut" xml:space="preserve">
     <value>Срубить</value>
   </data>
