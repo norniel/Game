@@ -45,6 +45,8 @@ namespace Engine.Objects.LargeObjects
             get { return _lazyObjectsOuter.Value; }
         }
 
+        public bool IsBuild { get { return BuilderPlan.IsCompleted; } }
+
         protected class LargeObjectOuter : LargeObjectOuterAbstract
         {
             public LargeObjectOuter(LargeObjectInner largeObjectInner, Point placeInObject, bool isTransparent) : base(largeObjectInner, placeInObject, isTransparent)

@@ -45,7 +45,7 @@ namespace Engine.Objects.LargeObjects
             };
         }
 
-        public bool IsBuild { get { return BuilderPlan.IsCompleted; } }
+        
         protected override BuilderPlan GetBuilderPlan()
         {
             return new GrassBedBuilderPlan();

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Engine.Objects.LargeObjects.Builder
 {
-    class BuilderPlan
+    abstract class BuilderPlan
     {
         public bool IsCompleted {
             get { return Steps.All(s => s.IsCompleted); }
@@ -17,9 +18,14 @@ namespace Engine.Objects.LargeObjects.Builder
             get { return Steps[_currentStepIndex]; }
         }
 
+        public abstract string Name { get; }
+
         public void MoveNextStep()
         {
             _currentStepIndex = _currentStepIndex + 1 < Steps.Count ? _currentStepIndex + 1 : _currentStepIndex;
         }
+
+
+        public abstract bool CheckAvailablePlace(Point cell);
     }
 }

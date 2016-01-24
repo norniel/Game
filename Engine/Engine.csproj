@@ -84,6 +84,7 @@
     <Compile Include="Actions\CollectSmth.cs" />
     <Compile Include="Actions\CollectTwig.cs" />
     <Compile Include="Actions\CreateGrassBed.cs" />
+    <Compile Include="Actions\CreateObjectWithPlan.cs" />
     <Compile Include="Actions\CreateSharpStone.cs" />
     <Compile Include="Actions\CreateDiggingStickAction.cs" />
     <Compile Include="Actions\CreateStoneAxeAction.cs" />

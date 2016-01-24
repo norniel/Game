@@ -4,31 +4,31 @@ using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.LargeObjects;
-using Engine.Objects.LargeObjects.BuilderPlans;
+using Engine.Objects.LargeObjects.Builder;
 using Engine.Resources;
 
 namespace Engine.Actions
 {
-    class CreateGrassBed : CreateObjectWithPlan<GrassBed, GrassBedBuilderPlan>
+    abstract class CreateObjectWithPlan<T, TPlan>:IAction 
+        where T:LargeObjectInner, new() 
+        where TPlan:BuilderPlan, new()
     {
-        #region 1
-        /*
-        private  bool _isInitialized = false;
+        private bool _isInitialized = false;
 
-        private GrassBed _grassBed = null;
+        private T _objectWithPlan = null;
 
-        private readonly GrassBedBuilderPlan _grassBedBuilderPlan = new GrassBedBuilderPlan();
+        private readonly BuilderPlan _builderPlan = new TPlan();
 
-        private List<GameObject> _plants = null;
+        private List<GameObject> _objects = null;
 
         public string Name
         {
-            get { return ActionsResource.BuildGrassBed; }
+            get { return _builderPlan.Name; }
         }
 
         public string GetName(IEnumerable<GameObject> objects)
         {
-            if (objects.Any(o => o is GrassBed))
+            if (objects.Any(o => o is T))
             {
                 return ActionsResource.ContinueBuilding;
             }
@@ -36,10 +36,7 @@ namespace Engine.Actions
             return Name;
         }
 
-        public bool IsApplicable(Property property)
-        {
-            return property == Property.NeedToBuildGrassBed;
-        }
+        public abstract bool IsApplicable(Property property);
 
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
@@ -53,8 +50,8 @@ namespace Engine.Actions
 
             if (isOver)
             {
-                _plants = null;
-                _grassBed = null;
+                _objects = null;
+                _objectWithPlan = null;
                 _isInitialized = false;
             }
 
@@ -69,25 +66,25 @@ namespace Engine.Actions
         public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var allObjects = objects.Union(hero.GetContainerItems()).Distinct();
-            var grassBed = (GrassBed)allObjects.FirstOrDefault(gb => gb is GrassBed);
+            var objectWithPlan = (T)allObjects.FirstOrDefault(gb => gb is T);
 
-            if (grassBed != null && !grassBed.IsBuild)
+            if (objectWithPlan != null && !objectWithPlan.IsBuild)
             {
-                var builderPlan = grassBed.BuilderPlan;
-                var objectsLeftToBuild = builderPlan.CurrentStep.GetAvailableObjects(allObjects); //allObjects.OfType<Plant>().Take(grassBed.CountLeftToBuild);
+                var builderPlan = objectWithPlan.BuilderPlan;
+                var objectsLeftToBuild = builderPlan.CurrentStep.GetAvailableObjects(allObjects); 
                 if (objectsLeftToBuild.Any())
                 {
-                    yield return objectsLeftToBuild.Union(new[]{grassBed}).ToList();
+                    yield return objectsLeftToBuild.Union(new[] { objectWithPlan }).ToList();
                 }
             }
-            else if (grassBed == null)
+            else if (objectWithPlan == null)
             {
                 var cell = Map.PointToCell(hero.Position);
-                var mapSize = Game.Map.GetSize();
+               // var mapSize = Game.Map.GetSize();
 
-                if(cell.Y + 1 >= mapSize.Height)
+                if (_builderPlan.CheckAvailablePlace(cell))
                     yield break;
-
+                /*
                 var objectOnPlace = Game.Map.GetObjectFromCell(cell);
                 var objectOnNextPlace = Game.Map.GetObjectFromCell(new Point(cell.X, cell.Y + 1));
 
@@ -95,8 +92,8 @@ namespace Engine.Actions
                 {
                     yield break;
                 }
-
-                var objectsLeftToBuild = _grassBedBuilderPlan.CurrentStep.GetAvailableObjects(allObjects);
+                */
+                var objectsLeftToBuild = _builderPlan.CurrentStep.GetAvailableObjects(allObjects);
                 if (objectsLeftToBuild.Any())
                 {
                     yield return objectsLeftToBuild.ToList();
@@ -111,41 +108,34 @@ namespace Engine.Actions
 
         protected void Initialize(Hero hero, IEnumerable<GameObject> objects)
         {
-            _grassBed = (GrassBed) objects.FirstOrDefault(o => o is GrassBed);
+            _objectWithPlan = (T)objects.FirstOrDefault(o => o is T);
 
-            if (_grassBed == null)
+            if (_objectWithPlan == null)
             {
-                _plants = _grassBedBuilderPlan.CurrentStep.GetAvailableObjects(objects);
+                _objects = _builderPlan.CurrentStep.GetAvailableObjects(objects);
             }
             else
             {
-                _plants = _grassBed.BuilderPlan.CurrentStep.GetAvailableObjects(objects);
+                _objects = _objectWithPlan.BuilderPlan.CurrentStep.GetAvailableObjects(objects);
             }
         }
 
         private bool DoOnEachAction(Hero hero)
         {
-            if (_grassBed == null)
+            if (_objectWithPlan == null)
             {
-                _grassBed = new GrassBed();
-                Game.Map.SetObjectFromDestination(hero.Position, _grassBed);
+                _objectWithPlan = new T();
+                Game.Map.SetObjectFromDestination(hero.Position, _objectWithPlan);
             }
 
-            _plants = _grassBed.BuilderPlan.CurrentStep.BuildAction(_plants);
+            _objects = _objectWithPlan.BuilderPlan.CurrentStep.BuildAction(_objects);
 
-            if (_grassBed.BuilderPlan.CurrentStep.IsCompleted)
+            if (_objectWithPlan.BuilderPlan.CurrentStep.IsCompleted)
             {
-                _grassBed.BuilderPlan.MoveNextStep();
+                _objectWithPlan.BuilderPlan.MoveNextStep();
                 return true;
             }
-            return _grassBed.IsBuild || !_plants.Any();
-        }
-        */
-        #endregion
-
-        public override bool IsApplicable(Property property)
-        {
-            return property == Property.NeedToBuildGrassBed;
+            return _objectWithPlan.IsBuild || !_objects.Any();
         }
     }
 }
