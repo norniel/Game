@@ -99,6 +99,8 @@ namespace Engine
 
             gameObject.RemoveFromContainer = (() =>
             {
+                gameObject.RemoveFromContainer = null;
+                
                 if (gameObject == _map[cell.X, cell.Y])
                 {
                     this.SetObjectFromCell(cell, null);

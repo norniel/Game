@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using Engine.Interfaces;
 using Microsoft.Practices.Unity;
@@ -20,8 +21,17 @@ namespace Engine.Objects
         private readonly Action NextStateHandler;
         public readonly Action LastStateHandler;
 
+        private static int _idCounter = 0;
+
+        private static int GenerateId()
+        {
+            return Interlocked.Increment(ref _idCounter);
+        }
+
+
         public ObjectWithState(List<IObjectState> objectStateQueue, bool isCircling, Action lastStateHandler, Action nextStateHandler)
         {
+            _id = GenerateId();
             _objectStateQueue = objectStateQueue;
             _isCircling = isCircling;
 
@@ -52,6 +62,8 @@ namespace Engine.Objects
         private readonly bool _isCircling;
         private int _currentStateId = -1;
 
+        private readonly int _id;
+
         public IObjectState CurrentState {
             get
             {
@@ -64,6 +76,9 @@ namespace Engine.Objects
 
         public virtual void NextState()
         {
+            if (_currentStateId >= _objectStateQueue.Count)
+                return;
+
             var nextStateId = _currentStateId;
             nextStateId++;
             if (nextStateId >= _objectStateQueue.Count)
@@ -114,8 +129,7 @@ namespace Engine.Objects
                 return NextStateTick.CompareTo(other.NextStateTick);
             }
 
-            // todo important!!!!!! replace with id or rewrite GetHashCode!!!!
-            return this.GetHashCode().CompareTo(other.GetHashCode());
+            return _id.CompareTo(other._id);
         }
 
         public virtual void OnLastStateFinished()

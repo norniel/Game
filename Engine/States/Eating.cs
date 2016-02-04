@@ -18,7 +18,7 @@ namespace Engine.States
             var eatable = _objectToEat as IEatable;
             if (eatable != null) {
                 _eater.Eat(eatable.Satiety);
-                _objectToEat.RemoveFromContainer();
+                _objectToEat.RemoveFromContainer?.Invoke();
             }
 
             var mobileObject = _eater as MobileObject;

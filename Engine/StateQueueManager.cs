@@ -29,14 +29,17 @@ namespace Engine
             {
                 if(first.CurrentState == null || !first.CurrentState.Eternal)
                 {
-                    first.NextState();
                     _queue.RemoveFirst();
+                    first.NextState();
                 }
                 else 
                 {
                     first.NextStateTick += 1;
                 }
+
+                first = _queue.GetFirst();
             }
+
             CurrentTick++;
         }
 

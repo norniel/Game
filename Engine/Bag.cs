@@ -39,6 +39,8 @@ namespace Engine
 
             gameObject.RemoveFromContainer = (() =>
             {
+                gameObject.RemoveFromContainer = null;
+
                 this.Remove(gameObject);
             });
 

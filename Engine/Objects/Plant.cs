@@ -63,7 +63,7 @@ namespace Engine.Objects
 
         public void OnLastStateFinished()
         {
-            this.RemoveFromContainer();
+            this.RemoveFromContainer?.Invoke();
         }
 
         public object Clone()
