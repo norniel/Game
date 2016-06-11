@@ -40,7 +40,7 @@ namespace Engine.Actions
             plant.RemoveFromContainer();
             var fire = new Fire();
 
-            Map.SetObjectFromDestination(hero.Position, fire as FixedObject);
+            Map.SetHObjectFromDestination(hero.Position, fire as FixedObject);
 
             return true;
         }
@@ -68,6 +68,11 @@ namespace Engine.Actions
         public double GetTiredness()
         {
             return 10;
+        }
+
+        public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
+        {
+            return destination;
         }
     }
 }

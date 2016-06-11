@@ -49,5 +49,10 @@ namespace Engine.Actions
         {
             return 0;
         }
+
+        public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
+        {
+            return destination;
+        }
     }
 }

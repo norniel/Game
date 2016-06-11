@@ -43,5 +43,10 @@ namespace Engine
         {
             return property == Property.Pickable;
         }
+
+        public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
+        {
+            return destination;
+        }
     }
 }

@@ -38,8 +38,8 @@ namespace Engine.Objects.LargeObjects.BuilderPlans
             if (cell.Y + 1 >= mapSize.Height)
                 return false;
 
-            var objectOnPlace = Game.Map.GetObjectFromCell(cell);
-            var objectOnNextPlace = Game.Map.GetObjectFromCell(new Point(cell.X, cell.Y + 1));
+            var objectOnPlace = Game.Map.GetHObjectFromCell(cell);
+            var objectOnNextPlace = Game.Map.GetHObjectFromCell(new Point(cell.X, cell.Y + 1));
 
             return (objectOnPlace == null && objectOnNextPlace == null);
         }

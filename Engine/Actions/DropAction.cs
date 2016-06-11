@@ -32,7 +32,7 @@ namespace Engine.Actions
         {
             foreach (var removableObject in objects)
             {
-                Map.SetObjectFromDestination(hero.Position, removableObject as FixedObject);
+                Map.SetHObjectFromDestination(hero.Position, removableObject as FixedObject);
               //  removableObject.RemoveFromContainer();
             }
 
@@ -52,6 +52,11 @@ namespace Engine.Actions
         public double GetTiredness()
         {
             return 0.1;
+        }
+
+        public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
+        {
+            return destination;
         }
     }
 }

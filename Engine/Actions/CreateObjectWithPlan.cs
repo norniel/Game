@@ -125,7 +125,7 @@ namespace Engine.Actions
             if (_objectWithPlan == null)
             {
                 _objectWithPlan = new T();
-                Game.Map.SetObjectFromDestination(hero.Position, _objectWithPlan);
+                Game.Map.SetHObjectFromDestination(hero.Position, _objectWithPlan);
             }
 
             _objects = _objectWithPlan.BuilderPlan.CurrentStep.BuildAction(_objects);
@@ -136,6 +136,11 @@ namespace Engine.Actions
                 return true;
             }
             return _objectWithPlan.IsBuild || !_objects.Any();
+        }
+
+        public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
+        {
+            return destination;
         }
     }
 }

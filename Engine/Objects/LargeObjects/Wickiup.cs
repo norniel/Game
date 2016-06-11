@@ -8,11 +8,26 @@ namespace Engine.Objects
 {
     class Wickiup:LargeObjectInner
     {
+        public InnerMap _map;
+
+        public bool[,] VerticalBorder;
+        public bool[,] HorizontalBorder;
+
         public Wickiup()
         {
             Size = new Size(2, 3);
             IsPassable = false;
             Id = 0x00001E00;
+            _map = new InnerMap((int)Size.Width, (int)Size.Height);
+
+            HorizontalBorder = new bool[Size.Width + 2,2];
+            VerticalBorder = new bool[Size.Height, 2];
+
+            for (int i = 0; i < (int)Size.Width + 2; i++)
+            {
+                HorizontalBorder[i, 0] = true;
+                HorizontalBorder[i, 1] = true;
+            }
         }
         
         public override string Name
@@ -33,7 +48,8 @@ namespace Engine.Objects
             this.Properties = new HashSet<Property>
             {
                Property.NeedToBuildWickiup,
-               Property.NeedToSleep
+               Property.NeedToSleep,
+               Property.Enterable
             };
         }
         

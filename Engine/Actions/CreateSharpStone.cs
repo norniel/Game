@@ -37,7 +37,7 @@ namespace Engine.Actions
 
             if (!hero.AddToBag(sharpStone))
             {
-                Game.Map.SetObjectFromDestination(hero.Position, sharpStone);
+                Game.Map.SetHObjectFromDestination(hero.Position, sharpStone);
             }
 
             return true;
@@ -63,6 +63,11 @@ namespace Engine.Actions
         public double GetTiredness()
         {
             return 2;
+        }
+
+        public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
+        {
+            return destination;
         }
     }
 }

@@ -680,6 +680,49 @@ namespace Game
             _ListBoxDateTime.Items.Add(string.Format("{0}:{1}:{2}", gameDateTime.Day, gameDateTime.Hour, gameDateTime.Minute));
         }
 
+        public void DrawShaddow(Point innerPoint, Engine.Size innerSize)
+        {
+            var drawingGroup = new DrawingGroup();
+
+            // Create a DrawingBrush.
+            DrawingBrush myDrawingBrush = new DrawingBrush();
+
+            // Create a drawing.
+            GeometryDrawing myBlackDrawing = new GeometryDrawing();
+            // myGeometryDrawing.Brush
+            myBlackDrawing.Brush = Brushes.Black;
+            myBlackDrawing.Pen = new Pen(Brushes.Black, 1);
+            GeometryGroup rectangle = new GeometryGroup();
+            rectangle.FillRule = FillRule.EvenOdd;
+            rectangle.Children.Add(new RectangleGeometry(new System.Windows.Rect() { Height = _canvas.Height, Width = _canvas.Width }));
+
+            GeometryGroup rectangle11 = new GeometryGroup();
+            rectangle11.FillRule = FillRule.Nonzero;
+
+            rectangle11.Children.Add(
+                    new RectangleGeometry(new System.Windows.Rect()));
+
+            rectangle.Children.Add(rectangle11);
+            var combined = new CombinedGeometry(GeometryCombineMode.Exclude, rectangle, rectangle11);
+            myBlackDrawing.Geometry = combined;
+
+            drawingGroup.Children.Add(myBlackDrawing);
+            myDrawingBrush.Drawing = drawingGroup;
+            Rectangle rec = new Rectangle()
+            {
+                Fill = myDrawingBrush,
+                Stroke = Brushes.Black,
+                Height = _canvas.Height,
+                Width = _canvas.Width,
+                Opacity = 0.5,
+                IsEnabled = false
+            };
+
+            _canvas.Children.Add(rec);
+            Canvas.SetLeft(rec, 0);
+            Canvas.SetTop(rec, 0);
+        }
+
         private void CreateActing()
         {
             _acting.Foreground = Brushes.FloralWhite;

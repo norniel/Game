@@ -8,39 +8,60 @@ using Wintellect.PowerCollections;
 
 namespace Engine
 {
-    public class Map: IMap
+    public class Map: InnerMap
     {
-        private const int CELL_MEASURE = 20;
+        public const int CELL_MEASURE = 20;
         private const int MAP_WIDTH = 1000;
         private const int MAP_HEIGHT = 1000;
         private const int MAP_CELL_WIDTH = MAP_WIDTH / CELL_MEASURE;
         private const int MAP_CELL_HEIGHT = MAP_HEIGHT / CELL_MEASURE;
 
-        private readonly FixedObject[,] _map;
+        private InnerMap _innerMap;
+        private Point _innerMapPoint;
+
+       // private readonly FixedObject[,] _map;
 
         private readonly List<MobileObject> _mobileObjects;
 
         public Rect VisibleRect { get; set; }
 
-        public Map(Rect rect)
+        public Map(Rect rect, int sizeX, int sizeY):base(sizeX, sizeY)
         {
             VisibleRect = rect;
-            _map = new FixedObject[MAP_CELL_WIDTH, MAP_CELL_HEIGHT];
+            //_map = new FixedObject[sizeX, sizeY];
             _mobileObjects = new List<MobileObject>();
-            //var sizeInCells = RectToCellRect(rect);
-            //_map = new FixedObject[sizeInCells.Width, sizeInCells.Height];
         }
 
+        public Map(Rect rect):this(rect, MAP_CELL_WIDTH, MAP_CELL_HEIGHT)
+        {}
+
+        public void SetInnerMap(InnerMap innerMap, Point innerPoint)
+        {
+            _innerMap = innerMap;
+            _innerMapPoint = innerPoint;
+        }
+
+        public void ClearInnerMap()
+        {
+            _innerMap = null;
+            _innerMapPoint = null;
+        }
+
+        public int GetMapLength(int dimension)
+        {
+            return _map.GetLength(dimension)*CELL_MEASURE;
+        }
+/*
         public FixedObject GetObjectFromDestination(Point destination)
         {
             var cell = PointToCell(destination);
             return this.GetObjectFromCell(cell);
         }
-
-        public FixedObject GetRealObjectFromDestination(Point destination)
+*/
+        public FixedObject GetHRealObjectFromDestination(Point destination)
         {
             var cell = PointToCell(destination);
-            var obj = this.GetObjectFromCell(cell);
+            var obj = this.GetHObjectFromCell(cell);
 
             var largeObjectOuter = obj as LargeObjectOuterAbstract;
 
@@ -50,97 +71,54 @@ namespace Engine
             return obj;
         }
 
-        public FixedObject GetObjectFromCell(Point cell)
+        public FixedObject GetHObjectFromCellXY(int x, int y)
         {
-            return _map[cell.X, cell.Y];
-        }
+            if (CellInInnerMapXY(x, y))
+            {
+                return _innerMap.GetObjectFromCell(new Point(x - _innerMapPoint.X, y - _innerMapPoint.Y));
+            }
 
-        internal FixedObject GetObjectFromCellXY(int x, int y)
-        {
             return _map[x, y];
         }
 
-        internal void SetObjectFromDestination(Point destination, FixedObject gameObject)
+        public FixedObject GetHObjectFromCell(Point cell)
         {
-            var cell = PointToCell(destination);
+            return GetHObjectFromCellXY(cell.X, cell.Y);
+        }
+
+        public void SetHObjectFromCell(Point cell, FixedObject gameObject)
+        {
+            if (CellInInnerMap(cell))
+            {
+                _innerMap.SetObjectFromCell(new Point(cell.X - _innerMapPoint.X, cell.Y - _innerMapPoint.Y), gameObject);
+                return;
+            }
+
             this.SetObjectFromCell(cell, gameObject);
         }
 
-        internal void SetObjectFromCell(Point cell, FixedObject gameObject)
+        public bool CellInInnerMapXY(int x, int y)
         {
-            if (cell == null)
+            if (_innerMap != null && _innerMapPoint != null)
             {
-                return;
-            }
-
-            if (gameObject == null)
-            {
-                _map[cell.X, cell.Y] = null;
-                return;
-            }
-
-            var largeObjectInner = gameObject as LargeObjectInner;
-
-            if (largeObjectInner != null)
-            {
-                largeObjectInner.OuterObjects.ForEach(outerObject =>
+                if (_innerMapPoint.X <= x && _innerMapPoint.X + _innerMap.GetSize().Width > x && _innerMapPoint.Y <= y &&
+                    _innerMapPoint.Y + _innerMap.GetSize().Height > y)
                 {
-                    var outerO = outerObject;
-                    SetObjectFromCell(new Point(cell.X + outerO.PlaceInObject.X, cell.Y + outerO.PlaceInObject.Y), outerO);
-                });
-
-                return;
-            }
-
-            if (gameObject.RemoveFromContainer != null)
-            {
-                gameObject.RemoveFromContainer();
-            }
-
-            gameObject.RemoveFromContainer = (() =>
-            {
-                gameObject.RemoveFromContainer = null;
-                
-                if (gameObject == _map[cell.X, cell.Y])
-                {
-                    this.SetObjectFromCell(cell, null);
+                    return true;
                 }
-                    
-                if (gameObject.Properties.Contains(Property.Regrowable) && gameObject is ICloneable)
-                {
-                    this.SetObjectFromCell(this.GetRandomNearEmptyPoint(cell, 3), (FixedObject)(gameObject as ICloneable).Clone());
-                }
-            });
-
-            if (gameObject.Properties.Contains(Property.Dropable))
-            {
-                gameObject.Properties.Remove(Property.Dropable);
-
-                if (!gameObject.Properties.Contains(Property.Pickable))
-                    gameObject.Properties.Add(Property.Pickable);
             }
-
-            _map[cell.X, cell.Y] = gameObject;
+            return false;
         }
 
-        private Point GetRandomNearEmptyPoint(Point cell, int radius)
+        public bool CellInInnerMap(Point cell)
         {
-            var nearestPoints = GetNearestToCellList(cell, radius);
+            return CellInInnerMapXY(cell.X, cell.Y);
+        }
 
-            var random = new Random();
-
-            while (nearestPoints.Any())
-            {
-                var p = random.Next(nearestPoints.Count);
-                if (this.GetObjectFromCell(nearestPoints[p]) == null)
-                {
-                    return nearestPoints[p];
-                }
-
-                nearestPoints.RemoveAt(p);
-            }
-
-            return null;
+        internal void SetHObjectFromDestination(Point destination, FixedObject gameObject)
+        {
+            var cell = PointToCell(destination);
+            this.SetHObjectFromCell(cell, gameObject);
         }
 
         internal static Point CellToPoint(Point point)
@@ -151,11 +129,6 @@ namespace Engine
         internal static Point PointToCell(Point point)
         {
             return new Point(point.X / CELL_MEASURE, point.Y / CELL_MEASURE);
-        }
-
-        public Rect GetSize()
-        {
-            return new Rect(0, 0, (uint)_map.GetLength(0), (uint)_map.GetLength(1));
         }
 
         internal static Rect RectToCellRect(Rect rect)
@@ -210,7 +183,7 @@ namespace Engine
                         if (temp.Y < 0 || temp.Y >= _map.GetLength(1))
                             continue;
 
-                        if (_map[temp.X, temp.Y] != null && !_map[temp.X, temp.Y].IsPassable
+                        if (GetHObjectFromCellXY(temp.X, temp.Y) != null && !GetHObjectFromCellXY(temp.X, temp.Y).IsPassable
                             && !destP.Equals(temp))
                             continue;
 
@@ -260,7 +233,7 @@ namespace Engine
             {
                 stackPoint = new Point(current.Point.X * CELL_MEASURE + CELL_MEASURE / 2, current.Point.Y * CELL_MEASURE + CELL_MEASURE / 2);
 
-                if (!current.Point.Equals(destP) || _map[destP.X, destP.Y] == null || _map[destP.X, destP.Y].IsPassable)
+                if (!current.Point.Equals(destP) || GetHObjectFromCellXY(destP.X, destP.Y) == null || GetHObjectFromCellXY(destP.X, destP.Y).IsPassable)
                     resultStack.Push(stackPoint);
 
                 current = current.Parent;
@@ -317,10 +290,10 @@ namespace Engine
         public void RecalcVisibleRect(Point centerPosition)
         {
             var x = centerPosition.X - (int)(VisibleRect.Width/2);
-            x = x < 0 ? 0 : (x + (int)VisibleRect.Width > MAP_WIDTH ? MAP_WIDTH - (int)VisibleRect.Width : x);
+            x = x < 0 ? 0 : (x + (int)VisibleRect.Width > GetMapLength(0) ? GetMapLength(0) - (int)VisibleRect.Width : x);
 
             var y = centerPosition.Y - VisibleRect.Height / 2;
-            y = y < 0 ? 0 : (y + VisibleRect.Height > MAP_HEIGHT ? MAP_HEIGHT - VisibleRect.Height : y);
+            y = y < 0 ? 0 : (y + VisibleRect.Height > GetMapLength(1) ? GetMapLength(1) - VisibleRect.Height : y);
 
             VisibleRect = new Rect(x, (int)y, VisibleRect.Width, VisibleRect.Height);
         }
@@ -343,20 +316,6 @@ namespace Engine
             return GetNearestToCellList(cell, radius);
         }
 
-        public List<Point> GetNearestToCellList(Point positionCell, int radius)
-        {
-            var nearestPoints = new List<Point>();
-
-            for (int i = positionCell.X - radius < 0 ? 0 : positionCell.X - radius; i <= (positionCell.X + radius >= MAP_CELL_WIDTH ? MAP_CELL_WIDTH - 1 : positionCell.X + radius); i++)
-            {
-                for (int j = positionCell.Y - radius < 0 ? 0 : positionCell.Y - radius; j <= (positionCell.Y + radius >= MAP_CELL_HEIGHT ? MAP_CELL_HEIGHT - 1 : positionCell.Y + radius); j++)
-                {
-                    nearestPoints.Add(new Point(i, j));
-                }
-            }
-
-            return nearestPoints;
-        }
 
         public Point GetNearestRandomEmptyCellFromPoint(Point positionPoint)
         {

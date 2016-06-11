@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Engine.Heros;
 
 namespace Engine.States
 {
@@ -24,7 +25,7 @@ namespace Engine.States
             {
                 var p = Game.Random.Next(neighbourList.Count);
 
-                var obj = Game.Map.GetObjectFromCell(neighbourList[p]);
+                var obj = _mobileObject is Hero ? Game.Map.GetHObjectFromCell(neighbourList[p]): Game.Map.GetObjectFromCell(neighbourList[p]);
                 if (obj != null && !obj.IsPassable)
                 {
                     neighbourList.RemoveAt(p);

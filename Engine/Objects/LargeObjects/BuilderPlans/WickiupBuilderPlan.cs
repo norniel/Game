@@ -79,7 +79,7 @@ namespace Engine.Objects.LargeObjects.BuilderPlans
             {
                 for (int cy = 0; cy < 3; cy++)
                 {
-                    var objectOnPlace = Game.Map.GetObjectFromCell(new Point(cell.X + cx, cell.Y + cy));
+                    var objectOnPlace = Game.Map.GetHObjectFromCell(new Point(cell.X + cx, cell.Y + cy));
                     if (objectOnPlace != null)
                         return false;
                 }

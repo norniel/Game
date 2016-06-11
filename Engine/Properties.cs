@@ -26,6 +26,7 @@ namespace Engine
         Stone,
         Branch,
         Diggable,
-        CollectRoot
+        CollectRoot,
+        Enterable
     }
 }

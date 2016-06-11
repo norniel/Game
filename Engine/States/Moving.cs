@@ -52,6 +52,9 @@ namespace Engine
                 Initialize();
 
             _mobileObject.Position = new Point((int)(_destination.X + _dx * _steps * _mobileObject.Speed/10), (int)(_destination.Y + _dy * _steps * _mobileObject.Speed/10));
+
+            HeroAdditional();
+
             _steps--;
 
             if ( /*NextState != null && */(_mobileObject.Position == _destination || _steps <= -1))
@@ -66,6 +69,18 @@ namespace Engine
                 _mobileObject.StateEvent.FireEvent();
             }
             //NextState( new StateEventArgs(){State = new Standing( _hero )} );  
+        }
+
+        public void HeroAdditional()
+        {
+            if (!(_mobileObject is Hero))
+                return;
+
+            var cell = Map.PointToCell(_mobileObject.Position);
+            if (!Game.Map.CellInInnerMap(cell))
+            {
+                Game.Map.ClearInnerMap();
+            }
         }
 
         public bool ShowActing

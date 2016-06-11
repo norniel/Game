@@ -150,6 +150,9 @@
   <data name="Eat" xml:space="preserve">
     <value>Есть</value>
   </data>
+  <data name="Enter" xml:space="preserve">
+    <value>Войти</value>
+  </data>
   <data name="MakeFire" xml:space="preserve">
     <value>Разжечь костер</value>
   </data>

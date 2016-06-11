@@ -43,6 +43,8 @@ namespace Engine.Heros
             Game.Intervals.Subscribe(HeroLifeCycle);
         }
 
+        public IMap Map { get; set; }
+
         public Bag Bag {get { return _bag; }}
 
         public void StartMove(Point destination, Stack<Point> points)

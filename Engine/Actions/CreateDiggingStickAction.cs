@@ -38,7 +38,7 @@ namespace Engine.Actions
 
             if (!hero.AddToBag(diggingStick))
             {
-                Game.Map.SetObjectFromDestination(hero.Position, diggingStick);
+                Game.Map.SetHObjectFromDestination(hero.Position, diggingStick);
             }
 
             return true;
@@ -66,6 +66,11 @@ namespace Engine.Actions
         public double GetTiredness()
         {
             return 2;
+        }
+
+        public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
+        {
+            return destination;
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Engine
 {
     public class FixedObject : GameObject
     {
-        public bool IsPassable { get; protected set; }
+        public bool IsPassable { get; set; }
 
         public Size Size { get; protected set; }
 

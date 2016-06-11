@@ -89,6 +89,7 @@ namespace Engine
             loadSaveManager.LoadSnapshot(Map);
 
             _hero = _unityContainer.Resolve<Hero>();
+            _hero.Map = Map;
 
             ActionRepository = _unityContainer.Resolve<IActionRepository>();
 
@@ -150,7 +151,7 @@ namespace Engine
         private IEnumerable<ClientAction> GetActions(Point visibleDestination)
         {
             var destination = Map.GetRealDestinationFromVisibleDestination(visibleDestination);
-            var destObject = Map.GetRealObjectFromDestination(destination);
+            var destObject = Map.GetHRealObjectFromDestination(destination);
 
             if (destObject == null)
             {
@@ -171,13 +172,14 @@ namespace Engine
 
           //  var removableObjects = objects.Select(o => this.PrepareRemovableObject(o, destination));
             return (possibleActions.SelectMany(pa =>
-                {
+            {
+                var dest = pa.GetDestination(destination, destObject, _hero);
                     return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
                     new ClientAction
                         {
                             Name = pa.GetName(objectsForAction),
                             //CanDo = pa.CanDo(_hero, objects),
-                            Do = () => MoveAndDoAction(pa, destination, objectsForAction)
+                            Do = () => MoveAndDoAction(pa, dest, objectsForAction)
                         }
                     );
 
@@ -201,30 +203,6 @@ namespace Engine
             _hero.StartActing(action, null, objects);
         }
 
-        private RemovableWrapper<GameObject> PrepareRemovableObject(GameObject gObject, Point destination)
-        {
-            return new RemovableWrapper<GameObject>
-            {
-                GameObject = gObject,
-                RemoveFromContainer = (() =>
-                {
-                    Map.SetObjectFromDestination(destination, null);
-                })
-            };
-        }
-
-        private RemovableWrapper<GameObject> PrepareRemovableObject(GameObject gObject)
-        {
-            return new RemovableWrapper<GameObject>
-            {
-                GameObject = gObject,
-                RemoveFromContainer = (() =>
-                {
-                    _hero.RemoveFromContainer(gObject);
-                })
-            };
-        }
-
         public void DrawChanges()
         {
             Map.RecalcVisibleRect(_hero.Position);
@@ -242,7 +220,7 @@ namespace Engine
             {
                 for (int j = visibleCells.Top; j < visibleCells.Top+ visibleCells.Height; j++)
                 {
-                    var gameObject = Map.GetObjectFromCell(new Point(i, j));
+                    var gameObject = Map.GetHObjectFromCell(new Point(i, j));
   
 
                     var largeObjectOuter = gameObject as LargeObjectOuterAbstract;

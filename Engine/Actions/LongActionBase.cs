@@ -65,5 +65,10 @@ namespace Engine.Actions
         protected abstract int TotalActionTime { get; }
 
         protected bool _isInitialized = false;
+
+        public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
+        {
+            return destination;
+        }
     }
 }

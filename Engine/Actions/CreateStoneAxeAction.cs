@@ -38,7 +38,7 @@ namespace Engine.Actions
 
             if (!hero.AddToBag(axe))
             {
-                Game.Map.SetObjectFromDestination(hero.Position, axe);
+                Game.Map.SetHObjectFromDestination(hero.Position, axe);
             }
 
             return true;
@@ -66,6 +66,11 @@ namespace Engine.Actions
         public double GetTiredness()
         {
             return 10;
+        }
+
+        public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
+        {
+            return destination;
         }
     }
 }

@@ -58,7 +58,7 @@ namespace Engine.Actions
 
             cuttableObject.RemoveFromContainer();
 
-            Map.SetObjectFromDestination(hero.Position, new Log());
+            Map.SetHObjectFromDestination(hero.Position, new Log());
             return;
 
         }

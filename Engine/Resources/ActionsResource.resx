@@ -150,6 +150,9 @@
   <data name="Eat" xml:space="preserve">
     <value>Eat</value>
   </data>
+  <data name="Enter" xml:space="preserve">
+    <value>Enter</value>
+  </data>
   <data name="MakeFire" xml:space="preserve">
     <value>Make Fire</value>
   </data>

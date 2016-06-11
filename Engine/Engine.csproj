@@ -92,6 +92,7 @@
     <Compile Include="Actions\CutAction.cs" />
     <Compile Include="Actions\DropAction.cs" />
     <Compile Include="Actions\EatAction.cs" />
+    <Compile Include="Actions\EnterAction.cs" />
     <Compile Include="Actions\LongActionBase.cs" />
     <Compile Include="Actions\MakeFire.cs" />
     <Compile Include="Actions\PickAction.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Heros\HeroLifeCycle.cs" />
     <Compile Include="Heros\HeroProperties.cs" />
     <Compile Include="IDrawer.cs" />
+    <Compile Include="InnerMap.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Interfaces\IActionRepository.cs" />
     <Compile Include="Interfaces\IBurnable.cs" />
