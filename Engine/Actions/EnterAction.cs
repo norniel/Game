@@ -41,7 +41,13 @@ namespace Engine.Actions
 
         public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-            return new [] {objects.ToList()};
+            var objectsToEnter = objects.Where(o =>
+            {
+                var largeObj = o as LargeObjectInner;
+                return largeObj == null || largeObj.IsBuild;
+            }).ToList();
+
+            return objectsToEnter.Any() ? new[] { objectsToEnter } : new List<GameObject>[] {};
         }
 
         public double GetTiredness()

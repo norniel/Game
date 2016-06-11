@@ -141,6 +141,17 @@ namespace Engine
             _mobileObjects.Add(mobileObject);
         }
 
+        public Rect GetInnerMapRect()
+        {
+            if (_innerMap == null)
+            {
+                return new Rect();
+            }
+
+            var size = _innerMap.GetSize();
+            return new Rect(_innerMapPoint.X, _innerMapPoint.Y, size.Width, size.Height);
+        }
+
         public Stack<Point> GetEasiestWay(Point start, Point dest)
         {
             Stack<Point> resultStack = new Stack<Point>();

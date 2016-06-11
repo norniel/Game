@@ -680,7 +680,7 @@ namespace Game
             _ListBoxDateTime.Items.Add(string.Format("{0}:{1}:{2}", gameDateTime.Day, gameDateTime.Hour, gameDateTime.Minute));
         }
 
-        public void DrawShaddow(Point innerPoint, Engine.Size innerSize)
+        public void DrawShaddow(Engine.Point innerPoint, Engine.Size innerSize)
         {
             var drawingGroup = new DrawingGroup();
 
@@ -700,7 +700,8 @@ namespace Game
             rectangle11.FillRule = FillRule.Nonzero;
 
             rectangle11.Children.Add(
-                    new RectangleGeometry(new System.Windows.Rect()));
+                    new RectangleGeometry(new System.Windows.Rect(new System.Windows.Point(innerPoint.X, innerPoint.Y), 
+                    new System.Windows.Size(innerSize.Width * 20, innerSize.Height*20))));
 
             rectangle.Children.Add(rectangle11);
             var combined = new CombinedGeometry(GeometryCombineMode.Exclude, rectangle, rectangle11);

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
-using Engine.Actions;
 using Engine.BridgeObjects;
 using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Interfaces.IActions;
-using Engine.Wrapers;
 using Engine.Objects;
 using Microsoft.Practices.Unity;
 using Engine.Objects.LargeObjects;
@@ -250,7 +248,16 @@ namespace Engine
 
             _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
 
-            _drawer.DrawDayNight(this._dayNightCycle.Lightness(), this._dayNightCycle.CurrentGameDate, lightObjectsList);
+            if (IsHeroInInnerMap())
+            {
+                var innerMapSize = Map.GetInnerMapRect();
+                var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(innerMapSize.Left, innerMapSize.Top)));
+                _drawer.DrawShaddow(visibleDestination, new Size(innerMapSize.Width, innerMapSize.Height));
+            }
+            else
+            {
+                _drawer.DrawDayNight(this._dayNightCycle.Lightness(), this._dayNightCycle.CurrentGameDate, lightObjectsList);
+            }
 
             _drawer.DrawActing(_hero.State.ShowActing);
 
@@ -290,6 +297,12 @@ namespace Engine
 
                 }));
             });
+        }
+
+        private bool IsHeroInInnerMap()
+        {
+            var heroCell = _hero.PositionCell;
+            return Map.CellInInnerMap(heroCell);
         }
     }
 
