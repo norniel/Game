@@ -30,5 +30,6 @@ namespace Engine.Objects
         }
 
         public Action RemoveFromContainer { get; set; }
+        public object Quaolity { get; set; }
     }
 }

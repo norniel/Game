@@ -11,7 +11,7 @@ namespace Engine.Actions
 {
     internal class EnterAction : IAction
     {
-        private Point innerPoint = null;
+        private Point innerPoint;
 
         public string Name => ActionsResource.Enter;
 

@@ -10,13 +10,11 @@ namespace Engine.Objects.LargeObjects.Builder
             get { return Steps.All(s => s.IsCompleted); }
         }
 
-        protected int _currentStepIndex = 0;
+        protected int _currentStepIndex;
         
         public List<Step> Steps = new List<Step>();
 
-        public Step CurrentStep {
-            get { return Steps[_currentStepIndex]; }
-        }
+        public Step CurrentStep => Steps[_currentStepIndex];
 
         public abstract string Name { get; }
 

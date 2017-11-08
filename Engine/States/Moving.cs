@@ -83,10 +83,8 @@ namespace Engine
             }
         }
 
-        public bool ShowActing
-        {
-            get { return false; }
-        }
+        public bool ShowActing => false;
+
         #endregion
     }
 }

@@ -16,10 +16,7 @@ namespace Engine.Objects.Trees
             Id = 0x00000100;
         }
 
-        public override string Name
-        {
-            get { return "Apple tree"; }
-        }
+        public override string Name => "Apple tree";
 
         Berry IHasSmthToCollect<Berry>.GetSmth()
         {

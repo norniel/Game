@@ -15,7 +15,7 @@ namespace Engine.Objects.Food
             Id = 0x00001B00;
         }
 
-        public override int Weight { get { return 2; } }
+        public override int Weight => 2;
 
         public override void InitializeProperties()
         {
@@ -26,18 +26,9 @@ namespace Engine.Objects.Food
             };
         }
 
-        public override string Name
-        {
-            get { return Resource.RoastedApple; }
-        }
-        public int Poisoness
-        {
-            get { return 0; }
-        }
+        public override string Name => Resource.RoastedApple;
+        public int Poisoness => 0;
 
-        public int Satiety
-        {
-            get { return 3; }
-        }
+        public int Satiety => 3;
     }
 }

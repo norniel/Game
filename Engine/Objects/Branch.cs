@@ -17,7 +17,7 @@ namespace Engine.Objects
             Id = 0x00000800;
         }
 
-        public override int Weight { get { return 5; } }
+        public override int Weight => 5;
 
         public override void InitializeProperties()
         {
@@ -32,14 +32,9 @@ namespace Engine.Objects
             };
         }
 
-        public override string Name
-        {
-            get { return Resource.Branch; }
-        }
+        public override string Name => Resource.Branch;
 
-        public int TimeOfBurning {
-            get { return 300; }
-        }
+        public int TimeOfBurning => 300;
 
         public int GetSmthPerCollectCount()
         {

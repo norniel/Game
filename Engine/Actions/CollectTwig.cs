@@ -8,10 +8,7 @@ namespace Engine.Actions
 {
     class CollectTwig : CollectSmth<Twig>
     {
-        public override string Name
-        {
-            get { return "Collect twig"; }
-        }
+        public override string Name => "Collect twig";
 
         public override bool IsApplicable(Property property)
         {

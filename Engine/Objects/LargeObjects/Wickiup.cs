@@ -30,10 +30,7 @@ namespace Engine.Objects
             }
         }
         
-        public override string Name
-        {
-            get { return Resource.Wickiup; }
-        }
+        public override string Name => Resource.Wickiup;
 
         public override uint GetDrawingCode()
         {

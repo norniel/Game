@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Engine.Objects.LargeObjects.Builder
@@ -39,7 +40,7 @@ namespace Engine.Objects.LargeObjects.Builder
             return availableObjects;
         }
 
-        public List<GameObject> BuildAction(List<GameObject> gameObjects)
+        public List<GameObject> BuildAction(List<GameObject> gameObjects, int tiredness)
         {
             if (gameObjects == null || !gameObjects.Any())
                 return gameObjects;
@@ -47,7 +48,7 @@ namespace Engine.Objects.LargeObjects.Builder
             List<GameObject> leftGameObjects = gameObjects;
             foreach (var ig in ItemGroups.Where(ig => !ig.IsCompleted))
             {
-                leftGameObjects = ig.Build(leftGameObjects);
+                leftGameObjects = ig.Build(leftGameObjects, tiredness);
 
                 if (!leftGameObjects.Any())
                     break;

@@ -15,24 +15,18 @@ namespace Engine.Objects
             Id = 0x00001C00;
         }
 
-        public override int Weight { get { return 1; } }
+        public override int Weight => 1;
 
         public override void InitializeProperties()
         {
-            this.Properties = new HashSet<Property>
+            Properties = new HashSet<Property>
             {
                Property.Pickable
             };
         }
 
-        public int TimeOfBurning
-        {
-            get { return 100; }
-        }
+        public int TimeOfBurning => 100;
 
-        public override string Name
-        {
-            get { return Resource.Twig; }
-        }
+        public override string Name => Resource.Twig;
     }
 }

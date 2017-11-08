@@ -14,7 +14,7 @@ namespace Engine.Objects.Fruits
             Id = 0x00001700;
         }
 
-        public override int Weight { get { return 2; } }
+        public override int Weight => 2;
 
         public override void InitializeProperties()
         {
@@ -24,9 +24,6 @@ namespace Engine.Objects.Fruits
             };
         }
 
-        public override string Name
-        {
-            get { return Resource.Cone; }
-        }
+        public override string Name => Resource.Cone;
     }
 }

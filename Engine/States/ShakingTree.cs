@@ -8,7 +8,7 @@ namespace Engine.States
         protected readonly MobileObject _mobileObject;
         private readonly IHasSmthToCollect<Berry> Tree;
         private const int MAX_MAXSHAKINGTICK = 20;
-        private int _shakingTicks = 0;
+        private int _shakingTicks;
         private readonly int _maxRestingTicks;
         public ShakingTree(MobileObject mobileObject, IHasSmthToCollect<Berry> tree)
         {
@@ -41,6 +41,6 @@ namespace Engine.States
             _shakingTicks++;
         }
 
-        public bool ShowActing { get { return false; } }
+        public bool ShowActing => false;
     }
 }

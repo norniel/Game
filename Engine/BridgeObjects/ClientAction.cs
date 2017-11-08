@@ -6,9 +6,7 @@ namespace Engine.BridgeObjects
     {
         public string Name { get; set; }
 
-        public bool CanDo {
-            get { return true; }
-        }
+        public bool CanDo => true;
 
         public Action Do { get; set; }
     }

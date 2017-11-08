@@ -9,9 +9,7 @@ namespace Engine.Actions
 {
     public class CreateStoneAxeAction:IAction
     {
-        public string Name {
-            get { return ActionsResource.CreateStoneAxe; }
-        }
+        public string Name => ActionsResource.CreateStoneAxe;
 
         public string GetName(IEnumerable<GameObject> objects)
         {

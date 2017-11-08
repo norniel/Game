@@ -14,9 +14,7 @@ namespace Engine.Actions
         [Dependency]
         public Map Map { get; set; }
 
-        public string Name {
-            get { return ActionsResource.MakeFire; }
-        }
+        public string Name => ActionsResource.MakeFire;
 
         public string GetName(IEnumerable<GameObject> objects)
         {

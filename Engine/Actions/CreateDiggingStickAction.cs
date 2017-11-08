@@ -11,9 +11,7 @@ namespace Engine.Actions
 {
     public class CreateDiggingStickAction : IAction
     {
-        public string Name {
-            get { return ActionsResource.CreateDiggingStick; }
-        }
+        public string Name => ActionsResource.CreateDiggingStick;
 
         public string GetName(IEnumerable<GameObject> objects)
         {

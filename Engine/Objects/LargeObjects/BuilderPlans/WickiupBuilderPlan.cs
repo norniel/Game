@@ -65,9 +65,8 @@ namespace Engine.Objects.LargeObjects.BuilderPlans
             };
         }
 
-        public override string Name {
-            get { return ActionsResource.CreateWickiup; }
-        }
+        public override string Name => ActionsResource.CreateWickiup;
+
         public override bool CheckAvailablePlace(Point cell)
         {
             var mapSize = Game.Map.GetSize();
@@ -88,8 +87,6 @@ namespace Engine.Objects.LargeObjects.BuilderPlans
             return true;
         }
 
-        public override uint CurrentDrawingOrder {
-            get { return (uint)(_currentStepIndex*2 + (CurrentStep.PercentCompleted < 50 ? 1 : 2)); }
-        }
+        public override uint CurrentDrawingOrder => (uint)(_currentStepIndex*2 + (CurrentStep.PercentCompleted < 50 ? 1 : 2));
     }
 }

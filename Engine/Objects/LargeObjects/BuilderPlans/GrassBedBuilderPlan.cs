@@ -28,9 +28,8 @@ namespace Engine.Objects.LargeObjects.BuilderPlans
             };
         }
 
-        public override string Name {
-            get { return ActionsResource.BuildGrassBed; }
-        }
+        public override string Name => ActionsResource.BuildGrassBed;
+
         public override bool CheckAvailablePlace(Point cell)
         {
             var mapSize = Game.Map.GetSize();

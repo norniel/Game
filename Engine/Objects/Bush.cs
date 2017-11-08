@@ -20,10 +20,7 @@ namespace Engine.Objects
             Id = 0x00001200;
         }
 
-        public override string Name
-        {
-            get { return Resource.Bush; }
-        }
+        public override string Name => Resource.Bush;
 
         public override void InitializeProperties()
         {

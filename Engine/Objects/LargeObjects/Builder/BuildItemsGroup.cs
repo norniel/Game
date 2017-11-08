@@ -11,11 +11,9 @@ namespace Engine.Objects.LargeObjects.Builder
         public List<BuildItem> BuildItems { get; set; }
         public bool IsCompleted => _percentLeftToBuild <= 0;
 
-        public int PercentCompleted {
-            get { return _percentLeftToBuild <= 0 ? 100 : 100 - _percentLeftToBuild; }
-        }
+        public int PercentCompleted => _percentLeftToBuild <= 0 ? 100 : 100 - _percentLeftToBuild;
 
-        public List<GameObject> Build(IEnumerable<GameObject> gameObjects)
+        public List<GameObject> Build(IEnumerable<GameObject> gameObjects, int tiredness)
         {
             if (IsCompleted)
                 return gameObjects.ToList();
@@ -34,8 +32,11 @@ namespace Engine.Objects.LargeObjects.Builder
                 var buildItemAVObjects = gameObjects.Where(lgo => buildItem.CheckObject(lgo)).Take(buildItemCount).ToList();
                 availableObjects.AddRange(buildItemAVObjects);
 
-                buildItem.CountUsedToBuild += buildItemAVObjects.Count;
-                _percentLeftToBuild = _percentLeftToBuild - buildItemAVObjects.Count * buildItem.PercentPerItem;
+                var itemsToBuildCount = buildItemAVObjects.Count;
+                buildItemAVObjects.OrderBy(gobj => gobj.Quaolity);
+                buildItem.CountUsedToBuild += itemsToBuildCount;
+
+                _percentLeftToBuild = _percentLeftToBuild - itemsToBuildCount * buildItem.PercentPerItem;
             }
 
             availableObjects.ForEach(go => go.RemoveFromContainer());

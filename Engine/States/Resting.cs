@@ -4,7 +4,7 @@
     {
         protected readonly MobileObject _mobileObject;
         private const int MAX_MAXRESTINGTICK = 20;
-        private int _restingTicks = 0;
+        private int _restingTicks;
         private readonly int _maxRestingTicks;
         public Resting(MobileObject mobileObject)
         {
@@ -23,9 +23,6 @@
             _restingTicks++;
         }
 
-        public bool ShowActing
-        {
-            get { return false; }
-        }
+        public bool ShowActing => false;
     }
 }

@@ -11,7 +11,8 @@ namespace Engine.Objects
     {
         private ObjectWithState ObjectWithState { get; set; }
 
-        public override int Weight {get { return 2; }}
+        public override int Weight => 2;
+
         public Mushroom()
         {
             IsPassable = true;
@@ -43,10 +44,7 @@ namespace Engine.Objects
             };
         }
 
-        public override string Name
-        {
-            get { return Resource.Burovik; }
-        }
+        public override string Name => Resource.Burovik;
 
 
         public void OnLastStateFinished()
@@ -70,13 +68,7 @@ namespace Engine.Objects
             return this.Id;
         }
 
-        public int Poisoness
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        public int Poisoness => 0;
 
         public int Satiety
         {

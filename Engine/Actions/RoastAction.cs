@@ -9,10 +9,7 @@ namespace Engine.Actions
 {
     internal class RoastAction : LongActionBase
     {
-        public override string Name
-        {
-            get { return "Roast"; }
-        }
+        public override string Name => "Roast";
 
         public override string GetName(IEnumerable<GameObject> objects)
         {
@@ -88,9 +85,6 @@ namespace Engine.Actions
 
         protected override int ElapsedActionTime{ get; set; }
 
-        protected override int TotalActionTime
-        {
-            get { return 2; }
-        }
+        protected override int TotalActionTime => 2;
     }
 }

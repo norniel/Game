@@ -22,9 +22,6 @@ namespace Engine.Objects
             };
         }
 
-        public override string Name
-        {
-            get { return "Berries"; }
-        }
+        public override string Name => "Berries";
     }
 }

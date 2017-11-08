@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Windows;
 using Engine.Interfaces;
-using Microsoft.Practices.Unity;
 
 namespace Engine.Objects
 {
@@ -21,7 +19,7 @@ namespace Engine.Objects
         private readonly Action NextStateHandler;
         public readonly Action LastStateHandler;
 
-        private static int _idCounter = 0;
+        private static int _idCounter;
 
         private static int GenerateId()
         {
@@ -32,7 +30,7 @@ namespace Engine.Objects
         public ObjectWithState(List<IObjectState> objectStateQueue, bool isCircling, Action lastStateHandler, Action nextStateHandler)
         {
             _id = GenerateId();
-            _objectStateQueue = objectStateQueue;
+            ObjectStateQueue = objectStateQueue;
             _isCircling = isCircling;
 
             LastStateHandler = lastStateHandler;
@@ -58,7 +56,7 @@ namespace Engine.Objects
             }
         }
 
-        protected readonly List<IObjectState> _objectStateQueue;
+        protected readonly List<IObjectState> ObjectStateQueue;
         private readonly bool _isCircling;
         private int _currentStateId = -1;
 
@@ -67,21 +65,21 @@ namespace Engine.Objects
         public IObjectState CurrentState {
             get
             {
-                if (_currentStateId < 0 || _currentStateId >= _objectStateQueue.Count)
+                if (_currentStateId < 0 || _currentStateId >= ObjectStateQueue.Count)
                     return null;
 
-                return _objectStateQueue[_currentStateId];
+                return ObjectStateQueue[_currentStateId];
             }
         }
 
         public virtual void NextState()
         {
-            if (_currentStateId >= _objectStateQueue.Count)
+            if (_currentStateId >= ObjectStateQueue.Count)
                 return;
 
             var nextStateId = _currentStateId;
             nextStateId++;
-            if (nextStateId >= _objectStateQueue.Count)
+            if (nextStateId >= ObjectStateQueue.Count)
             {
                 if (!_isCircling)
                 {
@@ -99,27 +97,26 @@ namespace Engine.Objects
         public virtual void ChangeState(int newstateId, int? newTicksCount = null)
         {
             Game.StateQueueManager.RemoveObjectFromQueue(this);
-            this.ChangeStateInternal(newstateId, newTicksCount);
+            ChangeStateInternal(newstateId, newTicksCount);
         }
 
         protected virtual void ChangeStateInternal(int newstateId, int? newTicksCount = null)
         {
-            var oldState = (_currentStateId >= _objectStateQueue.Count || _currentStateId < 0) ? null :_objectStateQueue[_currentStateId];
+            var oldState = (_currentStateId >= ObjectStateQueue.Count || _currentStateId < 0) ? null :ObjectStateQueue[_currentStateId];
             _currentStateId = newstateId;
 
-            _objectStateQueue[_currentStateId].TickCount = newTicksCount ?? _objectStateQueue[_currentStateId].TickCount;
+            ObjectStateQueue[_currentStateId].TickCount = newTicksCount ?? ObjectStateQueue[_currentStateId].TickCount;
 
             if (Game.StateQueueManager != null)
             {
-                Game.StateQueueManager.AddObjectToQueue(_objectStateQueue[_currentStateId].TickCount, _objectStateQueue[_currentStateId].Distribution, this);
+                Game.StateQueueManager.AddObjectToQueue(ObjectStateQueue[_currentStateId].TickCount, ObjectStateQueue[_currentStateId].Distribution, this);
                 OnChangeState(oldState);
             }
         }
 
         protected virtual void OnChangeState(IObjectState oldState)
         {
-            if (NextStateHandler != null)
-                NextStateHandler();
+            NextStateHandler?.Invoke();
         }
 
         public int CompareTo(ObjectWithState other)
@@ -134,8 +131,7 @@ namespace Engine.Objects
 
         public virtual void OnLastStateFinished()
         {
-            if (LastStateHandler != null)
-                LastStateHandler();
+            LastStateHandler?.Invoke();
         }
     }
 }

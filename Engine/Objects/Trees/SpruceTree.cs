@@ -13,10 +13,7 @@ namespace Engine.Objects.Trees
             Id = 0x00001600;
         }
 
-        public override string Name
-        {
-            get { return "Spruce tree"; }
-        }
+        public override string Name => "Spruce tree";
 
         public override uint GetDrawingCode()
         {

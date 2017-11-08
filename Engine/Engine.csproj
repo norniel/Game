@@ -153,6 +153,7 @@
     <Compile Include="Objects\LargeObjects\Builder\BuilderPlan.cs" />
     <Compile Include="Objects\LargeObjects\Builder\BuildItem.cs" />
     <Compile Include="Objects\LargeObjects\Builder\BuildItemsGroup.cs" />
+    <Compile Include="Objects\LargeObjects\Builder\Consist.cs" />
     <Compile Include="Objects\LargeObjects\Builder\Step.cs" />
     <Compile Include="Objects\LargeObjects\Builder\TypedBuildItem.cs" />
     <Compile Include="Objects\LargeObjects\GrassBed.cs" />
@@ -233,6 +234,7 @@
     <EmbeddedResource Include="Resources\HeroResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>HeroResource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\HeroResource.ru-RU.resx" />
     <EmbeddedResource Include="Resources\Resource.resx">

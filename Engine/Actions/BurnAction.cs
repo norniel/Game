@@ -10,9 +10,8 @@ namespace Engine.Actions
 {
     internal class BurnAction : IAction
     {
-        public string Name {
-            get { return "Burn"; }
-        }
+        public string Name => "Burn";
+
         public string GetName(IEnumerable<GameObject> objects)
         {
             var burnable = objects.FirstOrDefault(o => o is IBurnable);

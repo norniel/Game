@@ -15,7 +15,7 @@ namespace Engine
         private bool _positionChanged = true;
 
         public Point Position {
-            get { return _position; }
+            get => _position;
             set
             {
                 _position = value;
@@ -52,10 +52,8 @@ namespace Engine
         public Size ViewSight { get; set; }
         public List<Point> PointList { get; private set; }
 
-        public IObservable<EventPattern<StateEventArgs>> States
-        {
-            get { return staSubject; }
-        }
+        public IObservable<EventPattern<StateEventArgs>> States => staSubject;
+
         public MobileObject()
         {
             ViewSight = new Size();
@@ -104,10 +102,7 @@ namespace Engine
             });
         }
 
-        public override string Name
-        {
-            get { return "Mobile object"; }
-        }
+        public override string Name => "Mobile object";
 
         public virtual void EnqueueNextState()
         {

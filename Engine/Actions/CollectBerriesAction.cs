@@ -8,9 +8,7 @@ namespace Engine.Actions
 {
     internal class CollectBerriesAction:CollectSmth<Berry>
     {
-        public override string Name {
-            get { return "Collect berries"; }
-        }
+        public override string Name => "Collect berries";
 
         public override bool IsApplicable(Property property)
         {

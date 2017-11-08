@@ -11,9 +11,9 @@ namespace Engine.Objects.LargeObjects
 
         private readonly Lazy<BuilderPlan> _builderPlanLazy;
 
-        public BuilderPlan BuilderPlan {
-            get { return _builderPlanLazy.Value; }
-        }
+        private readonly Lazy<Consist> _consist = new Lazy<Consist>(() => new Consist());
+
+        public BuilderPlan BuilderPlan => _builderPlanLazy.Value;
 
         public LargeObjectInner()
         {
@@ -41,11 +41,9 @@ namespace Engine.Objects.LargeObjects
 
         protected abstract BuilderPlan GetBuilderPlan();
 
-        public IEnumerable<LargeObjectOuterAbstract> OuterObjects {
-            get { return _lazyObjectsOuter.Value; }
-        }
+        public IEnumerable<LargeObjectOuterAbstract> OuterObjects => _lazyObjectsOuter.Value;
 
-        public bool IsBuild { get { return BuilderPlan.IsCompleted; } }
+        public bool IsBuild => BuilderPlan.IsCompleted;
 
         protected class LargeObjectOuter : LargeObjectOuterAbstract
         {

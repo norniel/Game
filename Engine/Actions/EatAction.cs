@@ -10,9 +10,7 @@ namespace Engine.Actions
 {
     internal class EatAction : IAction
     {
-        public string Name {
-            get { return ActionsResource.Eat; }
-        }
+        public string Name => ActionsResource.Eat;
 
         public string GetName(IEnumerable<GameObject> objects)
         {
@@ -29,7 +27,7 @@ namespace Engine.Actions
             foreach (var removableObject in objects.OfType<IEatable>())
             {
                 hero.Eat(removableObject.Satiety);
-                (removableObject as GameObject).RemoveFromContainer();
+                (removableObject as GameObject)?.RemoveFromContainer();
             }
 
             return true;

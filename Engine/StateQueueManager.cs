@@ -13,6 +13,8 @@ namespace Engine
 
         //todo - get through dependency/ make single random for all game needs
         private Random Random = new Random(1);
+
+        private static object lockObject = new object();
         public void OnNext(long value)
         {
             // should be done with locking
@@ -29,7 +31,9 @@ namespace Engine
             {
                 if(first.CurrentState == null || !first.CurrentState.Eternal)
                 {
-                    _queue.RemoveFirst();
+                    // _queue.RemoveFirst();
+                    // _queue.Remove(first);
+                    RemoveObjectFromQueue(first);
                     first.NextState();
                 }
                 else 
@@ -56,21 +60,20 @@ namespace Engine
         public void RemoveObjectFromQueue(ObjectWithState objectWithState)
         {
             // should be done with locking
-            _queue.Remove(objectWithState);
-        }
-
-        public void MoveObjectInQueue(int nextStateInterval, int distribution, ObjectWithState objectWithState)
-        {
-            // should be done with locking
-            _queue.Remove(objectWithState);
-            AddObjectToQueue(nextStateInterval, distribution, objectWithState);
+            lock (lockObject)
+            {
+                _queue.Remove(objectWithState);
+            }
         }
 
         public void AddObjectToQueue(int nextStateInterval, int distribution, ObjectWithState objectWithState)
         {
             // should be done with locking
-            objectWithState.NextStateTick = CurrentTick + nextStateInterval + 2 * distribution - (int)(distribution * Random.NextDouble());
-            _queue.Add(objectWithState);
+            lock (lockObject)
+            {
+                objectWithState.NextStateTick = CurrentTick + nextStateInterval + 2 * distribution - (int)(distribution * Random.NextDouble());
+                _queue.Add(objectWithState);
+            }            
         }
     }
  

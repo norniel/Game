@@ -13,18 +13,15 @@ namespace Engine.Actions
         where T:LargeObjectInner, new() 
         where TPlan:BuilderPlan, new()
     {
-        private bool _isInitialized = false;
+        private bool _isInitialized;
 
-        private T _objectWithPlan = null;
+        private T _objectWithPlan;
 
         private readonly BuilderPlan _builderPlan = new TPlan();
 
-        private List<GameObject> _objects = null;
+        private List<GameObject> _objects;
 
-        public string Name
-        {
-            get { return _builderPlan.Name; }
-        }
+        public string Name => _builderPlan.Name;
 
         public string GetName(IEnumerable<GameObject> objects)
         {
@@ -128,7 +125,7 @@ namespace Engine.Actions
                 Game.Map.SetHObjectFromDestination(hero.Position, _objectWithPlan);
             }
 
-            _objects = _objectWithPlan.BuilderPlan.CurrentStep.BuildAction(_objects);
+            _objects = _objectWithPlan.BuilderPlan.CurrentStep.BuildAction(_objects, hero.HeroLifeCycle.Tiredness);
 
             if (_objectWithPlan.BuilderPlan.CurrentStep.IsCompleted)
             {

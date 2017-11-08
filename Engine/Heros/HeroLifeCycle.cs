@@ -15,9 +15,9 @@ namespace Engine.Heros
         private const uint maxTimeStamp = 20000 / Game.TimeStep;
         private uint timestamp;
 
-        public HeroProperties HeroProperties {
-            get { return _heroProperties; }
-        }
+        public HeroProperties HeroProperties => _heroProperties;
+
+        public int Tiredness => HeroProperties.Tiredness;
 
         public HeroLifeCycle()
         {

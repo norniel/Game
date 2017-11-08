@@ -22,20 +22,20 @@
             this.action = action;
             this.destination = destination;
             this.objects = objects;
-            this.timestamp = maxTimeStamp;
+            timestamp = maxTimeStamp;
         }
         //public event StateHandler NextState;
         public void Act()
         {
-            if (this.timestamp < maxTimeStamp)
+            if (timestamp < maxTimeStamp)
             {
-                this.timestamp += mobileObject.Speed;
+                timestamp += mobileObject.Speed;
                 return;
             }
 
-            this.timestamp = 0;
+            timestamp = 0;
 
-            bool isFinished = !this.IsNear(mobileObject.Position, destination);
+            bool isFinished = !IsNear(mobileObject.Position, destination);
             if (!isFinished)
             {
                 var hero = mobileObject as Hero;
@@ -54,10 +54,6 @@
                 && Math.Abs(position.Y - destination.Y) < 20);
         }
 
-        public bool ShowActing
-        {
-            get { return true; }
-        }
-
+        public bool ShowActing => true;
     }
 }

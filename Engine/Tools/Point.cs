@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Engine
+﻿namespace Engine
 {
     public class Point
     {
-        public int X { get;  set; }
+        public int X { get; set; }
         public int Y { get; set; }
 
 
@@ -17,13 +12,13 @@ namespace Engine
             Y = 0;
         }
 
-        public Point( int x, int y) 
+        public Point(int x, int y)
         {
             X = x;
             Y = y;
         }
 
-        public Point( Point point )
+        public Point(Point point)
         {
             X = point.X;
             Y = point.Y;
@@ -31,13 +26,13 @@ namespace Engine
 
         public bool Equals(Point other)
         {
-              return other.X == X && other.Y == Y;
+            return other.X == X && other.Y == Y;
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            if (obj.GetType() != typeof (Point)) return false;
+            if (obj.GetType() != typeof(Point)) return false;
             return Equals((Point) obj);
         }
 
@@ -45,7 +40,7 @@ namespace Engine
         {
             unchecked
             {
-                return (X.GetHashCode()*397) ^ Y.GetHashCode();
+                return (X.GetHashCode() * 397) ^ Y.GetHashCode();
             }
         }
 
@@ -70,7 +65,7 @@ namespace Engine
 
         public static Point operator +(Point left, Point right)
         {
-            return new Point( left.X + right.X, left.Y + right.Y);
+            return new Point(left.X + right.X, left.Y + right.Y);
         }
 
         public override string ToString()

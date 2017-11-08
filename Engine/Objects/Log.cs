@@ -13,9 +13,6 @@ namespace Engine.Objects.Trees
             Size = new Size(1, 1);
         }
 
-        public override string Name
-        {
-            get { return "Log"; }
-        }
+        public override string Name => "Log";
     }
 }

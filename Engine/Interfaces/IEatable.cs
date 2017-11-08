@@ -1,6 +1,6 @@
 ﻿namespace Engine.Interfaces
 {
-    interface IEatable
+    interface IEatable : IRemovableObject
     {
         int Poisoness { get; }
         int Satiety { get; }

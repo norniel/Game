@@ -1,5 +1,4 @@
-﻿using Engine.Interfaces;
-using System;
+﻿using System;
 
 namespace Engine.States
 {
@@ -18,8 +17,6 @@ namespace Engine.States
             _mobileObject.StateEvent.FireEvent();
         }
 
-        public bool ShowActing {
-            get { return false; }
-        }
+        public bool ShowActing => false;
     }
 }

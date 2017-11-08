@@ -13,10 +13,7 @@ namespace Engine.Objects.LargeObjects
             Id = 0x00001D00;
         }
 
-        public override string Name
-        {
-            get { return "Grass bed"; }
-        }
+        public override string Name => "Grass bed";
 
         public override uint GetDrawingCode()
         {

@@ -28,11 +28,6 @@ namespace Engine.Tools
             _mapHeight = (int)_map.GetSize().Height;
         }
 
-        public Point GetFirstCell()
-        {
-            return null;
-        }
-
         public List<PointWithDistance> GetVisibleCells()
         {
             IEnumerable<PointWithDistance> result = null;

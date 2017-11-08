@@ -36,10 +36,7 @@ namespace Engine
             };
         }
         
-        public override string Name
-        {
-            get { return "Tree"; }
-        }
+        public override string Name => "Tree";
 
         public override uint GetDrawingCode()
         {

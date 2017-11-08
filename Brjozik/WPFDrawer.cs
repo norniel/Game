@@ -22,7 +22,7 @@ namespace Game
         private readonly Canvas _canvas;
         private readonly ListBox _listBox;
         private readonly ListBox _heroListBox;
-        private readonly ListBox _ListBoxDateTime;
+        private readonly ListBox _listBoxDateTime;
         private Path _appearance;
         private Path _horizontalAppearance;
         private LineGeometry _hands;
@@ -30,57 +30,57 @@ namespace Game
         private EllipseGeometry _nose;
         private readonly int _dcenter;
         private RotateTransform _t;
-        private PointCollection _visWayCollection;
-        private Polyline _visibleWay;
-        private BitmapImage appletreeImage;
-        private BitmapImage appletree1Image;
-        private BitmapImage appletree2Image;
+        private readonly PointCollection _visWayCollection;
+        private readonly Polyline _visibleWay;
+        private readonly BitmapImage _appletreeImage;
+        private readonly BitmapImage _appletree1Image;
+        private readonly BitmapImage _appletree2Image;
 
-        private BitmapImage plantImage;
-        private BitmapImage dryplantImage;
-        private BitmapImage growingPlantImage;
-        private BitmapImage rockImage;
-        private BitmapImage fireImage;
+        private readonly BitmapImage _plantImage;
+        private readonly BitmapImage _dryplantImage;
+        private readonly BitmapImage _growingPlantImage;
+        private readonly BitmapImage _rockImage;
+        private readonly BitmapImage _fireImage;
 
-        private BitmapImage appleImage;
-        private BitmapImage branchImage;
-        private BitmapImage bushImage;
-        private BitmapImage raspberryImage;
-        private BitmapImage stoneAxeImage;
-        private BitmapImage logImage;
-        private BitmapImage attenuatingFireImage;
-        private BitmapImage spruceTreeImage;
-        private BitmapImage coneImage;
+        private readonly BitmapImage _appleImage;
+        private readonly BitmapImage _branchImage;
+        private readonly BitmapImage _bushImage;
+        private readonly BitmapImage _raspberryImage;
+        private readonly BitmapImage _stoneAxeImage;
+        private readonly BitmapImage _logImage;
+        private readonly BitmapImage _attenuatingFireImage;
+        private readonly BitmapImage _spruceTreeImage;
+        private readonly BitmapImage _coneImage;
 
-        private BitmapImage dikabrozikImage;
-        private BitmapImage dikabrozikWithBundleImage;
+        private readonly BitmapImage _dikabrozikImage;
+        private readonly BitmapImage _dikabrozikWithBundleImage;
 
-        private BitmapImage mushroomImage;
-        private BitmapImage growingMushroomImage;
+        private readonly BitmapImage _mushroomImage;
+        private readonly BitmapImage _growingMushroomImage;
 
-        private BitmapImage roastedMushroomImage;
-        private BitmapImage roastedAppleImage;
+        private readonly BitmapImage _roastedMushroomImage;
+        private readonly BitmapImage _roastedAppleImage;
 
-        private BitmapImage twigImage;
-        private BitmapImage grassBed0;
-        private BitmapImage grassBed1;
-        private BitmapImage grassBed2;
-        private BitmapImage grassBed3;
+        private readonly BitmapImage _twigImage;
+        private readonly BitmapImage _grassBed0;
+        private readonly BitmapImage _grassBed1;
+        private readonly BitmapImage _grassBed2;
+        private readonly BitmapImage _grassBed3;
 
-        private BitmapImage diggingStickImage;
-        private BitmapImage sharpStoneImage;
+        private readonly BitmapImage _diggingStickImage;
+        private readonly BitmapImage _sharpStoneImage;
 
-        private BitmapImage rootImage;
+        private readonly BitmapImage _rootImage;
 
-        private BitmapImage wickiupImage0;
-        private BitmapImage wickiupImage1;
-        private BitmapImage wickiupImage2;
-        private BitmapImage wickiupImage3;
-        private BitmapImage wickiupImage4;
-        private BitmapImage wickiupImage5;
-        private BitmapImage wickiupImage6;
+        private readonly BitmapImage _wickiupImage0;
+        private readonly BitmapImage _wickiupImage1;
+        private readonly BitmapImage _wickiupImage2;
+        private readonly BitmapImage _wickiupImage3;
+        private readonly BitmapImage _wickiupImage4;
+        private readonly BitmapImage _wickiupImage5;
+        private readonly BitmapImage _wickiupImage6;
 
-        private TextBlock _acting = new TextBlock();
+        private readonly TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
 
         public WpfDrawer(Canvas canvas, ListBox listBox, ListBox heroListBox, ListBox listBoxDateTime)
@@ -93,58 +93,58 @@ namespace Game
             _canvas = canvas;
             _listBox = listBox;
             _heroListBox = heroListBox;
-            _ListBoxDateTime = listBoxDateTime;
+            _listBoxDateTime = listBoxDateTime;
 
-            appletreeImage = CreateBitmapImage(@"apple tree icon.png");
-            appletree1Image = CreateBitmapImage(@"apple-tree1 icon.png");
+            _appletreeImage = CreateBitmapImage(@"apple tree icon.png");
+            _appletree1Image = CreateBitmapImage(@"apple-tree1 icon.png");
 
-            appletree2Image = CreateBitmapImage(@"apple-tree2 icon.png");
-            plantImage = CreateBitmapImage(@"plant icon.png");
-            dryplantImage = CreateBitmapImage(@"dry plant icon.png");
-            growingPlantImage = CreateBitmapImage(@"growing plant icon.png");
+            _appletree2Image = CreateBitmapImage(@"apple-tree2 icon.png");
+            _plantImage = CreateBitmapImage(@"plant icon.png");
+            _dryplantImage = CreateBitmapImage(@"dry plant icon.png");
+            _growingPlantImage = CreateBitmapImage(@"growing plant icon.png");
 
-            rockImage = CreateBitmapImage(@"rock icon2.png");
-            fireImage = CreateBitmapImage(@"fire icon.png");
-            appleImage = CreateBitmapImage(@"apple icon.png");
-            branchImage = CreateBitmapImage(@"branch icon.png");
-            bushImage = CreateBitmapImage(@"brush icon.png");
-            raspberryImage = CreateBitmapImage(@"Raspberry icon.png");
-            stoneAxeImage = CreateBitmapImage(@"Stone axe icon.png");
-            logImage = CreateBitmapImage(@"Log icon.png");
-            attenuatingFireImage = CreateBitmapImage(@"attenuating fire small.png");
-            spruceTreeImage = CreateBitmapImage(@"spruce tree.png");
-            coneImage = CreateBitmapImage(@"cone small.png");
+            _rockImage = CreateBitmapImage(@"rock icon2.png");
+            _fireImage = CreateBitmapImage(@"fire icon.png");
+            _appleImage = CreateBitmapImage(@"apple icon.png");
+            _branchImage = CreateBitmapImage(@"branch icon.png");
+            _bushImage = CreateBitmapImage(@"brush icon.png");
+            _raspberryImage = CreateBitmapImage(@"Raspberry icon.png");
+            _stoneAxeImage = CreateBitmapImage(@"Stone axe icon.png");
+            _logImage = CreateBitmapImage(@"Log icon.png");
+            _attenuatingFireImage = CreateBitmapImage(@"attenuating fire small.png");
+            _spruceTreeImage = CreateBitmapImage(@"spruce tree.png");
+            _coneImage = CreateBitmapImage(@"cone small.png");
 
-            dikabrozikImage = CreateBitmapImage(@"dikabroyozik small.png");
-            dikabrozikWithBundleImage = CreateBitmapImage(@"dikabroyozik with bundle small.png");
+            _dikabrozikImage = CreateBitmapImage(@"dikabroyozik small.png");
+            _dikabrozikWithBundleImage = CreateBitmapImage(@"dikabroyozik with bundle small.png");
 
-            mushroomImage = CreateBitmapImage(@"mushroom small.png");
-            growingMushroomImage = CreateBitmapImage(@"mushroom growing small.png");
+            _mushroomImage = CreateBitmapImage(@"mushroom small.png");
+            _growingMushroomImage = CreateBitmapImage(@"mushroom growing small.png");
 
-            roastedMushroomImage = CreateBitmapImage(@"roasted mushroom small.png");
-            roastedAppleImage = CreateBitmapImage(@"roasted apple icon.png");
+            _roastedMushroomImage = CreateBitmapImage(@"roasted mushroom small.png");
+            _roastedAppleImage = CreateBitmapImage(@"roasted apple icon.png");
 
-            twigImage = CreateBitmapImage(@"twig icon.png");
+            _twigImage = CreateBitmapImage(@"twig icon.png");
 
-            grassBed0 = CreateBitmapImage(@"grassbed0.png");
-            grassBed1 = CreateBitmapImage(@"grassbed1.png");
-            grassBed2 = CreateBitmapImage(@"grassbed2.png");
-            grassBed3 = CreateBitmapImage(@"grassbed3.png");
+            _grassBed0 = CreateBitmapImage(@"grassbed0.png");
+            _grassBed1 = CreateBitmapImage(@"grassbed1.png");
+            _grassBed2 = CreateBitmapImage(@"grassbed2.png");
+            _grassBed3 = CreateBitmapImage(@"grassbed3.png");
 
-            diggingStickImage = CreateBitmapImage(@"digging stick icon.png");
-            sharpStoneImage = CreateBitmapImage(@"sharp stone icon.png");
+            _diggingStickImage = CreateBitmapImage(@"digging stick icon.png");
+            _sharpStoneImage = CreateBitmapImage(@"sharp stone icon.png");
 
-            rootImage = CreateBitmapImage(@"root icon.png");
+            _rootImage = CreateBitmapImage(@"root icon.png");
 
-            rootImage = CreateBitmapImage(@"root icon.png");
+            _rootImage = CreateBitmapImage(@"root icon.png");
 
-            wickiupImage0 = CreateBitmapImage(@"Wickiup0 icon.png");
-            wickiupImage1 = CreateBitmapImage(@"Wickiup1 icon.png");
-            wickiupImage2 = CreateBitmapImage(@"Wickiup2 icon.png");
-            wickiupImage3 = CreateBitmapImage(@"Wickiup3 icon.png");
-            wickiupImage4 = CreateBitmapImage(@"Wickiup4 icon.png");
-            wickiupImage5 = CreateBitmapImage(@"Wickiup5 icon.png");
-            wickiupImage6 = CreateBitmapImage(@"Wickiup6 icon.png");
+            _wickiupImage0 = CreateBitmapImage(@"Wickiup0 icon.png");
+            _wickiupImage1 = CreateBitmapImage(@"Wickiup1 icon.png");
+            _wickiupImage2 = CreateBitmapImage(@"Wickiup2 icon.png");
+            _wickiupImage3 = CreateBitmapImage(@"Wickiup3 icon.png");
+            _wickiupImage4 = CreateBitmapImage(@"Wickiup4 icon.png");
+            _wickiupImage5 = CreateBitmapImage(@"Wickiup5 icon.png");
+            _wickiupImage6 = CreateBitmapImage(@"Wickiup6 icon.png");
 
             CreateActing();
 
@@ -201,9 +201,11 @@ namespace Game
 
             _horizontalAppearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 36, Width = 16 };
 
-            var hands2 = new LineGeometry();
-            hands2.StartPoint = new System.Windows.Point(0, 11);
-            hands2.EndPoint = new System.Windows.Point(16, 11);
+            var hands2 = new LineGeometry
+            {
+                StartPoint = new System.Windows.Point(0, 11),
+                EndPoint = new System.Windows.Point(16, 11)
+            };
 
             // Create the ellipse geometry to add to the Path
             var hat2 = new EllipseGeometry();
@@ -215,9 +217,11 @@ namespace Game
             body.StartPoint = new System.Windows.Point(8, 10);
             body.EndPoint = new System.Windows.Point(8, 18);
 
-            var legLeft = new LineGeometry();
-            legLeft.StartPoint = new System.Windows.Point(8, 18);
-            legLeft.EndPoint = new System.Windows.Point(6, 30);
+            var legLeft = new LineGeometry
+            {
+                StartPoint = new System.Windows.Point(8, 18),
+                EndPoint = new System.Windows.Point(6, 30)
+            };
 
             var legRight = new LineGeometry();
             legRight.StartPoint = new System.Windows.Point(8, 18);
@@ -301,7 +305,7 @@ namespace Game
             {
                 // _canvas.Children
 
-                DrawImage(appletreeImage, x, y);/*
+                DrawImage(_appletreeImage, x, y);/*
                 Ellipse rec = new Ellipse()
                                   {Fill = Brushes.ForestGreen, Stroke = Brushes.Green, Height = 20, Width = 20};
                 rec.ContextMenu = _canvas.ContextMenu;
@@ -313,13 +317,13 @@ namespace Game
             {
                 // _canvas.Children
 
-                DrawImage(appletree1Image, x, y);
+                DrawImage(_appletree1Image, x, y);
             }
             else if (id == 0x00000300)
             {
                 // _canvas.Children
 
-                DrawImage(appletree2Image, x, y);
+                DrawImage(_appletree2Image, x, y);
             }
             else if (id == 0x00001000)
             {
@@ -330,98 +334,98 @@ namespace Game
                       Canvas.SetLeft(rec, x+10);
                       Canvas.SetTop(rec, y+10);*/
 
-                DrawImage(rockImage, x, y);
+                DrawImage(_rockImage, x, y);
             }
             else if (id == 0x00001100)
             {
                 // _canvas.Children
 
-                DrawImage(plantImage, x, y);
+                DrawImage(_plantImage, x, y);
             }
             else if (id == 0x10001100)
             {
-                DrawImage(growingPlantImage, x, y);
+                DrawImage(_growingPlantImage, x, y);
             }
             else if (id == 0x20001100)
             {
-                DrawImage(dryplantImage, x, y);
+                DrawImage(_dryplantImage, x, y);
             }
             else if (id == 0x00001300)
             {
                 // _canvas.Children
 
-                DrawImage(stoneAxeImage, x, y);
+                DrawImage(_stoneAxeImage, x, y);
             }
             else if (id == 0x00001400)
             {
                 // _canvas.Children
 
-                DrawImage(logImage, x, y);
+                DrawImage(_logImage, x, y);
             }
             else if (id == 0x00000600)
             {
                 // _canvas.Children
-                DrawImage(fireImage, x, y);
+                DrawImage(_fireImage, x, y);
             }
             else if (id == 0x00000700)
             {
                 // _canvas.Children
-                DrawImage(appleImage, x, y);
+                DrawImage(_appleImage, x, y);
             }
             else if (id == 0x00000800)
             {
                 // _canvas.Children
-                DrawImage(branchImage, x, y);
+                DrawImage(_branchImage, x, y);
             }
             else if (id == 0x00001200)
             {
                 // _canvas.Children
-                DrawImage(bushImage, x, y);
+                DrawImage(_bushImage, x, y);
             }
             else if (id == 0x00000900)
             {
                 // _canvas.Children
-                DrawImage(raspberryImage, x, y);
+                DrawImage(_raspberryImage, x, y);
             }
             else if (id == 0x00001500)
             {
                 // _canvas.Children
-                DrawImage(attenuatingFireImage, x, y);
+                DrawImage(_attenuatingFireImage, x, y);
             }
             else if (id == 0x00001600)
             {
                 // _canvas.Children
-                DrawImage(spruceTreeImage, x, y);
+                DrawImage(_spruceTreeImage, x, y);
             }
             else if (id == 0x00001700)
             {
                 // _canvas.Children
-                DrawImage(coneImage, x, y);
+                DrawImage(_coneImage, x, y);
             }
             else if (id == 0x00001900)
             {
                 // _canvas.Children
-                DrawImage(mushroomImage, x, y);
+                DrawImage(_mushroomImage, x, y);
             }
             else if (id == 0x10001900)
             {
                 // _canvas.Children
-                DrawImage(growingMushroomImage, x, y);
+                DrawImage(_growingMushroomImage, x, y);
             }
             else if (id == 0x00001A00)
             {
                 // _canvas.Children
-                DrawImage(roastedMushroomImage, x, y);
+                DrawImage(_roastedMushroomImage, x, y);
             }
             else if (id == 0x00001B00)
             {
                 // _canvas.Children
-                DrawImage(roastedAppleImage, x, y);
+                DrawImage(_roastedAppleImage, x, y);
             }
             else if (id == 0x00001C00)
             {
                 // _canvas.Children
-                DrawImage(twigImage, x, y);
+                DrawImage(_twigImage, x, y);
             }
             else if ((id / 0x100) == 0x00001D)
             {
@@ -429,10 +433,10 @@ namespace Game
 
                 switch (innerId)
                 {
-                    case 0: DrawImage(grassBed0, x, y); break;
-                    case 1: DrawImage(grassBed1, x, y); break;
-                    case 2: DrawImage(grassBed2, x, y); break;
-                    case 3: DrawImage(grassBed3, x, y); break;
+                    case 0: DrawImage(_grassBed0, x, y); break;
+                    case 1: DrawImage(_grassBed1, x, y); break;
+                    case 2: DrawImage(_grassBed2, x, y); break;
+                    case 3: DrawImage(_grassBed3, x, y); break;
                 }
                 // _canvas.Children
             }
@@ -442,38 +446,38 @@ namespace Game
 
                 switch (innerId)
                 {
-                    case 0: DrawImage(wickiupImage0, x, y); break;
-                    case 1: DrawImage(wickiupImage1, x, y); break;
-                    case 2: DrawImage(wickiupImage2, x, y); break;
-                    case 3: DrawImage(wickiupImage3, x, y); break;
-                    case 4: DrawImage(wickiupImage4, x, y); break;
-                    case 5: DrawImage(wickiupImage5, x, y); break;
-                    case 6: DrawImage(wickiupImage6, x, y); break;
+                    case 0: DrawImage(_wickiupImage0, x, y); break;
+                    case 1: DrawImage(_wickiupImage1, x, y); break;
+                    case 2: DrawImage(_wickiupImage2, x, y); break;
+                    case 3: DrawImage(_wickiupImage3, x, y); break;
+                    case 4: DrawImage(_wickiupImage4, x, y); break;
+                    case 5: DrawImage(_wickiupImage5, x, y); break;
+                    case 6: DrawImage(_wickiupImage6, x, y); break;
                 }
                 // _canvas.Children
             }
             else if (id == 0x00002200)
             {
                 // _canvas.Children
-                DrawImage(sharpStoneImage, x, y);
+                DrawImage(_sharpStoneImage, x, y);
             }
             else if (id == 0x00002300)
             {
                 // _canvas.Children
-                DrawImage(diggingStickImage, x, y);
+                DrawImage(_diggingStickImage, x, y);
             }
             else if (id == 0x00002400)
             {
                 // _canvas.Children
-                DrawImage(rootImage, x, y);
+                DrawImage(_rootImage, x, y);
             }
             else if ((id / 0x1000) == 0x00018)
             {
-                DrawRotatedImage(dikabrozikImage, x, y, id % 0x1000);
+                DrawRotatedImage(_dikabrozikImage, x, y, id % 0x1000);
             }
             else if ((id / 0x1000) == 0x10018)
             {
-                DrawRotatedImage(dikabrozikWithBundleImage, x, y, id % 0x1000);
+                DrawRotatedImage(_dikabrozikWithBundleImage, x, y, id % 0x1000);
             }
             else if (id == 0x00002000)
             {
@@ -571,39 +575,39 @@ namespace Game
             switch (id)
             {
                 case 0x00001100:
-                    return dryplantImage;
+                    return _dryplantImage;
                 case 0x00000700:
-                    return appleImage;
+                    return _appleImage;
                 case 0x00000800:
-                    return branchImage;
+                    return _branchImage;
                 case 0x00001000:
-                    return rockImage;
+                    return _rockImage;
                 case 0x00000100:
-                    return appletreeImage;
+                    return _appletreeImage;
                 case 0x00001200:
-                    return bushImage;
+                    return _bushImage;
                 case 0x00000900:
-                    return raspberryImage;
+                    return _raspberryImage;
                 case 0x00001300:
-                    return stoneAxeImage;
+                    return _stoneAxeImage;
                 case 0x00001700:
-                    return coneImage;
+                    return _coneImage;
                 case 0x00001900:
-                    return mushroomImage;
+                    return _mushroomImage;
                 case 0x00001A00:
-                    return roastedMushroomImage;
+                    return _roastedMushroomImage;
                 case 0x00001B00:
-                    return roastedAppleImage;
+                    return _roastedAppleImage;
                 case 0x00001C00:
-                    return twigImage;
+                    return _twigImage;
                 case 0x00002300:
-                    return diggingStickImage;
+                    return _diggingStickImage;
                 case 0x00002200:
-                    return sharpStoneImage;
+                    return _sharpStoneImage;
                 case 0x00002400:
-                    return rootImage;
+                    return _rootImage;
             }
-            return appletreeImage;
+            return _appletreeImage;
         }
 
         public void DrawHeroProperties(IEnumerable<KeyValuePair<string, int>> objects)
@@ -644,8 +648,7 @@ namespace Game
             // myGeometryDrawing.Brush
             myBlackDrawing.Brush = Brushes.Black;
             myBlackDrawing.Pen = new Pen(Brushes.Black, 1);
-            GeometryGroup rectangle = new GeometryGroup();
-            rectangle.FillRule = FillRule.EvenOdd;
+            GeometryGroup rectangle = new GeometryGroup {FillRule = FillRule.EvenOdd};
             rectangle.Children.Add(new RectangleGeometry(new System.Windows.Rect() { Height = _canvas.Height, Width = _canvas.Width }));
 
             GeometryGroup rectangle11 = new GeometryGroup();
@@ -676,8 +679,8 @@ namespace Game
             Canvas.SetLeft(rec, 0);
             Canvas.SetTop(rec, 0);
 
-            _ListBoxDateTime.Items.Clear();
-            _ListBoxDateTime.Items.Add(string.Format("{0}:{1}:{2}", gameDateTime.Day, gameDateTime.Hour, gameDateTime.Minute));
+            _listBoxDateTime.Items.Clear();
+            _listBoxDateTime.Items.Add(string.Format("{0}:{1}:{2}", gameDateTime.Day, gameDateTime.Hour, gameDateTime.Minute));
         }
 
         public void DrawShaddow(Engine.Point innerPoint, Engine.Size innerSize)
@@ -736,8 +739,7 @@ namespace Game
 
         private void DrawImage(BitmapSource bitmapImage, long x, long y)
         {
-            var image = new Image();
-            image.Source = bitmapImage;
+            var image = new Image {Source = bitmapImage};
             _canvas.Children.Add(image);
             Canvas.SetLeft(image, x);
             Canvas.SetTop(image, y);

@@ -22,12 +22,9 @@ namespace Engine.Heros
 
         private readonly HeroLifeCycle _heroLifeCycle;
 
-        internal HeroLifeCycle HeroLifeCycle
-        {
-            get { return _heroLifeCycle; }
-        }
+        internal HeroLifeCycle HeroLifeCycle => _heroLifeCycle;
 
-        private bool _isThen = false;
+        private bool _isThen;
 
         public Hero()
         {
@@ -45,7 +42,7 @@ namespace Engine.Heros
 
         public IMap Map { get; set; }
 
-        public Bag Bag {get { return _bag; }}
+        public Bag Bag => _bag;
 
         public void StartMove(Point destination, Stack<Point> points)
         {
@@ -147,11 +144,6 @@ namespace Engine.Heros
                 new KeyValuePair<string, int>(HeroResource.Satiety, _heroLifeCycle.HeroProperties.Satiety),
                 new KeyValuePair<string, int>(HeroResource.Tiredness, _heroLifeCycle.HeroProperties.Tiredness)
             };
-        }
-
-        public void RemoveFromContainer(GameObject gObject)
-        {
-            _bag.GameObjects.Remove(gObject);
         }
 
         public override uint Speed

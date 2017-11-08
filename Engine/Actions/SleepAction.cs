@@ -10,9 +10,8 @@ namespace Engine.Actions
 {
     class SleepAction:IAction
     {
-        public string Name {
-            get { return ActionsResource.Sleep; }
-        }
+        public string Name => ActionsResource.Sleep;
+
         public string GetName(IEnumerable<GameObject> objects)
         {
             return Name;

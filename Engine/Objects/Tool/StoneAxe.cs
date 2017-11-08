@@ -12,7 +12,7 @@ namespace Engine.Objects
             Id = 0x00001300;
         }
 
-        public override int Weight { get { return 10; } }
+        public override int Weight => 10;
 
         public override void InitializeProperties()
         {
@@ -23,9 +23,6 @@ namespace Engine.Objects
             };
         }
 
-        public override string Name
-        {
-            get { return Resource.StoneAxe; }
-        }
+        public override string Name => Resource.StoneAxe;
     }
 }

@@ -9,9 +9,8 @@ namespace Engine
 {
     internal class PickAction : IAction
     {
-        public string Name {
-            get { return ActionsResource.Pick; }
-        }
+        public string Name => ActionsResource.Pick;
+
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
             hero.AddToBag(objects);

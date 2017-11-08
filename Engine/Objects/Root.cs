@@ -14,7 +14,7 @@ namespace Engine.Objects
             Id = 0x00002400;
         }
 
-        public override int Weight { get { return 1; } }
+        public override int Weight => 1;
 
         public override void InitializeProperties()
         {
@@ -24,9 +24,6 @@ namespace Engine.Objects
             };
         }
 
-        public override string Name
-        {
-            get { return Resource.Root; }
-        }
+        public override string Name => Resource.Root;
     }
 }

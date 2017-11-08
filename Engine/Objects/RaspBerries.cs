@@ -9,25 +9,10 @@ namespace Engine.Objects
             Id = 0x00000900;
         }
 
-        public override string Name
-        {
-            get { return "Raspberries"; }
-        }
+        public override string Name => "Raspberries";
 
-        public int Poisoness
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        public int Poisoness => 0;
 
-        public int Satiety
-        {
-            get
-            {
-                return 1;
-            }
-        }
+        public int Satiety => 1;
     }
 }

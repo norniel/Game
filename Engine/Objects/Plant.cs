@@ -41,10 +41,7 @@ namespace Engine.Objects
             };
         }
 
-        public override string Name
-        {
-            get { return Resource.Plant; }
-        }
+        public override string Name => Resource.Plant;
 
         public int TimeOfBurning {
             get

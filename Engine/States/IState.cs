@@ -32,8 +32,8 @@ namespace Engine
         private IState state;
         public IState State
         {
-            get { return state; }
-            set { state = value; }
+            get => state;
+            set => state = value;
         }
     }
 }

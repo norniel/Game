@@ -28,7 +28,7 @@ namespace Engine.Actions
 
         public virtual bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
-            var actionIsNotOver = objects.OfType<IHasSmthToCollect<T>>().Any(hb => this.Collect(hb, hero));
+            var actionIsNotOver = objects.OfType<IHasSmthToCollect<T>>().Any(hb => Collect(hb, hero));
 
             return !actionIsNotOver;
         }
@@ -43,10 +43,6 @@ namespace Engine.Actions
 
             if(necessaryObjects.Any())
                 yield return necessaryObjects;
-            else
-            {
-                yield break;
-            }
         }
 
         public abstract double GetTiredness();

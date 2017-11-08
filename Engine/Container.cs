@@ -20,29 +20,17 @@ namespace Engine
             _maxContainerCapacity = _stackCapacity*_stackQuantity;
         }
 
-        public int StackQuantity {
-            get{ return _stackQuantity; }
-        }
+        public int StackQuantity => _stackQuantity;
 
-        public int StackCapacity {
-            get { return _stackCapacity; }
-        }
+        public int StackCapacity => _stackCapacity;
 
-        public int MaxContainerCapacity
-        {
-            get { return _maxContainerCapacity; }
-        }
+        public int MaxContainerCapacity => _maxContainerCapacity;
 
         public int ContainerCapacity { get; set; }
 
-        public bool IsFull {
-            get { return ContainerCapacity >= MaxContainerCapacity; }
-        }
+        public bool IsFull => ContainerCapacity >= MaxContainerCapacity;
 
-        public bool IsEmpty
-        {
-            get { return ContainerCapacity <= 0; }
-        }
+        public bool IsEmpty => ContainerCapacity <= 0;
 
         public virtual bool Add(GameObject gameObject)
         {

@@ -14,9 +14,7 @@ namespace Engine.Actions
         [Dependency]
         public Map Map { get; set; }
 
-        public string Name {
-            get { return ActionsResource.Drop; }
-        }
+        public string Name => ActionsResource.Drop;
 
         public string GetName(IEnumerable<GameObject> objects)
         {

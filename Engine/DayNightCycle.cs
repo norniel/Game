@@ -6,7 +6,7 @@ namespace Engine
     {
         private readonly GameDateTime startGameDate;
         private GameDateTime currentGameDate;
-        private int totalSeconds = 0;
+        private int totalSeconds;
         public DayNightCycle()
         {
             startGameDate = new GameDateTime(0,0,0,3,0);
@@ -68,9 +68,7 @@ namespace Engine
             return 0;
         }
 
-        public GameDateTime CurrentGameDate {
-            get { return currentGameDate; }
-        }
+        public GameDateTime CurrentGameDate => currentGameDate;
 
         public void OnError(Exception error)
         {

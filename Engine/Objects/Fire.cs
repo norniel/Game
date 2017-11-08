@@ -33,10 +33,7 @@ namespace Engine.Objects
             {Property.Burning};
         }
 
-        public override string Name
-        {
-            get { return "Fire"; }
-        }
+        public override string Name => "Fire";
 
 
         public int TimeOfBurning {
@@ -49,10 +46,7 @@ namespace Engine.Objects
 
                 return 0;
             }
-            set
-            {
-                this.ObjectWithState.ChangeState(0, value);
-            }
+            set => this.ObjectWithState.ChangeState(0, value);
         }
 
         public int LightRadius {

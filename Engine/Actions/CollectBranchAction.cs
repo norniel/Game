@@ -8,10 +8,7 @@ namespace Engine.Actions
     using Objects;
     class CollectBranchAction: CollectSmth<Branch>
     {
-        public override string Name
-        {
-            get { return "Collect branch"; }
-        }
+        public override string Name => "Collect branch";
 
         public override bool IsApplicable(Property property)
         {

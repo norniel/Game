@@ -60,10 +60,10 @@ namespace Engine
         private UnityContainer _unityContainer;
 
         //todo - change to lazy
-        internal static StateQueueManager StateQueueManager = null;
+        internal static StateQueueManager StateQueueManager;
 
         //todo - change to lazy
-        internal static IObservable<long> Intervals = null;
+        internal static IObservable<long> Intervals;
 
         internal static Random Random = new Random();
 
@@ -219,19 +219,18 @@ namespace Engine
                 for (int j = visibleCells.Top; j < visibleCells.Top+ visibleCells.Height; j++)
                 {
                     var gameObject = Map.GetHObjectFromCell(new Point(i, j));
-  
 
-                    var largeObjectOuter = gameObject as LargeObjectOuterAbstract;
-                    if (gameObject != null && (largeObjectOuter == null || largeObjectOuter.isLeftCorner))
+
+                    if (gameObject == null) continue;
+                    if (gameObject is LargeObjectOuterAbstract largeObjectOuter && !largeObjectOuter.isLeftCorner)
+                        continue;
+
+                    var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
+                    _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y);
+
+                    if (gameObject is IBurning burnable)
                     {
-                        var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
-                        _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y);
-
-                        var burnable = gameObject as IBurning;
-                        if (burnable != null)
-                        {
-                            lightObjectsList.Add(new BurningProps(visibleDestination, burnable.LightRadius));
-                        }
+                        lightObjectsList.Add(new BurningProps(visibleDestination, burnable.LightRadius));
                     }
                 }
             }

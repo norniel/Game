@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Engine.Actions;
 using Engine.Interfaces;
 using Engine.Objects.Fruits;
 using Engine.Objects.Trees;
@@ -14,7 +13,7 @@ namespace Engine.Objects
 {
     class Dikabryozik: MobileObject, IEater
     {
-        private ObjectWithState ObjectWithState { get; set; }
+        private ObjectWithState ObjectWithState { get; }
 
         private readonly Bag _bundle;
 
@@ -39,25 +38,20 @@ namespace Engine.Objects
             ObjectWithState = new ObjectWithState(
                 new List<IObjectState>
                     {
-                        new Staying() {TickCount = STAYING_BASE_TICKCOUNT, Distribution = STAYING_BASE_TICKCOUNT/10, Eternal = false},
-                        new Hungry() {TickCount = 300, Distribution = 30, Eternal = true}
+                        new Staying {TickCount = STAYING_BASE_TICKCOUNT, Distribution = STAYING_BASE_TICKCOUNT/10, Eternal = false},
+                        new Hungry {TickCount = 300, Distribution = 30, Eternal = true}
                     },
                     false, null, OnChangeState);
 
-            this.StateEvent.FireEvent();
+            StateEvent.FireEvent();
         }
 
         public override void InitializeProperties()
         {
-            this.Properties = new HashSet<Property>
-            {
-            };
+            Properties = new HashSet<Property>();
         }
 
-        public override string Name
-        {
-            get { return "Dikabryozik"; }
-        }
+        public override string Name => "Dikabryozik";
 
         public override void EnqueueNextState()
         {
@@ -74,16 +68,15 @@ namespace Engine.Objects
                 return;
             }
 
-            _stateQueue.Enqueue(new Wondering(this, this.ViewSight));
-            return;
+            _stateQueue.Enqueue(new Wondering(this, ViewSight));
         }
 
         public override uint GetDrawingCode()
         {
             if(_bundle.IsEmpty)
-                return base.GetDrawingCode() + 90+(uint)this.Angle;
+                return base.GetDrawingCode() + 90+(uint)Angle;
 
-            return 0x10018000 + 90 + (uint)this.Angle;
+            return 0x10018000 + 90 + (uint)Angle;
         }
 
         public override bool CheckForUnExpected()
@@ -121,15 +114,15 @@ namespace Engine.Objects
             return true;
         }
 
-        public void OnChangeState()
+        private void OnChangeState()
         {
-            if (ObjectWithState != null && ObjectWithState.CurrentState is Hungry)
+            if (ObjectWithState?.CurrentState is Hungry)
             {
                 StartLookingForFood();
             }
         }
 
-        public void StartLookingForFood()
+        private void StartLookingForFood()
         {
             _stateQueue.Clear();
 
@@ -141,16 +134,17 @@ namespace Engine.Objects
 
             var destination = Position;
 
-            var visiblePoints = ShadowCasting.For(PositionCell, ViewRadius, Game.Map).GetVisibleCells().OrderBy(p => p.Distance).ToList();
+            var visiblePoints = ShadowCasting.For(PositionCell, ViewRadius, Game.Map)
+                .GetVisibleCells()
+                .OrderBy(p => p.Distance)
+                .ToList();
+
             //var neighbourList = Game.Map.GetNearestToPointList(Position, 1);
 
             var eatablePoint = visiblePoints.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
-                if (obj is Apple || obj is Mushroom)
-                    return true;
-
-                return false;
+                return obj is Apple || obj is Mushroom;
             });
 
             if (eatablePoint != null)

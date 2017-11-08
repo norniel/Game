@@ -12,7 +12,7 @@ namespace Engine.Objects.Tool
             Id = 0x00002300;
         }
 
-        public override int Weight { get { return 1; } }
+        public override int Weight => 1;
 
         public override void InitializeProperties()
         {
@@ -23,9 +23,6 @@ namespace Engine.Objects.Tool
             };
         }
 
-        public override string Name
-        {
-            get { return Resource.DiggingStick; }
-        }
+        public override string Name => Resource.DiggingStick;
     }
 }

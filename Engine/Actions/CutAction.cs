@@ -19,9 +19,7 @@ namespace Engine.Actions
         [Dependency]
         public Map Map { get; set; }
 
-        public override string Name {
-            get { return ActionsResource.Cut; }
-        }
+        public override string Name => ActionsResource.Cut;
 
         public override string GetName(IEnumerable<GameObject> objects)
         {
@@ -63,9 +61,7 @@ namespace Engine.Actions
 
         }
 
-        protected override int TotalActionTime {
-            get { return 4; } 
-        }
+        protected override int TotalActionTime => 4;
 
         public override bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {

@@ -9,10 +9,7 @@ namespace Engine.Actions
 {
     class CollectRoot : CollectSmth<Root>
     {
-        public override string Name
-        {
-            get { return "Collect root"; }
-        }
+        public override string Name => "Collect root";
 
         public override bool IsApplicable(Property property)
         {

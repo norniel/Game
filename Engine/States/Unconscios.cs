@@ -27,8 +27,6 @@ namespace Engine.States
                 _hero.StateEvent.FireEvent();
         }
 
-        public bool ShowActing {
-            get { return false; }
-        }
+        public bool ShowActing => false;
     }
 }

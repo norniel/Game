@@ -28,6 +28,6 @@ namespace Engine.States
                 _hero.StateEvent.FireEvent();
         }
 
-        public bool ShowActing { get { return true; } }
+        public bool ShowActing => true;
     }
 }

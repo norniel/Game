@@ -27,9 +27,6 @@ namespace Engine.Objects
             };
         }
 
-        public override string Name
-        {
-            get { return Resource.Rock; }
-        }
+        public override string Name => Resource.Rock;
     }
 }
