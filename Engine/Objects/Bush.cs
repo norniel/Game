@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using Engine.Interfaces;
 using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Objects
 {
+    [GenerateMap]
     class Bush : FixedObject, IHasSmthToCollect<Branch>, IHasSmthToCollect<RaspBerries>
     {
         private int _initialBerriesCount = 2;

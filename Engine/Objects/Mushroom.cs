@@ -1,4 +1,5 @@
 ﻿using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Objects
 {
@@ -7,6 +8,7 @@ namespace Engine.Objects
     using Interfaces;
     using ObjectStates;
 
+    [GenerateMap]
     internal class Mushroom : FixedObject, ICloneable, IEatable, IRoastable
     {
         private ObjectWithState ObjectWithState { get; set; }

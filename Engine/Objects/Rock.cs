@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Objects
 {
+    [GenerateMap]
     class Rock : FixedObject
     {
         public Rock() 

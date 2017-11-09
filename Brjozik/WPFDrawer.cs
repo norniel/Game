@@ -80,6 +80,9 @@ namespace Game
         private readonly BitmapImage _wickiupImage5;
         private readonly BitmapImage _wickiupImage6;
 
+        private readonly BitmapImage _nutTreeImage;
+        private readonly BitmapImage _nutImage;
+
         private readonly TextBlock _acting = new TextBlock();
         private int _drawCount = 0;
 
@@ -136,7 +139,8 @@ namespace Game
 
             _rootImage = CreateBitmapImage(@"root icon.png");
 
-            _rootImage = CreateBitmapImage(@"root icon.png");
+            _nutTreeImage = CreateBitmapImage(@"nut tree icon.png");
+            _nutImage = CreateBitmapImage(@"nut.png");
 
             _wickiupImage0 = CreateBitmapImage(@"Wickiup0 icon.png");
             _wickiupImage1 = CreateBitmapImage(@"Wickiup1 icon.png");
@@ -471,6 +475,16 @@ namespace Game
                 // _canvas.Children
                 DrawImage(_rootImage, x, y);
             }
+            else if (id == 0x00002500)
+            {
+                // _canvas.Children
+                DrawImage(_nutTreeImage, x, y);
+            }
+            else if (id == 0x00002600)
+            {
+                // _canvas.Children
+                DrawImage(_nutImage, x, y);
+            }
             else if ((id / 0x1000) == 0x00018)
             {
                 DrawRotatedImage(_dikabrozikImage, x, y, id % 0x1000);
@@ -606,6 +620,8 @@ namespace Game
                     return _sharpStoneImage;
                 case 0x00002400:
                     return _rootImage;
+                case 0x00002600:
+                    return _nutImage;
             }
             return _appletreeImage;
         }

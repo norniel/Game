@@ -37,7 +37,7 @@ namespace Engine.Actions
 
         public virtual IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-            var necessaryObjects = objects.Where(obj => obj.Properties.Any(this.IsApplicable)
+            var necessaryObjects = objects.Where(obj => obj.Properties.Any(IsApplicable)
                && obj is IHasSmthToCollect<T>
                && (obj as IHasSmthToCollect<T>).GetSmthTotalCount() > 0).ToList();
 

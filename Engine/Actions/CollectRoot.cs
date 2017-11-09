@@ -3,7 +3,6 @@ using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Objects;
-using Engine.Objects.Tool;
 
 namespace Engine.Actions
 {

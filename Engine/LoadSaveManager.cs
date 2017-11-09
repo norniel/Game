@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Engine.Interfaces.IActions;
 using Engine.Objects.Trees;
+using Engine.Tools;
 
 namespace Engine
 {
@@ -55,32 +58,12 @@ namespace Engine
                 if( map.GetObjectFromCell(new Point(tmpX, tmpY)) != null )
                     continue;
 
-                switch (count % 11)
-                {
-                    case 0:
-                    case 1:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), new AppleTree());
-                        break;
-                    case 2:
-                    case 3:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), new Plant());
-                        break;
-                    case 4:
-                    case 5:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), new Rock());
-                        break;
-                    case 6:
-                    case 7:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), new Bush());
-                        break;
-                    case 8:
-                    case 9:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), new SpruceTree());
-                        break;
-                    case 10:
-                        map.SetObjectFromCell(new Point(tmpX, tmpY), new Mushroom());
-                        break;
-                }
+                var typesOnMap = Assembly.GetExecutingAssembly().GetTypes().Where(
+                    type => type.GetCustomAttribute<GenerateMapAttribute>() != null).ToList();
+
+                var randIndex = count % typesOnMap.Count;
+
+                map.SetObjectFromCell(new Point(tmpX, tmpY), Activator.CreateInstance(typesOnMap[randIndex]) as FixedObject);
 
                 count--;
             }

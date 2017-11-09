@@ -140,7 +140,9 @@
   <ItemGroup>
     <Resource Include="Icons\root icon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Icons\nut tree icon.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\Wickiup0 icon.png" />
     <Resource Include="Icons\Wickiup1 icon.png" />
@@ -149,6 +151,9 @@
     <Resource Include="Icons\Wickiup4 icon.png" />
     <Resource Include="Icons\Wickiup5 icon.png" />
     <Resource Include="Icons\Wickiup6 icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\nut.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

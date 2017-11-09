@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using Engine.Interfaces;
 using Engine.ObjectStates;
 using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Objects
 {
+    [GenerateMap]
     internal class Plant: FixedObject, IBurnable, ICloneable
     {
         private ObjectWithState ObjectWithState { get; set; }

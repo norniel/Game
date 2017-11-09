@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using Engine.Interfaces;
+﻿using Engine.Interfaces;
 using Engine.Objects.Fruits;
+using Engine.Tools;
 
 namespace Engine.Objects.Trees
 {
+    [GenerateMap]
     class SpruceTree : Tree, IHasSmthToCollect<Berry>, IHasSmthToCollect<Root>
     {
         private int _rootCount = 4;
