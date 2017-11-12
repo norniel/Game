@@ -19,7 +19,8 @@ namespace Engine.Objects
             this.Properties = new HashSet<Property>
             {
                 Property.Cutter,
-                Property.Pickable
+                Property.Pickable,
+                Property.Cracker
             };
         }
 

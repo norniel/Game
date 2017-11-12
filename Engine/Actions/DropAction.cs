@@ -4,7 +4,6 @@ using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
-using Engine.Wrapers;
 using Microsoft.Practices.Unity;
 
 namespace Engine.Actions

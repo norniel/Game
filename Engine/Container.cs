@@ -1,5 +1,4 @@
 ﻿using Engine.Objects;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace Engine
 {

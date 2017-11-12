@@ -27,6 +27,8 @@ namespace Engine
         Branch,
         Diggable,
         CollectRoot,
-        Enterable
+        Enterable,
+        Crackable,
+        Cracker
     }
 }

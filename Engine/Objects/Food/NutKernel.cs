@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
-using Engine.Resources;
+using Engine.Interfaces;
 
-namespace Engine.Objects.Tool
+namespace Engine.Objects.Food
 {
-    class SharpStone:FixedObject
+    public class NutKernel : FixedObject, IEatable
     {
-        public SharpStone()
+        public NutKernel()
         {
             IsPassable = true;
+
             Size = new Size(1, 1);
-            Id = 0x00002200;
+
+            Id = 0x00002600;
         }
 
         public override int Weight => 1;
@@ -18,12 +20,14 @@ namespace Engine.Objects.Tool
         {
             this.Properties = new HashSet<Property>
             {
-                Property.Cutter,
                 Property.Pickable,
-                Property.Cracker
+                Property.Eatable
             };
         }
 
-        public override string Name => Resource.SharpStone;
+        public override string Name => "Nut Kernel";
+        public int Poisoness => 0;
+
+        public int Satiety => 4;
     }
 }

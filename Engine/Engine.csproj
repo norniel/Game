@@ -96,6 +96,7 @@
     <Compile Include="Actions\LongActionBase.cs" />
     <Compile Include="Actions\MakeFire.cs" />
     <Compile Include="Actions\PickAction.cs" />
+    <Compile Include="Actions\CrackAction.cs" />
     <Compile Include="Actions\RoastAction.cs" />
     <Compile Include="Actions\SleepAction.cs" />
     <Compile Include="Bag.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Interfaces\IRemovableObject.cs" />
     <Compile Include="Interfaces\IRoastable.cs" />
     <Compile Include="IObjectDrawer.cs" />
+    <Compile Include="Knowledges.cs" />
     <Compile Include="LoadSaveManager.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapGenerator\CombinedMapGenerator.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Objects\Dikabryozik.cs" />
     <Compile Include="Objects\Fire.cs" />
     <Compile Include="Objects\FixedObject.cs" />
+    <Compile Include="Objects\Food\NutKernel.cs" />
     <Compile Include="Objects\Food\RoastedApple.cs" />
     <Compile Include="Objects\Food\RoastedMushroom.cs" />
     <Compile Include="Objects\Fruits\Apple.cs" />

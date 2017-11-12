@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using Engine.Interfaces;
 
 namespace Engine.Objects
@@ -12,16 +11,16 @@ namespace Engine.Objects
 
         public abstract string Name { get; }
 
-        public virtual int Weight { get { return 1; } }
+        public virtual int Weight => 1;
 
         public GameObject()
         {
-            this.InitializeProperties();
+            InitializeProperties();
         }
 
         public virtual void InitializeProperties()
         {
-            this.Properties = new HashSet<Property>();
+            Properties = new HashSet<Property>();
         }
 
         public virtual uint GetDrawingCode()

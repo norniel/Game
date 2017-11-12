@@ -16,7 +16,7 @@ namespace Engine.Heros
 
      //   public double Angle { get; set; }
 
-        private const int INITIAl_SPEED = 20;
+        private const int INITIAL_SPEED = 20;
 
         private readonly Bag _bag;
 
@@ -148,7 +148,7 @@ namespace Engine.Heros
 
         public override uint Speed
         {
-            get { return (uint)(INITIAl_SPEED *_heroLifeCycle.GetSpeedCoefficient()); }
+            get { return (uint)(INITIAL_SPEED *_heroLifeCycle.GetSpeedCoefficient()); }
             set {  }
         }
 

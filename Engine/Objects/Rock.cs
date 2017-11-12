@@ -25,7 +25,8 @@ namespace Engine.Objects
             {
                 Property.Pickable,
                 Property.NeedToCreateStoneAxe,
-                Property.Stone
+                Property.Stone,
+                Property.Cracker
             };
         }
 

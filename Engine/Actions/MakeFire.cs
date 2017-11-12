@@ -38,7 +38,7 @@ namespace Engine.Actions
             plant.RemoveFromContainer();
             var fire = new Fire();
 
-            Map.SetHObjectFromDestination(hero.Position, fire as FixedObject);
+            Map.SetHObjectFromDestination(hero.Position, fire);
 
             return true;
         }

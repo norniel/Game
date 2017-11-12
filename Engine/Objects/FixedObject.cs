@@ -19,9 +19,7 @@ namespace Engine
             Size = size;
             Id = id;
         }
-
-        public void Draw(){}
-
+        
         public override string Name => "Fixed objects";
 
         public override uint GetDrawingCode()
