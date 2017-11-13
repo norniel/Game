@@ -13,6 +13,11 @@ namespace Engine.Actions
     {
         public string Name => ActionsResource.CreateDiggingStick;
 
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.Nothing;
+        }
+
         public string GetName(IEnumerable<GameObject> objects)
         {
             return Name;

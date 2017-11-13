@@ -12,6 +12,11 @@ namespace Engine.Actions
     {
         public abstract string Name { get; }
 
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.Nothing;
+        }
+
         public virtual string GetName(IEnumerable<GameObject> objects)
         {
             var objectToCollectFrom = objects.OfType<IHasSmthToCollect<T>>().FirstOrDefault();

@@ -18,6 +18,11 @@ namespace Engine.Actions
             return Name;
         }
 
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.CreateSharpStone;
+        }
+
         public bool IsApplicable(Property property)
         {
             return Property.Stone == property;

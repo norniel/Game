@@ -22,6 +22,11 @@ namespace Engine.Actions
             return property == Property.NeedToSleep;
         }
 
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.Nothing;
+        }
+
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
             hero.Sleep();

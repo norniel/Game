@@ -17,7 +17,12 @@ namespace Engine
 
             return true;
         }
-        
+
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.Nothing;
+        }
+
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
             return objects.All(x => x.Properties.Contains(Property.Pickable));// && hero.HasEmpptyContainer;

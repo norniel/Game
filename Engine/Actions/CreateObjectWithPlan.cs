@@ -33,6 +33,11 @@ namespace Engine.Actions
             return Name;
         }
 
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.Nothing;
+        }
+
         public abstract bool IsApplicable(Property property);
 
         public bool Do(Hero hero, IEnumerable<GameObject> objects)

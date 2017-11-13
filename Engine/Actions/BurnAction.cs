@@ -12,6 +12,11 @@ namespace Engine.Actions
     {
         public string Name => "Burn";
 
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.Nothing;
+        }
+
         public string GetName(IEnumerable<GameObject> objects)
         {
             var burnable = objects.FirstOrDefault(o => o is IBurnable);

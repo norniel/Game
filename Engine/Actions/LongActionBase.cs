@@ -13,6 +13,11 @@ namespace Engine.Actions
 
         public abstract bool IsApplicable(Property property);
 
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.Nothing;
+        }
+
         public virtual bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
             if (!_isInitialized)

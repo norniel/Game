@@ -20,6 +20,11 @@ namespace Engine.Actions
             return Name;
         }
 
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.Nothing;
+        }
+
         public bool IsApplicable(Property property)
         {
             return property == Property.Dropable;

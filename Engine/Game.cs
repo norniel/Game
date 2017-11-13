@@ -164,7 +164,7 @@ namespace Engine
                 };
             }
 
-            var possibleActions = ActionRepository.GetPossibleActions(destObject).ToList();
+            var possibleActions = ActionRepository.GetPossibleActions(_hero, destObject).ToList();
 
             var objects = new List<GameObject>(new[] {destObject});
 
@@ -278,7 +278,7 @@ namespace Engine
         {
             return (() =>
             {
-                var possibleActions = ActionRepository.GetPossibleActions(first).ToList();
+                var possibleActions = ActionRepository.GetPossibleActions(_hero, first).ToList();
 
                 var objects = new List<GameObject>(new[] {first});
 

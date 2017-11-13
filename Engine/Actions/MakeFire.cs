@@ -26,6 +26,11 @@ namespace Engine.Actions
             return property == Property.NeedToCreateFire;
         }
 
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.Nothing;
+        }
+
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var branches = objects.Where(o => o is Branch).ToList();

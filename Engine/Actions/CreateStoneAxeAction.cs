@@ -22,6 +22,11 @@ namespace Engine.Actions
                 Property.NeedToCreateStoneAxe == property;
         }
 
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.Nothing;
+        }
+
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var branch = objects.SingleOrDefault(o => o is Branch);

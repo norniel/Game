@@ -21,5 +21,6 @@ namespace Engine.Interfaces.IActions
         IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero);
         double GetTiredness();
         Point GetDestination(Point destination, FixedObject destObject, Hero hero);
+        Knowledges GetKnowledge();
     }
 }

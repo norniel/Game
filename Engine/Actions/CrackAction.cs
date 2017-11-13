@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces;
@@ -6,12 +7,15 @@ using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.Food;
 using Engine.Objects.Fruits;
+using Engine.Objects.Tool;
 
 namespace Engine.Actions
 {
     internal class CrackAction : IAction
     {
         public string Name => "Crack";
+
+        private Random _random = new Random();
 
         public string GetName(IEnumerable<GameObject> objects)
         {
@@ -56,6 +60,11 @@ namespace Engine.Actions
             return destination;
         }
 
+        public Knowledges GetKnowledge()
+        {
+            return Knowledges.Nothing;
+        }
+
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var nut = objects.FirstOrDefault(ao => ao is Nut);
@@ -71,12 +80,25 @@ namespace Engine.Actions
             nut.RemoveFromContainer();
             var nutKernel = new NutKernel();
 
-            if (!hero.AddToBag(nutKernel))
+            AddToGame(hero, nutKernel);
+
+            if (_random.Next(3) == 0)
             {
-                Game.Map.SetHObjectFromDestination(hero.Position, nutKernel);
+                stone.RemoveFromContainer();
+                var sharpStone = new SharpStone();
+                AddToGame(hero, sharpStone);
+                hero.AddKnowledge(Knowledges.CreateSharpStone);
             }
 
             return true;
+        }
+
+        private static void AddToGame(Hero hero, FixedObject gameObject)
+        {
+            if (!hero.AddToBag(gameObject))
+            {
+                Game.Map.SetHObjectFromDestination(hero.Position, gameObject);
+            }
         }
     }
 }

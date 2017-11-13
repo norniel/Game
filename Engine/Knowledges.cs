@@ -5,6 +5,7 @@ namespace Engine
     [Flags]
     public enum Knowledges
     {
-        
+        Nothing,
+        CreateSharpStone
     }
 }

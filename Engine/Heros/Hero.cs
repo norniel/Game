@@ -26,6 +26,8 @@ namespace Engine.Heros
 
         private bool _isThen;
 
+        private HashSet<Knowledges> _knowledgeses = new HashSet<Knowledges> {Knowledges.Nothing};
+
         public Hero()
         {
           //  Position = new Point();
@@ -183,6 +185,16 @@ namespace Engine.Heros
         public bool IsHorizontal()
         {
             return State is Unconscios || State is Sleeping;
+        }
+
+        public void AddKnowledge(Knowledges knowledge)
+        {
+            _knowledgeses.Add(knowledge);
+        }
+
+        public bool HasKnowledge(Knowledges knowledge)
+        {
+            return _knowledgeses.Contains(knowledge);
         }
     }
 }
