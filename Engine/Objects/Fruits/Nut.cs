@@ -19,7 +19,8 @@ namespace Engine.Objects.Fruits
         {
             Properties = new HashSet<Property>
             {
-                Property.Pickable
+                Property.Pickable,
+                Property.Crackable
             };
         }
 

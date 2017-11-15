@@ -19,7 +19,7 @@ namespace Engine.Actions
 
         public string GetName(IEnumerable<GameObject> objects)
         {
-            return string.Format("Crack", objects.OfType<Nut>().First().Name);
+            return string.Format("Crack {0}", objects.OfType<Nut>().First().Name);
         }
 
         public bool IsApplicable(Property property)
