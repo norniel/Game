@@ -37,7 +37,7 @@ namespace Engine.Objects
             this.Properties = new HashSet<Property>
             {
                Property.Pickable,
-               Property.NeedToCreateFire,
+               Property.NeedToMakeFireWithWood,
                Property.Regrowable,
                Property.NeedToBuildGrassBed
             };

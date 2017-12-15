@@ -80,25 +80,17 @@ namespace Engine.Actions
             nut.RemoveFromContainer();
             var nutKernel = new NutKernel();
 
-            AddToGame(hero, nutKernel);
+            Game.AddToGame(hero, nutKernel);
 
             if (_random.Next(3) == 0)
             {
                 stone.RemoveFromContainer();
                 var sharpStone = new SharpStone();
-                AddToGame(hero, sharpStone);
+                Game.AddToGame(hero, sharpStone);
                 hero.AddKnowledge(Knowledges.CreateSharpStone);
             }
 
             return true;
-        }
-
-        private static void AddToGame(Hero hero, FixedObject gameObject)
-        {
-            if (!hero.AddToBag(gameObject))
-            {
-                Game.Map.SetHObjectFromDestination(hero.Position, gameObject);
-            }
         }
     }
 }

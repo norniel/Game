@@ -9,12 +9,12 @@ using Microsoft.Practices.Unity;
 
 namespace Engine.Actions
 {
-    class MakeFire: IAction
+    class MakeFireWithStone: IAction
     {
         [Dependency]
         public Map Map { get; set; }
 
-        public string Name => ActionsResource.MakeFire;
+        public string Name => "Make fire with stone";
 
         public string GetName(IEnumerable<GameObject> objects)
         {
@@ -23,23 +23,25 @@ namespace Engine.Actions
 
         public bool IsApplicable(Property property)
         {
-            return property == Property.NeedToCreateFire;
+            return property == Property.NeedToMakeFireWithStone;
         }
 
         public Knowledges GetKnowledge()
         {
-            return Knowledges.Nothing;
+            return Knowledges.MakeFireWithStone;
         }
 
         public bool Do(Hero hero, IEnumerable<GameObject> objects)
         {
-            var branches = objects.Where(o => o is Branch).ToList();
+            var branch = objects.SingleOrDefault(o => o is Branch);
             var plant = objects.SingleOrDefault(o => o is Plant);
+            var stones = objects.Where(o => o.Properties.Contains(Property.Stone)).ToList();
 
-            if (branches.Count != 2 || plant == null)
+
+            if (stones.Count < 2 || plant == null || branch == null)
                 return true;
 
-            branches.ForEach(b => b.RemoveFromContainer());
+            branch.RemoveFromContainer();
             plant.RemoveFromContainer();
             var fire = new Fire();
 
@@ -58,19 +60,21 @@ namespace Engine.Actions
             var allObjects =
                 objects.Union(hero.GetContainerItems()).Distinct();
 
-            var branches = allObjects.Where(ao => ao is Branch).Select(ao => ao).Take(2).ToList();
+            var stones = allObjects.Where(o => o.Properties.Contains(Property.Stone)).Select(ao => ao).Take(2).ToList();
+            var branch = allObjects.FirstOrDefault(ao => ao is Branch);
             var plant = allObjects.FirstOrDefault(ao => ao is Plant);
 
-            if (branches.Count == 2 && plant != null)
+            if (stones.Count == 2 && plant != null && branch != null)
             {
-                branches.Add(plant);
-                yield return branches.ToList();
+                stones.Add(plant);
+                stones.Add(branch);
+                yield return stones.ToList();
             }
         }
 
         public double GetTiredness()
         {
-            return 10;
+            return 5;
         }
 
         public Point GetDestination(Point destination, FixedObject destObject, Hero hero)

@@ -25,7 +25,7 @@ namespace Engine.Objects
             {
                Property.Pickable,
                Property.NeedToCreateStoneAxe,
-               Property.NeedToCreateFire,
+               Property.NeedToMakeFireWithWood,
                Property.CollectTwig,
                Property.Branch,
                Property.NeedToBuildWickiup

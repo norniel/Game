@@ -10,6 +10,7 @@ using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Microsoft.Practices.Unity;
 using Engine.Objects.LargeObjects;
+using Engine.Properties;
 
 namespace Engine
 {
@@ -116,12 +117,12 @@ namespace Engine
 
         private void LoadSettings()
         {
-            Properties.Settings.Default.Reload();
+            Settings.Default.Reload();
         }
 
         private void SaveSettings()
         {
-            Properties.Settings.Default.Save();
+            Settings.Default.Save();
         }
 
         public void LClick(Point visibleDestination)
@@ -264,7 +265,7 @@ namespace Engine
                 .GroupBy(go => go.Name,
                     (name, gos) =>
                     new MenuItems {
-                        Name = string.Format("{0}({1})", name, gos.Count()),
+                        Name = String.Format("{0}({1})", name, gos.Count()),
                         Id = gos.First().Id,
                         GetClientActions = this.GetFuncForClientActions(gos.First())
                     });
@@ -302,6 +303,14 @@ namespace Engine
         {
             var heroCell = _hero.PositionCell;
             return Map.CellInInnerMap(heroCell);
+        }
+
+        public static void AddToGame(Hero hero, FixedObject gameObject)
+        {
+            if (!hero.AddToBag(gameObject))
+            {
+                Game.Map.SetHObjectFromDestination(hero.Position, gameObject);
+            }
         }
     }
 

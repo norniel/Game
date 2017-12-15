@@ -14,7 +14,7 @@ namespace Engine
         Dropable,
         Cutter,
         NeedToCreateStoneAxe,
-        NeedToCreateFire,
+        NeedToMakeFireWithWood,
         Burning,
         Regrowable,
         Roastable,
@@ -29,6 +29,7 @@ namespace Engine
         CollectRoot,
         Enterable,
         Crackable,
-        Cracker
+        Cracker,
+        NeedToMakeFireWithStone
     }
 }

@@ -6,6 +6,7 @@ namespace Engine
     public enum Knowledges
     {
         Nothing,
-        CreateSharpStone
+        CreateSharpStone,
+        MakeFireWithStone
     }
 }

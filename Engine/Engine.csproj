@@ -94,7 +94,8 @@
     <Compile Include="Actions\EatAction.cs" />
     <Compile Include="Actions\EnterAction.cs" />
     <Compile Include="Actions\LongActionBase.cs" />
-    <Compile Include="Actions\MakeFire.cs" />
+    <Compile Include="Actions\MakeFireWithStone.cs" />
+    <Compile Include="Actions\MakeFireWithWood.cs" />
     <Compile Include="Actions\PickAction.cs" />
     <Compile Include="Actions\CrackAction.cs" />
     <Compile Include="Actions\RoastAction.cs" />
