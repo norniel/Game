@@ -47,69 +47,71 @@ namespace MonoBrJozik
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var texture = Content.Load<Texture2D>("brush icon");
-            _drawer = new MonoDrawer(spriteBatch, texture);
+            var textures = LoadTextures();
+            _drawer = new MonoDrawer(spriteBatch, textures);
             _game = new Engine.Game(_drawer, (uint)graphics.PreferredBackBufferWidth, (uint)graphics.PreferredBackBufferHeight);
 
 
             // TODO: use this.Content to load your game content here
         }
 
-        private void LoadTextures()
+        private Dictionary<uint, Texture2D> LoadTextures()
         {
             var textureDict = new Dictionary<uint, Texture2D>();
-            Content.Load<Texture2D>("apple tree icon");
-   /*         _appletreeImage = CreateBitmapImage(@"apple tree icon.png");
-            _appletree1Image = CreateBitmapImage(@"apple-tree1 icon.png");
+            textureDict[0x00000100] = Content.Load<Texture2D>("apple tree icon");
+            textureDict[0x00000200] = Content.Load<Texture2D>("apple-tree1 icon");
+            textureDict[0x00000300] = Content.Load<Texture2D>("apple-tree2 icon");
+            textureDict[0x00001100] = Content.Load<Texture2D>("plant icon");
+            textureDict[0x20001100] = Content.Load<Texture2D>("dry plant icon");
+            textureDict[0x10001100] = Content.Load<Texture2D>("growing plant icon");
+            textureDict[0x00001000] = Content.Load<Texture2D>("rock icon2");
+            textureDict[0x00000600] = Content.Load<Texture2D>("fire icon");
+            textureDict[0x00000700] = Content.Load<Texture2D>("apple icon");
+            textureDict[0x00000800] = Content.Load<Texture2D>("branch icon");
+            textureDict[0x00001200] = Content.Load<Texture2D>("brush icon");
 
-            _appletree2Image = CreateBitmapImage(@"apple-tree2 icon.png");
-            _plantImage = CreateBitmapImage(@"plant icon.png");
-            _dryplantImage = CreateBitmapImage(@"dry plant icon.png");
-            _growingPlantImage = CreateBitmapImage(@"growing plant icon.png");
+            textureDict[0x00000900] = Content.Load<Texture2D>("Raspberry icon");
+            textureDict[0x00001300] = Content.Load<Texture2D>("Stone axe icon");
+            textureDict[0x00001400] = Content.Load<Texture2D>("Log icon");
+            textureDict[0x00001500] = Content.Load<Texture2D>("attenuating fire small");
+            textureDict[0x00001600] = Content.Load<Texture2D>("spruce tree");
+            textureDict[0x00001700] = Content.Load<Texture2D>("cone small");
+         //   textureDict[0] = Content.Load<Texture2D>("dikabroyozik small");
+         //   textureDict[0] = Content.Load<Texture2D>("dikabroyozik with bundle small");
+            textureDict[0x00001900] = Content.Load<Texture2D>("mushroom small");
+            textureDict[0x10001900] = Content.Load<Texture2D>("mushroom growing small");
+            textureDict[0x00001A00] = Content.Load<Texture2D>("roasted mushroom small");
 
-            _rockImage = CreateBitmapImage(@"rock icon2.png");
-            _fireImage = CreateBitmapImage(@"fire icon.png");
-            _appleImage = CreateBitmapImage(@"apple icon.png");
-            _branchImage = CreateBitmapImage(@"branch icon.png");
-            _bushImage = CreateBitmapImage(@"brush icon.png");
-            _raspberryImage = CreateBitmapImage(@"Raspberry icon.png");
-            _stoneAxeImage = CreateBitmapImage(@"Stone axe icon.png");
-            _logImage = CreateBitmapImage(@"Log icon.png");
-            _attenuatingFireImage = CreateBitmapImage(@"attenuating fire small.png");
-            _spruceTreeImage = CreateBitmapImage(@"spruce tree.png");
-            _coneImage = CreateBitmapImage(@"cone small.png");
+            textureDict[0x00001B00] = Content.Load<Texture2D>("roasted apple icon");
+            textureDict[0x00001C00] = Content.Load<Texture2D>("twig icon");
+            textureDict[0x00001D00] = Content.Load<Texture2D>("grassbed0");
+            textureDict[0x00001D01] = Content.Load<Texture2D>("grassbed1");
+            textureDict[0x00001D02] = Content.Load<Texture2D>("grassbed2");
+            textureDict[0x00001D03] = Content.Load<Texture2D>("grassbed3");
+            textureDict[0x00002300] = Content.Load<Texture2D>("digging stick icon");
+            textureDict[0x00002200] = Content.Load<Texture2D>("sharp stone icon");
+            textureDict[0x00002400] = Content.Load<Texture2D>("root icon");
+            textureDict[0x00002500] = Content.Load<Texture2D>("nut tree icon");
+            textureDict[0x00002600] = Content.Load<Texture2D>("nut");
 
-            _dikabrozikImage = CreateBitmapImage(@"dikabroyozik small.png");
-            _dikabrozikWithBundleImage = CreateBitmapImage(@"dikabroyozik with bundle small.png");
+            textureDict[0x00001E00] = Content.Load<Texture2D>("Wickiup0 icon");
+            textureDict[0x00001E01] = Content.Load<Texture2D>("Wickiup1 icon");
+            textureDict[0x00001E02] = Content.Load<Texture2D>("Wickiup2 icon");
+            textureDict[0x00001E03] = Content.Load<Texture2D>("Wickiup3 icon");
+            textureDict[0x00001E04] = Content.Load<Texture2D>("Wickiup4 icon");
+            textureDict[0x00001E05] = Content.Load<Texture2D>("Wickiup5 icon");
+            textureDict[0x00001E06] = Content.Load<Texture2D>("Wickiup6 icon");
 
-            _mushroomImage = CreateBitmapImage(@"mushroom small.png");
-            _growingMushroomImage = CreateBitmapImage(@"mushroom growing small.png");
-
-            _roastedMushroomImage = CreateBitmapImage(@"roasted mushroom small.png");
-            _roastedAppleImage = CreateBitmapImage(@"roasted apple icon.png");
-
-            _twigImage = CreateBitmapImage(@"twig icon.png");
-
-            _grassBed0 = CreateBitmapImage(@"grassbed0.png");
-            _grassBed1 = CreateBitmapImage(@"grassbed1.png");
-            _grassBed2 = CreateBitmapImage(@"grassbed2.png");
-            _grassBed3 = CreateBitmapImage(@"grassbed3.png");
-
-            _diggingStickImage = CreateBitmapImage(@"digging stick icon.png");
-            _sharpStoneImage = CreateBitmapImage(@"sharp stone icon.png");
-
-            _rootImage = CreateBitmapImage(@"root icon.png");
-
-            _nutTreeImage = CreateBitmapImage(@"nut tree icon.png");
-            _nutImage = CreateBitmapImage(@"nut.png");
-
-            _wickiupImage0 = CreateBitmapImage(@"Wickiup0 icon.png");
-            _wickiupImage1 = CreateBitmapImage(@"Wickiup1 icon.png");
-            _wickiupImage2 = CreateBitmapImage(@"Wickiup2 icon.png");
-            _wickiupImage3 = CreateBitmapImage(@"Wickiup3 icon.png");
-            _wickiupImage4 = CreateBitmapImage(@"Wickiup4 icon.png");
-            _wickiupImage5 = CreateBitmapImage(@"Wickiup5 icon.png");
-            _wickiupImage6 = CreateBitmapImage(@"Wickiup6 icon.png");*/
+            return textureDict;
+            /*
+            else if ((id / 0x1000) == 0x00018)
+            {
+                DrawRotatedImage(_dikabrozikImage, x, y, id % 0x1000);
+            }
+            else if ((id / 0x1000) == 0x10018)
+            {
+                DrawRotatedImage(_dikabrozikWithBundleImage, x, y, id % 0x1000);
+            }*/
         }
         
         /// <summary>
@@ -142,7 +144,7 @@ namespace MonoBrJozik
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.ForestGreen);
+            GraphicsDevice.Clear(Color.DarkGreen);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();

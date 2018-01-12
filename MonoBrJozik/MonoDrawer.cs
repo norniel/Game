@@ -12,13 +12,13 @@ namespace MonoBrJozik
     class MonoDrawer : IDrawer
     {
         private readonly SpriteBatch _spriteBatch;
-        private Texture2D _texture;
+        private Dictionary<uint, Texture2D> _textures;
         public Func<int, int, List<string>> GetAction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public MonoDrawer(SpriteBatch spriteBatch, Texture2D texture)
+        public MonoDrawer(SpriteBatch spriteBatch, Dictionary<uint, Texture2D> textures)
         {
             _spriteBatch = spriteBatch;
-            _texture = texture;
+            _textures = textures;
         }
 
         public void Clear()
@@ -56,7 +56,30 @@ namespace MonoBrJozik
 
         public void DrawObject(uint id, long x, long y)
         {
-            _spriteBatch.Draw(_texture, new Vector2(x, y), Color.White);
+            Texture2D texture = null;
+            if (_textures.TryGetValue(id, out texture))
+            {
+                _spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
+                return;
+            }
+            /*
+            if (id == 0x00002000)
+            {
+                // _canvas.Children
+                Rectangle rec = new Rectangle() { Fill = Brushes.DarkBlue, Stroke = Brushes.DarkBlue, Height = 20, Width = 20 };
+                _canvas.Children.Add(rec);
+                Canvas.SetLeft(rec, x);
+                Canvas.SetTop(rec, y);
+
+            }
+            else if (id == 0x00002100)
+            {
+                // _canvas.Children
+                Rectangle rec = new Rectangle() { Fill = Brushes.Blue, Stroke = Brushes.Blue, Height = 20, Width = 20 };
+                _canvas.Children.Add(rec);
+                Canvas.SetLeft(rec, x);
+                Canvas.SetTop(rec, y);
+            }*/
         }
 
         public void DrawShaddow(Point innerPoint, Size innerSize)

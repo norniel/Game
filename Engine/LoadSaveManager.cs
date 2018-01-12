@@ -169,6 +169,11 @@ namespace Engine
                 AddPointToTmpListIfNotInRiver(mapTmp, curPoint, deep, tmpList, 0, -1);
                 AddPointToTmpListIfNotInRiver(mapTmp, curPoint, deep, tmpList, 0, 1);
 
+                if (!tmpList.Any())
+                {
+                    return null;
+                }
+
                 var pointIdx = rand.Next(tmpList.Count);
                 mapTmp[tmpList[pointIdx].X, tmpList[pointIdx].Y] = deep;
                 return tmpList[pointIdx];
