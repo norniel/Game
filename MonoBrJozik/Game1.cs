@@ -22,7 +22,6 @@ namespace MonoBrJozik
             graphics.PreferredBackBufferWidth = 564;  // set this value to the desired width of your window
             graphics.PreferredBackBufferHeight = 394;   // set this value to the desired height of your window
             graphics.ApplyChanges();
-
         }
 
         /// <summary>
@@ -50,9 +49,6 @@ namespace MonoBrJozik
             var textures = LoadTextures();
             _drawer = new MonoDrawer(spriteBatch, textures);
             _game = new Engine.Game(_drawer, (uint)graphics.PreferredBackBufferWidth, (uint)graphics.PreferredBackBufferHeight);
-
-
-            // TODO: use this.Content to load your game content here
         }
 
         private Dictionary<uint, Texture2D> LoadTextures()
@@ -76,8 +72,8 @@ namespace MonoBrJozik
             textureDict[0x00001500] = Content.Load<Texture2D>("attenuating fire small");
             textureDict[0x00001600] = Content.Load<Texture2D>("spruce tree");
             textureDict[0x00001700] = Content.Load<Texture2D>("cone small");
-         //   textureDict[0] = Content.Load<Texture2D>("dikabroyozik small");
-         //   textureDict[0] = Content.Load<Texture2D>("dikabroyozik with bundle small");
+            textureDict[0x00018000] = Content.Load<Texture2D>("dikabroyozik small");
+            textureDict[0x10018000] = Content.Load<Texture2D>("dikabroyozik with bundle small");
             textureDict[0x00001900] = Content.Load<Texture2D>("mushroom small");
             textureDict[0x10001900] = Content.Load<Texture2D>("mushroom growing small");
             textureDict[0x00001A00] = Content.Load<Texture2D>("roasted mushroom small");
@@ -102,16 +98,10 @@ namespace MonoBrJozik
             textureDict[0x00001E05] = Content.Load<Texture2D>("Wickiup5 icon");
             textureDict[0x00001E06] = Content.Load<Texture2D>("Wickiup6 icon");
 
+            textureDict[0x00002100] = Content.Load<Texture2D>("blue");
+            textureDict[0x00002000] = Content.Load<Texture2D>("darkblue");
+
             return textureDict;
-            /*
-            else if ((id / 0x1000) == 0x00018)
-            {
-                DrawRotatedImage(_dikabrozikImage, x, y, id % 0x1000);
-            }
-            else if ((id / 0x1000) == 0x10018)
-            {
-                DrawRotatedImage(_dikabrozikWithBundleImage, x, y, id % 0x1000);
-            }*/
         }
         
         /// <summary>
@@ -144,7 +134,7 @@ namespace MonoBrJozik
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DarkGreen);
+            GraphicsDevice.Clear(new Color(0, 80, 0));
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();

@@ -14,7 +14,9 @@ namespace MonoBrJozik
         private readonly SpriteBatch _spriteBatch;
         private Dictionary<uint, Texture2D> _textures;
         public Func<int, int, List<string>> GetAction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
+        private int _drawCount = 0;
+        var _actingString = string.Empty;
+        
         public MonoDrawer(SpriteBatch spriteBatch, Dictionary<uint, Texture2D> textures)
         {
             _spriteBatch = spriteBatch;
@@ -25,8 +27,17 @@ namespace MonoBrJozik
         {}
 
         public void DrawActing(bool showActing)
-        {
-            //throw new NotImplementedException();
+        {            
+            if (showActing)
+            {
+                _drawCount = (_drawCount + 1) % 20;
+                if (_drawCount == 0)
+                {
+                    _actingString = _actingString.Length == 9 ? "Acting." : _actingString.Length == 8 ? "Acting..." : "Acting..";
+                }
+
+               // _spriteBatch.DrawString()
+            }
         }
 
         public void DrawContainer(IEnumerable<MenuItems> objects)
@@ -57,29 +68,23 @@ namespace MonoBrJozik
         public void DrawObject(uint id, long x, long y)
         {
             Texture2D texture = null;
+
+            var origId = (id / 0x1000) * 0x1000;
+            if (origId == 0x00018000 || origId == 0x10018000)
+            {
+                if (!_textures.TryGetValue(origId, out texture))
+                    return; 
+
+                DrawRotatedImage(texture, x, y, id % 0x1000);
+                return;
+            }
+            
             if (_textures.TryGetValue(id, out texture))
             {
+
                 _spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
                 return;
             }
-            /*
-            if (id == 0x00002000)
-            {
-                // _canvas.Children
-                Rectangle rec = new Rectangle() { Fill = Brushes.DarkBlue, Stroke = Brushes.DarkBlue, Height = 20, Width = 20 };
-                _canvas.Children.Add(rec);
-                Canvas.SetLeft(rec, x);
-                Canvas.SetTop(rec, y);
-
-            }
-            else if (id == 0x00002100)
-            {
-                // _canvas.Children
-                Rectangle rec = new Rectangle() { Fill = Brushes.Blue, Stroke = Brushes.Blue, Height = 20, Width = 20 };
-                _canvas.Children.Add(rec);
-                Canvas.SetLeft(rec, x);
-                Canvas.SetTop(rec, y);
-            }*/
         }
 
         public void DrawShaddow(Point innerPoint, Size innerSize)
@@ -90,6 +95,12 @@ namespace MonoBrJozik
         public void DrawSurface(uint p1, uint p2)
         {
             //throw new NotImplementedException();
+        }
+
+        private void DrawRotatedImage(Texture2D texture, long x, long y, uint angle)
+        {
+            var angleInRads = (float)(((float)angle - 90) / 180f * Math.PI);
+            _spriteBatch.Draw(texture, new Vector2(x + texture.Width / 2, y + texture.Height / 2), null, Color.White, angleInRads, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0);
         }
     }
 }
