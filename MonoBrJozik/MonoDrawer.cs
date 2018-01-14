@@ -12,15 +12,18 @@ namespace MonoBrJozik
     class MonoDrawer : IDrawer
     {
         private readonly SpriteBatch _spriteBatch;
-        private Dictionary<uint, Texture2D> _textures;
+        private readonly Dictionary<uint, Texture2D> _textures;
         public Func<int, int, List<string>> GetAction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         private int _drawCount = 0;
-        var _actingString = string.Empty;
-        
-        public MonoDrawer(SpriteBatch spriteBatch, Dictionary<uint, Texture2D> textures)
+        string _actingString = string.Empty;
+        readonly Texture2D _heroTexture;
+        private readonly int _dcenter;
+
+        public MonoDrawer(SpriteBatch spriteBatch, Dictionary<uint, Texture2D> textures, Texture2D heroTexture)
         {
             _spriteBatch = spriteBatch;
             _textures = textures;
+            _heroTexture = heroTexture;
         }
 
         public void Clear()
@@ -52,7 +55,33 @@ namespace MonoBrJozik
 
         public void DrawHero(Point position, double angle, List<Point> pointList, bool isHorizontal)
         {
-            //throw new NotImplementedException();
+            _spriteBatch.Draw(_heroTexture, new Vector2(position.X - _dcenter, position.Y - _dcenter), Color.White);
+
+
+            /*
+            _canvas.Children.Add(_visibleWay);
+            _visWayCollection.Clear();
+
+            System.Windows.Point point = new System.Windows.Point(position.X, position.Y);
+            _visWayCollection.Add(point);
+            foreach (var wayPoint in wayList)
+            {
+                point = new System.Windows.Point(wayPoint.X, wayPoint.Y);
+                _visWayCollection.Add(point);
+            }
+            if (isHorizontal)
+            {
+                _canvas.Children.Add(_horizontalAppearance);
+                Canvas.SetLeft(_horizontalAppearance, position.X - _dcenter);
+                Canvas.SetTop(_horizontalAppearance, position.Y - _dcenter);
+            }
+            else
+            {
+                _canvas.Children.Add(_appearance);
+                Canvas.SetLeft(_appearance, position.X - _dcenter);
+                Canvas.SetTop(_appearance, position.Y - _dcenter);
+                _t.Angle = angle;
+            }*/
         }
 
         public void DrawHeroProperties(IEnumerable<KeyValuePair<string, int>> objects)
@@ -101,6 +130,10 @@ namespace MonoBrJozik
         {
             var angleInRads = (float)(((float)angle - 90) / 180f * Math.PI);
             _spriteBatch.Draw(texture, new Vector2(x + texture.Width / 2, y + texture.Height / 2), null, Color.White, angleInRads, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0);
+        }
+
+        private void DrawHeroVisualWay(List<Point> pointList)
+        {
         }
     }
 }

@@ -32,7 +32,7 @@ namespace MonoBrJozik
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            this.IsMouseVisible = true;
 
             base.Initialize();
         }
@@ -47,7 +47,8 @@ namespace MonoBrJozik
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             var textures = LoadTextures();
-            _drawer = new MonoDrawer(spriteBatch, textures);
+            var heroTexture = Content.Load<Texture2D>("hero");
+            _drawer = new MonoDrawer(spriteBatch, textures, heroTexture);
             _game = new Engine.Game(_drawer, (uint)graphics.PreferredBackBufferWidth, (uint)graphics.PreferredBackBufferHeight);
         }
 
@@ -123,7 +124,11 @@ namespace MonoBrJozik
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            var currentMouseState = Mouse.GetState();
+            if (currentMouseState.LeftButton == ButtonState.Pressed)
+            {
+                _game.LClick(new Engine.Point(currentMouseState.X, currentMouseState.Y));
+            }
 
             base.Update(gameTime);
         }
@@ -135,8 +140,6 @@ namespace MonoBrJozik
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(new Color(0, 80, 0));
-
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
 
             _game.DrawChanges();
