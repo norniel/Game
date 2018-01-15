@@ -18,12 +18,14 @@ namespace MonoBrJozik
         string _actingString = string.Empty;
         readonly Texture2D _heroTexture;
         private readonly int _dcenter;
+        GraphicsDevice _graphicsDevice;
 
-        public MonoDrawer(SpriteBatch spriteBatch, Dictionary<uint, Texture2D> textures, Texture2D heroTexture)
+        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture)
         {
             _spriteBatch = spriteBatch;
             _textures = textures;
             _heroTexture = heroTexture;
+            _graphicsDevice = graphicsDevice;
         }
 
         public void Clear()
@@ -55,9 +57,50 @@ namespace MonoBrJozik
 
         public void DrawHero(Point position, double angle, List<Point> pointList, bool isHorizontal)
         {
-            _spriteBatch.Draw(_heroTexture, new Vector2(position.X - _dcenter, position.Y - _dcenter), Color.White);
+            _spriteBatch.Draw(_heroTexture, new Vector2(position.X - _dcenter, position.Y - _dcenter), null, Color.White, (float)(angle + Math.PI), new Vector2(_heroTexture.Width / 2, _heroTexture.Height / 2), Vector2.One, SpriteEffects.None, 0);
 
+            var pointCount = pointList.Count + 1;
 
+            if (pointCount <= 1)
+                return; 
+
+            var primitiveList = new VertexPositionColor[pointCount];
+
+            primitiveList[0] = new VertexPositionColor(new Vector3(position.X, position.Y, 0), Color.White);
+
+            for (int x = 1; x < pointCount; x++)
+            {
+                    primitiveList[x] = new VertexPositionColor(new Vector3(pointList[x - 1].X, pointList[x - 1].Y, 0), Color.White);
+                
+            }
+
+            var viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
+
+            var projectionMatrix = Matrix.CreateOrthographicOffCenter(
+                0,
+                (float)_graphicsDevice.Viewport.Width,
+                (float)_graphicsDevice.Viewport.Height,
+                0,
+                1.0f, 1000.0f);
+
+            var lineListIndices = new short[(pointCount * 2) - 2];
+
+            // Populate the array with references to indices in the vertex buffer
+            for (int i = 0; i < pointCount - 1; i++)
+            {
+                lineListIndices[i * 2] = (short)(i);
+                lineListIndices[(i * 2) + 1] = (short)(i + 1);
+            }
+
+            _graphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(
+    PrimitiveType.LineList,
+    primitiveList,
+    0,  // vertex buffer offset to add to each element of the index buffer
+    pointCount,  // number of vertices in pointList
+    lineListIndices,  // the index buffer
+    0,  // first index element to read
+    pointCount - 1   // number of primitives to draw
+);
             /*
             _canvas.Children.Add(_visibleWay);
             _visWayCollection.Clear();

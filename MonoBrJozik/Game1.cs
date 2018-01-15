@@ -48,7 +48,7 @@ namespace MonoBrJozik
 
             var textures = LoadTextures();
             var heroTexture = Content.Load<Texture2D>("hero");
-            _drawer = new MonoDrawer(spriteBatch, textures, heroTexture);
+            _drawer = new MonoDrawer(spriteBatch, GraphicsDevice, textures, heroTexture);
             _game = new Engine.Game(_drawer, (uint)graphics.PreferredBackBufferWidth, (uint)graphics.PreferredBackBufferHeight);
         }
 
