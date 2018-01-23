@@ -6,6 +6,7 @@ using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.Tool;
 using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Actions
 {
@@ -28,23 +29,20 @@ namespace Engine.Actions
             return Property.Cutter == property || Property.Branch == property;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var branch = objects.SingleOrDefault(o => o is Branch);
             var stone = objects.SingleOrDefault(ao => ao.Properties.Contains(Property.Cutter));
 
             if (branch == null || stone == null)
-                return true;
+                return new FinishedActionResult();
 
             branch.RemoveFromContainer();
             var diggingStick = new DiggingStick();
 
-            if (!hero.AddToBag(diggingStick))
-            {
-                Game.Map.SetHObjectFromDestination(hero.Position, diggingStick);
-            }
+            Game.AddToGame(hero, diggingStick);
 
-            return true;
+            return new FinishedActionResult();
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

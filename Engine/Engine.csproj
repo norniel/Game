@@ -220,6 +220,7 @@
     <Compile Include="Tools\Point.cs" />
     <Compile Include="Tools\Rect.cs" />
     <Compile Include="Tools\ShadowCasting.cs" />
+    <Compile Include="Tools\ActionResult.cs" />
     <Compile Include="Tools\Size.cs" />
     <Compile Include="Wrapers\RemovableWrapper.cs" />
   </ItemGroup>
@@ -250,6 +251,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resource.ru-RU.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Сonsequences\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

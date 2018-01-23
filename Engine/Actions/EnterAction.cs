@@ -6,6 +6,7 @@ using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.LargeObjects;
 using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Actions
 {
@@ -30,13 +31,13 @@ namespace Engine.Actions
             return property == Property.Enterable;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var innerObject = objects.OfType<Wickiup>().First();
             Game.Map.SetInnerMap(innerObject._map, innerPoint);
 
             innerPoint = null;
-            return true;
+            return new FinishedActionResult();
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

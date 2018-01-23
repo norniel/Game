@@ -4,7 +4,7 @@ using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
-using Engine.Resources;
+using Engine.Tools;
 using Microsoft.Practices.Unity;
 
 namespace Engine.Actions
@@ -31,7 +31,7 @@ namespace Engine.Actions
             return Knowledges.MakeFireWithStone;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var branch = objects.SingleOrDefault(o => o is Branch);
             var plant = objects.SingleOrDefault(o => o is Plant);
@@ -39,7 +39,7 @@ namespace Engine.Actions
 
 
             if (stones.Count < 2 || plant == null || branch == null)
-                return true;
+                return new FinishedActionResult();
 
             branch.RemoveFromContainer();
             plant.RemoveFromContainer();
@@ -47,7 +47,7 @@ namespace Engine.Actions
 
             Map.SetHObjectFromDestination(hero.Position, fire);
 
-            return true;
+            return new FinishedActionResult();
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

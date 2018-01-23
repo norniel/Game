@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using Engine.Tools;
 
 namespace Engine.Interfaces.IActions
 {
@@ -15,7 +15,7 @@ namespace Engine.Interfaces.IActions
 
         bool IsApplicable(Property property);
 
-        bool Do(Hero hero, IEnumerable<GameObject>objects);
+        IActionResult Do(Hero hero, IEnumerable<GameObject>objects);
 
         bool CanDo(Hero hero, IEnumerable<GameObject> objects);
         IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero);

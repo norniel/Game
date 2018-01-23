@@ -8,6 +8,7 @@ using Engine.Objects;
 using Engine.Objects.Food;
 using Engine.Objects.Fruits;
 using Engine.Objects.Tool;
+using Engine.Tools;
 
 namespace Engine.Actions
 {
@@ -65,7 +66,7 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var nut = objects.FirstOrDefault(ao => ao is Nut);
             var stone = objects.FirstOrDefault(ao => ao is Rock);
@@ -74,23 +75,122 @@ namespace Engine.Actions
 
             if (nut == null || stone == null || cracker == null)
             {
-                return true;
+                return new FinishedActionResult();
             }
 
             nut.RemoveFromContainer();
             var nutKernel = new NutKernel();
 
             Game.AddToGame(hero, nutKernel);
+            
+            return new ConseqActionResult(true, SharpStoneConseq(0.5, stone));
+        }
 
-            if (_random.Next(3) == 0)
+        private static Action<Hero> SharpStoneConseq(double prbab, GameObject stone)
+        {
+            return Consequance.Probability(prbab,
+                Consequance.Composite(
+                    CreateSharpStone.Create(stone),
+                    Consequance.AddKnowledge(Knowledges.CreateSharpStone)));
+        }
+
+   /*     
+        class ProbabCompositeConseq : ProbabConseqBase
+        {
+            
+        }
+
+        private abstract class ProbabConseqBase : IConseq
+        {
+            private readonly double _probab;
+
+            public ProbabConseqBase(double probab)
             {
-                stone.RemoveFromContainer();
-                var sharpStone = new SharpStone();
-                Game.AddToGame(hero, sharpStone);
-                hero.AddKnowledge(Knowledges.CreateSharpStone);
+                _probab = probab;
+            }
+            public void Apply(Hero hero)
+            {
+                if (Game.Random.NextDouble() < _probab)
+                {
+                    ApplyImpl(hero);
+                }
             }
 
-            return true;
+            protected abstract void ApplyImpl(Hero hero);
         }
+
+        class CreateObjetConseq : ProbabConseqBase
+        {
+            public GameObject Object { get; set; }
+        }
+
+        class KnowledgeConseq : IConseq
+        {
+            public Knowledges Knowledge { get; set; }
+            public void Apply(Game game)
+            {
+                game.AddKnowledge(Knowledge);
+            }
+        }
+        */
+    }
+
+
+    internal class ConseqActionResult : IActionResult
+    {
+        public ConseqActionResult(bool b, params Action<Hero>[] conseqs)
+        {
+            IsFinished = b;
+            Conseqs = conseqs;
+        }
+
+        public bool IsFinished { get; }
+        public void Apply(Hero hero)
+        {
+            foreach (var conseq in Conseqs)
+            {
+                conseq(hero);
+            }
+        }
+
+        public Action<Hero>[] Conseqs { get; }
+    }
+    /*
+    internal interface IConseq
+    {
+        void Apply(Hero hero);
+    }*/
+
+    static class Consequance
+    {
+        public static Action<Hero> Probability(double prbab, Action<Hero> action)
+        {
+            return hero =>
+            {
+                var random = Game.Random.NextDouble();
+                if (prbab > random) action(hero);
+            };
+        }
+
+        public static Action<Hero> Composite(params Action<Hero>[] actions)
+        {
+            return hero =>
+            {
+                foreach (var action in actions)
+                {
+                    action(hero);
+                }
+            };
+        }
+
+        public static Action<Hero> AddKnowledge(Knowledges knowledge)
+        {
+            return hero =>
+            {
+                hero.AddKnowledge(knowledge);
+            };
+        }
+
     }
 }
+

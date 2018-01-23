@@ -2,6 +2,7 @@
 using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
+using Engine.Tools;
 
 namespace Engine.Actions
 {
@@ -18,7 +19,7 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public virtual bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public virtual IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             if (!_isInitialized)
             {
@@ -44,7 +45,7 @@ namespace Engine.Actions
                 ClearAfterLast();
             }
 
-            return isOver;
+            return isOver ? (IActionResult)new FinishedActionResult() : new UnFinishedActionResult();
         }
 
         protected virtual void Initialize(Hero hero, IEnumerable<GameObject> objects)

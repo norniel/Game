@@ -5,6 +5,7 @@ using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Actions
 {
@@ -34,20 +35,20 @@ namespace Engine.Actions
             return property == Property.Burning;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var burnable = objects.FirstOrDefault(o => o is IBurnable);
             var burning = objects.OfType<IBurning>().FirstOrDefault();
 
             if (burnable == null || burning == null)
             {
-                return true;
+                return new FinishedActionResult();
             }
 
             burning.TimeOfBurning += ((IBurnable)burnable).TimeOfBurning;
             burnable.RemoveFromContainer();
 
-            return true;
+            return new FinishedActionResult();
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

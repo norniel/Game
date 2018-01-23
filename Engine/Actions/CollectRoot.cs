@@ -3,6 +3,7 @@ using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Objects;
+using Engine.Tools;
 
 namespace Engine.Actions
 {
@@ -25,12 +26,12 @@ namespace Engine.Actions
             return 1;
         }
 
-        public override bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public override IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var digger = objects.FirstOrDefault(d => d.Properties.Contains(Property.Digger));
 
             if (digger == null)
-                return true;
+                return new FinishedActionResult();
 
             return base.Do(hero, objects);
         }

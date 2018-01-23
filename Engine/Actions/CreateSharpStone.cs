@@ -6,6 +6,7 @@ using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.Tool;
 using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Actions
 {
@@ -28,22 +29,14 @@ namespace Engine.Actions
             return Property.Stone == property;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var stones = objects.Where(o => o is Rock).Take(2).ToList();
 
             if (stones.Count < 2)
-                return true;
+                return new FinishedActionResult();
 
-            stones.First().RemoveFromContainer();
-            var sharpStone = new SharpStone();
-
-            if (!hero.AddToBag(sharpStone))
-            {
-                Game.Map.SetHObjectFromDestination(hero.Position, sharpStone);
-            }
-
-            return true;
+            return new ConseqActionResult(true, CreateSharpStone.Create(stones.First()));
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
@@ -71,6 +64,16 @@ namespace Engine.Actions
         public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
         {
             return destination;
+        }
+
+        public static Action<Hero> Create(GameObject stone)
+        {
+            return hero =>
+            {
+                stone.RemoveFromContainer();
+                var sharpStone = new SharpStone();
+                Game.AddToGame(hero, sharpStone);
+            };
         }
     }
 }

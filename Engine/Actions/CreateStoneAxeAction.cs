@@ -4,6 +4,7 @@ using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Actions
 {
@@ -27,24 +28,21 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var branch = objects.SingleOrDefault(o => o is Branch);
             var stone = objects.SingleOrDefault(o => o is Rock);
 
             if (branch == null || stone == null)
-                return true;
+                return new FinishedActionResult();
 
             branch.RemoveFromContainer();
             stone.RemoveFromContainer();
             var axe = new StoneAxe();
 
-            if (!hero.AddToBag(axe))
-            {
-                Game.Map.SetHObjectFromDestination(hero.Position, axe);
-            }
+            Game.AddToGame(hero, axe);
 
-            return true;
+            return new FinishedActionResult();
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

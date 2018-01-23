@@ -5,6 +5,7 @@ using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
+using Engine.Tools;
 using Microsoft.Practices.Unity;
 
 namespace Engine.Actions
@@ -31,13 +32,13 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var branches = objects.Where(o => o is Branch).ToList();
             var plant = objects.SingleOrDefault(o => o is Plant);
 
             if (branches.Count != 2 || plant == null)
-                return true;
+                return new FinishedActionResult();
 
             branches.ForEach(b => b.RemoveFromContainer());
             plant.RemoveFromContainer();
@@ -45,7 +46,7 @@ namespace Engine.Actions
 
             Map.SetHObjectFromDestination(hero.Position, fire);
 
-            return true;
+            return new FinishedActionResult();
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

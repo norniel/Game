@@ -4,18 +4,19 @@ using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
+using Engine.Tools;
 
-namespace Engine
+namespace Engine.Actions
 {
     internal class PickAction : IAction
     {
         public string Name => ActionsResource.Pick;
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             hero.AddToBag(objects);
 
-            return true;
+            return new FinishedActionResult();
         }
 
         public Knowledges GetKnowledge()

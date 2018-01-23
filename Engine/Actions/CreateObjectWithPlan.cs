@@ -6,6 +6,7 @@ using Engine.Objects;
 using Engine.Objects.LargeObjects;
 using Engine.Objects.LargeObjects.Builder;
 using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Actions
 {
@@ -40,7 +41,7 @@ namespace Engine.Actions
 
         public abstract bool IsApplicable(Property property);
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             if (!_isInitialized)
             {
@@ -57,7 +58,7 @@ namespace Engine.Actions
                 _isInitialized = false;
             }
 
-            return isOver;
+            return isOver ? (IActionResult)new FinishedActionResult() : new UnFinishedActionResult();
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

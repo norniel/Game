@@ -5,6 +5,7 @@ using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Actions
 {
@@ -31,11 +32,11 @@ namespace Engine.Actions
 
         public abstract bool IsApplicable(Property property);
 
-        public virtual bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public virtual IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             var actionIsNotOver = objects.OfType<IHasSmthToCollect<T>>().Any(hb => Collect(hb, hero));
 
-            return !actionIsNotOver;
+            return actionIsNotOver ? (IActionResult)new UnFinishedActionResult() : new FinishedActionResult();
         }
 
         public abstract bool CanDo(Hero hero, IEnumerable<GameObject> objects);

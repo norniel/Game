@@ -5,6 +5,7 @@ using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
+using Engine.Tools;
 
 namespace Engine.Actions
 {
@@ -27,7 +28,7 @@ namespace Engine.Actions
             return property == Property.Eatable;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             foreach (var removableObject in objects.OfType<IEatable>())
             {
@@ -35,7 +36,7 @@ namespace Engine.Actions
                 (removableObject as GameObject)?.RemoveFromContainer();
             }
 
-            return true;
+            return new FinishedActionResult();
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

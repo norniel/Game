@@ -4,6 +4,7 @@ using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
+using Engine.Tools;
 using Microsoft.Practices.Unity;
 
 namespace Engine.Actions
@@ -30,7 +31,7 @@ namespace Engine.Actions
             return property == Property.Dropable;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
         {
             foreach (var removableObject in objects)
             {
@@ -38,7 +39,7 @@ namespace Engine.Actions
               //  removableObject.RemoveFromContainer();
             }
 
-            return true;
+            return new FinishedActionResult();
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

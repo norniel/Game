@@ -39,12 +39,16 @@
             if (!isFinished)
             {
                 var hero = mobileObject as Hero;
-                isFinished = action.Do(hero, objects);
+                var actionResult = action.Do(hero, objects);
+                isFinished = actionResult.IsFinished;
+                actionResult.Apply(hero);
                 hero.HeroLifeCycle.IncreaseTiredness(action.GetTiredness());
             }
 
-            if(isFinished)
+            if (isFinished)
+            {
                 mobileObject.StateEvent.FireEvent();
+            }
         }
 
         private bool IsNear(Point position, Point destination)
