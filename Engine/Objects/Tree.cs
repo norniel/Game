@@ -27,7 +27,7 @@ namespace Engine
 
         public override void InitializeProperties()
         {
-            this.Properties = new HashSet<Property>
+            Properties = new HashSet<Property>
             {
                 Property.Cuttable,
                 Property.CollectBerries,
@@ -42,9 +42,9 @@ namespace Engine
         {
             var berriesCount = ((IHasSmthToCollect<Berry>) this).GetSmthTotalCount();
 
-            if (_berriesCount > Tree._initialBerriesCount / 2) return this.Id;
+            if (_berriesCount > _initialBerriesCount / 2) return Id;
 
-            if (berriesCount <= Tree._initialBerriesCount / 2 && berriesCount > 0) return 0x00000200;
+            if (berriesCount <= _initialBerriesCount / 2 && berriesCount > 0) return 0x00000200;
 
             return 0x00000300;
         }
@@ -65,9 +65,9 @@ namespace Engine
         {
             _twigCount = totalCount;
 
-            _branchesCount = (int)Math.Ceiling((double)_twigCount / Tree._twigInBranch) == _branchesCount
+            _branchesCount = (int)Math.Ceiling((double)_twigCount / _twigInBranch) == _branchesCount
                 ? _branchesCount
-                : (int)Math.Ceiling((double)_twigCount / Tree._twigInBranch);
+                : (int)Math.Ceiling((double)_twigCount / _twigInBranch);
         }
 
         Twig IHasSmthToCollect<Twig>.GetSmth()
@@ -94,9 +94,9 @@ namespace Engine
         {
             _branchesCount = totalCount;
 
-            _twigCount = (int) Math.Ceiling((double) _twigCount/Tree._twigInBranch) == _branchesCount
+            _twigCount = (int) Math.Ceiling((double) _twigCount/_twigInBranch) == _branchesCount
                 ? _twigCount
-                : (int) Math.Ceiling((double) _branchesCount*Tree._twigInBranch);
+                : (int) Math.Ceiling((double) _branchesCount*_twigInBranch);
         }
 
         Berry IHasSmthToCollect<Berry>.GetSmth()

@@ -25,7 +25,7 @@ namespace Engine.Actions
             return 1;
         }
 
-        public override bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public override bool Do(Hero hero, IList<GameObject> objects)
         {
             var digger = objects.FirstOrDefault(d => d.Properties.Contains(Property.Digger));
 
@@ -35,7 +35,8 @@ namespace Engine.Actions
             return base.Do(hero, objects);
         }
 
-        public override IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public override IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
+            Hero hero)
         {
             var result = base.GetActionsWithNecessaryObjects(objects, hero);
 
@@ -43,14 +44,11 @@ namespace Engine.Actions
 
             if (digger == null)
                 yield break;
-            else
+            foreach (var gameObjects in result)
             {
-                foreach (var gameObjects in result)
-                {
-                    gameObjects.Add(digger);
+                gameObjects.Add(digger);
 
-                    yield return gameObjects;
-                }
+                yield return gameObjects;
             }
         }
     }

@@ -49,7 +49,7 @@ namespace Engine.Objects.Trees
         public override void InitializeProperties()
         {
             base.InitializeProperties();
-            this.Properties.Add(Property.CollectRoot);
+            Properties.Add(Property.CollectRoot);
         }
     }
 }

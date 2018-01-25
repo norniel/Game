@@ -1,6 +1,4 @@
-﻿using System.Data.SqlTypes;
-
-namespace Engine.MapGenerator
+﻿namespace Engine.MapGenerator
 {
     public class CombinedMapGenerator
     {

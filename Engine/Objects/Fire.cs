@@ -6,7 +6,7 @@ namespace Engine.Objects
 {
     internal class Fire : FixedObject, IBurning
     {
-        private ObjectWithState ObjectWithState { get; set; }
+        private ObjectWithState ObjectWithState { get; }
 
         public Fire()
         {
@@ -29,7 +29,7 @@ namespace Engine.Objects
 
         public override void InitializeProperties()
         {
-            this.Properties = new HashSet<Property>
+            Properties = new HashSet<Property>
             {Property.Burning};
         }
 
@@ -39,20 +39,20 @@ namespace Engine.Objects
         public int TimeOfBurning {
             get
             {
-                if (this.ObjectWithState.CurrentState is Firing)
+                if (ObjectWithState.CurrentState is Firing)
                 {
-                    return this.ObjectWithState.TicksToNextState;
+                    return ObjectWithState.TicksToNextState;
                 }
 
                 return 0;
             }
-            set => this.ObjectWithState.ChangeState(0, value);
+            set => ObjectWithState.ChangeState(0, value);
         }
 
         public int LightRadius {
             get
             {
-                if (this.ObjectWithState.CurrentState is Attenuating)
+                if (ObjectWithState.CurrentState is Attenuating)
                     return 1;
 
                 return 3;
@@ -61,17 +61,17 @@ namespace Engine.Objects
 
         public override uint GetDrawingCode()
         {
-            if (this.ObjectWithState.CurrentState is Attenuating)
+            if (ObjectWithState.CurrentState is Attenuating)
                 return 0x00001500;
 
-            return this.Id;
+            return Id;
         }
 
         public void OnLastStateFinished()
         {
-            if (this.RemoveFromContainer != null)
+            if (RemoveFromContainer != null)
             {
-                this.RemoveFromContainer();
+                RemoveFromContainer();
             }
         }
     }

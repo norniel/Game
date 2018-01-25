@@ -24,7 +24,7 @@ namespace Engine
 
         public override uint GetDrawingCode()
         {
-            return this.Id;
+            return Id;
         }
     }
 

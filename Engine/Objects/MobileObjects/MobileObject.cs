@@ -41,7 +41,7 @@ namespace Engine
 
         protected Queue<IState> _stateQueue;
 
-        public StateEvent StateEvent { get; private set; }
+        public StateEvent StateEvent { get; }
 
         public virtual uint Speed { get;set; }
 
@@ -50,7 +50,7 @@ namespace Engine
         public int ViewRadius { get; set; }
 
         public Size ViewSight { get; set; }
-        public List<Point> PointList { get; private set; }
+        public List<Point> PointList { get; }
 
         public IObservable<EventPattern<StateEventArgs>> States => staSubject;
 

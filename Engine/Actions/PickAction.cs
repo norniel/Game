@@ -11,7 +11,7 @@ namespace Engine
     {
         public string Name => ActionsResource.Pick;
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public bool Do(Hero hero, IList<GameObject> objects)
         {
             hero.AddToBag(objects);
 
@@ -28,7 +28,7 @@ namespace Engine
             return objects.All(x => x.Properties.Contains(Property.Pickable));// && hero.HasEmpptyContainer;
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             yield return objects.Where(x => x.Properties.Contains(Property.Pickable)).ToList();// && hero.HasEmpptyContainer;
         }

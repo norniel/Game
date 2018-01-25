@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using Engine.Heros;
-using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.Trees;
 using Engine.Resources;
-using Engine.Wrapers;
 using Microsoft.Practices.Unity;
 
 namespace Engine.Actions
@@ -57,8 +54,6 @@ namespace Engine.Actions
             cuttableObject.RemoveFromContainer();
 
             Map.SetHObjectFromDestination(hero.Position, new Log());
-            return;
-
         }
 
         protected override int TotalActionTime => 4;
@@ -68,7 +63,8 @@ namespace Engine.Actions
             return objects.All(o => o.Properties.Contains(Property.Cuttable));
         }
 
-        public override IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public override IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
+            Hero hero)
         {
             var cuttableObject = objects.FirstOrDefault(o => o.Properties.Contains(Property.Cuttable));
 

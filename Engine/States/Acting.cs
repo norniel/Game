@@ -1,50 +1,51 @@
-﻿namespace Engine.States
+﻿using System;
+using System.Collections.Generic;
+using Engine.Heros;
+using Engine.Interfaces.IActions;
+using Engine.Objects;
+
+namespace Engine.States
 {
-    using System;
-    using System.Collections.Generic;
-    using Heros;
-    using Objects;
-    using Wrapers;
-   //this state only for hero
+    //this state only for hero
     class Acting : IState
     {
-        private MobileObject mobileObject;
-        private Interfaces.IActions.IAction action;
-        private Point destination;
-        private IEnumerable<GameObject> objects;
-        private const uint maxTimeStamp = 500;
-        private uint timestamp;
+        private readonly MobileObject _mobileObject;
+        private readonly IAction _action;
+        private readonly Point _destination;
+        private readonly IList<GameObject> _objects;
+        private const uint MAX_TIME_STAMP = 500;
+        private uint _timestamp;
 
-        public Acting(MobileObject mobileObject, Interfaces.IActions.IAction action, Point destination, IEnumerable<GameObject> objects)
+        public Acting(MobileObject mobileObject, IAction action, Point destination, IList<GameObject> objects)
         {
             // TODO: Complete member initialization
-            this.mobileObject = mobileObject;
-            this.action = action;
-            this.destination = destination;
-            this.objects = objects;
-            timestamp = maxTimeStamp;
+            _mobileObject = mobileObject;
+            _action = action;
+            _destination = destination;
+            _objects = objects;
+            _timestamp = MAX_TIME_STAMP;
         }
         //public event StateHandler NextState;
         public void Act()
         {
-            if (timestamp < maxTimeStamp)
+            if (_timestamp < MAX_TIME_STAMP)
             {
-                timestamp += mobileObject.Speed;
+                _timestamp += _mobileObject.Speed;
                 return;
             }
 
-            timestamp = 0;
+            _timestamp = 0;
 
-            bool isFinished = !IsNear(mobileObject.Position, destination);
+            bool isFinished = !IsNear(_mobileObject.Position, _destination);
             if (!isFinished)
             {
-                var hero = mobileObject as Hero;
-                isFinished = action.Do(hero, objects);
-                hero.HeroLifeCycle.IncreaseTiredness(action.GetTiredness());
+                var hero = _mobileObject as Hero;
+                isFinished = _action.Do(hero, _objects);
+                hero?.HeroLifeCycle.IncreaseTiredness(_action.GetTiredness());
             }
 
             if(isFinished)
-                mobileObject.StateEvent.FireEvent();
+                _mobileObject.StateEvent.FireEvent();
         }
 
         private bool IsNear(Point position, Point destination)

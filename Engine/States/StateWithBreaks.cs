@@ -7,17 +7,17 @@
 
         public StateWithBreaks()
         {
-            this.timestamp = maxTimeStamp;
+            timestamp = maxTimeStamp;
         }
         protected bool TickBreak()
         {
-            if (this.timestamp < maxTimeStamp)
+            if (timestamp < maxTimeStamp)
             {
-                this.timestamp += 2;
+                timestamp += 2;
                 return false;
             }
 
-            this.timestamp = 0;
+            timestamp = 0;
 
             return true;
         }

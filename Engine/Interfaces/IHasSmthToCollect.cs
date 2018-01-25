@@ -1,7 +1,7 @@
-﻿namespace Engine.Interfaces
+﻿using Engine.Objects;
+
+namespace Engine.Interfaces
 {
-    using Objects;
-    
     interface IHasSmthToCollect<out T> where T: GameObject
     {
         int GetSmthPerCollectCount();

@@ -5,7 +5,7 @@
         private readonly LargeObjectInner _innerObject;
         public Point PlaceInObject { get; }
 
-        public bool IsTransparent { get; private set; }
+        public bool IsTransparent { get; }
 
         public LargeObjectOuterAbstract(LargeObjectInner largeObjectInner, Point placeInObject, bool isTransparent)
         {

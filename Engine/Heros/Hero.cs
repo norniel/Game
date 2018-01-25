@@ -1,13 +1,13 @@
-﻿using Engine.Resources;
+﻿using System;
+using System.Collections.Generic;
+using Engine.Interfaces;
+using Engine.Interfaces.IActions;
+using Engine.Objects;
+using Engine.Resources;
+using Engine.States;
 
 namespace Engine.Heros
 {
-    using System;
-    using System.Collections.Generic;
-    using Interfaces;
-    using Interfaces.IActions;
-    using Objects;
-    using States;
     public class Hero : MobileObject, IPicker, IEater
     {
       //  private Subject<EventPattern<StateEventArgs>> staSubject = new Subject<EventPattern<StateEventArgs>>();
@@ -26,7 +26,7 @@ namespace Engine.Heros
 
         private bool _isThen;
 
-        private HashSet<Knowledges> _knowledgeses = new HashSet<Knowledges> {Knowledges.Nothing};
+        private readonly HashSet<Knowledges> _knowledgeses = new HashSet<Knowledges> {Knowledges.Nothing};
 
         public Hero()
         {
@@ -75,11 +75,6 @@ namespace Engine.Heros
             _bag.Add(objects);
         }
 
-        public void GetFromBag()
-        {
-
-        }
-
         public List<GameObject> GetContainerItems()
         {
             return _bag.GameObjects;
@@ -99,11 +94,11 @@ namespace Engine.Heros
         */
         public Hero Then()
         {
-            this._isThen = true;
+            _isThen = true;
             return this;
         }
 
-        public void StartActing(IAction action, Point destination, IEnumerable<GameObject> objects)
+        public void StartActing(IAction action, Point destination, IList<GameObject> objects)
         {
             using (new StateFirer(this))
             {
@@ -135,12 +130,12 @@ namespace Engine.Heros
 
         public void Eat(int satiety)
         {
-            this.HeroLifeCycle.Eat(satiety);
+            HeroLifeCycle.Eat(satiety);
         }
 
         public IEnumerable<KeyValuePair<string, int>> GetProperties()
         {
-            return new List<KeyValuePair<string, int>>()
+            return new List<KeyValuePair<string, int>>
             {
                 new KeyValuePair<string, int>(HeroResource.Health, _heroLifeCycle.HeroProperties.Health),
                 new KeyValuePair<string, int>(HeroResource.Satiety, _heroLifeCycle.HeroProperties.Satiety),
@@ -160,7 +155,7 @@ namespace Engine.Heros
             _stateQueue.Enqueue(new Sleeping(this));
         }
 
-        public void FallUnconscios()
+        private void FallUnconscios()
         {
             _stateQueue.Clear();
             _stateQueue.Enqueue(new Unconscios(this));

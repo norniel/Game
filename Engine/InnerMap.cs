@@ -68,12 +68,12 @@ namespace Engine
 
                 if (gameObject == _map[cell.X, cell.Y])
                 {
-                    this.SetObjectFromCell(cell, null);
+                    SetObjectFromCell(cell, null);
                 }
 
                 if (gameObject.Properties.Contains(Property.Regrowable) && gameObject is ICloneable)
                 {
-                    this.SetObjectFromCell(this.GetRandomNearEmptyPoint(cell, 3), (FixedObject)(gameObject as ICloneable).Clone());
+                    SetObjectFromCell(GetRandomNearEmptyPoint(cell, 3), (FixedObject)(gameObject as ICloneable).Clone());
                 }
             });
 
@@ -99,7 +99,7 @@ namespace Engine
             while (nearestPoints.Any())
             {
                 var p = random.Next(nearestPoints.Count);
-                if (this.GetObjectFromCell(nearestPoints[p]) == null)
+                if (GetObjectFromCell(nearestPoints[p]) == null)
                 {
                     return nearestPoints[p];
                 }

@@ -11,7 +11,7 @@ namespace Engine.States
         }
         public void Act()
         {
-            if (!this.TickBreak())
+            if (!TickBreak())
             {
                 return;
             }

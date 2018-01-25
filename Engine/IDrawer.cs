@@ -27,6 +27,6 @@ namespace Engine
 
         void DrawDayNight(double lightness, GameDateTime gameDateTime, List<BurningProps> lightObjects);
 
-        void DrawShaddow(Engine.Point innerPoint, Engine.Size innerSize);
+        void DrawShaddow(Point innerPoint, Size innerSize);
     }
 }

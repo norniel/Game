@@ -18,7 +18,7 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public virtual bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public virtual bool Do(Hero hero, IList<GameObject> objects)
         {
             if (!_isInitialized)
             {
@@ -62,7 +62,8 @@ namespace Engine.Actions
 
         public abstract bool CanDo(Hero hero, IEnumerable<GameObject> objects);
 
-        public abstract IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero);
+        public abstract IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
+            Hero hero);
         public abstract double GetTiredness();
 
         protected abstract int ElapsedActionTime { get; set; }

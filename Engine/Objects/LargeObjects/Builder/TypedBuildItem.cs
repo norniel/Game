@@ -6,8 +6,8 @@ namespace Engine.Objects.LargeObjects.Builder
     {
         public TypedBuildItem(int percentPerItem)
         {
-            CheckObject = (gameObject) => gameObject is T;
-            CheckObjects = (objects) => objects.Any(CheckObject);
+            CheckObject = gameObject => gameObject is T;
+            CheckObjects = objects => objects.Any(CheckObject);
             PercentPerItem = percentPerItem;
         }
     }

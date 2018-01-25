@@ -8,11 +8,11 @@ namespace Engine.States
         public Sleeping(Hero hero)
         {
             _hero = hero;
-            this.timestamp = 0;
+            timestamp = 0;
         }
         public void Act()
         {
-            if (!this.TickBreak())
+            if (!TickBreak())
             {
                 return;
             }

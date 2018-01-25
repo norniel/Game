@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Linq;
 
 namespace Engine.MapGenerator
@@ -27,12 +26,12 @@ namespace Engine.MapGenerator
             {
                 for (int j = 0; j < resultMap.GetLength(1); j++)
                 {
-                    var distances = seedPoints.Select(p => this.GetDistance(p.X, p.Y, i, j)).OrderBy(d => d).ToList();
+                    var distances = seedPoints.Select(p => GetDistance(p.X, p.Y, i, j)).OrderBy(d => d).ToList();
                     resultMap[i,j] = distances[1] - distances[0];
                 }
             }
 
-            resultMap = this.NormalizeMap(resultMap);
+            resultMap = NormalizeMap(resultMap);
 
             return resultMap;
         }

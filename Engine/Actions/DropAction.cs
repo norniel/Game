@@ -30,7 +30,7 @@ namespace Engine.Actions
             return property == Property.Dropable;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public bool Do(Hero hero, IList<GameObject> objects)
         {
             foreach (var removableObject in objects)
             {
@@ -46,7 +46,7 @@ namespace Engine.Actions
             return objects.All(x => x.Properties.Contains(Property.Dropable));
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             yield return objects.Where(x => x.Properties.Contains(Property.Dropable)).ToList();
         }

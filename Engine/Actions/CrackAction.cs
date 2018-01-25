@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Engine.Heros;
-using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.Food;
@@ -15,11 +14,11 @@ namespace Engine.Actions
     {
         public string Name => "Crack";
 
-        private Random _random = new Random();
+        private readonly Random _random = new Random();
 
         public string GetName(IEnumerable<GameObject> objects)
         {
-            return string.Format("Crack {0}", objects.OfType<Nut>().First().Name);
+            return $"Crack {objects.OfType<Nut>().First().Name}";
         }
 
         public bool IsApplicable(Property property)
@@ -31,10 +30,10 @@ namespace Engine.Actions
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var allObjects =
                 objects.Union(hero.GetContainerItems()).ToList();
@@ -65,11 +64,13 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public bool Do(Hero hero, IEnumerable<GameObject> objects)
+        public bool Do(Hero hero, IList<GameObject> objects)
         {
-            var nut = objects.FirstOrDefault(ao => ao is Nut);
-            var stone = objects.FirstOrDefault(ao => ao is Rock);
-            var cracker = objects.Where(ao => ao != stone)
+            var gameObjects = objects as GameObject[] ?? objects.ToArray();
+
+            var nut = gameObjects.FirstOrDefault(ao => ao is Nut);
+            var stone = gameObjects.FirstOrDefault(ao => ao is Rock);
+            var cracker = gameObjects.Where(ao => ao != stone)
                 .FirstOrDefault(ao => ao.Properties.Contains(Property.Cracker));
 
             if (nut == null || stone == null || cracker == null)

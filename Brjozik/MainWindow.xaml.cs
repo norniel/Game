@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Game;
+using Point = Engine.Point;
 
 namespace Brjozik
 {
@@ -38,12 +39,12 @@ namespace Brjozik
 
         private void canvas1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _game.LClick(new Engine.Point((int)e.GetPosition(this).X, (int)e.GetPosition(this).Y));
+            _game.LClick(new Point((int)e.GetPosition(this).X, (int)e.GetPosition(this).Y));
         }
 
         private void canvas1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _game.RClick(new Engine.Point((int)e.GetPosition(this).X, (int)e.GetPosition(this).Y));
+            _game.RClick(new Point((int)e.GetPosition(this).X, (int)e.GetPosition(this).Y));
         }
     }
 }

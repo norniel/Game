@@ -8,9 +8,9 @@ using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
-using Microsoft.Practices.Unity;
 using Engine.Objects.LargeObjects;
 using Engine.Properties;
+using Microsoft.Practices.Unity;
 
 namespace Engine
 {
@@ -54,7 +54,7 @@ namespace Engine
 
         private readonly IDrawer _drawer;
 
-        private IActionRepository ActionRepository { get; set; }
+        private IActionRepository ActionRepository { get; }
 
        // private readonly StateQueueManager _stateQueueManager;
 
@@ -79,7 +79,7 @@ namespace Engine
 
             Intervals = Observable.Interval(TimeSpan.FromMilliseconds(TimeStep));
             _unityContainer = new UnityContainer();
-            this.RegisterInUnityContainer();
+            RegisterInUnityContainer();
 
             StateQueueManager = _unityContainer.Resolve<StateQueueManager>();
             Map = _unityContainer.Resolve<Map>();            
@@ -144,7 +144,7 @@ namespace Engine
 
         private void ShowActions(Point destination)
         {
-            this._drawer.DrawMenu(destination.X, destination.Y, GetActions(destination));
+            _drawer.DrawMenu(destination.X, destination.Y, GetActions(destination));
         }
 
         private IEnumerable<ClientAction> GetActions(Point visibleDestination)
@@ -191,13 +191,13 @@ namespace Engine
         }
 
         private void MoveAndDoAction(IAction action, Point destination,
-            IEnumerable<GameObject> objects)
+            IList<GameObject> objects)
         {
             _hero.StartMove(destination, Map.GetEasiestWay(_hero.Position, destination));
             _hero.Then().StartActing(action, destination, objects);
         }
 
-        private void DoAction(IAction action, IEnumerable<GameObject> objects)
+        private void DoAction(IAction action, IList<GameObject> objects)
         {
             _hero.StartActing(action, null, objects);
         }
@@ -256,7 +256,7 @@ namespace Engine
             }
             else
             {
-                _drawer.DrawDayNight(this._dayNightCycle.Lightness(), this._dayNightCycle.CurrentGameDate, lightObjectsList);
+                _drawer.DrawDayNight(_dayNightCycle.Lightness(), _dayNightCycle.CurrentGameDate, lightObjectsList);
             }
 
             _drawer.DrawActing(_hero.State.ShowActing);
@@ -265,9 +265,9 @@ namespace Engine
                 .GroupBy(go => go.Name,
                     (name, gos) =>
                     new MenuItems {
-                        Name = String.Format("{0}({1})", name, gos.Count()),
+                        Name = $"{name}({gos.Count()})",
                         Id = gos.First().Id,
-                        GetClientActions = this.GetFuncForClientActions(gos.First())
+                        GetClientActions = GetFuncForClientActions(gos.First())
                     });
 
             _drawer.DrawContainer(groupedItems);
@@ -309,7 +309,7 @@ namespace Engine
         {
             if (!hero.AddToBag(gameObject))
             {
-                Game.Map.SetHObjectFromDestination(hero.Position, gameObject);
+                Map.SetHObjectFromDestination(hero.Position, gameObject);
             }
         }
     }

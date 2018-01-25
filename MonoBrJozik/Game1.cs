@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
+using Point = Engine.Point;
 
 namespace MonoBrJozik
 {
@@ -10,18 +11,18 @@ namespace MonoBrJozik
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        readonly GraphicsDeviceManager _graphics;
+        SpriteBatch _spriteBatch;
         private Engine.Game _game;
         private MonoDrawer _drawer;
         
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 564;  // set this value to the desired width of your window
-            graphics.PreferredBackBufferHeight = 394;   // set this value to the desired height of your window
-            graphics.ApplyChanges();
+            _graphics.PreferredBackBufferWidth = 564;  // set this value to the desired width of your window
+            _graphics.PreferredBackBufferHeight = 394;   // set this value to the desired height of your window
+            _graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace MonoBrJozik
         /// </summary>
         protected override void Initialize()
         {
-            this.IsMouseVisible = true;
+            IsMouseVisible = true;
 
             base.Initialize();
         }
@@ -44,63 +45,66 @@ namespace MonoBrJozik
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             var textures = LoadTextures();
             var heroTexture = Content.Load<Texture2D>("hero");
-            _drawer = new MonoDrawer(spriteBatch, GraphicsDevice, textures, heroTexture);
-            _game = new Engine.Game(_drawer, (uint)graphics.PreferredBackBufferWidth, (uint)graphics.PreferredBackBufferHeight);
+            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture);
+            _game = new Engine.Game(_drawer, (uint)_graphics.PreferredBackBufferWidth, (uint)_graphics.PreferredBackBufferHeight);
         }
 
         private Dictionary<uint, Texture2D> LoadTextures()
         {
-            var textureDict = new Dictionary<uint, Texture2D>();
-            textureDict[0x00000100] = Content.Load<Texture2D>("apple tree icon");
-            textureDict[0x00000200] = Content.Load<Texture2D>("apple-tree1 icon");
-            textureDict[0x00000300] = Content.Load<Texture2D>("apple-tree2 icon");
-            textureDict[0x00001100] = Content.Load<Texture2D>("plant icon");
-            textureDict[0x20001100] = Content.Load<Texture2D>("dry plant icon");
-            textureDict[0x10001100] = Content.Load<Texture2D>("growing plant icon");
-            textureDict[0x00001000] = Content.Load<Texture2D>("rock icon2");
-            textureDict[0x00000600] = Content.Load<Texture2D>("fire icon");
-            textureDict[0x00000700] = Content.Load<Texture2D>("apple icon");
-            textureDict[0x00000800] = Content.Load<Texture2D>("branch icon");
-            textureDict[0x00001200] = Content.Load<Texture2D>("brush icon");
+            var textureDict =
+                new Dictionary<uint, Texture2D>
+                {
+                    [0x00000100] = Content.Load<Texture2D>("apple tree icon"),
+                    [0x00000200] = Content.Load<Texture2D>("apple-tree1 icon"),
+                    [0x00000300] = Content.Load<Texture2D>("apple-tree2 icon"),
+                    [0x00001100] = Content.Load<Texture2D>("plant icon"),
+                    [0x20001100] = Content.Load<Texture2D>("dry plant icon"),
+                    [0x10001100] = Content.Load<Texture2D>("growing plant icon"),
+                    [0x00001000] = Content.Load<Texture2D>("rock icon2"),
+                    [0x00000600] = Content.Load<Texture2D>("fire icon"),
+                    [0x00000700] = Content.Load<Texture2D>("apple icon"),
+                    [0x00000800] = Content.Load<Texture2D>("branch icon"),
+                    [0x00001200] = Content.Load<Texture2D>("brush icon"),
+                    [0x00000900] = Content.Load<Texture2D>("Raspberry icon"),
+                    [0x00001300] = Content.Load<Texture2D>("Stone axe icon"),
+                    [0x00001400] = Content.Load<Texture2D>("Log icon"),
+                    [0x00001500] = Content.Load<Texture2D>("attenuating fire small"),
+                    [0x00001600] = Content.Load<Texture2D>("spruce tree"),
+                    [0x00001700] = Content.Load<Texture2D>("cone small"),
+                    [0x00018000] = Content.Load<Texture2D>("dikabroyozik small"),
+                    [0x10018000] = Content.Load<Texture2D>("dikabroyozik with bundle small"),
+                    [0x00001900] = Content.Load<Texture2D>("mushroom small"),
+                    [0x10001900] = Content.Load<Texture2D>("mushroom growing small"),
+                    [0x00001A00] = Content.Load<Texture2D>("roasted mushroom small"),
+                    [0x00001B00] = Content.Load<Texture2D>("roasted apple icon"),
+                    [0x00001C00] = Content.Load<Texture2D>("twig icon"),
+                    [0x00001D00] = Content.Load<Texture2D>("grassbed0"),
+                    [0x00001D01] = Content.Load<Texture2D>("grassbed1"),
+                    [0x00001D02] = Content.Load<Texture2D>("grassbed2"),
+                    [0x00001D03] = Content.Load<Texture2D>("grassbed3"),
+                    [0x00002300] = Content.Load<Texture2D>("digging stick icon"),
+                    [0x00002200] = Content.Load<Texture2D>("sharp stone icon"),
+                    [0x00002400] = Content.Load<Texture2D>("root icon"),
+                    [0x00002500] = Content.Load<Texture2D>("nut tree icon"),
+                    [0x00002600] = Content.Load<Texture2D>("nut"),
+                    [0x00001E00] = Content.Load<Texture2D>("Wickiup0 icon"),
+                    [0x00001E01] = Content.Load<Texture2D>("Wickiup1 icon"),
+                    [0x00001E02] = Content.Load<Texture2D>("Wickiup2 icon"),
+                    [0x00001E03] = Content.Load<Texture2D>("Wickiup3 icon"),
+                    [0x00001E04] = Content.Load<Texture2D>("Wickiup4 icon"),
+                    [0x00001E05] = Content.Load<Texture2D>("Wickiup5 icon"),
+                    [0x00001E06] = Content.Load<Texture2D>("Wickiup6 icon"),
+                    [0x00002100] = Content.Load<Texture2D>("blue"),
+                    [0x00002000] = Content.Load<Texture2D>("darkblue")
+                };
 
-            textureDict[0x00000900] = Content.Load<Texture2D>("Raspberry icon");
-            textureDict[0x00001300] = Content.Load<Texture2D>("Stone axe icon");
-            textureDict[0x00001400] = Content.Load<Texture2D>("Log icon");
-            textureDict[0x00001500] = Content.Load<Texture2D>("attenuating fire small");
-            textureDict[0x00001600] = Content.Load<Texture2D>("spruce tree");
-            textureDict[0x00001700] = Content.Load<Texture2D>("cone small");
-            textureDict[0x00018000] = Content.Load<Texture2D>("dikabroyozik small");
-            textureDict[0x10018000] = Content.Load<Texture2D>("dikabroyozik with bundle small");
-            textureDict[0x00001900] = Content.Load<Texture2D>("mushroom small");
-            textureDict[0x10001900] = Content.Load<Texture2D>("mushroom growing small");
-            textureDict[0x00001A00] = Content.Load<Texture2D>("roasted mushroom small");
 
-            textureDict[0x00001B00] = Content.Load<Texture2D>("roasted apple icon");
-            textureDict[0x00001C00] = Content.Load<Texture2D>("twig icon");
-            textureDict[0x00001D00] = Content.Load<Texture2D>("grassbed0");
-            textureDict[0x00001D01] = Content.Load<Texture2D>("grassbed1");
-            textureDict[0x00001D02] = Content.Load<Texture2D>("grassbed2");
-            textureDict[0x00001D03] = Content.Load<Texture2D>("grassbed3");
-            textureDict[0x00002300] = Content.Load<Texture2D>("digging stick icon");
-            textureDict[0x00002200] = Content.Load<Texture2D>("sharp stone icon");
-            textureDict[0x00002400] = Content.Load<Texture2D>("root icon");
-            textureDict[0x00002500] = Content.Load<Texture2D>("nut tree icon");
-            textureDict[0x00002600] = Content.Load<Texture2D>("nut");
 
-            textureDict[0x00001E00] = Content.Load<Texture2D>("Wickiup0 icon");
-            textureDict[0x00001E01] = Content.Load<Texture2D>("Wickiup1 icon");
-            textureDict[0x00001E02] = Content.Load<Texture2D>("Wickiup2 icon");
-            textureDict[0x00001E03] = Content.Load<Texture2D>("Wickiup3 icon");
-            textureDict[0x00001E04] = Content.Load<Texture2D>("Wickiup4 icon");
-            textureDict[0x00001E05] = Content.Load<Texture2D>("Wickiup5 icon");
-            textureDict[0x00001E06] = Content.Load<Texture2D>("Wickiup6 icon");
 
-            textureDict[0x00002100] = Content.Load<Texture2D>("blue");
-            textureDict[0x00002000] = Content.Load<Texture2D>("darkblue");
 
             return textureDict;
         }
@@ -127,7 +131,7 @@ namespace MonoBrJozik
             var currentMouseState = Mouse.GetState();
             if (currentMouseState.LeftButton == ButtonState.Pressed)
             {
-                _game.LClick(new Engine.Point(currentMouseState.X, currentMouseState.Y));
+                _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
             }
 
             base.Update(gameTime);
@@ -140,11 +144,11 @@ namespace MonoBrJozik
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(new Color(0, 80, 0));
-            spriteBatch.Begin();
+            _spriteBatch.Begin();
 
             _game.DrawChanges();
 
-            spriteBatch.End();
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
