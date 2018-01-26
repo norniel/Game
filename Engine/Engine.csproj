@@ -167,7 +167,7 @@
     <Compile Include="Objects\LargeObjects\Wickiup.cs" />
     <Compile Include="Objects\Log.cs" />
     <Compile Include="Objects\MobileObjects\MobileObject.cs" />
-    <Compile Include="Objects\Mushroom.cs" />
+    <Compile Include="Objects\Mushrooms\Mushroom.cs" />
     <Compile Include="Objects\ObjectWithState.cs" />
     <Compile Include="Objects\Plant.cs" />
     <Compile Include="Objects\RaspBerries.cs" />

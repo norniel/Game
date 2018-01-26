@@ -9,7 +9,7 @@ namespace Engine
         private int _totalSeconds;
         public DayNightCycle()
         {
-            _startGameDate = new GameDateTime(0,0,0,3,0);
+            _startGameDate = new GameDateTime(0,0,0,8,0);
             _currentGameDate = _startGameDate;
         }
 

@@ -51,10 +51,7 @@ namespace Engine.Objects
 
         public void OnLastStateFinished()
         {
-            if (this.RemoveFromContainer != null)
-            {
-                this.RemoveFromContainer();
-            }
+            RemoveFromContainer?.Invoke();
         }
 
         public object Clone()
