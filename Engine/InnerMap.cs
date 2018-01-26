@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Engine.Interfaces;
 using Engine.Objects.LargeObjects;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace Engine
 {
@@ -48,11 +47,11 @@ namespace Engine
 
             if (largeObjectInner != null)
             {
-                largeObjectInner.OuterObjects.ForEach(outerObject =>
+                foreach(var outerObject in largeObjectInner.OuterObjects)
                 {
                     var outerO = outerObject;
                     SetObjectFromCell(new Point(cell.X + outerO.PlaceInObject.X, cell.Y + outerO.PlaceInObject.Y), outerO);
-                });
+                }
 
                 return;
             }

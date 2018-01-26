@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Engine.Objects.LargeObjects.Builder;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace Engine.Objects.LargeObjects
 {
@@ -21,7 +20,7 @@ namespace Engine.Objects.LargeObjects
             _builderPlanLazy = new Lazy<BuilderPlan>(GetBuilderPlan, true);
             RemoveFromContainer = (() =>
             {
-                OuterObjects.ForEach(oo => oo.RemoveFromContainer());
+                foreach(var oo in OuterObjects) oo.RemoveFromContainer();
             });
         }
   

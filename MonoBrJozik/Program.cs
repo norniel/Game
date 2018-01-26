@@ -1,20 +1,19 @@
-﻿using System;
+#region Using Statements
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using MonoBrJozik;
+#endregion
 
 namespace MonoBrJozik
 {
-    /// <summary>
-    /// The main class.
-    /// </summary>
-    public static class Program
-    {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            using (var game = new Game1())
-                game.Run();
-        }
-    }
+	public static class Program
+	{
+		static void Main (string [] args)
+		{
+			using (var game = new Game1 ()) {
+				game.Run ();
+			}
+		}
+	}
 }
