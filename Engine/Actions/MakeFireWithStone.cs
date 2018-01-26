@@ -4,7 +4,7 @@ using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
-using Microsoft.Practices.Unity;
+using Unity.Attributes;
 
 namespace Engine.Actions
 {

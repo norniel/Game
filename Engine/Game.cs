@@ -9,8 +9,8 @@ using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.LargeObjects;
-using Engine.Properties;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Lifetime;
 
 namespace Engine
 {
@@ -58,7 +58,7 @@ namespace Engine
 
        // private readonly StateQueueManager _stateQueueManager;
 
-        private UnityContainer _unityContainer;
+       private UnityContainer _unityContainer;
 
         //todo - change to lazy
         internal static StateQueueManager StateQueueManager;
@@ -107,23 +107,19 @@ namespace Engine
             _unityContainer.RegisterInstance(typeof (StateQueueManager), new StateQueueManager());
             _unityContainer.RegisterType(typeof(IActionRepository), typeof(ActionRepository), new ContainerControlledLifetimeManager());
 
-            _unityContainer.RegisterTypes(
-                Assembly.GetExecutingAssembly().GetTypes().Where(
-                type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type)),
-                WithMappings.FromAllInterfacesInSameAssembly,//t => new[] { typeof(IAction) },
-                t => t.FullName,
-                WithLifetime.PerResolve);
+            foreach(var type in Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type))){
+                _unityContainer.RegisterType(typeof(IAction), type, new ContainerControlledTransientManager() );
+            }
+
+
+            //_unityContainer.RegisterTypes(
+                //Assembly.GetExecutingAssembly().GetTypes().Where(
+                //),
+                //WithMappings.FromAllInterfacesInSameAssembly,//t => new[] { typeof(IAction) },
+                //t => t.FullName,
+                //WithLifetime.PerResolve);
         }
 
-        private void LoadSettings()
-        {
-            Settings.Default.Reload();
-        }
-
-        private void SaveSettings()
-        {
-            Settings.Default.Save();
-        }
 
         public void LClick(Point visibleDestination)
         {
