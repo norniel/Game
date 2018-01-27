@@ -58,9 +58,9 @@ namespace MonoBrJozik
             var textureDict =
                 new Dictionary<uint, Texture2D>
                 {
-                    [0x00000100] = Content.Load<Texture2D>("apple tree icon"),
-                    [0x00000200] = Content.Load<Texture2D>("apple-tree1 icon"),
-                    [0x00000300] = Content.Load<Texture2D>("apple-tree2 icon"),
+                    [0x00000100] = Content.Load<Texture2D>("apple tree icon_w"),
+                    [0x00000200] = Content.Load<Texture2D>("apple-tree1 icon_w"),
+                    [0x00000300] = Content.Load<Texture2D>("apple-tree2 icon_w"),
                     [0x00001100] = Content.Load<Texture2D>("plant icon"),
                     [0x20001100] = Content.Load<Texture2D>("dry plant icon"),
                     [0x10001100] = Content.Load<Texture2D>("growing plant icon"),
@@ -73,7 +73,7 @@ namespace MonoBrJozik
                     [0x00001300] = Content.Load<Texture2D>("Stone axe icon"),
                     [0x00001400] = Content.Load<Texture2D>("Log icon"),
                     [0x00001500] = Content.Load<Texture2D>("attenuating fire small"),
-                    [0x00001600] = Content.Load<Texture2D>("spruce tree"),
+                    [0x00001600] = Content.Load<Texture2D>("spruce tree_w"),
                     [0x00001700] = Content.Load<Texture2D>("cone small"),
                     [0x00018000] = Content.Load<Texture2D>("dikabroyozik small"),
                     [0x10018000] = Content.Load<Texture2D>("dikabroyozik with bundle small"),
@@ -89,7 +89,7 @@ namespace MonoBrJozik
                     [0x00002300] = Content.Load<Texture2D>("digging stick icon"),
                     [0x00002200] = Content.Load<Texture2D>("sharp stone icon"),
                     [0x00002400] = Content.Load<Texture2D>("root icon"),
-                    [0x00002500] = Content.Load<Texture2D>("nut tree icon"),
+                    [0x00002500] = Content.Load<Texture2D>("nut tree icon_w"),
                     [0x00002600] = Content.Load<Texture2D>("nut"),
                     [0x00001E00] = Content.Load<Texture2D>("Wickiup0 icon"),
                     [0x00001E01] = Content.Load<Texture2D>("Wickiup1 icon"),

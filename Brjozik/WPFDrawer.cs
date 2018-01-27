@@ -303,7 +303,7 @@ namespace Game
             }
         }
 
-        public void DrawObject(uint id, long x, long y)
+        public void DrawObject(uint id, long x, long y, int height)
         {
             if (id == 0x00000100)
             {
@@ -763,9 +763,6 @@ namespace Game
 
         private void DrawRotatedImage(BitmapImage bitmapImage, long x, long y, uint number)
         {
-            var appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
-            Canvas.SetTop(_appearance, 0);
-            Canvas.SetLeft(_appearance, 0);
             var image = new Image();
             image.Source = bitmapImage;
             image.RenderTransform = new RotateTransform((int)number - 90);

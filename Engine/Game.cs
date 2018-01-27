@@ -209,26 +209,30 @@ namespace Engine
             var visibleCells = Map.RectToCellRect(Map.VisibleRect);
 
             var lightObjectsList = new List<BurningProps>();
-                
-            //var mapSize = _map.GetSize();
-            for (int i = visibleCells.Left; i < visibleCells.Left + visibleCells.Width; i++)
-            {
-                for (int j = visibleCells.Top; j < visibleCells.Top+ visibleCells.Height; j++)
-                {
-                    var gameObject = Map.GetHObjectFromCell(new Point(i, j));
 
+            //var mapSize = _map.GetSize();
+            for (int j = visibleCells.Top; j < visibleCells.Top + visibleCells.Height; j++)
+            {
+                for (int i = visibleCells.Left; i < visibleCells.Left + visibleCells.Width; i++)
+                {                    
+                    var gameObject = Map.GetHObjectFromCell(new Point(i, j));
 
                     if (gameObject == null) continue;
                     if (gameObject is LargeObjectOuterAbstract largeObjectOuter && !largeObjectOuter.isLeftCorner)
                         continue;
 
                     var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
-                    _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y);
+                    _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y, gameObject.Height);
 
                     if (gameObject is IBurning burnable)
                     {
                         lightObjectsList.Add(new BurningProps(visibleDestination, burnable.LightRadius));
                     }
+                }
+
+                if ((j * Map.CellMeasure <= _hero.Position.Y) && ((j + 1) * Map.CellMeasure > _hero.Position.Y))
+                {
+                   _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
                 }
             }
 
@@ -238,11 +242,11 @@ namespace Engine
                 if (Map.PointInVisibleRect(mobileObject.Position))
                 {
                     var visibleDestination = Map.GetVisibleDestinationFromRealDestination(mobileObject.Position);
-                    _drawer.DrawObject(mobileObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y);
+                    _drawer.DrawObject(mobileObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y, mobileObject.Height);
                 }
             }
 
-            _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
+          //  _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
 
             if (IsHeroInInnerMap())
             {

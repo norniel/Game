@@ -16,6 +16,8 @@ namespace Engine
 
         private const int _twigInBranch = 4;
 
+        public override int Height => 2;
+        
         public Tree()
         {
             IsPassable = false;

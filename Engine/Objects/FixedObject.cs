@@ -8,6 +8,8 @@ namespace Engine
 
         public Size Size { get; protected set; }
 
+        public virtual int Height => 1;
+        
         public FixedObject()
         {
             IsPassable = true;

@@ -13,7 +13,7 @@ namespace Engine
 
         void DrawHero( Point position, double angle, List<Point> pointList, bool isHorizontal);
 
-        void DrawObject( uint id, long x, long y);
+        void DrawObject( uint id, long x, long y, int height);
 
         void DrawSurface(uint p1, uint p2);
 

@@ -142,7 +142,7 @@ namespace MonoBrJozik
             //throw new NotImplementedException();
         }
 
-        public void DrawObject(uint id, long x, long y)
+        public void DrawObject(uint id, long x, long y, int height)
         {
             Texture2D texture = null;
 
@@ -158,6 +158,8 @@ namespace MonoBrJozik
             
             if (_textures.TryGetValue(id, out texture))
             {
+                if (height > 1)
+                    y = y - 20*(height - 1);
 
                 _spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
             }
