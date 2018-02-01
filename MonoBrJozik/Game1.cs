@@ -15,14 +15,11 @@ namespace MonoBrJozik
         SpriteBatch _spriteBatch;
         private Engine.Game _game;
         private MonoDrawer _drawer;
-        
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _graphics.PreferredBackBufferWidth = 564;  // set this value to the desired width of your window
-            _graphics.PreferredBackBufferHeight = 394;   // set this value to the desired height of your window
-            _graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -49,8 +46,14 @@ namespace MonoBrJozik
 
             var textures = LoadTextures();
             var heroTexture = Content.Load<Texture2D>("hero");
-            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture);
-            _game = new Engine.Game(_drawer, (uint)_graphics.PreferredBackBufferWidth, (uint)_graphics.PreferredBackBufferHeight);
+            var screenTexture = Content.Load<Texture2D>("green-paper2");
+            var heroPropTextures = LoadHeroTextures();
+            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures);
+            _game = new Engine.Game(_drawer, (uint)MonoDrawer.SCREEN_WIDTH, (uint)MonoDrawer.SCREEN_HEIGHT);
+
+            _graphics.PreferredBackBufferWidth = MonoDrawer.SCREEN_WIDTH;  // set this value to the desired width of your window
+            _graphics.PreferredBackBufferHeight = MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT;   // set this value to the desired height of your window
+            _graphics.ApplyChanges();
         }
 
         private Dictionary<uint, Texture2D> LoadTextures()
@@ -73,7 +76,7 @@ namespace MonoBrJozik
                     [0x00001300] = Content.Load<Texture2D>("Stone axe icon"),
                     [0x00001400] = Content.Load<Texture2D>("Log icon"),
                     [0x00001500] = Content.Load<Texture2D>("attenuating fire small"),
-                    [0x00001600] = Content.Load<Texture2D>("spruce tree_w"),
+                    [0x00001600] = Content.Load<Texture2D>("spruce tree1 small"),//("finetree"),//("spruce tree_w"),
                     [0x00001700] = Content.Load<Texture2D>("cone small"),
                     [0x00018000] = Content.Load<Texture2D>("dikabroyozik small"),
                     [0x10018000] = Content.Load<Texture2D>("dikabroyozik with bundle small"),
@@ -102,13 +105,20 @@ namespace MonoBrJozik
                     [0x00002000] = Content.Load<Texture2D>("darkblue")
                 };
 
+            return textureDict;
+        }
 
-
-
+        private Dictionary<string, Texture2D> LoadHeroTextures()
+        {
+            var textureDict =
+                new Dictionary<string, Texture2D>
+                {
+                    ["health"] = Content.Load<Texture2D>("heart small")
+                };
 
             return textureDict;
         }
-        
+
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// game-specific content.

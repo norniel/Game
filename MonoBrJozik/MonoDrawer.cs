@@ -15,6 +15,7 @@ namespace MonoBrJozik
     {
         private readonly SpriteBatch _spriteBatch;
         private readonly Dictionary<uint, Texture2D> _textures;
+        private readonly Dictionary<string, Texture2D> _heroPropTextures;
 
         public Func<int, int, List<string>> GetAction
         {
@@ -24,15 +25,22 @@ namespace MonoBrJozik
         private int _drawCount;
         private string _actingString = string.Empty;
         private readonly Texture2D _heroTexture;
+        private readonly Texture2D _screenTexture;
         private readonly int _dcenter;
         private readonly GraphicsDevice _graphicsDevice;
 
-        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture)
+        public const int SCREEN_WIDTH = 564;
+        public const int SCREEN_HEIGHT = 394;
+        public const int HEALTH_BAR_HEIGHT = 35;
+
+        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures)
         {
             _spriteBatch = spriteBatch;
             _textures = textures;
             _heroTexture = heroTexture;
+            _screenTexture = screenTexture;
             _graphicsDevice = graphicsDevice;
+            _heroPropTextures = heroPropTextures;
         }
 
         public void Clear()
@@ -134,13 +142,20 @@ namespace MonoBrJozik
 
         public void DrawHeroProperties(IEnumerable<KeyValuePair<string, int>> objects)
         {
-            //throw new NotImplementedException();
+            Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Color[] c = new Color[1];
+            c[0] = Color.LightGray;
+            texture.SetData<Color>(c);
+            _spriteBatch.Draw(texture, new Rectangle(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT + HEALTH_BAR_HEIGHT), Color.White);
+
+            if (_heroPropTextures.TryGetValue("health", out texture))
+            {
+                _spriteBatch.Draw(texture, new Vector2(0, SCREEN_HEIGHT), Color.White);
+            }
         }
 
         public void DrawMenu(int x, int y, IEnumerable<ClientAction> actions)
-        {
-            //throw new NotImplementedException();
-        }
+        {}
 
         public void DrawObject(uint id, long x, long y, int height)
         {
@@ -172,7 +187,11 @@ namespace MonoBrJozik
 
         public void DrawSurface(uint p1, uint p2)
         {
-            //throw new NotImplementedException();
+           /*    Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+               Color[] c = new Color[1];
+               c[0] = new Color(0, 80, 0); 
+               texture.SetData<Color>(c);*/
+               _spriteBatch.Draw(_screenTexture, new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), Color.White);
         }
 
         private void DrawRotatedImage(Texture2D texture, long x, long y, uint angle)
