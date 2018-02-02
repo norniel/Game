@@ -48,7 +48,8 @@ namespace MonoBrJozik
             var heroTexture = Content.Load<Texture2D>("hero");
             var screenTexture = Content.Load<Texture2D>("green-paper2");
             var heroPropTextures = LoadHeroTextures();
-            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures);
+            var font = Content.Load<SpriteFont>("Font");
+            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures, font);
             _game = new Engine.Game(_drawer, (uint)MonoDrawer.SCREEN_WIDTH, (uint)MonoDrawer.SCREEN_HEIGHT);
 
             _graphics.PreferredBackBufferWidth = MonoDrawer.SCREEN_WIDTH;  // set this value to the desired width of your window
@@ -76,7 +77,7 @@ namespace MonoBrJozik
                     [0x00001300] = Content.Load<Texture2D>("Stone axe icon"),
                     [0x00001400] = Content.Load<Texture2D>("Log icon"),
                     [0x00001500] = Content.Load<Texture2D>("attenuating fire small"),
-                    [0x00001600] = Content.Load<Texture2D>("spruce tree1 small"),//("finetree"),//("spruce tree_w"),
+                    [0x00001600] = Content.Load<Texture2D>("spruce tree5 small"),//("finetree"),//("spruce tree_w"),
                     [0x00001700] = Content.Load<Texture2D>("cone small"),
                     [0x00018000] = Content.Load<Texture2D>("dikabroyozik small"),
                     [0x10018000] = Content.Load<Texture2D>("dikabroyozik with bundle small"),
@@ -113,7 +114,7 @@ namespace MonoBrJozik
             var textureDict =
                 new Dictionary<string, Texture2D>
                 {
-                    ["health"] = Content.Load<Texture2D>("heart small")
+                    ["Health"] = Content.Load<Texture2D>("heart small")
                 };
 
             return textureDict;

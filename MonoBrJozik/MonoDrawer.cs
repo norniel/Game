@@ -26,6 +26,7 @@ namespace MonoBrJozik
         private string _actingString = string.Empty;
         private readonly Texture2D _heroTexture;
         private readonly Texture2D _screenTexture;
+        private readonly SpriteFont _font;
         private readonly int _dcenter;
         private readonly GraphicsDevice _graphicsDevice;
 
@@ -33,7 +34,7 @@ namespace MonoBrJozik
         public const int SCREEN_HEIGHT = 394;
         public const int HEALTH_BAR_HEIGHT = 35;
 
-        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures)
+        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font)
         {
             _spriteBatch = spriteBatch;
             _textures = textures;
@@ -41,6 +42,7 @@ namespace MonoBrJozik
             _screenTexture = screenTexture;
             _graphicsDevice = graphicsDevice;
             _heroPropTextures = heroPropTextures;
+            _font = font;
         }
 
         public void Clear()
@@ -76,6 +78,10 @@ namespace MonoBrJozik
             texture.SetData<Color>(c);
 
             _spriteBatch.Draw(texture, new Rectangle(0, 0, 564, 394), Color.Black);
+
+            var timeOfDay = $"{gameDateTime.Day}:{gameDateTime.Hour}:{gameDateTime.Minute}";
+            var timeStrLength = _font.MeasureString(timeOfDay);
+            _spriteBatch.DrawString(_font, timeOfDay, new Vector2(SCREEN_WIDTH - timeStrLength.X - 2, SCREEN_HEIGHT + 20), Color.Black);
         }
 
         public void DrawHero(Point position, double angle, List<Point> pointList, bool isHorizontal)
@@ -142,15 +148,17 @@ namespace MonoBrJozik
 
         public void DrawHeroProperties(IEnumerable<KeyValuePair<string, int>> objects)
         {
-            Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            Color[] c = new Color[1];
-            c[0] = Color.LightGray;
-            texture.SetData<Color>(c);
-            _spriteBatch.Draw(texture, new Rectangle(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT + HEALTH_BAR_HEIGHT), Color.White);
-
-            if (_heroPropTextures.TryGetValue("health", out texture))
+            Texture2D texture;
+            var i = 0;
+            foreach (var heroProp in objects)
             {
-                _spriteBatch.Draw(texture, new Vector2(0, SCREEN_HEIGHT), Color.White);
+                if (_heroPropTextures.TryGetValue(heroProp.Key, out texture))
+                {
+                    _spriteBatch.Draw(texture, new Vector2(2 + 70*i, SCREEN_HEIGHT + 2), Color.White);
+                    
+                }
+                _spriteBatch.DrawString(_font, $"({heroProp.Value})", new Vector2(2 + 70 * i+ 33, SCREEN_HEIGHT + 20), Color.Black);
+                    i++;
             }
         }
 
@@ -187,11 +195,19 @@ namespace MonoBrJozik
 
         public void DrawSurface(uint p1, uint p2)
         {
-           /*    Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+               Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
                Color[] c = new Color[1];
-               c[0] = new Color(0, 80, 0); 
-               texture.SetData<Color>(c);*/
-               _spriteBatch.Draw(_screenTexture, new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), Color.White);
+               c[0] = new Color(23, 90, 0); 
+               texture.SetData<Color>(c);//_screenTexture
+            _spriteBatch.Draw(texture, new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), Color.White);
+
+            Texture2D texture2 = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Color[] c2 = new Color[1];
+            c2[0] = Color.LightGray;
+            texture2.SetData<Color>(c2);
+            _spriteBatch.Draw(texture2, new Rectangle(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT + HEALTH_BAR_HEIGHT), Color.White);
+
+
         }
 
         private void DrawRotatedImage(Texture2D texture, long x, long y, uint angle)
