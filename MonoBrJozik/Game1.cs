@@ -114,7 +114,8 @@ namespace MonoBrJozik
             var textureDict =
                 new Dictionary<string, Texture2D>
                 {
-                    ["Health"] = Content.Load<Texture2D>("heart small")
+                    ["Health"] = Content.Load<Texture2D>("heart small"),
+                    ["Tiredness"] = Content.Load<Texture2D>("tired small")
                 };
 
             return textureDict;
