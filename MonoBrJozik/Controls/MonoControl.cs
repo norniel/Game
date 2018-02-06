@@ -6,8 +6,8 @@ namespace MonoBrJozik.Controls
 {
     internal abstract class MonoControl
     {
-        public int LeftTopX { get; protected set; }
-        public int LeftTopY { get; protected set; }
+        public int LeftTopX { get; set; }
+        public int LeftTopY { get; set; }
 
         public int RightBottomX => LeftTopX + Width;
         public int RightBottomY => LeftTopY + Height;

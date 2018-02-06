@@ -6,6 +6,7 @@ using Engine.BridgeObjects;
 using Engine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoBrJozik.Controls;
 using MoreLinq;
 using Point = Engine.Point;
 
@@ -27,6 +28,7 @@ namespace MonoBrJozik
         private readonly Texture2D _heroTexture;
         private readonly Texture2D _screenTexture;
         private readonly SpriteFont _font;
+        private readonly MonoMenu _menu;
         private readonly int _dcenter;
         private readonly GraphicsDevice _graphicsDevice;
 
@@ -34,7 +36,7 @@ namespace MonoBrJozik
         public const int SCREEN_HEIGHT = 394;
         public const int HEALTH_BAR_HEIGHT = 35;
 
-        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font)
+        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu)
         {
             _spriteBatch = spriteBatch;
             _textures = textures;
@@ -43,6 +45,7 @@ namespace MonoBrJozik
             _graphicsDevice = graphicsDevice;
             _heroPropTextures = heroPropTextures;
             _font = font;
+            _menu = menu;
         }
 
         public void Clear()
@@ -163,7 +166,45 @@ namespace MonoBrJozik
         }
 
         public void DrawMenu(int x, int y, IEnumerable<ClientAction> actions)
-        {}
+        {
+            Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Color[] c = new Color[1];
+            c[0] = Color.LightBlue;
+            texture.SetData<Color>(c);
+
+            var infoList = actions.Select(act => new MonoItemInfo(texture, null, act.Name)).ToList();
+
+            _menu.Show(infoList, x, y, SCREEN_WIDTH, SCREEN_HEIGHT + HEALTH_BAR_HEIGHT);
+         /*   if (_canvas.ContextMenu == null)
+            {
+                _canvas.ContextMenu = new ContextMenu();
+            }
+
+            var cm = _canvas.ContextMenu;
+            if (cm != null)
+            {
+                if (cm.IsOpen)
+                    cm.IsOpen = false;
+
+                cm.Items.Clear();
+
+                foreach (var act in actions)
+                {
+                    var action = act;
+                    var menuItem = new MenuItem
+                    {
+                        Header = action.Name,
+                        IsEnabled = action.CanDo
+                    };
+
+                    menuItem.Click += (sender, args) => action.Do();
+
+                    cm.Items.Add(menuItem);
+                }
+
+                cm.IsOpen = true;
+            }*/
+        }
 
         public void DrawObject(uint id, long x, long y, int height)
         {

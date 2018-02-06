@@ -8,15 +8,14 @@ namespace MonoBrJozik.Controls
 {
     internal class MonoMenu: MonoListControl
     {
+        private readonly SpriteFont _font;
         private int Offset => 10;
+        private int OffsetItems => 2;
         public bool IsShown { get; private set; }
 
-        public MonoMenu(List<MonoControl> monoControls, int parentX, int parentY, int screenWidth, int screenHeight):base(monoControls)
+        public MonoMenu(SpriteFont font)
         {
-            LeftTopX = parentX + Offset + Width >= screenWidth ? parentX - Offset - Width : parentX + Offset;
-
-            var minY = Math.Max(0, parentY - Height / 2);
-            LeftTopY = minY + Height >= screenHeight ? screenHeight - Height - Offset : minY;
+            _font = font;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -29,6 +28,9 @@ namespace MonoBrJozik.Controls
 
         public bool MouseLClick(MouseState mouseState)
         {
+            if (!IsShown)
+                return false;
+
             var result = base.MouseClick(mouseState);
 
             Clear();
@@ -37,6 +39,9 @@ namespace MonoBrJozik.Controls
 
         public bool MouseRClick(MouseState mouseState)
         {
+            if (!IsShown)
+                return false;
+
             return base.MouseClick(mouseState);
         }
 
@@ -46,10 +51,42 @@ namespace MonoBrJozik.Controls
             childControls.Clear();
         }
 
-        public void Show(List<MonoControl> monoControls)
+        public void Show(List<MonoItemInfo> monoItemInfos, int parentX, int parentY, int screenWidth, int screenHeight)
         {
             if(IsShown)
                 Clear();
+
+            var x = 0;
+            var y = 0;
+            var width = 0;
+            var height = 0;
+
+            var monoItems = monoItemInfos.Select(info =>
+            {
+                var monoItem = new MonoItem(info, _font, x, y);
+                height = OffsetItems + monoItem.Height;
+                y = height;
+                width = Math.Max(width, monoItem.Width);
+                return monoItem;
+            }).ToList();
+
+            childControls.AddRange(monoItems);
+
+            Height = height;
+            Width = width;
+
+            LeftTopX = parentX + Offset + Width >= screenWidth ? parentX - Offset - Width : parentX + Offset;
+
+            var minY = Math.Max(0, parentY - Height / 2);
+            LeftTopY = minY + Height >= screenHeight ? screenHeight - Height - Offset : minY;
+
+            childControls.ForEach(ctrl =>
+            {
+                ctrl.LeftTopX = LeftTopX;
+                ctrl.LeftTopY = LeftTopY + ctrl.LeftTopY;
+            });
+
+            IsShown = true;
         }
     }
 }

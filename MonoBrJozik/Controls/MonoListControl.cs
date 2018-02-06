@@ -7,12 +7,15 @@ namespace MonoBrJozik.Controls
 {
     internal class MonoListControl:MonoControl
     {
+        public MonoListControl()
+        {}
+
         protected MonoListControl(List<MonoControl> monoControls)
         {
-            childControls = monoControls;
+            childControls.AddRange(monoControls);
         }
         
-        protected readonly List<MonoControl> childControls;
+        protected readonly List<MonoControl> childControls = new List<MonoControl>();
         public MonoListControl(List<MonoControl> monoControls, int x, int y, int width, int height) : base(x, y, width, height)
         {
             childControls = monoControls;

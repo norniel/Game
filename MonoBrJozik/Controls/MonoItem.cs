@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -6,32 +7,57 @@ namespace MonoBrJozik.Controls
 {
     internal class MonoItem : MonoControl
     {
+        private const int _innerOffset = 2;
+        private const int _textOffset = 5;
+        private readonly SpriteFont _font;
         private readonly Texture2D _texture;
         private readonly Texture2D _innerTexture;
         private readonly string _text;
 
-        public SpriteFont Font { get; set; }
-
-        public MonoItem(Texture2D texture, Texture2D innerTexture, string text)
+        public MonoItem(MonoItemInfo itemInfo, SpriteFont font, int x, int y)
         {
-            _texture = texture;
-            _innerTexture = innerTexture;
-            _text = text;
+            LeftTopX = x;
+            LeftTopY = y;
+            _font = font;
+            _texture = itemInfo.Texture;
+            _innerTexture = itemInfo.InnerTexture;
+            _text = itemInfo.Text;
+
+            var height = 0;
+            var width = 0;
+
+            if (_innerTexture != null)
+            {
+                height = _innerOffset + _innerTexture.Height;
+                width = _innerTexture.Width + _innerOffset;
+            }
+
+            if (_text != null)
+            {
+                var stringSize = _font.MeasureString(_text);
+                width = width + _innerOffset + (int)stringSize.X;
+                height = Math.Max(height, 2 * _textOffset + (int) stringSize.Y);
+            }
+
+            Height = height + _innerOffset;
+            Width = width + _innerOffset;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(_texture, new Rectangle(LeftTopX, LeftTopY, Width, Height), Color.White);
+
             spriteBatch.Draw(_texture, new Vector2(LeftTopX, LeftTopY), Color.White);
-            var textOffset = 0;
+            var textResultOffset = 0;
 
             if (_innerTexture != null)
             {
-                spriteBatch.Draw(_innerTexture, new Vector2(LeftTopX + 2, LeftTopY + 2), Color.White);
-                textOffset = _innerTexture.Width + 2;
+                spriteBatch.Draw(_innerTexture, new Vector2(LeftTopX + _innerOffset, LeftTopY + _innerOffset), Color.White);
+                textResultOffset = _innerTexture.Width + _innerOffset;
             }
             
             if(_text != null)
-                spriteBatch.DrawString(Font, _text, new Vector2(LeftTopX + textOffset + 5, LeftTopY + 10), Color.Black);
+                spriteBatch.DrawString(_font, _text, new Vector2(LeftTopX + textResultOffset + 5, LeftTopY + 10), Color.Black);
         }
 
         public override bool MouseClick(MouseState mouseState)

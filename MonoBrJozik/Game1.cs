@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoBrJozik.Controls;
 using Point = Engine.Point;
 
 namespace MonoBrJozik
@@ -15,6 +16,7 @@ namespace MonoBrJozik
         SpriteBatch _spriteBatch;
         private Engine.Game _game;
         private MonoDrawer _drawer;
+        private MonoMenu _menu;
 
         public Game1()
         {
@@ -49,8 +51,11 @@ namespace MonoBrJozik
             var screenTexture = Content.Load<Texture2D>("green-paper2");
             var heroPropTextures = LoadHeroTextures();
             var font = Content.Load<SpriteFont>("Font");
-            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures, font);
+            _menu = new MonoMenu(font);
+
+            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures, font, _menu);
             _game = new Engine.Game(_drawer, (uint)MonoDrawer.SCREEN_WIDTH, (uint)MonoDrawer.SCREEN_HEIGHT);
+
 
             _graphics.PreferredBackBufferWidth = MonoDrawer.SCREEN_WIDTH;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT;   // set this value to the desired height of your window
@@ -143,7 +148,18 @@ namespace MonoBrJozik
             var currentMouseState = Mouse.GetState();
             if (currentMouseState.LeftButton == ButtonState.Pressed)
             {
-                _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
+                if (!_menu.MouseLClick(currentMouseState))
+                {
+                    _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
+                }
+            }
+
+            if (currentMouseState.RightButton == ButtonState.Pressed)
+            {
+                if (!_menu.MouseRClick(currentMouseState))
+                {
+                    _game.RClick(new Point(currentMouseState.X, currentMouseState.Y));
+                }
             }
 
             base.Update(gameTime);
@@ -157,8 +173,10 @@ namespace MonoBrJozik
         {
             GraphicsDevice.Clear(new Color(0, 80, 0));
             _spriteBatch.Begin();
-
+           
             _game.DrawChanges();
+
+            _menu.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
