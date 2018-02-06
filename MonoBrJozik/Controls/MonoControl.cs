@@ -28,10 +28,20 @@ namespace MonoBrJozik.Controls
             Height = height;
         }
 
-        public virtual bool MouseClick(MouseState mouseState)
+        public virtual bool IsInside(MouseState mouseState)
         {
             return mouseState.X >= LeftTopX && mouseState.X < RightBottomX && mouseState.Y >= LeftTopY &&
                    mouseState.Y < RightBottomY;
+        }
+
+        public virtual bool MouseLClick(MouseState mouseState)
+        {
+            return IsInside(mouseState);
+        }
+
+        public virtual bool MouseRClick(MouseState mouseState)
+        {
+            return IsInside(mouseState);
         }
 
         public abstract void Draw(SpriteBatch spriteBatch);

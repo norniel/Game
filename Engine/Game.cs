@@ -108,7 +108,7 @@ namespace Engine
             _unityContainer.RegisterType(typeof(IActionRepository), typeof(ActionRepository), new ContainerControlledLifetimeManager());
 
             foreach(var type in Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type))){
-                _unityContainer.RegisterType(typeof(IAction), type, new ContainerControlledTransientManager() );
+                _unityContainer.RegisterType(typeof(IAction), type, type.ToString(), new ContainerControlledTransientManager(), null);
             }
 
 

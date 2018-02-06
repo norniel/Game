@@ -26,23 +26,23 @@ namespace MonoBrJozik.Controls
             base.Draw(spriteBatch);
         }
 
-        public bool MouseLClick(MouseState mouseState)
+        public override bool MouseLClick(MouseState mouseState)
         {
             if (!IsShown)
                 return false;
 
-            var result = base.MouseClick(mouseState);
+            var result = base.MouseLClick(mouseState);
 
             Clear();
             return result;
         }
 
-        public bool MouseRClick(MouseState mouseState)
+        public override bool MouseRClick(MouseState mouseState)
         {
             if (!IsShown)
                 return false;
 
-            return base.MouseClick(mouseState);
+            return base.MouseRClick(mouseState);
         }
 
         public void Clear()
@@ -64,7 +64,7 @@ namespace MonoBrJozik.Controls
             var monoItems = monoItemInfos.Select(info =>
             {
                 var monoItem = new MonoItem(info, _font, x, y);
-                height = OffsetItems + monoItem.Height;
+                height = height + OffsetItems + monoItem.Height;
                 y = height;
                 width = Math.Max(width, monoItem.Width);
                 return monoItem;

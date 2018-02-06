@@ -21,14 +21,24 @@ namespace MonoBrJozik.Controls
             childControls = monoControls;
         }
 
-        public override bool MouseClick(MouseState mouseState)
+        public override bool MouseLClick(MouseState mouseState)
         {
-            if (!base.MouseClick(mouseState))
+            if (!base.MouseLClick(mouseState))
             {
                 return false;
             }
 
-            return childControls.Any(ctrl => ctrl.MouseClick(mouseState));
+            return childControls.Any(ctrl => ctrl.MouseLClick(mouseState));
+        }
+
+        public override bool MouseRClick(MouseState mouseState)
+        {
+            if (!base.MouseRClick(mouseState))
+            {
+                return false;
+            }
+
+            return childControls.Any(ctrl => ctrl.MouseRClick(mouseState));
         }
 
         public override void Draw(SpriteBatch spriteBatch) => childControls.ForEach(ctrl => ctrl.Draw(spriteBatch));

@@ -10,6 +10,7 @@ namespace MonoBrJozik.Controls
         private const int _innerOffset = 2;
         private const int _textOffset = 5;
         private readonly SpriteFont _font;
+        private readonly Action _action;
         private readonly Texture2D _texture;
         private readonly Texture2D _innerTexture;
         private readonly string _text;
@@ -19,6 +20,7 @@ namespace MonoBrJozik.Controls
             LeftTopX = x;
             LeftTopY = y;
             _font = font;
+            _action = itemInfo.Action;
             _texture = itemInfo.Texture;
             _innerTexture = itemInfo.InnerTexture;
             _text = itemInfo.Text;
@@ -47,7 +49,6 @@ namespace MonoBrJozik.Controls
         {
             spriteBatch.Draw(_texture, new Rectangle(LeftTopX, LeftTopY, Width, Height), Color.White);
 
-            spriteBatch.Draw(_texture, new Vector2(LeftTopX, LeftTopY), Color.White);
             var textResultOffset = 0;
 
             if (_innerTexture != null)
@@ -57,14 +58,17 @@ namespace MonoBrJozik.Controls
             }
             
             if(_text != null)
-                spriteBatch.DrawString(_font, _text, new Vector2(LeftTopX + textResultOffset + 5, LeftTopY + 10), Color.Black);
+                spriteBatch.DrawString(_font, _text, new Vector2(LeftTopX + textResultOffset, LeftTopY + _textOffset), Color.Black);
         }
 
-        public override bool MouseClick(MouseState mouseState)
+        public override bool MouseLClick(MouseState mouseState)
         {
-            var isInside = base.MouseClick(mouseState);
+            var result = base.MouseLClick(mouseState);
 
-            return isInside;
+            if (result && _action != null)
+                _action();
+
+            return result;
         }
     }
 }
