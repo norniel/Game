@@ -44,6 +44,11 @@ namespace MonoBrJozik.Controls
             return IsInside(mouseState);
         }
 
+        public virtual bool MouseOver(MouseState mouseState)
+        {
+            return IsInside(mouseState);
+        }
+
         public abstract void Draw(SpriteBatch spriteBatch);
     }
 }

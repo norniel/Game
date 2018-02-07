@@ -7,6 +7,8 @@ namespace MonoBrJozik.Controls
 {
     internal class MonoListControl:MonoControl
     {
+        private bool _isOver = false;
+
         public MonoListControl()
         {}
 
@@ -39,6 +41,19 @@ namespace MonoBrJozik.Controls
             }
 
             return childControls.Any(ctrl => ctrl.MouseRClick(mouseState));
+        }
+
+        public override bool MouseOver(MouseState mouseState)
+        {
+            var prevIsOver = _isOver;
+            _isOver = base.MouseOver(mouseState);
+            
+            if( _isOver || prevIsOver)
+            {
+                childControls.ForEach(ctrl => ctrl.MouseOver(mouseState));
+            }
+
+            return _isOver;
         }
 
         public override void Draw(SpriteBatch spriteBatch) => childControls.ForEach(ctrl => ctrl.Draw(spriteBatch));

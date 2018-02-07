@@ -172,7 +172,7 @@ namespace MonoBrJozik
             c[0] = Color.LightBlue;
             texture.SetData<Color>(c);
 
-            var infoList = actions.Select(act => new MonoItemInfo(texture, null, act.Name,() => act.Do())).ToList();
+            var infoList = actions.Select(act => new MonoItemInfo(null, null, act.Name,() => act.Do())).ToList();
 
             _menu.Show(infoList, x, y, SCREEN_WIDTH, SCREEN_HEIGHT + HEALTH_BAR_HEIGHT);
          /*   if (_canvas.ContextMenu == null)

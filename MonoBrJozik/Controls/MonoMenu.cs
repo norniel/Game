@@ -12,7 +12,7 @@ namespace MonoBrJozik.Controls
         private int Offset => 10;
         private int OffsetItems => 2;
         public bool IsShown { get; private set; }
-
+        
         public MonoMenu(SpriteFont font)
         {
             _font = font;

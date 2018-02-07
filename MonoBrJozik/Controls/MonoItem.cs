@@ -14,6 +14,7 @@ namespace MonoBrJozik.Controls
         private readonly Texture2D _texture;
         private readonly Texture2D _innerTexture;
         private readonly string _text;
+        private Color _textColor = Color.MintCream;
 
         public MonoItem(MonoItemInfo itemInfo, SpriteFont font, int x, int y)
         {
@@ -47,7 +48,10 @@ namespace MonoBrJozik.Controls
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, new Rectangle(LeftTopX, LeftTopY, Width, Height), Color.White);
+            if (_texture != null)
+            {
+                spriteBatch.Draw(_texture, new Rectangle(LeftTopX, LeftTopY, Width, Height), Color.White);
+            }
 
             var textResultOffset = 0;
 
@@ -58,15 +62,24 @@ namespace MonoBrJozik.Controls
             }
             
             if(_text != null)
-                spriteBatch.DrawString(_font, _text, new Vector2(LeftTopX + textResultOffset, LeftTopY + _textOffset), Color.Black);
+                spriteBatch.DrawString(_font, _text, new Vector2(LeftTopX + textResultOffset, LeftTopY + _textOffset), _textColor);
         }
 
         public override bool MouseLClick(MouseState mouseState)
         {
             var result = base.MouseLClick(mouseState);
 
-            if (result && _action != null)
-                _action();
+            if (result)
+                _action?.Invoke();
+
+            return result;
+        }
+
+        public override bool MouseOver(MouseState mouseState)
+        {
+            var result = base.MouseOver(mouseState);
+
+            _textColor = result ? Color.LightBlue : Color.MintCream;
 
             return result;
         }

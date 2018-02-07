@@ -162,6 +162,8 @@ namespace MonoBrJozik
                 }
             }
 
+            _menu.MouseOver(currentMouseState);
+
             base.Update(gameTime);
         }
 
