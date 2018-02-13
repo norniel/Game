@@ -20,12 +20,12 @@ namespace MonoBrJozik.Controls
 
             var textSize = _font.MeasureString(">");
             var bottomY = height - (int)textSize.Y;
-            _monoList = new MonoList();
 
-            _topButton = new MonoItem(new MonoItemInfo(null, null, "<", () => _monoList.MovePrev()), _font, x, 0);
-            _bottomButton = new MonoItem(new MonoItemInfo(null, null, ">", () => _monoList.MoveNext()), _font, x, bottomY);
+            _topButton = new MonoItem(new MonoItemInfo(null, null, "<", () => this.MovePrev()), _font, x, 0);
+            _bottomButton = new MonoItem(new MonoItemInfo(null, null, ">", () => this.MoveNext()), _font, x, bottomY);
 
-            _monoList.LeftTopY = _topButton.LeftTopY + _topButton.Height;
+
+            _monoList = new MonoList(x, _topButton.Height, width, bottomY - _topButton.Height);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -33,6 +33,16 @@ namespace MonoBrJozik.Controls
             _topButton.Draw(spriteBatch);
             _bottomButton.Draw(spriteBatch);
             _monoList.Draw(spriteBatch);
+        }
+
+        public void MovePrev()
+        {
+            _monoList.MovePrev();
+        }
+
+        public void MoveNext()
+        {
+            _monoList.MoveNext();
         }
     }
 }

@@ -36,6 +36,7 @@ namespace MonoBrJozik
         public const int SCREEN_WIDTH = 564;
         public const int SCREEN_HEIGHT = 394;
         public const int HEALTH_BAR_HEIGHT = 35;
+        public const int INVENTORY_WIDTH = 70;
 
         public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu)
         {
