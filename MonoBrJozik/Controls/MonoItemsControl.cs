@@ -5,20 +5,20 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoBrJozik.Controls
 {
-    internal class MonoListControl:MonoControl
+    internal class MonoItemsControl:MonoControl
     {
         private bool _isOver = false;
 
-        public MonoListControl()
+        public MonoItemsControl()
         {}
 
-        protected MonoListControl(List<MonoControl> monoControls)
+        protected MonoItemsControl(List<MonoControl> monoControls)
         {
             childControls.AddRange(monoControls);
         }
         
         protected readonly List<MonoControl> childControls = new List<MonoControl>();
-        public MonoListControl(List<MonoControl> monoControls, int x, int y, int width, int height) : base(x, y, width, height)
+        public MonoItemsControl(List<MonoControl> monoControls, int x, int y, int width, int height) : base(x, y, width, height)
         {
             childControls = monoControls;
         }

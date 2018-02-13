@@ -29,6 +29,7 @@ namespace MonoBrJozik
         private readonly Texture2D _screenTexture;
         private readonly SpriteFont _font;
         private readonly MonoMenu _menu;
+        
         private readonly int _dcenter;
         private readonly GraphicsDevice _graphicsDevice;
 

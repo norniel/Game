@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoBrJozik.Controls
 {
-    internal class MonoMenu: MonoListControl
+    internal class MonoMenu: MonoItemsControl
     {
         private readonly SpriteFont _font;
         private int Offset => 10;

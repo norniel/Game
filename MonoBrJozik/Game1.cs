@@ -17,6 +17,7 @@ namespace MonoBrJozik
         private Engine.Game _game;
         private MonoDrawer _drawer;
         private MonoMenu _menu;
+        private MonoInventory _inventory;
 
         public Game1()
         {
@@ -52,12 +53,13 @@ namespace MonoBrJozik
             var heroPropTextures = LoadHeroTextures();
             var font = Content.Load<SpriteFont>("Font");
             _menu = new MonoMenu(font);
+            _inventory = new MonoInventory(MonoDrawer.SCREEN_WIDTH, 0, MonoDrawer.SCREEN_WIDTH + 70, MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT, font);
 
             _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures, font, _menu);
             _game = new Engine.Game(_drawer, (uint)MonoDrawer.SCREEN_WIDTH, (uint)MonoDrawer.SCREEN_HEIGHT);
 
 
-            _graphics.PreferredBackBufferWidth = MonoDrawer.SCREEN_WIDTH;  // set this value to the desired width of your window
+            _graphics.PreferredBackBufferWidth = MonoDrawer.SCREEN_WIDTH + 70;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
         }
@@ -179,6 +181,8 @@ namespace MonoBrJozik
             _game.DrawChanges();
 
             _menu.Draw(_spriteBatch);
+
+            _inventory.Draw(_spriteBatch);
 
             _spriteBatch.End();
 

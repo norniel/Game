@@ -51,9 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\MonoControl.cs" />
+    <Compile Include="Controls\MonoInventory.cs" />
     <Compile Include="Controls\MonoItem.cs" />
     <Compile Include="Controls\MonoItemInfo.cs" />
-    <Compile Include="Controls\MonoListControl.cs" />
+    <Compile Include="Controls\MonoItemsControl.cs" />
+    <Compile Include="Controls\MonoList.cs" />
     <Compile Include="Controls\MonoMenu.cs" />
     <Compile Include="Game1.cs" />
   </ItemGroup>
