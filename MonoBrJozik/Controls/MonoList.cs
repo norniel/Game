@@ -27,11 +27,18 @@ namespace MonoBrJozik.Controls
             if (startIndex + visibleCount >= childControls.Count)
                 return;
 
-            var delta = childControls.Skip(startIndex).Take(visibleCount).Aggregate(0, (sum, ctrl) => sum + ctrl.Height);
+            startIndex = startIndex + visibleCount;
+            CalcVisibleCount();
+        }
+
+        private void CalcVisibleCount()
+        {
+            var delta = childControls[startIndex].LeftTopY - LeftTopY;
+
+            //var delta = childControls.Skip(startIndex).Take(visibleCount).Aggregate(0, (sum, ctrl) => sum + ctrl.Height);
 
             childControls.ForEach(ctrl => ctrl.LeftTopY -= delta);
 
-            startIndex = startIndex + visibleCount;
             visibleCount = childControls.Count(ctrl => ctrl.LeftTopY <= LeftTopY + Height) - startIndex;
         }
 
@@ -39,6 +46,10 @@ namespace MonoBrJozik.Controls
         {
             if (startIndex <= 0)
                 return;
+
+            startIndex = childControls.Select((ctrl, i) => new { Index = i, ctrl.LeftTopY }).First(item => item.LeftTopY + Height > LeftTopY)?.Index ?? 0 ;
+
+            CalcVisibleCount();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
