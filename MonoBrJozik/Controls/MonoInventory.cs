@@ -1,5 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.Linq;
+
 
 namespace MonoBrJozik.Controls
 {
@@ -25,7 +28,7 @@ namespace MonoBrJozik.Controls
             _bottomButton = new MonoItem(new MonoItemInfo(null, null, ">", () => this.MoveNext()), _font, x, bottomY);
 
 
-            _monoList = new MonoList(x, _topButton.Height, width, bottomY - _topButton.Height);
+            _monoList = new MonoList(x, _topButton.Height, width, bottomY - _topButton.Height, _font);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -43,6 +46,11 @@ namespace MonoBrJozik.Controls
         public void MoveNext()
         {
             _monoList.MoveNext();
+        }
+
+        public void SetItems(List<MonoItemInfo> itemsInfo)
+        {
+            _monoList.SetItems(itemsInfo);
         }
     }
 }

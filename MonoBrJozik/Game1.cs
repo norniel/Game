@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoBrJozik.Controls;
+using System;
+using System.Globalization;
+using System.Threading;
 using Point = Engine.Point;
 
 namespace MonoBrJozik
@@ -21,6 +24,9 @@ namespace MonoBrJozik
 
         public Game1()
         {
+            CultureInfo newCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = newCulture;
+            Thread.CurrentThread.CurrentUICulture = newCulture;
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -55,7 +61,7 @@ namespace MonoBrJozik
             _menu = new MonoMenu(font);
             _inventory = new MonoInventory(MonoDrawer.SCREEN_WIDTH, 0, MonoDrawer.SCREEN_WIDTH + MonoDrawer.INVENTORY_WIDTH, MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT, font);
 
-            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures, font, _menu);
+            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures, font, _menu, _inventory);
             _game = new Engine.Game(_drawer, (uint)MonoDrawer.SCREEN_WIDTH, (uint)MonoDrawer.SCREEN_HEIGHT);
 
 

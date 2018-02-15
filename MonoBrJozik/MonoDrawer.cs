@@ -29,6 +29,7 @@ namespace MonoBrJozik
         private readonly Texture2D _screenTexture;
         private readonly SpriteFont _font;
         private readonly MonoMenu _menu;
+        private readonly MonoInventory _inventory;
         
         private readonly int _dcenter;
         private readonly GraphicsDevice _graphicsDevice;
@@ -38,7 +39,7 @@ namespace MonoBrJozik
         public const int HEALTH_BAR_HEIGHT = 35;
         public const int INVENTORY_WIDTH = 70;
 
-        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu)
+        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu, Controls.MonoInventory inventory)
         {
             _spriteBatch = spriteBatch;
             _textures = textures;
@@ -48,6 +49,7 @@ namespace MonoBrJozik
             _heroPropTextures = heroPropTextures;
             _font = font;
             _menu = menu;
+            _inventory = inventory;
         }
 
         public void Clear()
@@ -70,7 +72,12 @@ namespace MonoBrJozik
 
         public void DrawContainer(IEnumerable<MenuItems> objects)
         {
-            //throw new NotImplementedException();
+            _inventory.SetItems(objects.Select(it => 
+            {
+                Texture2D texture = null;
+                _textures.TryGetValue(it.Id, out texture);
+                return new MonoItemInfo(null, texture, it.Name, null);
+            }).ToList());
         }
 
         public void DrawDayNight(double lightness, GameDateTime gameDateTime, List<BurningProps> lightObjects)

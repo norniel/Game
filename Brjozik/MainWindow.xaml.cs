@@ -20,11 +20,11 @@ namespace Brjozik
         public MainWindow()
         {
             InitializeComponent();
-
+            /*
             CultureInfo newCulture = new CultureInfo("ru-RU");
             Thread.CurrentThread.CurrentCulture = newCulture;
             Thread.CurrentThread.CurrentUICulture = newCulture;
-
+            */
             _drawer = new WpfDrawer(canvas1, listBox1, heroListBox, listBoxDateTime);
             _game = new Engine.Game(_drawer, (uint)canvas1.Width, (uint)canvas1.Height);
 

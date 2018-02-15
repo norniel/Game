@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace MonoBrJozik.Controls
 {
@@ -11,15 +10,18 @@ namespace MonoBrJozik.Controls
 
         private int _realHeight;
 
+        private readonly SpriteFont _font;
+
         private int startIndex;
         private int visibleCount;
         
-        public MonoList(int x, int y, int width, int height)
+        public MonoList(int x, int y, int width, int height, SpriteFont font)
         {
             LeftTopX = x;
             LeftTopY = y;
             Width = width;
             Height = height;
+            _font = font;
         }
 
         public void MoveNext()
@@ -58,6 +60,29 @@ namespace MonoBrJozik.Controls
             {
                 childCtrl.Draw(spriteBatch);
             }
+        }
+
+        public void SetItems(List<MonoItemInfo> itemInfo)
+        {
+            var y = LeftTopY;
+            var height = 0;
+
+            var monoItems = itemInfo.Select(info =>
+            {
+                var monoItem = new MonoItem(info, _font, LeftTopX, y);
+                height = height + monoItem.Height;
+                y = height;
+                return monoItem;
+            }).ToList();
+
+            childControls.AddRange(monoItems);
+
+            startIndex = !childControls.Any()? 0 : startIndex >= childControls.Count ? childControls.Count - 1 : startIndex;
+
+            if (childControls.Any())
+                CalcVisibleCount();
+            else
+                visibleCount = 0;
         }
     }
 }
