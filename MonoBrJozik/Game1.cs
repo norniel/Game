@@ -22,6 +22,8 @@ namespace MonoBrJozik
         private MonoMenu _menu;
         private MonoInventory _inventory;
 
+        private bool _lButtonPressed = false;
+
         public Game1()
         {
             CultureInfo newCulture = new CultureInfo("en-US");
@@ -156,6 +158,11 @@ namespace MonoBrJozik
             var currentMouseState = Mouse.GetState();
             if (currentMouseState.LeftButton == ButtonState.Pressed)
             {
+                _lButtonPressed = true;
+            }
+            else if (_lButtonPressed)
+            {
+                _lButtonPressed = false;
                 if (!_menu.MouseLClick(currentMouseState))
                 {
                     _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
