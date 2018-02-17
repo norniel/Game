@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace MonoBrJozik.Controls
@@ -9,13 +10,15 @@ namespace MonoBrJozik.Controls
     internal class MonoMenu: MonoItemsControl
     {
         private readonly SpriteFont _font;
+        private readonly Color _fontColor;
         private int Offset => 10;
         private int OffsetItems => 2;
         public bool IsShown { get; private set; }
         
-        public MonoMenu(SpriteFont font)
+        public MonoMenu(SpriteFont font, Color fontColor)
         {
             _font = font;
+            _fontColor = fontColor;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -42,7 +45,9 @@ namespace MonoBrJozik.Controls
             if (!IsShown)
                 return false;
 
-            return base.MouseRClick(mouseState);
+            Clear();
+
+            return false;
         }
 
         public void Clear()
@@ -63,7 +68,7 @@ namespace MonoBrJozik.Controls
 
             var monoItems = monoItemInfos.Select(info =>
             {
-                var monoItem = new MonoItem(info, _font, x, y);
+                var monoItem = new MonoItem(info, _font, _fontColor, x, y);
                 height = height + OffsetItems + monoItem.Height;
                 y = height;
                 width = Math.Max(width, monoItem.Width);

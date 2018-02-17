@@ -23,6 +23,7 @@ namespace MonoBrJozik
         private MonoInventory _inventory;
 
         private bool _lButtonPressed = false;
+        private bool _rButtonPressed = false;
 
         public Game1()
         {
@@ -60,8 +61,8 @@ namespace MonoBrJozik
             var screenTexture = Content.Load<Texture2D>("green-paper2");
             var heroPropTextures = LoadHeroTextures();
             var font = Content.Load<SpriteFont>("Font");
-            _menu = new MonoMenu(font);
-            _inventory = new MonoInventory(MonoDrawer.SCREEN_WIDTH, 0, MonoDrawer.SCREEN_WIDTH + MonoDrawer.INVENTORY_WIDTH, MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT, font);
+            _menu = new MonoMenu(font, Color.MintCream);
+            _inventory = new MonoInventory(MonoDrawer.SCREEN_WIDTH, 0, MonoDrawer.SCREEN_WIDTH + MonoDrawer.INVENTORY_WIDTH, MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT, font, Color.Black);
 
             _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures, font, _menu, _inventory);
             _game = new Engine.Game(_drawer, (uint)MonoDrawer.SCREEN_WIDTH, (uint)MonoDrawer.SCREEN_HEIGHT);
@@ -171,6 +172,11 @@ namespace MonoBrJozik
 
             if (currentMouseState.RightButton == ButtonState.Pressed)
             {
+                _rButtonPressed = true;
+            }
+            else if (_rButtonPressed)
+            {
+                _rButtonPressed = false;
                 if (!_menu.MouseRClick(currentMouseState))
                 {
                     _game.RClick(new Point(currentMouseState.X, currentMouseState.Y));
@@ -188,7 +194,7 @@ namespace MonoBrJozik
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(new Color(0, 80, 0));
+            GraphicsDevice.Clear(Color.LightGray);//new Color(0, 80, 0));
             _spriteBatch.Begin();
            
             _game.DrawChanges();

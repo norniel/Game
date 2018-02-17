@@ -251,11 +251,11 @@ namespace MonoBrJozik
                texture.SetData<Color>(c);//_screenTexture
             _spriteBatch.Draw(texture, new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), Color.White);
 
-            Texture2D texture2 = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            /*Texture2D texture2 = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Color[] c2 = new Color[1];
             c2[0] = Color.LightGray;
             texture2.SetData<Color>(c2);
-            _spriteBatch.Draw(texture2, new Rectangle(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT + HEALTH_BAR_HEIGHT), Color.White);
+            _spriteBatch.Draw(texture2, new Rectangle(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT + HEALTH_BAR_HEIGHT), Color.White);*/
         }
 
         private void DrawRotatedImage(Texture2D texture, long x, long y, uint angle)

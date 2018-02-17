@@ -127,12 +127,19 @@ namespace Engine
                 return;
 
             var destination = Map.GetRealDestinationFromVisibleDestination(visibleDestination);
+
+            if (!Map.PointInVisibleRect(destination))
+                return;
+
             MoveToDest(destination);
         }
 
         public void RClick(Point destination)
         {
             if (_hero.IsUnconscios())
+                return;
+
+            if (destination.X < 0 || destination.X >= Map.VisibleRect.Width || destination.Y < 0 || destination.Y >= Map.VisibleRect.Height)
                 return;
 
             ShowActions(destination);
