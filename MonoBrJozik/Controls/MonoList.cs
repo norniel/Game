@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace MonoBrJozik.Controls
 {
@@ -10,6 +11,8 @@ namespace MonoBrJozik.Controls
         private readonly int _virtualY;
 
         private int _realHeight;
+
+        private MonoMenu _menu;
 
         private readonly SpriteFont _font;
         private readonly Color _fontColor;
@@ -25,6 +28,8 @@ namespace MonoBrJozik.Controls
             Height = height;
             _fontColor = fontColor;
             _font = font;
+
+            _menu = new MonoMenu(_font, Color.Black);
         }
 
         public void MoveNext()
@@ -87,6 +92,31 @@ namespace MonoBrJozik.Controls
                 CalcVisibleCount();
             else
                 visibleCount = 0;
+        }
+
+        public override bool MouseLClick(MouseState mouseState)
+        {
+            if (!base.MouseLClick(mouseState))
+            {
+                return false;
+            }
+
+            return childControls.Any(ctrl => ctrl.MouseLClick(mouseState));
+        }
+
+        public override bool MouseRClick(MouseState mouseState)
+        {
+            if (!base.MouseRClick(mouseState))
+            {
+                return false;
+            }
+
+            return childControls.Any(ctrl => ctrl.MouseRClick(mouseState));
+        }
+
+        public override bool MouseOver(MouseState mouseState)
+        {
+            return base.MouseOver(mouseState);
         }
     }
 }

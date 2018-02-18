@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoBrJozik.Controls
 {
+    internal delegate void MenuHandler();
+
     internal class MonoMenu: MonoItemsControl
     {
         private readonly SpriteFont _font;
@@ -15,10 +17,13 @@ namespace MonoBrJozik.Controls
         private int OffsetItems => 2;
         public bool IsShown { get; private set; }
         
+        private static event MenuHandler MenuIsShown;
+
         public MonoMenu(SpriteFont font, Color fontColor)
         {
             _font = font;
             _fontColor = fontColor;
+            MenuIsShown += this.Clear;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -52,14 +57,18 @@ namespace MonoBrJozik.Controls
 
         public void Clear()
         {
+            if (!IsShown)
+                return;
+
             IsShown = false;
             childControls.Clear();
         }
 
         public void Show(List<MonoItemInfo> monoItemInfos, int parentX, int parentY, int screenWidth, int screenHeight)
         {
-            if(IsShown)
-                Clear();
+            SignalMenuIsShown();
+         //   if (IsShown)
+         //       Clear();
 
             var x = 0;
             var y = 0;
@@ -92,6 +101,11 @@ namespace MonoBrJozik.Controls
             });
 
             IsShown = true;
+        }
+
+        static void SignalMenuIsShown()
+        {
+            MenuIsShown?.Invoke();
         }
     }
 }
