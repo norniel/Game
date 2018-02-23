@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="Controls\MonoControl.cs" />
     <Compile Include="Controls\MonoInventory.cs" />
+    <Compile Include="Controls\MonoInventoryItem.cs" />
+    <Compile Include="Controls\MonoInvItemInfo.cs" />
     <Compile Include="Controls\MonoItem.cs" />
     <Compile Include="Controls\MonoItemInfo.cs" />
     <Compile Include="Controls\MonoItemsControl.cs" />

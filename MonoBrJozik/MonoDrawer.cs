@@ -27,6 +27,7 @@ namespace MonoBrJozik
         private string _actingString = string.Empty;
         private readonly Texture2D _heroTexture;
         private readonly Texture2D _screenTexture;
+        private readonly Texture2D _menuTexture;
         private readonly SpriteFont _font;
         private readonly MonoMenu _menu;
         private readonly MonoInventory _inventory;
@@ -50,6 +51,11 @@ namespace MonoBrJozik
             _font = font;
             _menu = menu;
             _inventory = inventory;
+
+            _menuTexture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Color[] c = new Color[1];
+            c[0] = Color.White;
+            _menuTexture.SetData<Color>(c);
         }
 
         public void Clear()
@@ -76,7 +82,9 @@ namespace MonoBrJozik
             {
                 Texture2D texture = null;
                 _textures.TryGetValue(it.Id, out texture);
-                return new MonoItemInfo(null, texture, it.Name, null);
+                var infoList = it.GetClientActions().Select(act => new MonoItemInfo(_menuTexture, null, act.Name, () => act.Do())).ToList();
+
+                return new MonoInvItemInfo(null, texture, it.Name, null, infoList);
             }).ToList());
         }
 
@@ -183,7 +191,7 @@ namespace MonoBrJozik
 
             var infoList = actions.Select(act => new MonoItemInfo(null, null, act.Name,() => act.Do())).ToList();
 
-            _menu.Show(infoList, x, y, SCREEN_WIDTH, SCREEN_HEIGHT + HEALTH_BAR_HEIGHT);
+            _menu.Show(infoList, x, y);
          /*   if (_canvas.ContextMenu == null)
             {
                 _canvas.ContextMenu = new ContextMenu();

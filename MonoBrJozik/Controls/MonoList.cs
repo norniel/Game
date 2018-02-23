@@ -29,7 +29,7 @@ namespace MonoBrJozik.Controls
             _fontColor = fontColor;
             _font = font;
 
-            _menu = new MonoMenu(_font, Color.Black);
+            _menu = new MonoMenu(_font, Color.Black, MonoDrawer.SCREEN_WIDTH + width, height);
         }
 
         public void MoveNext()
@@ -68,16 +68,18 @@ namespace MonoBrJozik.Controls
             {
                 childCtrl.Draw(spriteBatch);
             }
+
+            _menu.Draw(spriteBatch);
         }
 
-        public void SetItems(List<MonoItemInfo> itemInfo)
+        public void SetItems(List<MonoInvItemInfo> itemInfo)
         {
             var y = LeftTopY;
             var height = 0;
 
             var monoItems = itemInfo.Select(info =>
             {
-                var monoItem = new MonoItem(info, _font, _fontColor, LeftTopX, y);
+                var monoItem = new MonoInventoryItem(info, _menu, _font, _fontColor, LeftTopX, y);
                 height = height + monoItem.Height;
                 y = LeftTopY + height;
                 return monoItem;
@@ -96,26 +98,25 @@ namespace MonoBrJozik.Controls
 
         public override bool MouseLClick(MouseState mouseState)
         {
-            if (!base.MouseLClick(mouseState))
-            {
-                return false;
-            }
+            if (_menu.MouseLClick(mouseState))
+                return true;
 
-            return childControls.Any(ctrl => ctrl.MouseLClick(mouseState));
+            return base.MouseLClick(mouseState);
         }
 
         public override bool MouseRClick(MouseState mouseState)
         {
-            if (!base.MouseRClick(mouseState))
-            {
-                return false;
-            }
+            if (_menu.MouseRClick(mouseState))
+                return true;
 
-            return childControls.Any(ctrl => ctrl.MouseRClick(mouseState));
+            return base.MouseRClick(mouseState);
         }
 
         public override bool MouseOver(MouseState mouseState)
         {
+            if (_menu.MouseOver(mouseState))
+                return true;
+
             return base.MouseOver(mouseState);
         }
     }

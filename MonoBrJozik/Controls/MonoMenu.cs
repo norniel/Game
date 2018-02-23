@@ -13,16 +13,20 @@ namespace MonoBrJozik.Controls
     {
         private readonly SpriteFont _font;
         private readonly Color _fontColor;
+        readonly int _screenWidth; 
+        readonly int _screenHeight;
         private int Offset => 10;
         private int OffsetItems => 2;
         public bool IsShown { get; private set; }
         
         private static event MenuHandler MenuIsShown;
 
-        public MonoMenu(SpriteFont font, Color fontColor)
+        public MonoMenu(SpriteFont font, Color fontColor, int screenWidth, int screenHeight)
         {
             _font = font;
             _fontColor = fontColor;
+            _screenWidth = screenWidth;
+            _screenHeight = screenHeight;
             MenuIsShown += this.Clear;
         }
 
@@ -64,7 +68,7 @@ namespace MonoBrJozik.Controls
             childControls.Clear();
         }
 
-        public void Show(List<MonoItemInfo> monoItemInfos, int parentX, int parentY, int screenWidth, int screenHeight)
+        public void Show(List<MonoItemInfo> monoItemInfos, int parentX, int parentY)
         {
             SignalMenuIsShown();
          //   if (IsShown)
@@ -89,10 +93,10 @@ namespace MonoBrJozik.Controls
             Height = height;
             Width = width;
 
-            LeftTopX = parentX + Offset + Width >= screenWidth ? parentX - Offset - Width : parentX + Offset;
+            LeftTopX = parentX + Offset + Width >= _screenWidth ? parentX - Offset - Width : parentX + Offset;
 
             var minY = Math.Max(0, parentY - Height / 2);
-            LeftTopY = minY + Height >= screenHeight ? screenHeight - Height - Offset : minY;
+            LeftTopY = minY + Height >= _screenHeight ? _screenHeight - Height - Offset : minY;
 
             childControls.ForEach(ctrl =>
             {

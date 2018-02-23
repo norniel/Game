@@ -80,7 +80,7 @@ namespace MonoBrJozik.Controls
         {
             var result = base.MouseOver(mouseState);
 
-            _textColor = result ? Color.LightBlue : Color.MintCream;
+            _textColor = result ? Color.LightBlue : _textColor;
 
             return result;
         }

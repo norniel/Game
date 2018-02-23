@@ -1,9 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Linq;
-
+using Microsoft.Xna.Framework.Input;
 
 namespace MonoBrJozik.Controls
 {
@@ -51,9 +49,42 @@ namespace MonoBrJozik.Controls
             _monoList.MoveNext();
         }
 
-        public void SetItems(List<MonoItemInfo> itemsInfo)
+        public void SetItems(List<MonoInvItemInfo> itemsInfo)
         {
             _monoList.SetItems(itemsInfo);
+        }
+
+        public override bool MouseLClick(MouseState mouseState)
+        {
+            if(_monoList.MouseLClick(mouseState))
+                return true;
+
+            if (_topButton.MouseLClick(mouseState))
+                return true;
+
+            return _bottomButton.MouseLClick(mouseState);
+        }
+
+        public override bool MouseRClick(MouseState mouseState)
+        {
+            if (_monoList.MouseRClick(mouseState))
+                return true;
+
+            if (_topButton.MouseRClick(mouseState))
+                return true;
+
+            return _bottomButton.MouseRClick(mouseState);
+        }
+
+        public override bool MouseOver(MouseState mouseState)
+        {
+            if (_monoList.MouseOver(mouseState))
+                return true;
+
+            if (_topButton.MouseOver(mouseState))
+                return true;
+
+            return _bottomButton.MouseOver(mouseState);
         }
     }
 }

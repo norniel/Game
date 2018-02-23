@@ -61,7 +61,7 @@ namespace MonoBrJozik
             var screenTexture = Content.Load<Texture2D>("green-paper2");
             var heroPropTextures = LoadHeroTextures();
             var font = Content.Load<SpriteFont>("Font");
-            _menu = new MonoMenu(font, Color.MintCream);
+            _menu = new MonoMenu(font, Color.MintCream, MonoDrawer.SCREEN_WIDTH, MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT);
             _inventory = new MonoInventory(MonoDrawer.SCREEN_WIDTH, 0, MonoDrawer.SCREEN_WIDTH + MonoDrawer.INVENTORY_WIDTH, MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT, font, Color.Black);
 
             _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures, font, _menu, _inventory);
@@ -166,7 +166,8 @@ namespace MonoBrJozik
                 _lButtonPressed = false;
                 if (!_menu.MouseLClick(currentMouseState))
                 {
-                    _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
+                    if (!_inventory.MouseLClick(currentMouseState))
+                        _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
                 }
             }
 
@@ -179,7 +180,8 @@ namespace MonoBrJozik
                 _rButtonPressed = false;
                 if (!_menu.MouseRClick(currentMouseState))
                 {
-                    _game.RClick(new Point(currentMouseState.X, currentMouseState.Y));
+                    if (!_inventory.MouseRClick(currentMouseState))
+                        _game.RClick(new Point(currentMouseState.X, currentMouseState.Y));
                 }
             }
 
