@@ -11,14 +11,14 @@ namespace Engine.Objects.LargeObjects.BuilderPlans
         {
             Steps = new List<Step>
             {
-                new Step()
+                new Step
                 {
                     ItemGroups = new List<BuildItemsGroup>
                     {
-                        new BuildItemsGroup()
+                        new BuildItemsGroup
                         {
                             PercentPerAction = 20,
-                            BuildItems = new List<BuildItem>()
+                            BuildItems = new List<BuildItem>
                             {
                                 new TypedBuildItem<Plant>(percentPerItem)
                             }
@@ -51,7 +51,8 @@ namespace Engine.Objects.LargeObjects.BuilderPlans
                 {
                     return 0x3;
                 }
-                else if (buildProcents <= 60)
+
+                if (buildProcents <= 60)
                 {
                     return 0x2;
                 }

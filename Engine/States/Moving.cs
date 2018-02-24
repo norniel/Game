@@ -1,9 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Engine.Heros;
 
 namespace Engine
 {
-    using System;
-    using Heros;
     class Moving : IState
     {
         protected readonly MobileObject _mobileObject;
@@ -27,8 +27,8 @@ namespace Engine
             if (distance >= 0.01)
             {
                 _steps = (int)(distance*10/ _mobileObject.Speed);
-                _dx = ((double)_mobileObject.Position.X - (double)_destination.X) / distance;
-                _dy = ((double)_mobileObject.Position.Y - (double)_destination.Y) / distance;
+                _dx = (_mobileObject.Position.X - (double)_destination.X) / distance;
+                _dy = (_mobileObject.Position.Y - (double)_destination.Y) / distance;
 
                 if (Math.Abs(_dx) >= 0.0001)
                     _mobileObject.Angle = (180 * Math.Atan(_dy / _dx) / Math.PI) + (_dx > 0 ? 180 : 0);

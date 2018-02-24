@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Engine.Interfaces;
 using Engine.Objects.LargeObjects;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace Engine
 {
@@ -48,11 +47,11 @@ namespace Engine
 
             if (largeObjectInner != null)
             {
-                largeObjectInner.OuterObjects.ForEach(outerObject =>
+                foreach(var outerObject in largeObjectInner.OuterObjects)
                 {
                     var outerO = outerObject;
                     SetObjectFromCell(new Point(cell.X + outerO.PlaceInObject.X, cell.Y + outerO.PlaceInObject.Y), outerO);
-                });
+                }
 
                 return;
             }
@@ -68,12 +67,12 @@ namespace Engine
 
                 if (gameObject == _map[cell.X, cell.Y])
                 {
-                    this.SetObjectFromCell(cell, null);
+                    SetObjectFromCell(cell, null);
                 }
 
                 if (gameObject.Properties.Contains(Property.Regrowable) && gameObject is ICloneable)
                 {
-                    this.SetObjectFromCell(this.GetRandomNearEmptyPoint(cell, 3), (FixedObject)(gameObject as ICloneable).Clone());
+                    SetObjectFromCell(GetRandomNearEmptyPoint(cell, 3), (FixedObject)(gameObject as ICloneable).Clone());
                 }
             });
 
@@ -99,7 +98,7 @@ namespace Engine
             while (nearestPoints.Any())
             {
                 var p = random.Next(nearestPoints.Count);
-                if (this.GetObjectFromCell(nearestPoints[p]) == null)
+                if (GetObjectFromCell(nearestPoints[p]) == null)
                 {
                     return nearestPoints[p];
                 }

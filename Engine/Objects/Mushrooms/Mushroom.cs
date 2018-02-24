@@ -1,17 +1,16 @@
-﻿using Engine.Resources;
+﻿using System;
+using System.Collections.Generic;
+using Engine.Interfaces;
+using Engine.ObjectStates;
+using Engine.Resources;
 using Engine.Tools;
 
 namespace Engine.Objects
 {
-    using System;
-    using System.Collections.Generic;
-    using Interfaces;
-    using ObjectStates;
-
     [GenerateMap]
     internal class Mushroom : FixedObject, ICloneable, IEatable, IRoastable
     {
-        private ObjectWithState ObjectWithState { get; set; }
+        private ObjectWithState ObjectWithState { get; }
 
         public override int Weight => 2;
 
@@ -37,7 +36,7 @@ namespace Engine.Objects
 
         public override void InitializeProperties()
         {
-            this.Properties = new HashSet<Property>
+            Properties = new HashSet<Property>
             {
                Property.Pickable,
                Property.Regrowable,
@@ -64,7 +63,7 @@ namespace Engine.Objects
             if (ObjectWithState.CurrentState is Growing)
                 return 0x10001900;
 
-            return this.Id;
+            return Id;
         }
 
         public int Poisoness => 0;

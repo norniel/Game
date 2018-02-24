@@ -29,10 +29,11 @@ namespace Engine.Actions
             return Property.Cutter == property || Property.Branch == property;
         }
 
-        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
-            var branch = objects.SingleOrDefault(o => o is Branch);
-            var stone = objects.SingleOrDefault(ao => ao.Properties.Contains(Property.Cutter));
+            var gameObjects = objects as GameObject[] ?? objects.ToArray();
+            var branch = gameObjects.SingleOrDefault(o => o is Branch);
+            var stone = gameObjects.SingleOrDefault(ao => ao.Properties.Contains(Property.Cutter));
 
             if (branch == null || stone == null)
                 return new FinishedActionResult();
@@ -50,13 +51,15 @@ namespace Engine.Actions
             throw new NotImplementedException();
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var allObjects =
                 objects.Union(hero.GetContainerItems()).Distinct();
 
-            var branch = allObjects.FirstOrDefault(ao => ao is Branch);
-            var stone = allObjects.FirstOrDefault(ao => ao.Properties.Contains(Property.Cutter));
+            var gameObjects = allObjects as GameObject[] ?? allObjects.ToArray();
+
+            var branch = gameObjects.FirstOrDefault(ao => ao is Branch);
+            var stone = gameObjects.FirstOrDefault(ao => ao.Properties.Contains(Property.Cutter));
 
             if (branch != null && stone != null)
             {

@@ -35,14 +35,14 @@ namespace Engine.Objects
         public override uint GetDrawingCode()
         {
             if(IsBuild)
-                return this.Id;
+                return Id;
 
-            return this.Id + BuilderPlan.CurrentDrawingOrder;
+            return Id + BuilderPlan.CurrentDrawingOrder;
         }
 
         public override void InitializeProperties()
         {
-            this.Properties = new HashSet<Property>
+            Properties = new HashSet<Property>
             {
                Property.NeedToBuildWickiup,
                Property.NeedToSleep,

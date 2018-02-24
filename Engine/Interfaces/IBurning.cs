@@ -11,9 +11,9 @@
 
     public class BurningProps
     {
-        public Point Point { get; private set; }
+        public Point Point { get; }
 
-        public int LightRadius { get; private set; }
+        public int LightRadius { get; }
 
         public BurningProps(Point point, int lightRadius)
         {

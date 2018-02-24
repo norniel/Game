@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Engine.Interfaces.IActions;
-using Engine.Objects.Trees;
+using Engine.Objects;
 using Engine.Tools;
 
 namespace Engine
 {
-    using System;
-    using Objects;
     class LoadSaveManager
     {
         internal void LoadSnapshot( Map map )
@@ -112,13 +110,13 @@ namespace Engine
                 var curPoint = pointList.First();
                 var firstPoint = AddDeepPointToRiver(curPoint, width, height, mapTmp, deep, rand);
 
-                if(!object.ReferenceEquals(firstPoint, null))
+                if(!ReferenceEquals(firstPoint, null))
                     pointList.Insert(0, firstPoint);
 
                 curPoint = pointList.Last();
                 var lastPoint = AddDeepPointToRiver(curPoint, width, height, mapTmp, deep, rand);
 
-                if (!object.ReferenceEquals(lastPoint, null))
+                if (!ReferenceEquals(lastPoint, null))
                     pointList.Add(lastPoint);
 
                 if(currentListLength == pointList.Count)
@@ -168,6 +166,11 @@ namespace Engine
                 AddPointToTmpListIfNotInRiver(mapTmp, curPoint, deep, tmpList, 1, 0);
                 AddPointToTmpListIfNotInRiver(mapTmp, curPoint, deep, tmpList, 0, -1);
                 AddPointToTmpListIfNotInRiver(mapTmp, curPoint, deep, tmpList, 0, 1);
+
+                if (!tmpList.Any())
+                {
+                    return null;
+                }
 
                 var pointIdx = rand.Next(tmpList.Count);
                 mapTmp[tmpList[pointIdx].X, tmpList[pointIdx].Y] = deep;

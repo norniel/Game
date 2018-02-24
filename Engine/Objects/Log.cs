@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Engine.Interfaces;
-using Engine.Objects.Fruits;
-
-namespace Engine.Objects.Trees
+﻿namespace Engine.Objects.Trees
 {
     class Log : FixedObject
     {

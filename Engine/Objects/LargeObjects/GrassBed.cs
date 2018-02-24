@@ -18,7 +18,7 @@ namespace Engine.Objects.LargeObjects
         public override uint GetDrawingCode()
         {
             if(IsBuild)
-                return this.Id;
+                return Id;
             /*
             var buildProcents = BuilderPlan.CurrentStep.PercentCompleted;//CountLeftToBuild * 100 / CountToBuild;
             if (buildProcents <= 30)
@@ -30,12 +30,12 @@ namespace Engine.Objects.LargeObjects
                 return 0x00001D02;
             }
             */
-            return this.Id + BuilderPlan.CurrentDrawingOrder;
+            return Id + BuilderPlan.CurrentDrawingOrder;
         }
 
         public override void InitializeProperties()
         {
-            this.Properties = new HashSet<Property>
+            Properties = new HashSet<Property>
             {
                Property.NeedToBuildGrassBed,
                Property.NeedToSleep

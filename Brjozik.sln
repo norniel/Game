@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brjozik", "Brjozik\Brjozik.csproj", "{0270FAF6-A0FB-4669-8254-52C751E57341}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{88F7B851-549D-4F79-A4A8-08D303F135C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoBrJozik", "MonoBrJozik\MonoBrJozik.csproj", "{52A9CD7B-26C2-4712-86FA-712D262FA695}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{88F7B851-549D-4F79-A4A8-08D303F135C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88F7B851-549D-4F79-A4A8-08D303F135C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88F7B851-549D-4F79-A4A8-08D303F135C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52A9CD7B-26C2-4712-86FA-712D262FA695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52A9CD7B-26C2-4712-86FA-712D262FA695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52A9CD7B-26C2-4712-86FA-712D262FA695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52A9CD7B-26C2-4712-86FA-712D262FA695}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4C2D536-CFEF-4702-A6EB-5E88AC4577E6}
 	EndGlobalSection
 EndGlobal

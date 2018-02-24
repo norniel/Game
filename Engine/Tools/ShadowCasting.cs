@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using Engine.Interfaces;
 
@@ -77,7 +76,7 @@ namespace Engine.Tools
                         startingSlope = GetNewSlope(i + 0.5m, j + ((i + 0.5m < 0) ? 0.5m : -0.5m));
                     }
 
-                    yield return new PointWithDistance() { Distance = (i*i + j*j), Point = GetCellFromIJInQuoter(quoterNumber, i, j) };
+                    yield return new PointWithDistance { Distance = (i*i + j*j), Point = GetCellFromIJInQuoter(quoterNumber, i, j) };
                 }
 
                 if (endingI < startingI || !ObjectFromCellInQuoterIsPassable(quoterNumber, endingI, j))
@@ -163,7 +162,7 @@ namespace Engine.Tools
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((PointWithDistance) obj);
         }
 

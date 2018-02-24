@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces;
@@ -60,10 +61,11 @@ namespace Engine.Actions
 
         public override bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public override IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public override IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
+            Hero hero)
         {
             var roastingObjects = hero.GetContainerItems()
                 .Where(o => o.Properties.Contains(Property.Roastable) && o is IRoastable)

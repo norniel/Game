@@ -8,9 +8,9 @@ using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
-using Microsoft.Practices.Unity;
 using Engine.Objects.LargeObjects;
-using Engine.Properties;
+using Unity;
+using Unity.Lifetime;
 
 namespace Engine
 {
@@ -54,11 +54,11 @@ namespace Engine
 
         private readonly IDrawer _drawer;
 
-        private IActionRepository ActionRepository { get; set; }
+        private IActionRepository ActionRepository { get; }
 
        // private readonly StateQueueManager _stateQueueManager;
 
-        private UnityContainer _unityContainer;
+       private UnityContainer _unityContainer;
 
         //todo - change to lazy
         internal static StateQueueManager StateQueueManager;
@@ -79,7 +79,7 @@ namespace Engine
 
             Intervals = Observable.Interval(TimeSpan.FromMilliseconds(TimeStep));
             _unityContainer = new UnityContainer();
-            this.RegisterInUnityContainer();
+            RegisterInUnityContainer();
 
             StateQueueManager = _unityContainer.Resolve<StateQueueManager>();
             Map = _unityContainer.Resolve<Map>();            
@@ -107,23 +107,19 @@ namespace Engine
             _unityContainer.RegisterInstance(typeof (StateQueueManager), new StateQueueManager());
             _unityContainer.RegisterType(typeof(IActionRepository), typeof(ActionRepository), new ContainerControlledLifetimeManager());
 
-            _unityContainer.RegisterTypes(
-                Assembly.GetExecutingAssembly().GetTypes().Where(
-                type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type)),
-                WithMappings.FromAllInterfacesInSameAssembly,//t => new[] { typeof(IAction) },
-                t => t.FullName,
-                WithLifetime.PerResolve);
+            foreach(var type in Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type))){
+                _unityContainer.RegisterType(typeof(IAction), type, type.ToString(), new ContainerControlledTransientManager(), null);
+            }
+
+
+            //_unityContainer.RegisterTypes(
+                //Assembly.GetExecutingAssembly().GetTypes().Where(
+                //),
+                //WithMappings.FromAllInterfacesInSameAssembly,//t => new[] { typeof(IAction) },
+                //t => t.FullName,
+                //WithLifetime.PerResolve);
         }
 
-        private void LoadSettings()
-        {
-            Settings.Default.Reload();
-        }
-
-        private void SaveSettings()
-        {
-            Settings.Default.Save();
-        }
 
         public void LClick(Point visibleDestination)
         {
@@ -131,6 +127,10 @@ namespace Engine
                 return;
 
             var destination = Map.GetRealDestinationFromVisibleDestination(visibleDestination);
+
+            if (!Map.PointInVisibleRect(destination))
+                return;
+
             MoveToDest(destination);
         }
 
@@ -139,12 +139,15 @@ namespace Engine
             if (_hero.IsUnconscios())
                 return;
 
+            if (destination.X < 0 || destination.X >= Map.VisibleRect.Width || destination.Y < 0 || destination.Y >= Map.VisibleRect.Height)
+                return;
+
             ShowActions(destination);
         }
 
         private void ShowActions(Point destination)
         {
-            this._drawer.DrawMenu(destination.X, destination.Y, GetActions(destination));
+            _drawer.DrawMenu(destination.X, destination.Y, GetActions(destination));
         }
 
         private IEnumerable<ClientAction> GetActions(Point visibleDestination)
@@ -191,13 +194,13 @@ namespace Engine
         }
 
         private void MoveAndDoAction(IAction action, Point destination,
-            IEnumerable<GameObject> objects)
+            IList<GameObject> objects)
         {
             _hero.StartMove(destination, Map.GetEasiestWay(_hero.Position, destination));
             _hero.Then().StartActing(action, destination, objects);
         }
 
-        private void DoAction(IAction action, IEnumerable<GameObject> objects)
+        private void DoAction(IAction action, IList<GameObject> objects)
         {
             _hero.StartActing(action, null, objects);
         }
@@ -213,26 +216,30 @@ namespace Engine
             var visibleCells = Map.RectToCellRect(Map.VisibleRect);
 
             var lightObjectsList = new List<BurningProps>();
-                
-            //var mapSize = _map.GetSize();
-            for (int i = visibleCells.Left; i < visibleCells.Left + visibleCells.Width; i++)
-            {
-                for (int j = visibleCells.Top; j < visibleCells.Top+ visibleCells.Height; j++)
-                {
-                    var gameObject = Map.GetHObjectFromCell(new Point(i, j));
 
+            //var mapSize = _map.GetSize();
+            for (int j = visibleCells.Top; j < visibleCells.Top + visibleCells.Height; j++)
+            {
+                for (int i = visibleCells.Left; i < visibleCells.Left + visibleCells.Width; i++)
+                {                    
+                    var gameObject = Map.GetHObjectFromCell(new Point(i, j));
 
                     if (gameObject == null) continue;
                     if (gameObject is LargeObjectOuterAbstract largeObjectOuter && !largeObjectOuter.isLeftCorner)
                         continue;
 
                     var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
-                    _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y);
+                    _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y, gameObject.Height);
 
                     if (gameObject is IBurning burnable)
                     {
                         lightObjectsList.Add(new BurningProps(visibleDestination, burnable.LightRadius));
                     }
+                }
+
+                if ((j * Map.CellMeasure <= _hero.Position.Y) && ((j + 1) * Map.CellMeasure > _hero.Position.Y))
+                {
+                   _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
                 }
             }
 
@@ -242,11 +249,11 @@ namespace Engine
                 if (Map.PointInVisibleRect(mobileObject.Position))
                 {
                     var visibleDestination = Map.GetVisibleDestinationFromRealDestination(mobileObject.Position);
-                    _drawer.DrawObject(mobileObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y);
+                    _drawer.DrawObject(mobileObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y, mobileObject.Height);
                 }
             }
 
-            _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
+          //  _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
 
             if (IsHeroInInnerMap())
             {
@@ -256,7 +263,7 @@ namespace Engine
             }
             else
             {
-                _drawer.DrawDayNight(this._dayNightCycle.Lightness(), this._dayNightCycle.CurrentGameDate, lightObjectsList);
+                _drawer.DrawDayNight(_dayNightCycle.Lightness(), _dayNightCycle.CurrentGameDate, lightObjectsList);
             }
 
             _drawer.DrawActing(_hero.State.ShowActing);
@@ -265,9 +272,9 @@ namespace Engine
                 .GroupBy(go => go.Name,
                     (name, gos) =>
                     new MenuItems {
-                        Name = String.Format("{0}({1})", name, gos.Count()),
+                        Name = $"{name}({gos.Count()})",
                         Id = gos.First().Id,
-                        GetClientActions = this.GetFuncForClientActions(gos.First())
+                        GetClientActions = GetFuncForClientActions(gos.First())
                     });
 
             _drawer.DrawContainer(groupedItems);
@@ -309,7 +316,7 @@ namespace Engine
         {
             if (!hero.AddToBag(gameObject))
             {
-                Game.Map.SetHObjectFromDestination(hero.Position, gameObject);
+                Map.SetHObjectFromDestination(hero.Position, gameObject);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces.IActions;
@@ -28,7 +29,7 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             hero.Sleep();
             return new FinishedActionResult();
@@ -36,16 +37,16 @@ namespace Engine.Actions
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var bed = (LargeObjectInner)objects.FirstOrDefault(o => o.Properties.Any(IsApplicable));
 
             if (bed != null && bed.IsBuild)
             {
-                yield return new List<GameObject>() { bed };
+                yield return new List<GameObject> { bed };
             }
         }
 

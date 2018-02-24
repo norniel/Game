@@ -9,7 +9,7 @@ using Engine.Tools;
 
 namespace Engine.Actions
 {
-    abstract class CollectSmth<T> : IAction where T: GameObject
+    internal abstract class CollectSmth<T> : IAction where T: GameObject
     {
         public abstract string Name { get; }
 
@@ -32,7 +32,7 @@ namespace Engine.Actions
 
         public abstract bool IsApplicable(Property property);
 
-        public virtual IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
+        public virtual IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             var actionIsNotOver = objects.OfType<IHasSmthToCollect<T>>().Any(hb => Collect(hb, hero));
 
@@ -41,11 +41,14 @@ namespace Engine.Actions
 
         public abstract bool CanDo(Hero hero, IEnumerable<GameObject> objects);
 
-        public virtual IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public virtual IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
+            Hero hero)
         {
-            var necessaryObjects = objects.Where(obj => obj.Properties.Any(IsApplicable)
-               && obj is IHasSmthToCollect<T>
-               && (obj as IHasSmthToCollect<T>).GetSmthTotalCount() > 0).ToList();
+            var necessaryObjects = objects.Where(obj => obj.Properties.Any(IsApplicable))
+                .OfType<IHasSmthToCollect<T>>()
+                .Where(x => x.GetSmthTotalCount() > 0)
+                .Cast<GameObject>()
+                .ToList();
 
             if(necessaryObjects.Any())
                 yield return necessaryObjects;

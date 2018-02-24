@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Game;
+using Point = Engine.Point;
 
 namespace Brjozik
 {
@@ -19,11 +20,11 @@ namespace Brjozik
         public MainWindow()
         {
             InitializeComponent();
-
+            /*
             CultureInfo newCulture = new CultureInfo("ru-RU");
             Thread.CurrentThread.CurrentCulture = newCulture;
             Thread.CurrentThread.CurrentUICulture = newCulture;
-
+            */
             _drawer = new WpfDrawer(canvas1, listBox1, heroListBox, listBoxDateTime);
             _game = new Engine.Game(_drawer, (uint)canvas1.Width, (uint)canvas1.Height);
 
@@ -38,12 +39,12 @@ namespace Brjozik
 
         private void canvas1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _game.LClick(new Engine.Point((int)e.GetPosition(this).X, (int)e.GetPosition(this).Y));
+            _game.LClick(new Point((int)e.GetPosition(this).X, (int)e.GetPosition(this).Y));
         }
 
         private void canvas1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _game.RClick(new Engine.Point((int)e.GetPosition(this).X, (int)e.GetPosition(this).Y));
+            _game.RClick(new Point((int)e.GetPosition(this).X, (int)e.GetPosition(this).Y));
         }
     }
 }

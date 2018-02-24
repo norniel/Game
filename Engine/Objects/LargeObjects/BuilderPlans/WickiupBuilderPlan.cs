@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Engine.Objects.LargeObjects.Builder;
 using Engine.Resources;
 
@@ -11,50 +10,50 @@ namespace Engine.Objects.LargeObjects.BuilderPlans
         {
             Steps = new List<Step>
             {
-                new Step()
+                new Step
                 {
                     ItemGroups = new List<BuildItemsGroup>
                     {
-                        new BuildItemsGroup()
+                        new BuildItemsGroup
                         {
                             PercentPerAction = 34,
-                            BuildItems = new List<BuildItem>()
+                            BuildItems = new List<BuildItem>
                             {
                                 new TypedBuildItem<Branch>(34)
                             }
                         }
                     }
                 },
-                new Step()
+                new Step
                 {
                     ItemGroups = new List<BuildItemsGroup>
                     {
-                        new BuildItemsGroup()
+                        new BuildItemsGroup
                         {
                             PercentPerAction = 21,
-                            BuildItems = new List<BuildItem>()
+                            BuildItems = new List<BuildItem>
                             {
                                 new TypedBuildItem<Branch>(7)
                             }
                         },
-                        new BuildItemsGroup()
+                        new BuildItemsGroup
                         {
                             PercentPerAction = 21,
-                            BuildItems = new List<BuildItem>()
+                            BuildItems = new List<BuildItem>
                             {
                                 new TypedBuildItem<Root>(7)
                             }
                         }
                     }
                 },
-                new Step()
+                new Step
                 {
                     ItemGroups = new List<BuildItemsGroup>
                     {
-                        new BuildItemsGroup()
+                        new BuildItemsGroup
                         {
                             PercentPerAction = 20,
-                            BuildItems = new List<BuildItem>()
+                            BuildItems = new List<BuildItem>
                             {
                                 new TypedBuildItem<Plant>(4),
                                 new TypedBuildItem<Branch>(10)

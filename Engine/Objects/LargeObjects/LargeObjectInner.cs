@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Engine.Objects.LargeObjects.Builder;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace Engine.Objects.LargeObjects
 {
@@ -21,16 +20,16 @@ namespace Engine.Objects.LargeObjects
             _builderPlanLazy = new Lazy<BuilderPlan>(GetBuilderPlan, true);
             RemoveFromContainer = (() =>
             {
-                OuterObjects.ForEach(oo => oo.RemoveFromContainer());
+                foreach(var oo in OuterObjects) oo.RemoveFromContainer();
             });
         }
   
         protected virtual List<LargeObjectOuter> InitOuterObjects()
         {
             var result = new List<LargeObjectOuter>();
-            for (int i = 0; i < this.Size.Width; i++)
+            for (int i = 0; i < Size.Width; i++)
             {
-                for (int j = 0; j < this.Size.Height; j++)
+                for (int j = 0; j < Size.Height; j++)
                 {
                     var largeObjectOuter = new LargeObjectOuter(this, new Point(i, j), false);
                     result.Add(largeObjectOuter);

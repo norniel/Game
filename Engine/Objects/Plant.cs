@@ -10,7 +10,7 @@ namespace Engine.Objects
     [GenerateMap]
     internal class Plant: FixedObject, IBurnable, ICloneable
     {
-        private ObjectWithState ObjectWithState { get; set; }
+        private ObjectWithState ObjectWithState { get; }
 
         public Plant()
         {
@@ -25,8 +25,8 @@ namespace Engine.Objects
                     new List<IObjectState>
                     {
                         new Growing {TickCount = 300, Distribution = 50, Eternal = false},
-                        new Staying() {TickCount = 1000, Distribution = 100, Eternal = false},
-                        new Drying() {TickCount = 300, Distribution = 30, Eternal = false}
+                        new Staying {TickCount = 1000, Distribution = 100, Eternal = false},
+                        new Drying {TickCount = 300, Distribution = 30, Eternal = false}
                     }, 
                     false, 
                     OnLastStateFinished);
@@ -34,7 +34,7 @@ namespace Engine.Objects
 
         public override void InitializeProperties()
         {
-            this.Properties = new HashSet<Property>
+            Properties = new HashSet<Property>
             {
                Property.Pickable,
                Property.NeedToMakeFireWithWood,
@@ -62,7 +62,7 @@ namespace Engine.Objects
 
         public void OnLastStateFinished()
         {
-            this.RemoveFromContainer?.Invoke();
+            RemoveFromContainer?.Invoke();
         }
 
         public object Clone()
@@ -78,7 +78,7 @@ namespace Engine.Objects
             if (ObjectWithState.CurrentState is Drying)
                 return 0x20001100;
 
-            return this.Id;
+            return Id;
         }
     }
 }

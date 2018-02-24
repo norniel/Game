@@ -31,7 +31,7 @@ namespace Engine.Actions
             return property == Property.Enterable;
         }
 
-        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             var innerObject = objects.OfType<Wickiup>().First();
             Game.Map.SetInnerMap(innerObject._map, innerPoint);
@@ -42,10 +42,10 @@ namespace Engine.Actions
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var objectsToEnter = objects.Where(o =>
             {
@@ -114,8 +114,8 @@ namespace Engine.Actions
             }
 
             var newCenterPoint = Map.CellToPoint(new Point(startingPoint.X + p.X, startingPoint.Y + p.Y));
-            var x = newCenterPoint.X + Map.CELL_MEASURE / 2 + (p.X > -1 && p.X < innerObject.Size.Width ? 0 :  p.X == -1 ? Map.CELL_MEASURE / 2 + 2 : -Map.CELL_MEASURE / 2 - 2);
-            var y = newCenterPoint.Y + Map.CELL_MEASURE / 2 + (p.Y > -1 && p.Y < innerObject.Size.Height ? 0 : p.Y == -1 ? Map.CELL_MEASURE / 2 + 2 : -Map.CELL_MEASURE / 2 - 2);
+            var x = newCenterPoint.X + Map.CellMeasure / 2 + (p.X > -1 && p.X < innerObject.Size.Width ? 0 :  p.X == -1 ? Map.CellMeasure / 2 + 2 : -Map.CellMeasure / 2 - 2);
+            var y = newCenterPoint.Y + Map.CellMeasure / 2 + (p.Y > -1 && p.Y < innerObject.Size.Height ? 0 : p.Y == -1 ? Map.CellMeasure / 2 + 2 : -Map.CellMeasure / 2 - 2);
 
             innerPoint = startingPoint;
 

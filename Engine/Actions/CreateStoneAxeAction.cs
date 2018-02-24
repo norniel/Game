@@ -28,7 +28,7 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             var branch = objects.SingleOrDefault(o => o is Branch);
             var stone = objects.SingleOrDefault(o => o is Rock);
@@ -50,7 +50,7 @@ namespace Engine.Actions
             return objects.OfType<Branch>().Any();
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var allObjects =
                 objects.Union(hero.GetContainerItems()).Distinct();

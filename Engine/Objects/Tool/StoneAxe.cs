@@ -16,7 +16,7 @@ namespace Engine.Objects
 
         public override void InitializeProperties()
         {
-            this.Properties = new HashSet<Property>
+            Properties = new HashSet<Property>
             {
                 Property.Cutter,
                 Property.Pickable,

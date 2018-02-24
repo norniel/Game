@@ -5,7 +5,7 @@ using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
 using Engine.Tools;
-using Microsoft.Practices.Unity;
+using Unity.Attributes;
 
 namespace Engine.Actions
 {
@@ -31,7 +31,7 @@ namespace Engine.Actions
             return property == Property.Dropable;
         }
 
-        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             foreach (var removableObject in objects)
             {
@@ -47,7 +47,7 @@ namespace Engine.Actions
             return objects.All(x => x.Properties.Contains(Property.Dropable));
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             yield return objects.Where(x => x.Properties.Contains(Property.Dropable)).ToList();
         }

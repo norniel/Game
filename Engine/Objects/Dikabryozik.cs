@@ -7,7 +7,6 @@ using Engine.Objects.Trees;
 using Engine.ObjectStates;
 using Engine.States;
 using Engine.Tools;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace Engine.Objects
 {
@@ -221,10 +220,10 @@ namespace Engine.Objects
 
         private void EnqueueMovingToDestination(Point destinationPoint)
         {
-            GetMovingPointsToDestination(destinationPoint).ForEach(p =>
+            foreach(var p in GetMovingPointsToDestination(destinationPoint))
             {
                 _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(p)));
-            });
+            };
         }
     }
 }

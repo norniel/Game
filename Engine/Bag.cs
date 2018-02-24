@@ -5,7 +5,7 @@ namespace Engine
 {
     public class Bag: Container
     {
-        public List<GameObject> GameObjects { get; private set; }
+        public List<GameObject> GameObjects { get; }
 
         public Bag(int stackQuantity, int stackCapacity):base(stackQuantity, stackCapacity)
         {
@@ -16,7 +16,7 @@ namespace Engine
         {
             foreach (var gameObject in gameObjects)
             {
-                this.Add(gameObject);
+                Add(gameObject);
             }
         }
 
@@ -32,17 +32,14 @@ namespace Engine
                     gameObject.Properties.Add(Property.Dropable);
             }
 
-            if (gameObject.RemoveFromContainer != null)
-            {
-                gameObject.RemoveFromContainer();
-            }
+            gameObject.RemoveFromContainer?.Invoke();
 
-            gameObject.RemoveFromContainer = (() =>
+            gameObject.RemoveFromContainer = () =>
             {
                 gameObject.RemoveFromContainer = null;
 
-                this.Remove(gameObject);
-            });
+                Remove(gameObject);
+            };
 
             GameObjects.Add(gameObject);
 
@@ -52,7 +49,7 @@ namespace Engine
         public override void Remove(GameObject gameObject)
         {
             base.Remove(gameObject);
-            this.GameObjects.Remove(gameObject);
+            GameObjects.Remove(gameObject);
         }
     }
 }

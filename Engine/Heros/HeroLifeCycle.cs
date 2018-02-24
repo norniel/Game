@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reactive;
 
 namespace Engine.Heros
 {
@@ -21,7 +20,7 @@ namespace Engine.Heros
 
         public HeroLifeCycle()
         {
-            this.timestamp = maxTimeStamp;
+            timestamp = maxTimeStamp;
 
             _heroProperties = new HeroProperties
             {
@@ -33,13 +32,13 @@ namespace Engine.Heros
 
         public void OnNext(long value)
         {
-            if (this.timestamp < maxTimeStamp)
+            if (timestamp < maxTimeStamp)
             {
-                this.timestamp ++;
+                timestamp ++;
                 return;
             }
 
-            this.timestamp = 0;
+            timestamp = 0;
 
             lock (_heroProperties)
             {

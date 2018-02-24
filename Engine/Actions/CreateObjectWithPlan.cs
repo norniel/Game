@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces.IActions;
@@ -41,7 +42,7 @@ namespace Engine.Actions
 
         public abstract bool IsApplicable(Property property);
 
-        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             if (!_isInitialized)
             {
@@ -63,12 +64,12 @@ namespace Engine.Actions
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-            var allObjects = objects.Union(hero.GetContainerItems()).Distinct();
+            var allObjects = objects.Union(hero.GetContainerItems()).Distinct().ToArray();
             var objectWithPlan = (T)allObjects.FirstOrDefault(gb => gb is T);
 
             if (objectWithPlan != null && !objectWithPlan.IsBuild)
@@ -109,18 +110,13 @@ namespace Engine.Actions
             return 0.5;
         }
 
-        protected void Initialize(Hero hero, IEnumerable<GameObject> objects)
+        protected void Initialize(Hero hero, IList<GameObject> objects)
         {
             _objectWithPlan = (T)objects.FirstOrDefault(o => o is T);
 
-            if (_objectWithPlan == null)
-            {
-                _objects = _builderPlan.CurrentStep.GetAvailableObjects(objects);
-            }
-            else
-            {
-                _objects = _objectWithPlan.BuilderPlan.CurrentStep.GetAvailableObjects(objects);
-            }
+            _objects = _objectWithPlan == null
+                ? _builderPlan.CurrentStep.GetAvailableObjects(objects)
+                : _objectWithPlan.BuilderPlan.CurrentStep.GetAvailableObjects(objects);
         }
 
         private bool DoOnEachAction(Hero hero)

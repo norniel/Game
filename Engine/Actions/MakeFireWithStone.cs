@@ -5,7 +5,7 @@ using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Tools;
-using Microsoft.Practices.Unity;
+using Unity.Attributes;
 
 namespace Engine.Actions
 {
@@ -31,7 +31,7 @@ namespace Engine.Actions
             return Knowledges.MakeFireWithStone;
         }
 
-        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             var branch = objects.SingleOrDefault(o => o is Branch);
             var plant = objects.SingleOrDefault(o => o is Plant);
@@ -55,7 +55,7 @@ namespace Engine.Actions
             throw new NotImplementedException();
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var allObjects =
                 objects.Union(hero.GetContainerItems()).Distinct();

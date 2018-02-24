@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -12,6 +10,8 @@ using Engine;
 using Engine.BridgeObjects;
 using Engine.Interfaces;
 using Point = Engine.Point;
+using Rect = System.Windows.Rect;
+using Size = Engine.Size;
 
 namespace Game
 {
@@ -84,7 +84,7 @@ namespace Game
         private readonly BitmapImage _nutImage;
 
         private readonly TextBlock _acting = new TextBlock();
-        private int _drawCount = 0;
+        private int _drawCount;
 
         public WpfDrawer(Canvas canvas, ListBox listBox, ListBox heroListBox, ListBox listBoxDateTime)
         {
@@ -157,7 +157,7 @@ namespace Game
             // polyline
             _visibleWay = new Polyline
             {
-                Stroke = System.Windows.Media.Brushes.DarkSlateGray,
+                Stroke = Brushes.DarkSlateGray,
                 StrokeThickness = 2//,
                                    // FillRule = FillRule.EvenOdd
             };
@@ -303,7 +303,7 @@ namespace Game
             }
         }
 
-        public void DrawObject(uint id, long x, long y)
+        public void DrawObject(uint id, long x, long y, int height)
         {
             if (id == 0x00000100)
             {
@@ -496,7 +496,7 @@ namespace Game
             else if (id == 0x00002000)
             {
                 // _canvas.Children
-                Rectangle rec = new Rectangle() { Fill = Brushes.DarkBlue, Stroke = Brushes.DarkBlue, Height = 20, Width = 20 };
+                Rectangle rec = new Rectangle { Fill = Brushes.DarkBlue, Stroke = Brushes.DarkBlue, Height = 20, Width = 20 };
                 _canvas.Children.Add(rec);
                 Canvas.SetLeft(rec, x);
                 Canvas.SetTop(rec, y);
@@ -505,7 +505,7 @@ namespace Game
             else if (id == 0x00002100)
             {
                 // _canvas.Children
-                Rectangle rec = new Rectangle() { Fill = Brushes.Blue, Stroke = Brushes.Blue, Height = 20, Width = 20 };
+                Rectangle rec = new Rectangle { Fill = Brushes.Blue, Stroke = Brushes.Blue, Height = 20, Width = 20 };
                 _canvas.Children.Add(rec);
                 Canvas.SetLeft(rec, x);
                 Canvas.SetTop(rec, y);
@@ -547,10 +547,10 @@ namespace Game
                 foreach (var act in actions)
                 {
                     var action = act;
-                    var menuItem = new MenuItem()
+                    var menuItem = new MenuItem
                     {
                         Header = action.Name,
-                        IsEnabled = action.CanDo,
+                        IsEnabled = action.CanDo
                     };
 
                     menuItem.Click += (sender, args) => action.Do();
@@ -569,7 +569,7 @@ namespace Game
             foreach (var gameObject in objects)
             {
                 var image = new Image();
-                image.Source = this.GetBitmapImageById(gameObject.Id);
+                image.Source = GetBitmapImageById(gameObject.Id);
 
                 TextBlock gameObjecttextBlock = new TextBlock();
 
@@ -632,7 +632,7 @@ namespace Game
 
             foreach (var gameObject in objects)
             {
-                _heroListBox.Items.Add(string.Format("{0} - {1}", gameObject.Key, gameObject.Value));
+                _heroListBox.Items.Add($"{gameObject.Key} - {gameObject.Value}");
             }
         }
 
@@ -665,7 +665,7 @@ namespace Game
             myBlackDrawing.Brush = Brushes.Black;
             myBlackDrawing.Pen = new Pen(Brushes.Black, 1);
             GeometryGroup rectangle = new GeometryGroup {FillRule = FillRule.EvenOdd};
-            rectangle.Children.Add(new RectangleGeometry(new System.Windows.Rect() { Height = _canvas.Height, Width = _canvas.Width }));
+            rectangle.Children.Add(new RectangleGeometry(new Rect { Height = _canvas.Height, Width = _canvas.Width }));
 
             GeometryGroup rectangle11 = new GeometryGroup();
             rectangle11.FillRule = FillRule.Nonzero;
@@ -681,7 +681,7 @@ namespace Game
 
             drawingGroup.Children.Add(myBlackDrawing);
             myDrawingBrush.Drawing = drawingGroup;
-            Rectangle rec = new Rectangle()
+            Rectangle rec = new Rectangle
             {
                 Fill = myDrawingBrush,
                 Stroke = Brushes.Black,
@@ -696,10 +696,10 @@ namespace Game
             Canvas.SetTop(rec, 0);
 
             _listBoxDateTime.Items.Clear();
-            _listBoxDateTime.Items.Add(string.Format("{0}:{1}:{2}", gameDateTime.Day, gameDateTime.Hour, gameDateTime.Minute));
+            _listBoxDateTime.Items.Add($"{gameDateTime.Day}:{gameDateTime.Hour}:{gameDateTime.Minute}");
         }
 
-        public void DrawShaddow(Engine.Point innerPoint, Engine.Size innerSize)
+        public void DrawShaddow(Point innerPoint, Size innerSize)
         {
             var drawingGroup = new DrawingGroup();
 
@@ -713,13 +713,13 @@ namespace Game
             myBlackDrawing.Pen = new Pen(Brushes.Black, 1);
             GeometryGroup rectangle = new GeometryGroup();
             rectangle.FillRule = FillRule.EvenOdd;
-            rectangle.Children.Add(new RectangleGeometry(new System.Windows.Rect() { Height = _canvas.Height, Width = _canvas.Width }));
+            rectangle.Children.Add(new RectangleGeometry(new Rect { Height = _canvas.Height, Width = _canvas.Width }));
 
             GeometryGroup rectangle11 = new GeometryGroup();
             rectangle11.FillRule = FillRule.Nonzero;
 
             rectangle11.Children.Add(
-                    new RectangleGeometry(new System.Windows.Rect(new System.Windows.Point(innerPoint.X, innerPoint.Y), 
+                    new RectangleGeometry(new Rect(new System.Windows.Point(innerPoint.X, innerPoint.Y), 
                     new System.Windows.Size(innerSize.Width * 20, innerSize.Height*20))));
 
             rectangle.Children.Add(rectangle11);
@@ -728,7 +728,7 @@ namespace Game
 
             drawingGroup.Children.Add(myBlackDrawing);
             myDrawingBrush.Drawing = drawingGroup;
-            Rectangle rec = new Rectangle()
+            Rectangle rec = new Rectangle
             {
                 Fill = myDrawingBrush,
                 Stroke = Brushes.Black,
@@ -763,9 +763,6 @@ namespace Game
 
         private void DrawRotatedImage(BitmapImage bitmapImage, long x, long y, uint number)
         {
-            var appearance = new Path { Fill = Brushes.Yellow, Stroke = Brushes.Brown, Height = 16, Width = 16 };
-            Canvas.SetTop(_appearance, 0);
-            Canvas.SetLeft(_appearance, 0);
             var image = new Image();
             image.Source = bitmapImage;
             image.RenderTransform = new RotateTransform((int)number - 90);
@@ -788,10 +785,10 @@ namespace Game
             foreach (var act in actions)
             {
                 var action = act;
-                var menuItem = new MenuItem()
+                var menuItem = new MenuItem
                 {
                     Header = action.Name,
-                    IsEnabled = action.CanDo,
+                    IsEnabled = action.CanDo
                 };
 
                 menuItem.Click += (sender, args) => action.Do();

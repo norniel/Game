@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Engine.Interfaces;
 using Engine.Objects.LargeObjects;
-using Microsoft.Practices.ObjectBuilder2;
 using Wintellect.PowerCollections;
 
 namespace Engine
 {
     public class Map: InnerMap
     {
-        public const int CELL_MEASURE = 20;
+        public const int CellMeasure = 20;
         private const int MAP_WIDTH = 1000;
         private const int MAP_HEIGHT = 1000;
-        private const int MAP_CELL_WIDTH = MAP_WIDTH / CELL_MEASURE;
-        private const int MAP_CELL_HEIGHT = MAP_HEIGHT / CELL_MEASURE;
+        private const int MAP_CELL_WIDTH = MAP_WIDTH / CellMeasure;
+        private const int MAP_CELL_HEIGHT = MAP_HEIGHT / CellMeasure;
 
         private InnerMap _innerMap;
         private Point _innerMapPoint;
@@ -23,17 +21,14 @@ namespace Engine
 
         private readonly List<MobileObject> _mobileObjects;
 
-        public Rect VisibleRect { get; set; }
+        public Rect VisibleRect { get; private set; }
 
-        public Map(Rect rect, int sizeX, int sizeY):base(sizeX, sizeY)
+        public Map(Rect rect, int sizeX = MAP_CELL_WIDTH, int sizeY = MAP_CELL_HEIGHT):base(sizeX, sizeY)
         {
             VisibleRect = rect;
             //_map = new FixedObject[sizeX, sizeY];
             _mobileObjects = new List<MobileObject>();
         }
-
-        public Map(Rect rect):this(rect, MAP_CELL_WIDTH, MAP_CELL_HEIGHT)
-        {}
 
         public void SetInnerMap(InnerMap innerMap, Point innerPoint)
         {
@@ -47,9 +42,9 @@ namespace Engine
             _innerMapPoint = null;
         }
 
-        public int GetMapLength(int dimension)
+        private int GetMapLength(int dimension)
         {
-            return _map.GetLength(dimension)*CELL_MEASURE;
+            return _map.GetLength(dimension)*CellMeasure;
         }
 /*
         public FixedObject GetObjectFromDestination(Point destination)
@@ -61,19 +56,17 @@ namespace Engine
         public FixedObject GetHRealObjectFromDestination(Point destination)
         {
             var cell = PointToCell(destination);
-            var obj = this.GetHObjectFromCell(cell);
+            var obj = GetHObjectFromCell(cell);
 
-            var largeObjectOuter = obj as LargeObjectOuterAbstract;
-
-            if (largeObjectOuter != null)
+            if (obj is LargeObjectOuterAbstract largeObjectOuter)
                 return largeObjectOuter.InnerObject;
 
             return obj;
         }
 
-        public FixedObject GetHObjectFromCellXY(int x, int y)
+        private FixedObject GetHObjectFromCellXy(int x, int y)
         {
-            if (CellInInnerMapXY(x, y))
+            if (CellInInnerMapXy(x, y))
             {
                 return _innerMap.GetObjectFromCell(new Point(x - _innerMapPoint.X, y - _innerMapPoint.Y));
             }
@@ -83,10 +76,10 @@ namespace Engine
 
         public FixedObject GetHObjectFromCell(Point cell)
         {
-            return GetHObjectFromCellXY(cell.X, cell.Y);
+            return GetHObjectFromCellXy(cell.X, cell.Y);
         }
 
-        public void SetHObjectFromCell(Point cell, FixedObject gameObject)
+        private void SetHObjectFromCell(Point cell, FixedObject gameObject)
         {
             if (CellInInnerMap(cell))
             {
@@ -94,10 +87,10 @@ namespace Engine
                 return;
             }
 
-            this.SetObjectFromCell(cell, gameObject);
+            SetObjectFromCell(cell, gameObject);
         }
 
-        public bool CellInInnerMapXY(int x, int y)
+        private bool CellInInnerMapXy(int x, int y)
         {
             if (_innerMap != null && _innerMapPoint != null)
             {
@@ -112,28 +105,28 @@ namespace Engine
 
         public bool CellInInnerMap(Point cell)
         {
-            return CellInInnerMapXY(cell.X, cell.Y);
+            return CellInInnerMapXy(cell.X, cell.Y);
         }
 
         internal void SetHObjectFromDestination(Point destination, FixedObject gameObject)
         {
             var cell = PointToCell(destination);
-            this.SetHObjectFromCell(cell, gameObject);
+            SetHObjectFromCell(cell, gameObject);
         }
 
         internal static Point CellToPoint(Point point)
         {
-            return new Point(point.X * CELL_MEASURE, point.Y * CELL_MEASURE);
+            return new Point(point.X * CellMeasure, point.Y * CellMeasure);
         }
 
         internal static Point PointToCell(Point point)
         {
-            return new Point(point.X / CELL_MEASURE, point.Y / CELL_MEASURE);
+            return new Point(point.X / CellMeasure, point.Y / CellMeasure);
         }
 
         internal static Rect RectToCellRect(Rect rect)
         {
-            return new Rect(rect.Left / CELL_MEASURE, rect.Top / CELL_MEASURE, rect.Width / CELL_MEASURE, rect.Height / CELL_MEASURE);
+            return new Rect(rect.Left / CellMeasure, rect.Top / CellMeasure, rect.Width / CellMeasure, rect.Height / CellMeasure);
         }
 
         internal void AddMobileObject(MobileObject mobileObject)
@@ -154,21 +147,21 @@ namespace Engine
 
         public Stack<Point> GetEasiestWay(Point start, Point dest)
         {
-            Stack<Point> resultStack = new Stack<Point>();
+            var resultStack = new Stack<Point>();
             resultStack.Push(dest);
 
-            OrderedBag<WayPoint> workPoints = new OrderedBag<WayPoint>();
-            Dictionary<Point, WayPoint> processedPoints = new Dictionary<Point, WayPoint>();
+            var workPoints = new OrderedBag<WayPoint>();
+            var processedPoints = new Dictionary<Point, WayPoint>();
 
-            Point startP = PointToCell(start);
-            Point destP = PointToCell(dest);
+            var startP = PointToCell(start);
+            var destP = PointToCell(dest);
 
             if (startP.Equals(destP))
                 return resultStack;
 
-            int totdistX = Math.Abs(destP.X - startP.X);
-            int totdistY = Math.Abs(destP.Y - startP.Y);
-            WayPoint startWayP = new WayPoint(null, startP, 0, (totdistX > totdistY ? totdistY * 14 + 10 * (totdistX - totdistY) : totdistX * 14 + 10 * (totdistY - totdistX)));
+            var totdistX = Math.Abs(destP.X - startP.X);
+            var totdistY = Math.Abs(destP.Y - startP.Y);
+            var startWayP = new WayPoint(null, startP, 0, (totdistX > totdistY ? totdistY * 14 + 10 * (totdistX - totdistY) : totdistX * 14 + 10 * (totdistY - totdistX)));
             workPoints.Add(startWayP);
             processedPoints.Add(startWayP.Point, startWayP);
             WayPoint current = null;
@@ -179,26 +172,31 @@ namespace Engine
                 if (destP.Equals(current.Point))
                     break;
 
-                for (int dx = -1; dx <= 1; dx++)
+                for (var dx = -1; dx <= 1; dx++)
                 {
-                    for (int dy = -1; dy <= 1; dy++)
+                    for (var dy = -1; dy <= 1; dy++)
                     {
-                        Point temp = new Point();
                         if (dx == 0 && dy == 0)
                             continue;
-                        temp.X = (int)current.Point.X + dx;
+
+                        var temp = new Point
+                        {
+                            X = current.Point.X + dx,
+                            Y = current.Point.Y + dy
+                        };
+
+
                         if (temp.X < 0 || temp.X >= _map.GetLength(0))
                             continue;
 
-                        temp.Y = (int)current.Point.Y + dy;
                         if (temp.Y < 0 || temp.Y >= _map.GetLength(1))
                             continue;
 
-                        if (GetHObjectFromCellXY(temp.X, temp.Y) != null && !GetHObjectFromCellXY(temp.X, temp.Y).IsPassable
+                        if (GetHObjectFromCellXy(temp.X, temp.Y) != null && !GetHObjectFromCellXy(temp.X, temp.Y).IsPassable
                             && !destP.Equals(temp))
                             continue;
 
-                        int tmpCost = (((dx + dy) % 2 == 0) ? 14 : 10) + current.Cost;
+                        var tmpCost = (((dx + dy) % 2 == 0) ? 14 : 10) + current.Cost;
                         // если обрабатываемая клетка лежит по диагонали к родительской - прибавляем 14(приближ. корень2), если нет - 10
 
                         if (processedPoints.ContainsKey(temp))
@@ -214,11 +212,11 @@ namespace Engine
                         }
                         else
                         {
-                            int distX = (int)Math.Abs((int)destP.X - (int)temp.X);
-                            int distY = (int)Math.Abs((int)destP.Y - (int)temp.Y);
-                            int tmpEvristic =
-                                (int)(distX > distY ? distY * 14 + 10 * (distX - distY) : distX * 14 + 10 * (distY - distX));
-                            WayPoint next = new WayPoint(current, temp, tmpCost, tmpEvristic);
+                            var distX = Math.Abs(destP.X - temp.X);
+                            var distY = Math.Abs(destP.Y - temp.Y);
+                            var tmpEvristic =
+                                distX > distY ? distY * 14 + 10 * (distX - distY) : distX * 14 + 10 * (distY - distX);
+                            var next = new WayPoint(current, temp, tmpCost, tmpEvristic);
 
                             workPoints.Add(next);
                             processedPoints.Add(next.Point, next);
@@ -239,12 +237,11 @@ namespace Engine
 
             //  if( workPoints.Count > 0 )
             //  {
-            Point stackPoint;
             while (current != null)
             {
-                stackPoint = new Point(current.Point.X * CELL_MEASURE + CELL_MEASURE / 2, current.Point.Y * CELL_MEASURE + CELL_MEASURE / 2);
+                var stackPoint = new Point(current.Point.X * CellMeasure + CellMeasure / 2, current.Point.Y * CellMeasure + CellMeasure / 2);
 
-                if (!current.Point.Equals(destP) || GetHObjectFromCellXY(destP.X, destP.Y) == null || GetHObjectFromCellXY(destP.X, destP.Y).IsPassable)
+                if (!current.Point.Equals(destP) || GetHObjectFromCellXy(destP.X, destP.Y) == null || GetHObjectFromCellXy(destP.X, destP.Y).IsPassable)
                     resultStack.Push(stackPoint);
 
                 current = current.Parent;
@@ -267,10 +264,10 @@ namespace Engine
 
             public WayPoint Parent { get; set; }
 
-            public Point Point { get; set; }
+            public Point Point { get; }
             public bool IsProcessed { get; set; }
             public int Cost { get; set; }
-            public int Evristic { get; private set; }
+            private int Evristic { get; }
 
             //  protected WayPoint()
 
@@ -284,7 +281,7 @@ namespace Engine
 
             public override string ToString()
             {
-                return String.Format("Point: {0}, Cost: {1}", Point, Cost);
+                return $"Point: {Point}, Cost: {Cost}";
             }
         }
 
@@ -334,7 +331,7 @@ namespace Engine
 
             var neighbourList = Game.Map.GetNearestToPointList(positionPoint, 1);
 
-            var positionCell = Map.PointToCell(positionPoint);
+            var positionCell = PointToCell(positionPoint);
             neighbourList.Remove(positionCell);
 
             while (neighbourList.Any())

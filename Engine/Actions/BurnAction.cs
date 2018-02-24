@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Engine.Heros;
 using Engine.Interfaces;
@@ -35,10 +36,11 @@ namespace Engine.Actions
             return property == Property.Burning;
         }
 
-        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
-            var burnable = objects.FirstOrDefault(o => o is IBurnable);
-            var burning = objects.OfType<IBurning>().FirstOrDefault();
+            var gameObjects = objects as GameObject[] ?? objects.ToArray();
+            var burnable = gameObjects.FirstOrDefault(o => o is IBurnable);
+            var burning = gameObjects.OfType<IBurning>().FirstOrDefault();
 
             if (burnable == null || burning == null)
             {
@@ -53,10 +55,10 @@ namespace Engine.Actions
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var burningObjects = hero.GetContainerItems().Where(o => o is IBurnable).GroupBy(o => o.GetType()).Select(gr => gr.First());
 

@@ -29,7 +29,7 @@ namespace Engine.Actions
             return Property.Stone == property;
         }
 
-        public IActionResult Do(Hero hero, IEnumerable<GameObject> objects)
+        public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             var stones = objects.Where(o => o is Rock).Take(2).ToList();
 
@@ -44,7 +44,7 @@ namespace Engine.Actions
             throw new NotImplementedException();
         }
 
-        public IEnumerable<List<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var allObjects = objects.Union(hero.GetContainerItems()).Distinct();
 

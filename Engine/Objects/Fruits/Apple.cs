@@ -13,7 +13,7 @@ namespace Engine.Objects.Fruits
         public override void InitializeProperties()
         {
             base.InitializeProperties();
-            this.Properties.Add(Property.Roastable);
+            Properties.Add(Property.Roastable);
         }
 
         public int Poisoness => 0;

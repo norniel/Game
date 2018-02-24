@@ -1,11 +1,11 @@
-﻿using Engine.Heros;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Engine.Heros;
 using Engine.Interfaces;
+using Engine.Objects;
 
 namespace Engine.Actions
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Objects;
     class CollectBranchAction: CollectSmth<Branch>
     {
         public override string Name => "Collect branch";

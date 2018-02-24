@@ -26,14 +26,14 @@ namespace Engine
             _totalSeconds = currentTotalSeconds;
 
             var currentTotalMinutes = (int)substraction.TotalMinutes + _startGameDate.Hour;
-            var currentYear = (int)(currentTotalMinutes / (24 * 10 * 12));
-            var currentWithoutYear = (int)(currentTotalMinutes % (24 * 10 * 12));
+            var currentYear = currentTotalMinutes / (24 * 10 * 12);
+            var currentWithoutYear = currentTotalMinutes % (24 * 10 * 12);
 
-            var currentMonth = (int)(currentWithoutYear / (24 * 10));
-            var currentWithoutMonth = (int)(currentWithoutYear % (24 * 10));
+            var currentMonth = currentWithoutYear / (24 * 10);
+            var currentWithoutMonth = currentWithoutYear % (24 * 10);
 
-            var currentDay = (int)(currentWithoutMonth / (24));
-            var currentWithoutDay = (int)(currentWithoutMonth % (24));
+            var currentDay = currentWithoutMonth / (24);
+            var currentWithoutDay = currentWithoutMonth % (24);
 
             var currentMinute = substraction.Seconds;
 
@@ -54,15 +54,15 @@ namespace Engine
 
             if (_currentGameDate.Hour >= 5 && _currentGameDate.Hour < 10)
             {
-                return 0.7 - 0.7 * ((int)(((_currentGameDate.Hour - 5) * 60 + _currentGameDate.Minute) / minutesDiv) * fract + fract);
+                return 0.7 - 0.7 * (((_currentGameDate.Hour - 5) * 60 + _currentGameDate.Minute) / minutesDiv * fract + fract);
             }
 
             if ((_currentGameDate.Hour >= 20 && _currentGameDate.Hour < 24) || _currentGameDate.Hour < 1)
             {
                 if (_currentGameDate.Hour < 1)
-                    return 0.7 * ((int)((4 * 60 + _currentGameDate.Minute) / minutesDiv) * fract + fract);
+                    return 0.7 * ((4 * 60 + _currentGameDate.Minute) / minutesDiv * fract + fract);
 
-                return 0.7 * ((int)(((_currentGameDate.Hour - 20) * 60 + _currentGameDate.Minute) / minutesDiv) * fract + fract);
+                return 0.7 * (((_currentGameDate.Hour - 20) * 60 + _currentGameDate.Minute) / minutesDiv * fract + fract);
             }
 
             return 0;
