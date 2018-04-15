@@ -22,5 +22,10 @@ namespace Engine.Objects.Fruits
             Behaviors.Add(new RoastBehavior(new RoastedApple()));
             Behaviors.Add(new EatableBehavior(2));
         }
+
+        public override GameObject Clone()
+        {
+            return new Apple();
+        }
     }
 }

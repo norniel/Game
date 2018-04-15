@@ -1,18 +1,14 @@
 ﻿using System.Collections.Generic;
 using Engine.Behaviors;
-using Engine.Interfaces;
-using Engine.Objects.Fruits;
 using Engine.Resources;
 using Engine.Tools;
 
 namespace Engine.Objects
 {
     [GenerateMap]
-    class Bush : FixedObject//, IHasSmthToCollect<Branch>, IHasSmthToCollect<RaspBerries>
+    class Bush : FixedObject
     {
-        private int _initialBerriesCount = 2;
         private int _berriesCount = 2;
-        private int _initialBranchesCount = 4;
         private int _branchesCount = 4;
 
         public Bush()
@@ -42,45 +38,5 @@ namespace Engine.Objects
             Behaviors.Add(new CollectBehavior<Berry>(new RaspBerries(), 2, _berriesCount));
             Behaviors.Add(new CollectBehavior<Branch>(new Branch(), 2, _branchesCount));
         }
-/*
-        int IHasSmthToCollect<Branch>.GetSmthPerCollectCount()
-        {
-            return 2;
-        }
-
-        int IHasSmthToCollect<RaspBerries>.GetSmthTotalCount()
-        {
-            return _berriesCount;
-        }
-
-        void IHasSmthToCollect<RaspBerries>.SetSmthTotalCount(int totalCount)
-        {
-            _berriesCount = totalCount;
-        }
-
-        RaspBerries IHasSmthToCollect<RaspBerries>.GetSmth()
-        {
-            return new RaspBerries();
-        }
-
-        int IHasSmthToCollect<RaspBerries>.GetSmthPerCollectCount()
-        {
-            return 2;
-        }
-
-        int IHasSmthToCollect<Branch>.GetSmthTotalCount()
-        {
-            return _branchesCount;
-        }
-
-        void IHasSmthToCollect<Branch>.SetSmthTotalCount(int totalCount)
-        {
-            _branchesCount = totalCount;
-        }
-
-        Branch IHasSmthToCollect<Branch>.GetSmth()
-        {
-            return new Branch();
-        }*/
     }
 }

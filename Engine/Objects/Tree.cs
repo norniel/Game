@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Engine.Behaviors;
-using Engine.Interfaces;
 using Engine.Objects;
 
 namespace Engine
 {
-    class Tree : FixedObject//, IHasSmthToCollect<Branch>, IHasSmthToCollect<Berry>, IHasSmthToCollect<Twig>
+    class Tree : FixedObject
     {
-        private const int _initialBerriesCount = 4;
         private int _berriesCount = 4;
-        private const int _initialBranchesCount = 4;
         private int _branchesCount = 4;
 
         private int _twigCount = 16;
-
-        private const int _twigInBranch = 4;
-
         public override int Height => 2;
         
         public Tree()
@@ -42,7 +35,7 @@ namespace Engine
         public override void InitializeBehaviors()
         {
             base.InitializeBehaviors();
-           // Behaviors.Add(new CollectBehavior<Berry>(new Berry(), 2, _berriesCount));
+            Behaviors.Add(new CollectBehavior<Berry>(new Berry(), 2, _berriesCount));
             Behaviors.Add(new CollectBehavior<Branch>(new Branch(), 1, _branchesCount));
             Behaviors.Add(new CollectBehavior<Twig>(new Twig(), 2, _twigCount));
         }
@@ -53,25 +46,15 @@ namespace Engine
         {
             var berriesCount = (GetBehavior(typeof(CollectBehavior<Berry>)) as CollectBehavior<Berry>).CurrentCount;
 
-            if (berriesCount > _initialBerriesCount / 2) return Id;
+            if (berriesCount > _berriesCount / 2) return Id;
 
-            if (berriesCount <= _initialBerriesCount / 2 && berriesCount > 0) return 0x00000200;
+            if (berriesCount <= _berriesCount / 2 && berriesCount > 0) return 0x00000200;
 
             return 0x00000300;
         }
 
         public virtual int Hardness { get; set; }
-        /*
-        int IHasSmthToCollect<Branch>.GetSmthPerCollectCount()
-        {
-            return 1;
-        }
 
-        int IHasSmthToCollect<Twig>.GetSmthTotalCount()
-        {
-            return _twigCount;
-        }
-        */
    /*     void IHasSmthToCollect<Twig>.SetSmthTotalCount(int totalCount)
         {
             _twigCount = totalCount;
@@ -81,26 +64,7 @@ namespace Engine
                 : (int)Math.Ceiling((double)_twigCount / _twigInBranch);
         }*/
 /*
-        Twig IHasSmthToCollect<Twig>.GetSmth()
-        {
-            return new Twig();
-        }
-
-        int IHasSmthToCollect<Twig>.GetSmthPerCollectCount()
-        {
-            return 2;
-        }*/
-/*
-        int IHasSmthToCollect<Berry>.GetSmthTotalCount()
-        {
-            return _berriesCount;
-        }
-
-        void IHasSmthToCollect<Berry>.SetSmthTotalCount(int totalCount)
-        {
-            _berriesCount = totalCount;
-        }
-*//*
+ /*
         void IHasSmthToCollect<Branch>.SetSmthTotalCount(int totalCount)
         {
             _branchesCount = totalCount;
@@ -108,26 +72,6 @@ namespace Engine
             _twigCount = (int) Math.Ceiling((double) _twigCount/_twigInBranch) == _branchesCount
                 ? _twigCount
                 : (int) Math.Ceiling((double) _branchesCount*_twigInBranch);
-        }*/
-/*
-        Berry IHasSmthToCollect<Berry>.GetSmth()
-        {
-            return new Berry();
-        }
-
-        int IHasSmthToCollect<Berry>.GetSmthPerCollectCount()
-        {
-            return 2;
-        }*/
- /*
-        int IHasSmthToCollect<Branch>.GetSmthTotalCount()
-        {
-            return _branchesCount;
-        }
-       
-        Branch IHasSmthToCollect<Branch>.GetSmth()
-        {
-            return new Branch();
         }*/
     }
 }

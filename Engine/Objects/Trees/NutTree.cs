@@ -1,5 +1,4 @@
 ﻿using Engine.Behaviors;
-using Engine.Interfaces;
 using Engine.Objects;
 using Engine.Objects.Fruits;
 using Engine.Tools;
@@ -7,7 +6,7 @@ using Engine.Tools;
 namespace Engine
 {
     [GenerateMap]
-    class NutTree: Tree//, IHasSmthToCollect<Berry>
+    class NutTree: Tree
     {
         public NutTree()
         {
@@ -15,11 +14,6 @@ namespace Engine
         }
 
         public override string Name => "Nut tree";
-
-        /*Berry IHasSmthToCollect<Berry>.GetSmth()
-        {
-            return new Nut();
-        }*/
 
         public override void InitializeBehaviors()
         {
