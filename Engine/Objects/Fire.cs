@@ -69,10 +69,7 @@ namespace Engine.Objects
 
         public void OnLastStateFinished()
         {
-            if (RemoveFromContainer != null)
-            {
-                RemoveFromContainer();
-            }
+            RemoveFromContainer?.Invoke();
         }
     }
 }

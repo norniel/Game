@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Engine.Behaviors;
 using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Interfaces.IActions;
@@ -30,10 +31,11 @@ namespace Engine.Actions
 
         public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
-            foreach (var removableObject in objects.OfType<IEatable>())
+            foreach (var eatableObject in objects.Where(o => o.HasBehavior(typeof(EatableBehavior))))
             {
-                hero.Eat(removableObject.Satiety);
-                (removableObject as GameObject)?.RemoveFromContainer();
+                var eatableBehavior = eatableObject.GetBehavior(typeof(EatableBehavior)) as EatableBehavior;
+                hero.Eat((int)(eatableBehavior.SatietyCoefficient * eatableObject.WeightDbl));
+                eatableObject.RemoveFromContainer();
             }
 
             return new FinishedActionResult();

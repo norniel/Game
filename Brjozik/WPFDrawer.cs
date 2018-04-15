@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Engine;
 using Engine.BridgeObjects;
-using Engine.Interfaces;
+using Engine.Tools;
 using Point = Engine.Point;
 using Rect = System.Windows.Rect;
 using Size = Engine.Size;

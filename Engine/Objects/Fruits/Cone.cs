@@ -25,5 +25,10 @@ namespace Engine.Objects.Fruits
         }
 
         public override string Name => Resource.Cone;
+
+        public override GameObject Clone()
+        {
+            return new Cone();
+        }
     }
 }

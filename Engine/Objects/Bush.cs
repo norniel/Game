@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using Engine.Behaviors;
 using Engine.Interfaces;
+using Engine.Objects.Fruits;
 using Engine.Resources;
 using Engine.Tools;
 
 namespace Engine.Objects
 {
     [GenerateMap]
-    class Bush : FixedObject, IHasSmthToCollect<Branch>, IHasSmthToCollect<RaspBerries>
+    class Bush : FixedObject//, IHasSmthToCollect<Branch>, IHasSmthToCollect<RaspBerries>
     {
         private int _initialBerriesCount = 2;
         private int _berriesCount = 2;
@@ -34,6 +36,13 @@ namespace Engine.Objects
             };
         }
 
+        public override void InitializeBehaviors()
+        {
+            base.InitializeBehaviors();
+            Behaviors.Add(new CollectBehavior<Berry>(new RaspBerries(), 2, _berriesCount));
+            Behaviors.Add(new CollectBehavior<Branch>(new Branch(), 2, _branchesCount));
+        }
+/*
         int IHasSmthToCollect<Branch>.GetSmthPerCollectCount()
         {
             return 2;
@@ -72,6 +81,6 @@ namespace Engine.Objects
         Branch IHasSmthToCollect<Branch>.GetSmth()
         {
             return new Branch();
-        }
+        }*/
     }
 }

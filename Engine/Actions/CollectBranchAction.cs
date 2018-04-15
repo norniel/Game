@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Engine.Behaviors;
 using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Objects;
@@ -17,7 +18,7 @@ namespace Engine.Actions
 
         public override bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            return objects.Any(obj => obj.Properties.Contains(Property.CollectBranch) && ((IHasSmthToCollect<Branch>)obj).GetSmthTotalCount() > 0);
+            return objects.Any(obj => obj.Properties.Contains(Property.CollectBranch) && (obj.GetBehavior(typeof(CollectBehavior<Branch>)) as CollectBehavior<Branch>)?.CurrentCount > 0);
         }
 
         public override double GetTiredness()

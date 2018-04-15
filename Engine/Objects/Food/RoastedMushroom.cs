@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Engine.Interfaces;
+using Engine.Behaviors;
 using Engine.Resources;
 
 namespace Engine.Objects
 {
-    internal class RoastedMushroom : FixedObject, IEatable
+    internal class RoastedMushroom : FixedObject
     {
         public RoastedMushroom()
         {
@@ -26,10 +26,17 @@ namespace Engine.Objects
             };
         }
 
+        public override void InitializeBehaviors()
+        {
+            base.InitializeBehaviors();
+            Behaviors.Add(new EatableBehavior(5));
+        }
+
         public override string Name => Resource.RoastedBurovik;
 
-        public int Poisoness => 0;
-
-        public int Satiety => 5;
+        public override GameObject Clone()
+        {
+            return new RoastedMushroom();
+        }
     }
 }

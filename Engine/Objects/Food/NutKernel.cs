@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Engine.Interfaces;
+using Engine.Behaviors;
 
 namespace Engine.Objects.Food
 {
-    public class NutKernel : FixedObject, IEatable
+    public class NutKernel : FixedObject
     {
         public NutKernel()
         {
@@ -25,9 +25,17 @@ namespace Engine.Objects.Food
             };
         }
 
-        public override string Name => "Nut Kernel";
-        public int Poisoness => 0;
+        public override void InitializeBehaviors()
+        {
+            base.InitializeBehaviors();
+            Behaviors.Add(new EatableBehavior(4));
+        }
 
-        public int Satiety => 4;
+        public override string Name => "Nut Kernel";
+
+        public override GameObject Clone()
+        {
+            return new NutKernel();
+        }
     }
 }

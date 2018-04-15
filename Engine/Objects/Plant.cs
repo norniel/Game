@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.ObjectStates;
 using Engine.Resources;
@@ -8,7 +9,7 @@ using Engine.Tools;
 namespace Engine.Objects
 {
     [GenerateMap]
-    internal class Plant: FixedObject, IBurnable, ICloneable
+    internal class Plant: FixedObject, ICloneable
     {
         private ObjectWithState ObjectWithState { get; }
 
@@ -43,9 +44,16 @@ namespace Engine.Objects
             };
         }
 
+        public override void InitializeBehaviors()
+        {
+            base.InitializeBehaviors();
+            Behaviors.Add(new BurnableBehavior(300));
+        }
+
         public override string Name => Resource.Plant;
 
-        public int TimeOfBurning {
+        public override double WeightDbl
+        {
             get
             {
                 if (ObjectWithState.CurrentState is Growing)
@@ -53,10 +61,10 @@ namespace Engine.Objects
                     var tToNext = ObjectWithState.TicksToNextState;
                     var tCount = ObjectWithState.CurrentState.TickCount;
 
-                    return tCount > 0 ? (tToNext/tCount)*100 : 0;
+                    return tCount > 0 ? (tToNext/tCount) : 0;
                 }
 
-                return 100;
+                return 1.0;
             }
         }
 

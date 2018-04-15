@@ -8,7 +8,7 @@ using Engine.States;
 
 namespace Engine.Heros
 {
-    public class Hero : MobileObject, IPicker, IEater
+    public class Hero : MobileObject, IEater
     {
       //  private Subject<EventPattern<StateEventArgs>> staSubject = new Subject<EventPattern<StateEventArgs>>();
 

@@ -23,5 +23,11 @@ namespace Engine.Objects
         }
 
         public override string Name => "Berries";
+
+
+        public override GameObject Clone()
+        {
+            return new Berry();
+        }
     }
 }

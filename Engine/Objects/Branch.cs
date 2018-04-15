@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using Engine.Behaviors;
 using Engine.Interfaces;
+using Engine.Objects.Fruits;
 using Engine.Resources;
 
 namespace Engine.Objects
 {
-    class Branch : FixedObject, IBurnable, IHasSmthToCollect<Twig>
+    class Branch : FixedObject//, IHasSmthToCollect<Twig>
     {
         private int _twigCount = 4;
 
@@ -32,28 +34,39 @@ namespace Engine.Objects
             };
         }
 
+        public override void InitializeBehaviors()
+        {
+            base.InitializeBehaviors();
+            Behaviors.Add(new BurnableBehavior(300));
+            Behaviors.Add(new CollectBehavior<Twig>(new Twig(), 2, _twigCount));
+
+        }
+
         public override string Name => Resource.Branch;
+        /*    
+            public int GetSmthPerCollectCount()
+            {
+                return 2;
+            }
 
-        public int TimeOfBurning => 300;
+            public int GetSmthTotalCount()
+            {
+                return _twigCount;
+            }
 
-        public int GetSmthPerCollectCount()
+            public void SetSmthTotalCount(int totalCount)
+            {
+                _twigCount = totalCount;
+            }
+
+            public Twig GetSmth()
+            {
+                return new Twig();
+            }*/
+
+        public override GameObject Clone()
         {
-            return 2;
-        }
-
-        public int GetSmthTotalCount()
-        {
-            return _twigCount;
-        }
-
-        public void SetSmthTotalCount(int totalCount)
-        {
-            _twigCount = totalCount;
-        }
-
-        public Twig GetSmth()
-        {
-            return new Twig();
+            return new Branch();
         }
     }
 }

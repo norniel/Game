@@ -1,4 +1,5 @@
-﻿using Engine.Interfaces;
+﻿using Engine.Behaviors;
+using Engine.Interfaces;
 using Engine.Objects;
 
 namespace Engine.States
@@ -15,9 +16,9 @@ namespace Engine.States
         }
         public void Act()
         {
-            var eatable = _objectToEat as IEatable;
-            if (eatable != null) {
-                _eater.Eat(eatable.Satiety);
+            var eatableBehavior = _objectToEat.GetBehavior(typeof(EatableBehavior)) as EatableBehavior;
+            if (eatableBehavior != null) {
+                _eater.Eat((int)(eatableBehavior.SatietyCoefficient + _objectToEat.WeightDbl));
                 _objectToEat.RemoveFromContainer?.Invoke();
             }
 

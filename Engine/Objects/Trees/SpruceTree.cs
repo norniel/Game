@@ -1,11 +1,12 @@
-﻿using Engine.Interfaces;
+﻿using Engine.Behaviors;
+using Engine.Interfaces;
 using Engine.Objects.Fruits;
 using Engine.Tools;
 
 namespace Engine.Objects.Trees
 {
     [GenerateMap]
-    class SpruceTree : Tree, IHasSmthToCollect<Berry>, IHasSmthToCollect<Root>
+    class SpruceTree : Tree//, IHasSmthToCollect<Berry>, IHasSmthToCollect<Root>
     {
         private int _rootCount = 4;
 
@@ -20,7 +21,7 @@ namespace Engine.Objects.Trees
         {
             return Id;
         }
-
+/*
         int IHasSmthToCollect<Root>.GetSmthPerCollectCount()
         {
             return 1;
@@ -35,7 +36,7 @@ namespace Engine.Objects.Trees
         {
             _rootCount = totalCount;
         }
-
+        
         Root IHasSmthToCollect<Root>.GetSmth()
         {
             return new Root();
@@ -44,12 +45,20 @@ namespace Engine.Objects.Trees
         Berry IHasSmthToCollect<Berry>.GetSmth()
         {
             return new Cone();
-        }
+        }*/
 
         public override void InitializeProperties()
         {
             base.InitializeProperties();
             Properties.Add(Property.CollectRoot);
+        }
+
+        public override void InitializeBehaviors()
+        {
+            base.InitializeBehaviors();
+            Behaviors.RemoveWhere(bv => bv.GetType() == typeof(CollectBehavior<Berry>));
+            Behaviors.Add(new CollectBehavior<Berry>(new Cone(), 2, 4));
+            Behaviors.Add(new CollectBehavior<Root>(new Root(), 1, _rootCount));
         }
     }
 }

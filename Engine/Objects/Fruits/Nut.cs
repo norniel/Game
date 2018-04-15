@@ -25,5 +25,10 @@ namespace Engine.Objects.Fruits
         }
 
         public override string Name => "Nut";
+
+        public override GameObject Clone()
+        {
+            return new Nut();
+        }
     }
 }

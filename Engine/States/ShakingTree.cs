@@ -1,4 +1,5 @@
-﻿using Engine.Interfaces;
+﻿using Engine.Behaviors;
+using Engine.Interfaces;
 using Engine.Objects;
 
 namespace Engine.States
@@ -6,20 +7,20 @@ namespace Engine.States
     class ShakingTree:IState
     {
         protected readonly MobileObject _mobileObject;
-        private readonly IHasSmthToCollect<Berry> Tree;
+        private readonly CollectBehavior<Berry> TreeBehavior;
         private const int MAX_MAXSHAKINGTICK = 20;
         private int _shakingTicks;
         private readonly int _maxRestingTicks;
-        public ShakingTree(MobileObject mobileObject, IHasSmthToCollect<Berry> tree)
+        public ShakingTree(MobileObject mobileObject, CollectBehavior<Berry> treeBehavior)
         {
             _mobileObject = mobileObject;
             _maxRestingTicks = Game.Random.Next(MAX_MAXSHAKINGTICK);
-            Tree = tree;
+            TreeBehavior = treeBehavior;
         }
 
         public void Act()
         {
-            if (Tree.GetSmthTotalCount() <= 0)
+            if (TreeBehavior.CurrentCount <= 0)
             {
                 _mobileObject.StateEvent.FireEvent();
                 return;
@@ -27,12 +28,12 @@ namespace Engine.States
 
             if (_maxRestingTicks <= _shakingTicks)
             {
-                Tree.SetSmthTotalCount(Tree.GetSmthTotalCount() - 1);
-                var fruit = Tree.GetSmth();
+                TreeBehavior.CurrentCount = TreeBehavior.CurrentCount - 1;
+                var fruit = TreeBehavior.GetSmth();
                 var destCell = Game.Map.GetNearestRandomEmptyCellFromPoint(_mobileObject.Position);
 
                 if(destCell != null)
-                    Game.Map.SetObjectFromCell(destCell, fruit);
+                    Game.Map.SetObjectFromCell(destCell, fruit as FixedObject);
 
                 _mobileObject.StateEvent.FireEvent();
                 return;

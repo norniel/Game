@@ -25,5 +25,10 @@ namespace Engine.Objects
         }
 
         public override string Name => Resource.Root;
+
+        public override GameObject Clone()
+        {
+            return new Root();
+        }
     }
 }

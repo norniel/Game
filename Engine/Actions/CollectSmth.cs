@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Engine.Behaviors;
 using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Interfaces.IActions;
@@ -9,7 +11,7 @@ using Engine.Tools;
 
 namespace Engine.Actions
 {
-    internal abstract class CollectSmth<T> : IAction where T: GameObject
+    internal abstract class CollectSmth<T> : IAction where T : GameObject
     {
         public abstract string Name { get; }
 
@@ -20,23 +22,24 @@ namespace Engine.Actions
 
         public virtual string GetName(IEnumerable<GameObject> objects)
         {
-            var objectToCollectFrom = objects.OfType<IHasSmthToCollect<T>>().FirstOrDefault();
+            var objectToCollectFrom = objects
+                .Select(x => (x.GetBehavior(typeof(CollectBehavior<T>)) as CollectBehavior<T>)).FirstOrDefault();
 
             if (objectToCollectFrom == null)
             {
                 return Name;
             }
 
-            return string.Format(ActionsResource.Collect, objectToCollectFrom.GetSmth().Name);
+            return string.Format(ActionsResource.Collect, objectToCollectFrom.Name);
         }
 
         public abstract bool IsApplicable(Property property);
 
         public virtual IActionResult Do(Hero hero, IList<GameObject> objects)
         {
-            var actionIsNotOver = objects.OfType<IHasSmthToCollect<T>>().Any(hb => Collect(hb, hero));
+            var actionIsNotOver = objects.Select(x => (x.GetBehavior(typeof(CollectBehavior<T>)) as CollectBehavior<T>)).Any(hb => Collect(hb, hero));
 
-            return actionIsNotOver ? (IActionResult)new UnFinishedActionResult() : new FinishedActionResult();
+            return actionIsNotOver ? (IActionResult) new UnFinishedActionResult() : new FinishedActionResult();
         }
 
         public abstract bool CanDo(Hero hero, IEnumerable<GameObject> objects);
@@ -45,42 +48,43 @@ namespace Engine.Actions
             Hero hero)
         {
             var necessaryObjects = objects.Where(obj => obj.Properties.Any(IsApplicable))
-                .OfType<IHasSmthToCollect<T>>()
-                .Where(x => x.GetSmthTotalCount() > 0)
-                .Cast<GameObject>()
+                .Where(x => x.HasBehavior(typeof(CollectBehavior<T>))) //.OfType<IHasSmthToCollect<T>>()
+                .Where(x => (x.GetBehavior(typeof(CollectBehavior<T>)) as CollectBehavior<T>).CurrentCount >
+                            0) //.Where(x => x.GetSmthTotalCount() > 0)
+                //.Cast<GameObject>()
                 .ToList();
 
-            if(necessaryObjects.Any())
+            if (necessaryObjects.Any())
                 yield return necessaryObjects;
         }
 
         public abstract double GetTiredness();
 
-        private bool Collect(IHasSmthToCollect<T> objectWithSmth, Hero hero)
+        private bool Collect(CollectBehavior<T> objectWithSmth, Hero hero)
         {
-            if (objectWithSmth.GetSmthTotalCount() <= 0)
+            if (objectWithSmth.CurrentCount <= 0)
                 return false;
 
-            int smthToBagCount = objectWithSmth.GetSmthTotalCount() < objectWithSmth.GetSmthPerCollectCount() ?
-                objectWithSmth.GetSmthTotalCount() :
-                objectWithSmth.GetSmthPerCollectCount();
+            int smthToBagCount = objectWithSmth.CurrentCount < objectWithSmth.PerCollectCount
+                ? objectWithSmth.CurrentCount
+                : objectWithSmth.PerCollectCount;
 
             var addedToBagCount = 0;
 
             for (int i = 0; i < smthToBagCount; i++)
             {
                 var objToBag = objectWithSmth.GetSmth();
-                if(!hero.AddToBag(objToBag))
+                if (!hero.AddToBag(objToBag))
                     break;
 
                 addedToBagCount++;
             }
 
-            objectWithSmth.SetSmthTotalCount(objectWithSmth.GetSmthTotalCount() < addedToBagCount
-                ? 0
-                : objectWithSmth.GetSmthTotalCount() - addedToBagCount);
+            var newCurrent = objectWithSmth.CurrentCount - addedToBagCount;
 
-            return objectWithSmth.GetSmthTotalCount() > 0 && addedToBagCount == smthToBagCount && !hero.Bag.IsFull;
+            objectWithSmth.CurrentCount = Math.Max(0, newCurrent);;
+
+            return objectWithSmth.CurrentCount > 0 && addedToBagCount == smthToBagCount && !hero.Bag.IsFull;
         }
 
         public Point GetDestination(Point destination, FixedObject destObject, Hero hero)

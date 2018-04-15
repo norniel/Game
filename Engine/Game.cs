@@ -9,6 +9,7 @@ using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.LargeObjects;
+using Engine.Tools;
 using Unity;
 using Unity.Lifetime;
 
@@ -231,9 +232,9 @@ namespace Engine
                     var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
                     _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y, gameObject.Height);
 
-                    if (gameObject is IBurning burnable)
+                    if (gameObject is IBurning burning)
                     {
-                        lightObjectsList.Add(new BurningProps(visibleDestination, burnable.LightRadius));
+                        lightObjectsList.Add(new BurningProps(visibleDestination, burning.LightRadius));
                     }
                 }
 

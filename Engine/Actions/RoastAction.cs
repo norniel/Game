@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Engine.Behaviors;
 using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Objects;
@@ -24,11 +25,11 @@ namespace Engine.Actions
 
         protected override bool DoNotLast(Hero hero, IEnumerable<GameObject> objects)
         {
-            var burnable = objects.FirstOrDefault(o => o is IBurnable);
-            var twig = objects.OfType<Twig>().FirstOrDefault();
-            var roastable = objects.OfType<IRoastable>().ToList();
+            var hasBurning = objects.Any(o => o is IBurning);
+            var hasTwig = objects.Any(o => o is Twig);
+            var hasRoastable = objects.Any(o => o is Twig);
 
-            if (burnable == null || twig == null || !roastable.Any())
+            if (!hasBurning || !hasTwig || !hasRoastable)
             {
                 return true;
             }
@@ -38,11 +39,11 @@ namespace Engine.Actions
 
         protected override void DoLast(Hero hero, IEnumerable<GameObject> objects)
         {
-            var burnable = objects.FirstOrDefault(o => o is IBurnable);
+            var hasBurning = objects.Any(o => o is IBurning);
             var twig = objects.OfType<Twig>().FirstOrDefault();
-            var roastable = objects.OfType<IRoastable>().ToList();
+            var roastable = objects.Where(o => o.HasBehavior(typeof(RoastBehavior))).ToList();
 
-            if (burnable == null || twig == null || !roastable.Any())
+            if (!hasBurning || twig == null || !roastable.Any())
             {
                 return;
             }
@@ -50,12 +51,16 @@ namespace Engine.Actions
             twig.RemoveFromContainer();
             foreach (var r in roastable)
             {
-                var roasted = r.GetRoasted();
+                if(!(r.GetBehavior(typeof(RoastBehavior)) is RoastBehavior roastBehavior))
+                    continue;
+
+                var roasted = roastBehavior.GetRoasted();
 
                 if (!hero.AddToBag(roasted))
                     break;
 
-                ((GameObject)r).RemoveFromContainer();
+                r.RemoveFromContainer();
+
             }
         }
 
@@ -68,7 +73,7 @@ namespace Engine.Actions
             Hero hero)
         {
             var roastingObjects = hero.GetContainerItems()
-                .Where(o => o.Properties.Contains(Property.Roastable) && o is IRoastable)
+                .Where(o => o.Properties.Contains(Property.Roastable) && o.HasBehavior(typeof(RoastBehavior)))
                 .GroupBy(o => o.GetType())
                 .Select(gr => gr.Take(3));
 

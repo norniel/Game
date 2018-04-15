@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Engine.Interfaces;
+using Engine.Behaviors;
 using Engine.Resources;
 
 namespace Engine.Objects.Food
 {
-    internal class RoastedApple : FixedObject, IEatable
+    internal class RoastedApple : FixedObject
     {
         public RoastedApple()
         {
@@ -26,9 +26,17 @@ namespace Engine.Objects.Food
             };
         }
 
-        public override string Name => Resource.RoastedApple;
-        public int Poisoness => 0;
+        public override void InitializeBehaviors()
+        {
+            base.InitializeBehaviors();
+            Behaviors.Add(new EatableBehavior(3));
+        }
 
-        public int Satiety => 3;
+        public override string Name => Resource.RoastedApple;
+
+        public override GameObject Clone()
+        {
+            return new RoastedApple();
+        }
     }
 }

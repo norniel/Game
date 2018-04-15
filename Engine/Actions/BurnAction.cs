@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Engine.Behaviors;
 using Engine.Heros;
 using Engine.Interfaces;
 using Engine.Interfaces.IActions;
@@ -21,7 +22,7 @@ namespace Engine.Actions
 
         public string GetName(IEnumerable<GameObject> objects)
         {
-            var burnable = objects.FirstOrDefault(o => o is IBurnable);
+            var burnable = objects.FirstOrDefault(o => o.HasBehavior(typeof(BurnableBehavior)));
 
             if (burnable == null)
             {
@@ -39,7 +40,7 @@ namespace Engine.Actions
         public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             var gameObjects = objects as GameObject[] ?? objects.ToArray();
-            var burnable = gameObjects.FirstOrDefault(o => o is IBurnable);
+            var burnable = gameObjects.FirstOrDefault(o => o.HasBehavior(typeof(BurnableBehavior)));
             var burning = gameObjects.OfType<IBurning>().FirstOrDefault();
 
             if (burnable == null || burning == null)
@@ -47,7 +48,8 @@ namespace Engine.Actions
                 return new FinishedActionResult();
             }
 
-            burning.TimeOfBurning += ((IBurnable)burnable).TimeOfBurning;
+            var burnableBehavior = burnable.GetBehavior(typeof(BurnableBehavior)) as BurnableBehavior;
+            burning.TimeOfBurning += (int)(burnableBehavior.Сoefficient * burnable.WeightDbl);
             burnable.RemoveFromContainer();
 
             return new FinishedActionResult();
@@ -60,7 +62,7 @@ namespace Engine.Actions
 
         public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-            var burningObjects = hero.GetContainerItems().Where(o => o is IBurnable).GroupBy(o => o.GetType()).Select(gr => gr.First());
+            var burningObjects = hero.GetContainerItems().Where(o => o.HasBehavior(typeof(BurnableBehavior))).GroupBy(o => o.GetType()).Select(gr => gr.First());
 
             return burningObjects.Select(bo => new List<GameObject> {bo}.Union(objects).ToList());
         }

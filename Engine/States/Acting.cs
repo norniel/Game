@@ -40,7 +40,7 @@ namespace Engine.States
             if (!isFinished)
             {
                 var hero = _mobileObject as Hero;
-                var actionResult = action.Do(hero, objects);
+                var actionResult = _action.Do(hero, _objects);
                 isFinished = actionResult.IsFinished;
                 
                 actionResult.Apply(hero);

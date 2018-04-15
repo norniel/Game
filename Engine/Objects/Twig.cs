@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Engine.Interfaces;
+using Engine.Behaviors;
 using Engine.Resources;
 
 namespace Engine.Objects
 {
-    class Twig : FixedObject, IBurnable
+    class Twig : FixedObject
     {
         public Twig() 
         {
@@ -25,8 +25,17 @@ namespace Engine.Objects
             };
         }
 
-        public int TimeOfBurning => 100;
-
+        public override void InitializeBehaviors()
+        {
+            base.InitializeBehaviors();
+            Behaviors.Add(new BurnableBehavior(100));
+        }
+        
         public override string Name => Resource.Twig;
+
+        public override GameObject Clone()
+        {
+            return new Twig();
+        }
     }
 }

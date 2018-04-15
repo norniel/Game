@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.ObjectStates;
 using Engine.Resources;
@@ -8,7 +9,7 @@ using Engine.Tools;
 namespace Engine.Objects
 {
     [GenerateMap]
-    internal class Mushroom : FixedObject, ICloneable, IEatable, IRoastable
+    internal class Mushroom : FixedObject, ICloneable
     {
         private ObjectWithState ObjectWithState { get; }
 
@@ -45,6 +46,13 @@ namespace Engine.Objects
             };
         }
 
+        public override void InitializeBehaviors()
+        {
+            base.InitializeBehaviors();
+            Behaviors.Add(new RoastBehavior(new RoastedMushroom()));
+            Behaviors.Add(new EatableBehavior(2));
+        }
+
         public override string Name => Resource.Burovik;
 
 
@@ -65,23 +73,16 @@ namespace Engine.Objects
 
             return Id;
         }
-
-        public int Poisoness => 0;
-
-        public int Satiety
+        
+        public override double WeightDbl
         {
             get
             {
                 if (ObjectWithState.CurrentState is Growing)
-                    return 1;
+                    return 0.5;
 
-                return 2;
+                return 1;
             }
-        }
-
-        public GameObject GetRoasted()
-        {
-            return new RoastedMushroom();
         }
     }
 }
