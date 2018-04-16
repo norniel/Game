@@ -2,7 +2,7 @@
 
 namespace Engine.Objects
 {
-    class Berry : FixedObject
+    public class Berry : FixedObject
     {
         public Berry() 
         {

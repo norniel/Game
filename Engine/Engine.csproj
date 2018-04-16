@@ -3,6 +3,7 @@
     <TargetFramework>net4.6.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Unity" Version="5.5.6" />
     <PackageReference Include="System.Reactive" Version="3.1.1" />
     <PackageReference Include="XAct.Wintellect.PowerCollections" Version="0.0.1" />

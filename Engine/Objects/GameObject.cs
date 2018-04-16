@@ -7,8 +7,8 @@ namespace Engine.Objects
 {
     public abstract class GameObject:IRemovableObject
     {
-        public HashSet<Property> Properties { get; protected set; }
-        public HashSet<IBehavior> Behaviors { get; protected set; }
+        public HashSet<Property> Properties { get; set; }
+        public HashSet<IBehavior> Behaviors { get; set; }
         public uint Id { get; protected set; }
 
         public abstract string Name { get; }

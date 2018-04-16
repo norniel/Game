@@ -2,9 +2,9 @@
 
 namespace Engine.Behaviors
 {
-    class EatableBehavior : IBehavior
+    public class EatableBehavior : IBehavior
     {
-        public int SatietyCoefficient { get; private set; }
+        public int SatietyCoefficient { get; set; }
 
         int Poisoness { get; }
 

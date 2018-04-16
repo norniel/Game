@@ -10,7 +10,6 @@ namespace Engine
         private int _branchesCount = 4;
 
         private int _twigCount = 16;
-        public override int Height => 2;
         
         public Tree()
         {
@@ -19,6 +18,8 @@ namespace Engine
             Size = new Size( 1, 1 );
 
             Id = 0x00000100;
+
+            Height = 2;
         }
 
         public override void InitializeProperties()

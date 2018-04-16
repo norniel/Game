@@ -4,7 +4,7 @@ using Engine.Resources;
 
 namespace Engine.Objects.Fruits
 {
-    class Apple: Berry
+    public class Apple: Berry
     {
         public override int Weight => 2;
 
