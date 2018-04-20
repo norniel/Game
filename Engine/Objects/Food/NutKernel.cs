@@ -3,7 +3,7 @@ using Engine.Behaviors;
 
 namespace Engine.Objects.Food
 {
-    public class NutKernel : FixedObject
+   /* public class NutKernel : FixedObject
     {
         public NutKernel()
         {
@@ -12,6 +12,8 @@ namespace Engine.Objects.Food
             Size = new Size(1, 1);
 
             Id = 0x00002600;
+
+            Name = "Nut Kernel";
         }
 
         public override int Weight => 1;
@@ -30,12 +32,5 @@ namespace Engine.Objects.Food
             base.InitializeBehaviors();
             Behaviors.Add(new EatableBehavior(4));
         }
-
-        public override string Name => "Nut Kernel";
-
-        public override GameObject Clone()
-        {
-            return new NutKernel();
-        }
-    }
+    }*/
 }

@@ -1,34 +1,37 @@
 ﻿using System.Collections.Generic;
+using Engine.Behaviors;
+using Engine.Interfaces;
 using Engine.Resources;
 
 namespace Engine.Objects
 {
-    class Root:FixedObject
+    public class RootContext : IObjectContext
     {
-        public Root()
+        public uint Id { get; set; } = 0x00002400;
+
+        public string Name { get; set; } = Resource.Root;
+        public int Weight { get; set; } = 1;
+
+        public HashSet<Property> Properties { get; set; } = new HashSet<Property>
         {
-            IsPassable = true;
+            Property.Diggable
+        };
 
-            Size = new Size(1, 1);
+        public HashSet<IBehavior> Behaviors { get; set; } = new HashSet<IBehavior>{};
 
-            Id = 0x00002400;
+        public GameObject Produce()
+        {
+            return new Root(this);
         }
+    }
 
-        public override int Weight => 1;
+    class Root : FixedObject
+    {
+        private RootContext _rootContext;
 
-        public override void InitializeProperties()
+        public Root(RootContext rootContext) : base(rootContext)
         {
-            Properties = new HashSet<Property>
-            {
-               Property.Diggable
-            };
-        }
-
-        public override string Name => Resource.Root;
-
-        public override GameObject Clone()
-        {
-            return new Root();
+            _rootContext = rootContext;
         }
     }
 }

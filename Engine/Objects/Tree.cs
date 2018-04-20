@@ -20,7 +20,8 @@ namespace Engine
             Id = 0x00000100;
 
             Height = 2;
-        }
+            Name = "Tree";
+    }
 
         public override void InitializeProperties()
         {
@@ -36,12 +37,10 @@ namespace Engine
         public override void InitializeBehaviors()
         {
             base.InitializeBehaviors();
-            Behaviors.Add(new CollectBehavior<Berry>(new Berry(), 2, _berriesCount));
-            Behaviors.Add(new CollectBehavior<Branch>(new Branch(), 1, _branchesCount));
-            Behaviors.Add(new CollectBehavior<Twig>(new Twig(), 2, _twigCount));
+            Behaviors.Add(new CollectBehavior<Berry>("Berry", 2, _berriesCount));
+            Behaviors.Add(new CollectBehavior<Branch>("Branch", 1, _branchesCount));
+            Behaviors.Add(new CollectBehavior<Twig>("Twig", 2, _twigCount));
         }
-
-        public override string Name => "Tree";
 
         public override uint GetDrawingCode()
         {

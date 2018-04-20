@@ -5,23 +5,22 @@ namespace Engine.Behaviors
 {
     internal class CollectBehavior<T> :IBehavior where T : GameObject
     {
-        private readonly T _smth;
         public int PerCollectCount { get; private set; }
 
         public int TotalCount { get; private set; }
 
         public int CurrentCount { get; set; }
 
-        public string Name => _smth.Name;
+        public string Name { get; set; }
 
         public GameObject GetSmth()
         {
-            return _smth.Clone();
+            return Game.Factory.Produce(Name);
         }
 
-        public CollectBehavior(T smth, int perCollectCount, int totalCount)
+        public CollectBehavior(string name, int perCollectCount, int totalCount)
         {
-            _smth = smth;
+            Name = name;
             PerCollectCount = perCollectCount;
             TotalCount = totalCount;
             CurrentCount = totalCount;

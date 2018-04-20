@@ -1,41 +1,40 @@
 ﻿using System.Collections.Generic;
 using Engine.Behaviors;
+using Engine.Interfaces;
 using Engine.Resources;
 
 namespace Engine.Objects
 {
+    public class TwigContext : IObjectContext
+    {
+        public uint Id { get; set; } = 0x00001C00;
+
+        public string Name { get; set; } = Resource.Twig;
+        public int Weight { get; set; } = 1;
+
+        public HashSet<Property> Properties { get; set; } = new HashSet<Property>
+        {
+            Property.Pickable
+        };
+
+        public HashSet<IBehavior> Behaviors { get; set; } = new HashSet<IBehavior>
+        {
+            new BurnableBehavior(100)
+        };
+
+        public GameObject Produce()
+        {
+            return new Twig(this);
+        }
+    }
+
     class Twig : FixedObject
     {
-        public Twig() 
+        private readonly TwigContext _twigContext;
+
+        public Twig(TwigContext twigContext): base(twigContext)
         {
-            IsPassable = true;
-
-            Size = new Size(1, 1);
-
-            Id = 0x00001C00;
-        }
-
-        public override int Weight => 1;
-
-        public override void InitializeProperties()
-        {
-            Properties = new HashSet<Property>
-            {
-               Property.Pickable
-            };
-        }
-
-        public override void InitializeBehaviors()
-        {
-            base.InitializeBehaviors();
-            Behaviors.Add(new BurnableBehavior(100));
-        }
-        
-        public override string Name => Resource.Twig;
-
-        public override GameObject Clone()
-        {
-            return new Twig();
+            _twigContext = twigContext;
         }
     }
 }

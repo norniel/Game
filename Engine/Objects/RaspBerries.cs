@@ -1,12 +1,13 @@
 ﻿using Engine.Behaviors;
 
 namespace Engine.Objects
-{
+{/*
     class RaspBerries : Berry
     {
         public RaspBerries()
         {
             Id = 0x00000900;
+            Name = "Raspberries";
         }
 
         public override void InitializeBehaviors()
@@ -14,12 +15,5 @@ namespace Engine.Objects
             base.InitializeBehaviors();
             Behaviors.Add(new EatableBehavior(1));
         }
-
-        public override string Name => "Raspberries";
-
-        public override GameObject Clone()
-        {
-            return new RaspBerries();
-        }
-    }
+    }*/
 }

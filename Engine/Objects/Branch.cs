@@ -1,50 +1,46 @@
 ﻿using System.Collections.Generic;
 using Engine.Behaviors;
+using Engine.Interfaces;
 using Engine.Resources;
 
 namespace Engine.Objects
 {
+    public class BranchContext : IObjectContext
+    {
+        public uint Id { get; set; } = 0x00000800;
+
+        public string Name { get; set; } = Resource.Branch;
+
+        public HashSet<Property> Properties { get; set; } = new HashSet<Property>
+        {
+            Property.Pickable,
+            Property.NeedToCreateStoneAxe,
+            Property.NeedToMakeFireWithWood,
+            Property.CollectTwig,
+            Property.Branch,
+            Property.NeedToBuildWickiup
+        };
+
+        public HashSet<IBehavior> Behaviors { get; set; } = new HashSet<IBehavior>
+        {
+            new BurnableBehavior(300),
+            new CollectBehavior<Twig>("Twig", 2, 4)
+        };
+
+        public int Weight { get; set; } = 5;
+
+        public GameObject Produce()
+        {
+            return new Branch(this);
+        }
+    }
+
     class Branch : FixedObject
     {
-        private int _twigCount = 4;
-
-        public Branch() 
+        private readonly BranchContext _context;
+        public Branch(BranchContext context): base(context)
         {
-            IsPassable = true;
-
-            Size = new Size(1, 1);
-
-            Id = 0x00000800;
-        }
-
-        public override int Weight => 5;
-
-        public override void InitializeProperties()
-        {
-            Properties = new HashSet<Property>
-            {
-               Property.Pickable,
-               Property.NeedToCreateStoneAxe,
-               Property.NeedToMakeFireWithWood,
-               Property.CollectTwig,
-               Property.Branch,
-               Property.NeedToBuildWickiup
-            };
-        }
-
-        public override void InitializeBehaviors()
-        {
-            base.InitializeBehaviors();
-            Behaviors.Add(new BurnableBehavior(300));
-            Behaviors.Add(new CollectBehavior<Twig>(new Twig(), 2, _twigCount));
-
-        }
-
-        public override string Name => Resource.Branch;
-
-        public override GameObject Clone()
-        {
-            return new Branch();
+            _context = context;
         }
     }
 }

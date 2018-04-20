@@ -10,6 +10,7 @@ namespace Engine.Objects
             IsPassable = true;
             Size = new Size(1, 1);
             Id = 0x00001300;
+            Name = Resource.StoneAxe;
         }
 
         public override int Weight => 10;
@@ -23,7 +24,5 @@ namespace Engine.Objects
                 Property.Cracker
             };
         }
-
-        public override string Name => Resource.StoneAxe;
     }
 }

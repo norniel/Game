@@ -28,10 +28,9 @@ namespace Engine.Objects
                 HorizontalBorder[i, 0] = true;
                 HorizontalBorder[i, 1] = true;
             }
+            Name = Resource.Wickiup;
         }
         
-        public override string Name => Resource.Wickiup;
-
         public override uint GetDrawingCode()
         {
             if(IsBuild)

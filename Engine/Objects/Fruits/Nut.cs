@@ -2,7 +2,7 @@
 
 namespace Engine.Objects.Fruits
 {
-    class Nut: Berry
+    /*class Nut: Berry
     {
         public Nut()
         {
@@ -11,6 +11,7 @@ namespace Engine.Objects.Fruits
             Size = new Size(1, 1);
 
             Id = 0x00002600;
+            Name = "Nut";
         }
 
         public override int Weight => 1;
@@ -24,11 +25,9 @@ namespace Engine.Objects.Fruits
             };
         }
 
-        public override string Name => "Nut";
-
         public override GameObject Clone()
         {
             return new Nut();
         }
-    }
+    }*/
 }

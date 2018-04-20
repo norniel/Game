@@ -4,7 +4,7 @@ using Engine.Resources;
 
 namespace Engine.Objects
 {
-    internal class RoastedMushroom : FixedObject
+   /* internal class RoastedMushroom : FixedObject
     {
         public RoastedMushroom()
         {
@@ -13,6 +13,7 @@ namespace Engine.Objects
             Size = new Size(1, 1);
 
             Id = 0x00001A00;
+            Name = Resource.RoastedBurovik;
         }
 
         public override int Weight => 2;
@@ -31,12 +32,5 @@ namespace Engine.Objects
             base.InitializeBehaviors();
             Behaviors.Add(new EatableBehavior(5));
         }
-
-        public override string Name => Resource.RoastedBurovik;
-
-        public override GameObject Clone()
-        {
-            return new RoastedMushroom();
-        }
-    }
+    }*/
 }

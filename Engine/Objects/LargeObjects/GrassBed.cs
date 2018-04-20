@@ -11,10 +11,9 @@ namespace Engine.Objects.LargeObjects
             Size = new Size(1, 2);
             IsPassable = false;
             Id = 0x00001D00;
+            Name = "Grass bed";
         }
-
-        public override string Name => "Grass bed";
-
+        
         public override uint GetDrawingCode()
         {
             if(IsBuild)

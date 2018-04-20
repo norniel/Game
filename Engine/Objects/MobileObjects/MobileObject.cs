@@ -61,6 +61,8 @@ namespace Engine
             Speed = 2;
             Angle = 0;
 
+            Name = "Mobile object";
+
             StateEvent = new StateEvent();
             _stateQueue = new Queue<IState>();
             PointList = new List<Point>();
@@ -101,8 +103,6 @@ namespace Engine
                     State.Act();
             });
         }
-
-        public override string Name => "Mobile object";
 
         public virtual void EnqueueNextState()
         {

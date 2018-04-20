@@ -11,7 +11,7 @@ namespace Tests
         [TestMethod]
         public void TestMethod1()
         {
-            var settings = new JsonSerializerSettings()
+          /*  var settings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Objects,
                 TypeNameAssemblyFormatHandling =  TypeNameAssemblyFormatHandling.Simple
@@ -22,7 +22,7 @@ namespace Tests
             berry.Behaviors.Add(new EatableBehavior(1));
             var result = JsonConvert.SerializeObject(berry, Formatting.None, settings);
 
-            var resBerry = JsonConvert.DeserializeObject<Berry>(result, settings);
+            var resBerry = JsonConvert.DeserializeObject<Berry>(result, settings);*/
         }
     }
 }

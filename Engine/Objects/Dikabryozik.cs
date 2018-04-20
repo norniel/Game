@@ -6,6 +6,7 @@ using Engine.Interfaces;
 using Engine.Objects.Fruits;
 using Engine.Objects.Trees;
 using Engine.ObjectStates;
+using Engine.Resources;
 using Engine.States;
 using Engine.Tools;
 
@@ -29,6 +30,8 @@ namespace Engine.Objects
 
             Speed = 10;
 
+            Name = "Dikabryozik";
+
             ViewRadius = 3;
             ViewSight = new Size((uint)ViewRadius, (uint)ViewRadius);
             Position = position;
@@ -50,8 +53,6 @@ namespace Engine.Objects
         {
             Properties = new HashSet<Property>();
         }
-
-        public override string Name => "Dikabryozik";
 
         public override void EnqueueNextState()
         {
@@ -89,7 +90,7 @@ namespace Engine.Objects
             var eatablePoint = visiblePoints.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
-                if (obj is Apple || obj is Mushroom)
+                if ((obj is Berry && obj.Name == Resource.Apple) || obj is Mushroom)
                     return true;
 
                 return false;
@@ -144,7 +145,7 @@ namespace Engine.Objects
             var eatablePoint = visiblePoints.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
-                return obj is Apple || obj is Mushroom;
+                return (obj is Berry && obj.Name == Resource.Apple) || obj is Mushroom;
             });
 
             if (eatablePoint != null)

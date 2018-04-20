@@ -4,7 +4,7 @@ using Engine.Resources;
 
 namespace Engine.Objects.Food
 {
-    internal class RoastedApple : FixedObject
+   /* internal class RoastedApple : FixedObject
     {
         public RoastedApple()
         {
@@ -13,6 +13,7 @@ namespace Engine.Objects.Food
             Size = new Size(1, 1);
 
             Id = 0x00001B00;
+            Name = Resource.RoastedApple;
         }
 
         public override int Weight => 2;
@@ -31,12 +32,5 @@ namespace Engine.Objects.Food
             base.InitializeBehaviors();
             Behaviors.Add(new EatableBehavior(3));
         }
-
-        public override string Name => Resource.RoastedApple;
-
-        public override GameObject Clone()
-        {
-            return new RoastedApple();
-        }
-    }
+    }*/
 }

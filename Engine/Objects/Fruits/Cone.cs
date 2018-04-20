@@ -3,7 +3,7 @@ using Engine.Resources;
 
 namespace Engine.Objects.Fruits
 {
-    class Cone:Berry
+   /* class Cone:Berry
     {
         public Cone() 
         {
@@ -12,6 +12,7 @@ namespace Engine.Objects.Fruits
             Size = new Size(1, 1);
 
             Id = 0x00001700;
+            Name = Resource.Cone;
         }
 
         public override int Weight => 2;
@@ -23,12 +24,5 @@ namespace Engine.Objects.Fruits
                Property.Pickable
             };
         }
-
-        public override string Name => Resource.Cone;
-
-        public override GameObject Clone()
-        {
-            return new Cone();
-        }
-    }
+    }*/
 }

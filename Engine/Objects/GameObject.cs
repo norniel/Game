@@ -9,11 +9,11 @@ namespace Engine.Objects
     {
         public HashSet<Property> Properties { get; set; }
         public HashSet<IBehavior> Behaviors { get; set; }
-        public uint Id { get; protected set; }
+        public uint Id { get; set; }
 
-        public abstract string Name { get; }
+        public string Name { get; set; }
 
-        public virtual int Weight => 1;
+        public virtual int Weight { get; set; } = 1;
 
         public virtual double WeightDbl => 1.0;
         
@@ -21,6 +21,16 @@ namespace Engine.Objects
         {
             InitializeBehaviors();
             InitializeProperties();
+        }
+
+        public GameObject(IObjectContext context)
+        {
+            Properties = context.Properties ?? new HashSet<Property>();
+            Behaviors = context.Behaviors ?? new HashSet<IBehavior>();
+
+            Id = context.Id;
+            Name = context.Name;
+            Weight = context.Weight;
         }
 
         public virtual void InitializeProperties()
@@ -49,11 +59,6 @@ namespace Engine.Objects
         public IBehavior GetBehavior(Type type)
         {
             return Behaviors.FirstOrDefault(b => b.GetType() == type);
-        }
-
-        public virtual GameObject Clone()
-        {
-            return null;
         }
     }
 }

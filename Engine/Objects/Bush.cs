@@ -18,10 +18,10 @@ namespace Engine.Objects
             Size = new Size(1, 1);
 
             Id = 0x00001200;
+
+            Name = Resource.Bush;
         }
-
-        public override string Name => Resource.Bush;
-
+        
         public override void InitializeProperties()
         {
             Properties = new HashSet<Property>
@@ -35,8 +35,8 @@ namespace Engine.Objects
         public override void InitializeBehaviors()
         {
             base.InitializeBehaviors();
-            Behaviors.Add(new CollectBehavior<Berry>(new RaspBerries(), 2, _berriesCount));
-            Behaviors.Add(new CollectBehavior<Branch>(new Branch(), 2, _branchesCount));
+            Behaviors.Add(new CollectBehavior<Berry>("RaspBerries", 2, _berriesCount));
+            Behaviors.Add(new CollectBehavior<Branch>("Branch", 2, _branchesCount));
         }
     }
 }

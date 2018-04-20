@@ -14,11 +14,11 @@
             IsTransparent = isTransparent;
             IsPassable = false;
             Size = new Size(1, 1);
+
+            Name = _innerObject.Name;
         }
 
         public LargeObjectInner InnerObject => _innerObject;
-
-        public override string Name => _innerObject.Name;
 
         public override uint GetDrawingCode()
         {

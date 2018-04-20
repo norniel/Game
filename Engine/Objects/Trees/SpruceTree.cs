@@ -1,5 +1,6 @@
 ﻿using Engine.Behaviors;
 using Engine.Objects.Fruits;
+using Engine.Resources;
 using Engine.Tools;
 
 namespace Engine.Objects.Trees
@@ -11,10 +12,8 @@ namespace Engine.Objects.Trees
 
         public SpruceTree()
         {
-            Id = 0x00001600;
+            Id = 0x00001600; Name = "Spruce tree";
         }
-
-        public override string Name => "Spruce tree";
 
         public override uint GetDrawingCode()
         {
@@ -31,8 +30,8 @@ namespace Engine.Objects.Trees
         {
             base.InitializeBehaviors();
             Behaviors.RemoveWhere(bv => bv.GetType() == typeof(CollectBehavior<Berry>));
-            Behaviors.Add(new CollectBehavior<Berry>(new Cone(), 2, 4));
-            Behaviors.Add(new CollectBehavior<Root>(new Root(), 1, _rootCount));
+            Behaviors.Add(new CollectBehavior<Berry>("Cone", 2, 4));
+            Behaviors.Add(new CollectBehavior<Root>(Resource.Root, 1, _rootCount));
         }
     }
 }

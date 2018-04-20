@@ -14,6 +14,7 @@ namespace Engine.Objects
             Size = new Size(1, 1);
 
             Id = 0x00001000;
+            Name = Resource.Rock;
         }
 
         public int Fragile { get; set; }
@@ -28,7 +29,5 @@ namespace Engine.Objects
                 Property.Cracker
             };
         }
-
-        public override string Name => Resource.Rock;
     }
 }

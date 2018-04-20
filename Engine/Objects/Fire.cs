@@ -25,6 +25,8 @@ namespace Engine.Objects
                     }, 
                     false,
                     OnLastStateFinished);
+
+            Name = "Fire";
         }
 
         public override void InitializeProperties()
@@ -32,10 +34,7 @@ namespace Engine.Objects
             Properties = new HashSet<Property>
             {Property.Burning};
         }
-
-        public override string Name => "Fire";
-
-
+        
         public int TimeOfBurning {
             get
             {

@@ -10,6 +10,7 @@ namespace Engine.Objects.Tool
             IsPassable = true;
             Size = new Size(1, 1);
             Id = 0x00002300;
+            Name = Resource.DiggingStick;
         }
 
         public override int Weight => 1;
@@ -22,7 +23,5 @@ namespace Engine.Objects.Tool
                 Property.Pickable
             };
         }
-
-        public override string Name => Resource.DiggingStick;
     }
 }

@@ -45,6 +45,8 @@ namespace Engine
 
         internal static Map Map;
 
+        internal static ObjectsFactory Factory;
+
         public const int TimeStep = 100;
 
         private Dictionary<uint, Cell> _cellSamples;
@@ -83,7 +85,8 @@ namespace Engine
             RegisterInUnityContainer();
 
             StateQueueManager = _unityContainer.Resolve<StateQueueManager>();
-            Map = _unityContainer.Resolve<Map>();            
+            Map = _unityContainer.Resolve<Map>();
+            Factory = _unityContainer.Resolve<ObjectsFactory>();
 
             loadSaveManager = new LoadSaveManager();
             loadSaveManager.LoadSnapshot(Map);

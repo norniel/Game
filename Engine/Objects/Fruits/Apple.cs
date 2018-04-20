@@ -4,12 +4,14 @@ using Engine.Resources;
 
 namespace Engine.Objects.Fruits
 {
-    public class Apple: Berry
+   /* public class Apple: Berry
     {
+        public Apple()
+        {
+            Name = Resource.Apple;
+        }
         public override int Weight => 2;
-
-        public override string Name => Resource.Apple;
-
+        
         public override void InitializeProperties()
         {
             base.InitializeProperties();
@@ -27,5 +29,5 @@ namespace Engine.Objects.Fruits
         {
             return new Apple();
         }
-    }
+    }*/
 }

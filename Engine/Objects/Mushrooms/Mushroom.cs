@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.ObjectStates;
@@ -8,68 +7,80 @@ using Engine.Tools;
 
 namespace Engine.Objects
 {
+    public class MushroomContext : IObjectContext
+    {
+        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties() {TickCount = 300, Distribution = 50, Eternal = false};
+        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties() {TickCount = 1000, Distribution = 100, Eternal = false };
+
+        public uint GrowingId { get; set; } = 0x10001900;
+        
+        public uint Id { get; set; } = 0x00001900;
+
+        public string Name { get; set; } = Resource.Burovik;
+        public int Weight { get; set; } = 1;
+
+        public HashSet<Property> Properties { get; set; } = new HashSet<Property>
+        {
+            Property.Pickable,
+            Property.Regrowable,
+            Property.Eatable,
+            Property.Roastable
+        };
+
+        public HashSet<IBehavior> Behaviors { get; set; } = new HashSet<IBehavior>
+        {
+            new RoastBehavior( Resource.RoastedBurovik),
+            new EatableBehavior(2)
+        };
+
+        public GameObject Produce()
+        {
+            return new Mushroom(this);
+        }
+    }
+
     [GenerateMap]
-    internal class Mushroom : FixedObject, ICloneable
+    public class Mushroom : FixedObject
     {
         private ObjectWithState ObjectWithState { get; }
 
         public override int Weight => 2;
 
-        public Mushroom()
+        public uint GrowingId { get; set; }
+
+        private MushroomContext _mushroomContext;
+
+        public Mushroom(MushroomContext context) : base(context)
         {
-            IsPassable = true;
+            _mushroomContext = context;
 
-            Size = new Size(1, 1);
-
-            Id = 0x00001900;
+            GrowingId = context.GrowingId;
 
             ObjectWithState =
                 new ObjectWithState(
                     new List<IObjectState>
                     {
-                        new Growing {TickCount = 300, Distribution = 50, Eternal = false},
-                        new Staying{TickCount = 1000, Distribution = 100, Eternal = false}
+                        new Growing {TickCount = context.GrowingProps.TickCount, Distribution = context.GrowingProps.Distribution, Eternal = context.GrowingProps.Eternal},
+                        new Staying {TickCount = context.StayingProps.TickCount, Distribution = context.StayingProps.Distribution, Eternal = context.StayingProps.Eternal}
                     },
                     false,
                     OnLastStateFinished);
         }
 
-
-        public override void InitializeProperties()
+        public Mushroom():this(new MushroomContext())
         {
-            Properties = new HashSet<Property>
-            {
-               Property.Pickable,
-               Property.Regrowable,
-               Property.Eatable,
-               Property.Roastable
-            };
+            
         }
-
-        public override void InitializeBehaviors()
-        {
-            base.InitializeBehaviors();
-            Behaviors.Add(new RoastBehavior(new RoastedMushroom()));
-            Behaviors.Add(new EatableBehavior(2));
-        }
-
-        public override string Name => Resource.Burovik;
-
-
+        
         public void OnLastStateFinished()
         {
             RemoveFromContainer?.Invoke();
         }
-
-        public object Clone()
-        {
-            return new Mushroom();
-        }
-
+        
         public override uint GetDrawingCode()
         {
             if (ObjectWithState.CurrentState is Growing)
-                return 0x10001900;
+                return GrowingId;
 
             return Id;
         }

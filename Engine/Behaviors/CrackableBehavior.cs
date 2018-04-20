@@ -3,15 +3,15 @@ using Engine.Objects;
 
 namespace Engine.Behaviors
 {
-    class RoastBehavior : IBehavior
+    internal class CrackableBehavior: IBehavior
     {
         private readonly string _name;
-        public RoastBehavior(string roastedName)
+        public CrackableBehavior(string crackableName)
         {
-            _name = roastedName;
+            _name = crackableName;
         }
 
-        public GameObject GetRoasted()
+        public GameObject GetCrackable()
         {
             return Game.Factory.Produce(_name);
         }
