@@ -25,8 +25,8 @@ namespace Engine.Objects
 
         public GameObject(IObjectContext context)
         {
-            Properties = context.Properties ?? new HashSet<Property>();
-            Behaviors = context.Behaviors ?? new HashSet<IBehavior>();
+            Properties = context.Properties() ?? new HashSet<Property>();
+            Behaviors = context.Behaviors() ?? new HashSet<IBehavior>();
 
             Id = context.Id;
             Name = context.Name;

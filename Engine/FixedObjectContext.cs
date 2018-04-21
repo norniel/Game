@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Engine.Interfaces;
 using Engine.Objects;
 
@@ -11,8 +12,8 @@ namespace Engine
             return new FixedObject(this);
         }
 
-        public HashSet<Property> Properties { get; set; }
-        public HashSet<IBehavior> Behaviors { get; set; }
+        public Func<HashSet<Property>> Properties { get; set; }
+        public Func<HashSet<IBehavior>> Behaviors { get; set; }
 
         public int Weight { get; set; } = 1;
 

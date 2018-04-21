@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Engine.Behaviors;
+﻿using System;
+using System.Collections.Generic;
 using Engine.Interfaces;
-using Engine.Resources;
 
 namespace Engine.Objects
 {
@@ -13,13 +12,13 @@ namespace Engine.Objects
 
         public int Weight { get; set; } = 1;
 
-        public HashSet<Property> Properties { get; set; } = new HashSet<Property>
+        public Func<HashSet<Property>> Properties { get; set; } = () => new HashSet<Property>
         {
             Property.Pickable,
             Property.Eatable
         };
 
-        public HashSet<IBehavior> Behaviors { get; set; } = new HashSet<IBehavior>{};
+        public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>{};
 
         public GameObject Produce()
         {

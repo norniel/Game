@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.Resources;
@@ -11,7 +12,7 @@ namespace Engine.Objects
 
         public string Name { get; set; } = Resource.Branch;
 
-        public HashSet<Property> Properties { get; set; } = new HashSet<Property>
+        public Func<HashSet<Property>> Properties { get; set; } = () => new HashSet<Property>
         {
             Property.Pickable,
             Property.NeedToCreateStoneAxe,
@@ -21,7 +22,7 @@ namespace Engine.Objects
             Property.NeedToBuildWickiup
         };
 
-        public HashSet<IBehavior> Behaviors { get; set; } = new HashSet<IBehavior>
+        public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>
         {
             new BurnableBehavior(300),
             new CollectBehavior<Twig>("Twig", 2, 4)

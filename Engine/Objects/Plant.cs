@@ -22,7 +22,7 @@ namespace Engine.Objects
         public string Name { get; set; } = Resource.Plant;
         public int Weight { get; set; } = 1;
 
-        public HashSet<Property> Properties { get; set; } = new HashSet<Property>
+        public Func<HashSet<Property>> Properties { get; set; } = () => new HashSet<Property>
         {
             Property.Pickable,
             Property.NeedToMakeFireWithWood,
@@ -30,7 +30,7 @@ namespace Engine.Objects
             Property.NeedToBuildGrassBed
         };
 
-        public HashSet<IBehavior> Behaviors { get; set; } = new HashSet<IBehavior>
+        public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>
         {
             new BurnableBehavior(300)
         };
@@ -63,9 +63,6 @@ namespace Engine.Objects
                     false, 
                     OnLastStateFinished);
         }
-
-        public Plant(): this(new PlantContext())
-        {}
 
         public override double WeightDbl
         {

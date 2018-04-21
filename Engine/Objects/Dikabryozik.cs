@@ -158,7 +158,7 @@ namespace Engine.Objects
             var treePoint = visiblePoints.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
-                if (obj is AppleTree && (obj.GetBehavior(typeof(CollectBehavior<Berry>)) as CollectBehavior<Berry>)?.CurrentCount > 0)
+                if ((obj is Tree && obj.Name == "Apple tree") && (obj.GetBehavior(typeof(CollectBehavior<Berry>)) as CollectBehavior<Berry>)?.CurrentCount > 0)
                     return true;
 
                 return false;
@@ -167,7 +167,7 @@ namespace Engine.Objects
             if (treePoint != null)
             {
                 EnqueueMovingToDestination(treePoint);
-                var appleTree = Game.Map.GetObjectFromCell(treePoint) as AppleTree;
+                var appleTree = Game.Map.GetObjectFromCell(treePoint) as Tree;
                 _stateQueue.Enqueue(new ShakingTree(this, appleTree?.GetBehavior(typeof(CollectBehavior<Berry>)) as CollectBehavior<Berry>));
                 return;
             }

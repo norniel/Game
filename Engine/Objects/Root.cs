@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.Resources;
@@ -12,12 +13,12 @@ namespace Engine.Objects
         public string Name { get; set; } = Resource.Root;
         public int Weight { get; set; } = 1;
 
-        public HashSet<Property> Properties { get; set; } = new HashSet<Property>
+        public Func<HashSet<Property>> Properties { get; set; } = () => new HashSet<Property>
         {
             Property.Diggable
         };
 
-        public HashSet<IBehavior> Behaviors { get; set; } = new HashSet<IBehavior>{};
+        public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>{};
 
         public GameObject Produce()
         {

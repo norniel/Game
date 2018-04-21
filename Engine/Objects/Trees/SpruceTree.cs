@@ -5,7 +5,7 @@ using Engine.Tools;
 
 namespace Engine.Objects.Trees
 {
-    [GenerateMap]
+    /*[GenerateMap]
     class SpruceTree : Tree
     {
         private int _rootCount = 4;
@@ -33,5 +33,5 @@ namespace Engine.Objects.Trees
             Behaviors.Add(new CollectBehavior<Berry>("Cone", 2, 4));
             Behaviors.Add(new CollectBehavior<Root>(Resource.Root, 1, _rootCount));
         }
-    }
+    }*/
 }

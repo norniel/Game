@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.ObjectStates;
@@ -19,7 +20,7 @@ namespace Engine.Objects
         public string Name { get; set; } = Resource.Burovik;
         public int Weight { get; set; } = 1;
 
-        public HashSet<Property> Properties { get; set; } = new HashSet<Property>
+        public Func<HashSet<Property>> Properties { get; set; } = () => new HashSet<Property>
         {
             Property.Pickable,
             Property.Regrowable,
@@ -27,7 +28,7 @@ namespace Engine.Objects
             Property.Roastable
         };
 
-        public HashSet<IBehavior> Behaviors { get; set; } = new HashSet<IBehavior>
+        public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>
         {
             new RoastBehavior( Resource.RoastedBurovik),
             new EatableBehavior(2)
@@ -65,11 +66,6 @@ namespace Engine.Objects
                     },
                     false,
                     OnLastStateFinished);
-        }
-
-        public Mushroom():this(new MushroomContext())
-        {
-            
         }
         
         public void OnLastStateFinished()

@@ -5,7 +5,7 @@ using Engine.Tools;
 
 namespace Engine
 {
-    [GenerateMap]
+   /* [GenerateMap]
     class NutTree: Tree
     {
         public NutTree()
@@ -20,5 +20,5 @@ namespace Engine
             Behaviors.RemoveWhere(bv => bv.GetType() == typeof(CollectBehavior<Berry>));
             Behaviors.Add(new CollectBehavior<Berry>("Nut", 2, 4));
         }
-    }
+    }*/
 }

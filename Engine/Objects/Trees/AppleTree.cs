@@ -5,8 +5,8 @@ using Engine.Tools;
 
 namespace Engine.Objects.Trees
 {
-    [GenerateMap]
-    class AppleTree : Tree
+   /*  [GenerateMap]
+   class AppleTree : Tree
     {
         public AppleTree()
         {
@@ -21,5 +21,5 @@ namespace Engine.Objects.Trees
             Behaviors.RemoveWhere(bv => bv.GetType() == typeof(CollectBehavior<Berry>));
             Behaviors.Add(new CollectBehavior<Berry>(Resource.Apple, 2, 4));
         }
-    }
+    }*/
 }

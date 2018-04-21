@@ -56,13 +56,16 @@ namespace Engine
                 if( map.GetObjectFromCell(new Point(tmpX, tmpY)) != null )
                     continue;
 
+                var typesCount = Game.Factory.ObjectsToGenMap.Count;
+                /*
                 var typesOnMap = Assembly.GetExecutingAssembly().GetTypes().Where(
                     type => type.GetCustomAttribute<GenerateMapAttribute>() != null).ToList();
+                */
+                var randIndex = count % typesCount;//typesOnMap.Count;
 
-                var randIndex = count % typesOnMap.Count;
-
-                map.SetObjectFromCell(new Point(tmpX, tmpY), Activator.CreateInstance(typesOnMap[randIndex]) as FixedObject);
-
+                //map.SetObjectFromCell(new Point(tmpX, tmpY), Activator.CreateInstance(typesOnMap[randIndex]) as FixedObject);
+                map.SetObjectFromCell(new Point(tmpX, tmpY), Game.Factory.Produce(Game.Factory.ObjectsToGenMap[randIndex]) as FixedObject);
+                
                 count--;
             }
 
