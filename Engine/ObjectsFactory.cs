@@ -26,7 +26,10 @@ namespace Engine
                     }}
 
             },
-            { "Nut", new BerryContext(){Id = 0x00002600,Name = "Nut", Weight = 1, Properties = () => new HashSet<Property>{Property.Pickable, Property.Crackable}}},
+            { "Nut", new BerryContext(){Id = 0x00002600,Name = "Nut", Weight = 1,
+                Properties = () => new HashSet<Property>{Property.Pickable, Property.Crackable},
+                Behaviors  = () => new HashSet<IBehavior>{new CrackableBehavior("Nut Kernel") }
+            }},
             { "Nut Kernel", new BerryContext(){Id = 0x00002600,Name = "Nut Kernel", Weight = 1, Properties = () => new HashSet<Property>{Property.Pickable,Property.Eatable},
                 Behaviors  = () => new HashSet<IBehavior>{new EatableBehavior(4)}}
             },
@@ -69,6 +72,22 @@ namespace Engine
                     new CollectBehavior<Root>(Resource.Root, 1, 4)
                 }
                 }
+            },
+            { "Muhomor", new MushroomContext(){Name = "Muhomor", Weight = 2, Id = 0x00002700, GrowingId = 0x10002700,
+                Behaviors  = () => new HashSet<IBehavior>
+                    {
+                        new RoastBehavior( Resource.RoastedBurovik),
+                        new EatableBehavior(2, 50, 1)
+                    }
+                }
+            },
+            { "Poganka", new MushroomContext(){Name = "Poganka", Weight = 2, Id = 0x00002800, GrowingId = 0x10002800,
+                    Behaviors  = () => new HashSet<IBehavior>
+                    {
+                        new RoastBehavior( Resource.RoastedBurovik),
+                        new EatableBehavior(2, 10, 8)
+                    }
+                }
             }
         };
 
@@ -80,7 +99,9 @@ namespace Engine
             Resource.Burovik,
             Resource.Bush,
             Resource.Plant,
-            Resource.Rock
+            Resource.Rock,
+            "Muhomor",
+            "Poganka"
         };
 
         public ObjectsFactory()

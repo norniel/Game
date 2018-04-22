@@ -70,7 +70,7 @@ namespace Engine
                     SetObjectFromCell(cell, null);
                 }
 
-                if (gameObject.Properties.Contains(Property.Regrowable) && gameObject is ICloneable)
+                if (gameObject.Properties.Contains(Property.Regrowable))
                 {
                     SetObjectFromCell(GetRandomNearEmptyPoint(cell, 3), (FixedObject)Game.Factory.Produce(gameObject.Name));
                 }

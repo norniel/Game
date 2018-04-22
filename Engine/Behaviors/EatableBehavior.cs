@@ -6,11 +6,19 @@ namespace Engine.Behaviors
     {
         public int SatietyCoefficient { get; set; }
 
-        int Poisoness { get; }
+        public int Poisoness { get; set; } = 0;
+        public int Time { get; set; } = 0;
 
         public EatableBehavior(int eatingCoefficient)
         {
             SatietyCoefficient = eatingCoefficient;
+        }
+
+        public EatableBehavior(int eatingCoefficient, int poisoness, int time)
+        {
+            SatietyCoefficient = eatingCoefficient;
+            Poisoness = poisoness;
+            Time = time;
         }
     }
 }

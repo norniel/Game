@@ -119,7 +119,11 @@ namespace MonoBrJozik
                     [0x00001E05] = Content.Load<Texture2D>("Wickiup5 icon"),
                     [0x00001E06] = Content.Load<Texture2D>("Wickiup6 icon"),
                     [0x00002100] = Content.Load<Texture2D>("blue"),
-                    [0x00002000] = Content.Load<Texture2D>("darkblue")
+                    [0x00002000] = Content.Load<Texture2D>("darkblue"),
+                    [0x00002700] = Content.Load<Texture2D>("muhomor"),
+                    [0x10002700] = Content.Load<Texture2D>("muhomor small"),
+                    [0x00002800] = Content.Load<Texture2D>("poganka"),
+                    [0x10002800] = Content.Load<Texture2D>("poganka small"),
                 };
 
             return textureDict;

@@ -8,6 +8,8 @@
         public int Health { get; set; }
 
         public int Tiredness { get; private set; }
+        public int Poisoness { get; set; }
+        public int PoisonesTime { get; set; }
 
         public double InnerTiredNess {
             get => _innerTiredness;

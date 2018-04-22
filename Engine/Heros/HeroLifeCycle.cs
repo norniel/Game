@@ -48,6 +48,17 @@ namespace Engine.Heros
                 {
                     _heroProperties.Health--;
                 }
+
+                if (_heroProperties.PoisonesTime > 0)
+                {
+                    _heroProperties.Health = Math.Max(_heroProperties.Health - _heroProperties.Poisoness, 0);
+
+                    if (_heroProperties.PoisonesTime == 0)
+                    {
+                        _heroProperties.PoisonesTime = 0;
+                        _heroProperties.Poisoness = 0;
+                    }
+                }
             }
         }
 
@@ -61,13 +72,16 @@ namespace Engine.Heros
             throw new NotImplementedException();
         }
 
-        public void Eat(int satiety)
+        public void Eat(int satiety, int poisoness, int time)
         {
-            if (_heroProperties.Satiety >= INITIAL_SATIETY && _heroProperties.Health >= INITIAL_HEALTH)
+            if (_heroProperties.Satiety >= INITIAL_SATIETY && _heroProperties.Health >= INITIAL_HEALTH && poisoness == 0)
                 return;
-
+            
             lock (_heroProperties)
             {
+                _heroProperties.Poisoness = poisoness;
+                _heroProperties.PoisonesTime = time;
+
                 if (_heroProperties.Satiety < INITIAL_SATIETY || _heroProperties.Health < INITIAL_HEALTH)
                 {
                     if (_heroProperties.Satiety < INITIAL_SATIETY)

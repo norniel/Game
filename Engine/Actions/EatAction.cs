@@ -33,7 +33,7 @@ namespace Engine.Actions
             foreach (var eatableObject in objects.Where(o => o.HasBehavior(typeof(EatableBehavior))))
             {
                 var eatableBehavior = eatableObject.GetBehavior(typeof(EatableBehavior)) as EatableBehavior;
-                hero.Eat((int)(eatableBehavior.SatietyCoefficient * eatableObject.WeightDbl));
+                hero.Eat((int)(eatableBehavior.SatietyCoefficient * eatableObject.WeightDbl), eatableBehavior.Poisoness, eatableBehavior.Time);
                 eatableObject.RemoveFromContainer();
             }
 

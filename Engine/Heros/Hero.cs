@@ -128,9 +128,9 @@ namespace Engine.Heros
             }
         }
 
-        public void Eat(int satiety)
+        public void Eat(int satiety, int poisoness, int time)
         {
-            HeroLifeCycle.Eat(satiety);
+            HeroLifeCycle.Eat(satiety, poisoness, time);
         }
 
         public IEnumerable<KeyValuePair<string, int>> GetProperties()
