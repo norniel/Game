@@ -15,6 +15,7 @@ namespace MonoBrJozik.Controls
         private readonly Texture2D _innerTexture;
         private readonly string _text;
         private Color _textColor;// = Color.MintCream;
+        private Color _fontColor;// = Color.MintCream;
 
         public MonoItem(MonoItemInfo itemInfo, SpriteFont font, Color fontColor, int x, int y)
         {
@@ -26,6 +27,7 @@ namespace MonoBrJozik.Controls
             _innerTexture = itemInfo.InnerTexture;
             _text = itemInfo.Text;
             _textColor = fontColor;
+            _fontColor = fontColor;
 
             var height = 0;
             var width = 0;
@@ -80,7 +82,7 @@ namespace MonoBrJozik.Controls
         {
             var result = base.MouseOver(mouseState);
 
-            _textColor = result ? Color.LightBlue : _textColor;
+            _textColor = result ? Color.LightBlue : _fontColor;
 
             return result;
         }

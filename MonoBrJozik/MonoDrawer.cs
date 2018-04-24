@@ -38,7 +38,7 @@ namespace MonoBrJozik
         public const int SCREEN_WIDTH = 564;
         public const int SCREEN_HEIGHT = 394;
         public const int HEALTH_BAR_HEIGHT = 35;
-        public const int INVENTORY_WIDTH = 70;
+        public const int INVENTORY_WIDTH = 100;
 
         public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu, Controls.MonoInventory inventory)
         {
@@ -82,7 +82,7 @@ namespace MonoBrJozik
             {
                 Texture2D texture = null;
                 _textures.TryGetValue(it.Id, out texture);
-                var infoList = it.GetClientActions().Select(act => new MonoItemInfo(_menuTexture, null, act.Name, () => act.Do())).ToList();
+                var infoList = it.GetClientActions().Select(act => new MonoItemInfo(null, null, act.Name, () => act.Do())).ToList();
 
                 return new MonoInvItemInfo(null, texture, it.Name, null, infoList);
             }).ToList());

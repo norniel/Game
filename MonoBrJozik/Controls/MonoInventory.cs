@@ -13,7 +13,7 @@ namespace MonoBrJozik.Controls
         private readonly MonoItem _bottomButton;
         private readonly MonoList _monoList;
 
-        public MonoInventory(int x, int y, int width, int height, SpriteFont font, Color fontColor)
+        public MonoInventory(int x, int y, int width, int height, SpriteFont font, Color fontColor, Texture2D texture)
         {
             _font = font;
             _fontColor = fontColor;
@@ -27,9 +27,7 @@ namespace MonoBrJozik.Controls
 
             _topButton = new MonoItem(new MonoItemInfo(null, null, "<", () => this.MovePrev()), _font, _fontColor, x, 0);
             _bottomButton = new MonoItem(new MonoItemInfo(null, null, ">", () => this.MoveNext()), _font, _fontColor, x, bottomY);
-
-
-            _monoList = new MonoList(x, _topButton.Height, width, bottomY - _topButton.Height, _font, _fontColor);
+            _monoList = new MonoList(x, _topButton.Height, width, bottomY - _topButton.Height, _font, _fontColor, texture);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -61,8 +61,14 @@ namespace MonoBrJozik
             var screenTexture = Content.Load<Texture2D>("green-paper2");
             var heroPropTextures = LoadHeroTextures();
             var font = Content.Load<SpriteFont>("Font");
+
+            var menuTexture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Color[] c = new Color[1];
+            c[0] = Color.White;
+            menuTexture.SetData<Color>(c);
+
             _menu = new MonoMenu(font, Color.MintCream, MonoDrawer.SCREEN_WIDTH, MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT);
-            _inventory = new MonoInventory(MonoDrawer.SCREEN_WIDTH, 0, MonoDrawer.SCREEN_WIDTH + MonoDrawer.INVENTORY_WIDTH, MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT, font, Color.Black);
+            _inventory = new MonoInventory(MonoDrawer.SCREEN_WIDTH, 0, MonoDrawer.INVENTORY_WIDTH, MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT, font, Color.Black, menuTexture);
 
             _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures, font, _menu, _inventory);
             _game = new Engine.Game(_drawer, (uint)MonoDrawer.SCREEN_WIDTH, (uint)MonoDrawer.SCREEN_HEIGHT);
@@ -189,7 +195,10 @@ namespace MonoBrJozik
                 }
             }
 
-            _menu.MouseOver(currentMouseState);
+            if (!_menu.MouseOver(currentMouseState))
+            {
+                _inventory.MouseOver(currentMouseState);
+            }
 
             base.Update(gameTime);
         }

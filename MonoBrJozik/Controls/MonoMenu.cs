@@ -13,6 +13,7 @@ namespace MonoBrJozik.Controls
     {
         private readonly SpriteFont _font;
         private readonly Color _fontColor;
+        private readonly Texture2D _texture;
         readonly int _screenWidth; 
         readonly int _screenHeight;
         private int Offset => 10;
@@ -30,10 +31,20 @@ namespace MonoBrJozik.Controls
             MenuIsShown += this.Clear;
         }
 
+        public MonoMenu(SpriteFont font, Color fontColor, int screenWidth, int screenHeight, Texture2D texture):this(font, fontColor, screenWidth, screenHeight)
+        {
+            _texture = texture;
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (!IsShown)
                 return;
+
+            if (_texture != null)
+            {
+                spriteBatch.Draw(_texture, new Rectangle(LeftTopX, LeftTopY, Width, Height), Color.White);
+            }
 
             base.Draw(spriteBatch);
         }
@@ -57,6 +68,14 @@ namespace MonoBrJozik.Controls
             Clear();
 
             return false;
+        }
+
+        public override bool MouseOver(MouseState mouseState)
+        {
+            if (!IsShown)
+                return false;
+
+            return base.MouseOver(mouseState);
         }
 
         public void Clear()

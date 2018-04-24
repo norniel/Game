@@ -20,7 +20,7 @@ namespace MonoBrJozik.Controls
         private int startIndex;
         private int visibleCount;
         
-        public MonoList(int x, int y, int width, int height, SpriteFont font, Color fontColor)
+        public MonoList(int x, int y, int width, int height, SpriteFont font, Color fontColor, Texture2D texture)
         {
             LeftTopX = x;
             LeftTopY = y;
@@ -29,7 +29,7 @@ namespace MonoBrJozik.Controls
             _fontColor = fontColor;
             _font = font;
 
-            _menu = new MonoMenu(_font, Color.Black, MonoDrawer.SCREEN_WIDTH + width, height);
+            _menu = new MonoMenu(_font, Color.Black, MonoDrawer.SCREEN_WIDTH + width, height, texture);
         }
 
         public void MoveNext()
