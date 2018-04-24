@@ -233,7 +233,14 @@ namespace Engine
                         continue;
 
                     var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
-                    _drawer.DrawObject(gameObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y, gameObject.Height);
+
+                    var drawingCode = gameObject.GetDrawingCode();
+                    if (gameObject.NeedKnowledge)
+                    {
+                        drawingCode = _hero.GetObjectKnowledge(gameObject.Name) >= gameObject.KnowledgeKoef ? drawingCode : gameObject.GetBaseCode();
+                    }
+
+                    _drawer.DrawObject(drawingCode, visibleDestination.X, visibleDestination.Y, gameObject.Height);
 
                     if (gameObject is IBurning burning)
                     {

@@ -16,6 +16,9 @@ namespace Engine.Objects
         public virtual int Weight { get; set; } = 1;
 
         public virtual double WeightDbl => 1.0;
+
+        public bool NeedKnowledge { get; set; } = false;
+        public double KnowledgeKoef { get; set; } = 0;
         
         public GameObject()
         {
@@ -46,6 +49,11 @@ namespace Engine.Objects
         public virtual uint GetDrawingCode()
         {
             return 0;
+        }
+
+        public virtual uint GetBaseCode()
+        {
+            return GetDrawingCode();
         }
 
         public Action RemoveFromContainer { get; set; }

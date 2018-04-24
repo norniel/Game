@@ -27,7 +27,8 @@ namespace Engine.Heros
         private bool _isThen;
 
         private readonly HashSet<Knowledges> _knowledgeses = new HashSet<Knowledges> {Knowledges.Nothing};
-
+        private readonly Dictionary<string, uint> _ObjectKnowledgeses = new Dictionary<string, uint>();
+        
         public Hero()
         {
           //  Position = new Point();
@@ -190,6 +191,24 @@ namespace Engine.Heros
         public bool HasKnowledge(Knowledges knowledge)
         {
             return _knowledgeses.Contains(knowledge);
+        }
+
+        public double GetObjectKnowledge(string gameObjectName)
+        {
+            uint objectKnowl;
+            return _ObjectKnowledgeses.TryGetValue(gameObjectName, out objectKnowl) ? objectKnowl / 100.0 : 0.0;
+        }
+
+        public void SetObjectKnowledge(string gameObjectName, uint knowledge)
+        {
+            if (_ObjectKnowledgeses.ContainsKey(gameObjectName))
+            {
+                _ObjectKnowledgeses[gameObjectName] = Math.Min(100, _ObjectKnowledgeses[gameObjectName] + knowledge);
+            }
+            else
+            {
+                _ObjectKnowledgeses[gameObjectName] = Math.Min(100, knowledge);
+            }
         }
     }
 }

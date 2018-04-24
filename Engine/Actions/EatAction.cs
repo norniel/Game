@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Engine.Behaviors;
 using Engine.Heros;
@@ -30,14 +31,16 @@ namespace Engine.Actions
 
         public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
+            var conseqList = new List<Action<Hero>>();
             foreach (var eatableObject in objects.Where(o => o.HasBehavior(typeof(EatableBehavior))))
             {
                 var eatableBehavior = eatableObject.GetBehavior(typeof(EatableBehavior)) as EatableBehavior;
                 hero.Eat((int)(eatableBehavior.SatietyCoefficient * eatableObject.WeightDbl), eatableBehavior.Poisoness, eatableBehavior.Time);
                 eatableObject.RemoveFromContainer();
+                conseqList.Add(Consequance.AddObjectKnowledge(eatableObject.Name, 5));
             }
 
-            return new FinishedActionResult();
+            return new ConseqActionResult(true, conseqList.ToArray());
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

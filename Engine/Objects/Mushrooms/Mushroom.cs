@@ -49,15 +49,24 @@ namespace Engine.Objects
 
         public uint GrowingId { get; set; }
 
+        public uint BaseId { get; set; }
+        public uint BaseGrowingId { get; set; }
+
         private MushroomContext _mushroomContext;
 
         public Mushroom(MushroomContext context) : base(context)
         {
             _mushroomContext = context;
 
+            NeedKnowledge = true;
+            KnowledgeKoef = Game.Random.NextDouble();
+
             GrowingId = context.GrowingId;
 
-            ObjectWithState =
+            BaseId = 0x00001900;
+            BaseGrowingId = 0x10001900;
+
+        ObjectWithState =
                 new ObjectWithState(
                     new List<IObjectState>
                     {
@@ -75,12 +84,22 @@ namespace Engine.Objects
         
         public override uint GetDrawingCode()
         {
-            if (ObjectWithState.CurrentState is Growing)
-                return GrowingId;
-
-            return Id;
+            return DrawingCode(GrowingId, Id);
         }
-        
+
+        private uint DrawingCode(uint growingId, uint id)
+        {
+            if (ObjectWithState.CurrentState is Growing)
+                return growingId;
+
+            return id;
+        }
+
+        public override uint GetBaseCode()
+        {
+            return DrawingCode(BaseGrowingId, BaseId);
+        }
+
         public override double WeightDbl
         {
             get

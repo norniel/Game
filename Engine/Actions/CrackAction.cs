@@ -133,63 +133,10 @@ namespace Engine.Actions
         }
         */
     }
-
-
-    internal class ConseqActionResult : IActionResult
-    {
-        public ConseqActionResult(bool b, params Action<Hero>[] conseqs)
-        {
-            IsFinished = b;
-            Conseqs = conseqs;
-        }
-
-        public bool IsFinished { get; }
-        public void Apply(Hero hero)
-        {
-            foreach (var conseq in Conseqs)
-            {
-                conseq(hero);
-            }
-        }
-
-        public Action<Hero>[] Conseqs { get; }
-    }
     /*
     internal interface IConseq
     {
         void Apply(Hero hero);
     }*/
-
-    static class Consequance
-    {
-        public static Action<Hero> Probability(double prbab, Action<Hero> action)
-        {
-            return hero =>
-            {
-                var random = Game.Random.NextDouble();
-                if (prbab > random) action(hero);
-            };
-        }
-
-        public static Action<Hero> Composite(params Action<Hero>[] actions)
-        {
-            return hero =>
-            {
-                foreach (var action in actions)
-                {
-                    action(hero);
-                }
-            };
-        }
-
-        public static Action<Hero> AddKnowledge(Knowledges knowledge)
-        {
-            return hero =>
-            {
-                hero.AddKnowledge(knowledge);
-            };
-        }
-
-    }
 }
 

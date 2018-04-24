@@ -16,7 +16,9 @@ namespace Engine.Actions
         {
             hero.AddToBag(objects);
 
-            return new FinishedActionResult();
+            var conseqList = objects.Select(o => Consequance.AddObjectKnowledge(o.Name, 1)).ToArray();
+
+            return new ConseqActionResult(true, conseqList);
         }
 
         public Knowledges GetKnowledge()
