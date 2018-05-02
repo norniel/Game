@@ -35,6 +35,8 @@ namespace MonoBrJozik
         private readonly int _dcenter;
         private readonly GraphicsDevice _graphicsDevice;
 
+        private int _tick = 0;
+
         public const int SCREEN_WIDTH = 564;
         public const int SCREEN_HEIGHT = 394;
         public const int HEALTH_BAR_HEIGHT = 35;
@@ -168,12 +170,20 @@ namespace MonoBrJozik
 
         public void DrawHeroProperties(IEnumerable<KeyValuePair<string, int>> objects)
         {
+            _tick++;
             Texture2D texture;
             var i = 0;
             foreach (var heroProp in objects)
             {
                 if (_heroPropTextures.TryGetValue(heroProp.Key, out texture))
                 {
+                    if (heroProp.Key.Equals("health", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        var health = heroProp.Value;
+                        var t = _tick % ((int)((health + 10)/10)*10) < 5 ? 1 : 0; 
+                        _spriteBatch.Draw(texture, new Rectangle(2 + 70 * i, SCREEN_HEIGHT + 2, texture.Width - 2 *t, texture.Height - 2 * t ), Color.White);
+                    }
+                    else
                     _spriteBatch.Draw(texture, new Vector2(2 + 70*i, SCREEN_HEIGHT + 2), Color.White);
                     
                 }
