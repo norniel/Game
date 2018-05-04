@@ -180,8 +180,8 @@ namespace MonoBrJozik
                     if (heroProp.Key.Equals("health", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var health = heroProp.Value;
-                        var t = _tick % ((int)((health + 10)/10)*10) < 5 ? 1 : 0; 
-                        _spriteBatch.Draw(texture, new Rectangle(2 + 70 * i, SCREEN_HEIGHT + 2, texture.Width - 2 *t, texture.Height - 2 * t ), Color.White);
+                        var t = _tick % ((int)((health+10)/10)*10) < 5 ? 1 : 0; 
+                        _spriteBatch.Draw(texture, new Rectangle(2 + 70 * i + t, SCREEN_HEIGHT + 2 + t, texture.Width - 2*t, texture.Height - 2*t ), Color.White);
                     }
                     else
                     _spriteBatch.Draw(texture, new Vector2(2 + 70*i, SCREEN_HEIGHT + 2), Color.White);
@@ -202,35 +202,6 @@ namespace MonoBrJozik
             var infoList = actions.Select(act => new MonoItemInfo(null, null, act.Name,() => act.Do())).ToList();
 
             _menu.Show(infoList, x, y);
-         /*   if (_canvas.ContextMenu == null)
-            {
-                _canvas.ContextMenu = new ContextMenu();
-            }
-
-            var cm = _canvas.ContextMenu;
-            if (cm != null)
-            {
-                if (cm.IsOpen)
-                    cm.IsOpen = false;
-
-                cm.Items.Clear();
-
-                foreach (var act in actions)
-                {
-                    var action = act;
-                    var menuItem = new MenuItem
-                    {
-                        Header = action.Name,
-                        IsEnabled = action.CanDo
-                    };
-
-                    menuItem.Click += (sender, args) => action.Do();
-
-                    cm.Items.Add(menuItem);
-                }
-
-                cm.IsOpen = true;
-            }*/
         }
 
         public void DrawObject(uint id, long x, long y, int height)

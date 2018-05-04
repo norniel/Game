@@ -51,6 +51,7 @@ namespace Engine.Heros
 
                 if (_heroProperties.PoisonesTime > 0)
                 {
+                    _heroProperties.PoisonesTime--;
                     _heroProperties.Health = Math.Max(_heroProperties.Health - _heroProperties.Poisoness, 0);
 
                     if (_heroProperties.PoisonesTime == 0)
