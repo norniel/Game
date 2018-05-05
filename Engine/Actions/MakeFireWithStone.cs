@@ -41,13 +41,14 @@ namespace Engine.Actions
             if (stones.Count < 2 || plant == null || branch == null)
                 return new FinishedActionResult();
 
-            branch.RemoveFromContainer();
-            plant.RemoveFromContainer();
-            var fire = new Fire();
-
-            Map.SetHObjectFromDestination(hero.Position, fire);
-
-            return new FinishedActionResult();
+            return new ConseqActionResult(true, 
+                Consequance.ProbabilityOrElse(
+                    hero.GetKnowledge(Knowledges.MakeFireWithStone), 
+                    Consequance.Composite(
+                        this.Create(branch, plant),
+                        Consequance.AddKnowledge(Knowledges.MakeFireWithStone, 10)), 
+                    Consequance.AddKnowledge(Knowledges.MakeFireWithStone, 5))
+                    ); 
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
@@ -80,6 +81,18 @@ namespace Engine.Actions
         public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
         {
             return destination;
+        }
+
+        public Action<Hero> Create(GameObject branch, GameObject plant)
+        {
+            return hero =>
+            {
+                branch.RemoveFromContainer();
+                plant.RemoveFromContainer();
+                var fire = new Fire();
+
+                Map.SetHObjectFromDestination(hero.Position, fire);
+            };
         }
     }
 }

@@ -36,7 +36,9 @@ namespace Engine.Actions
             if (stones.Count < 2)
                 return new FinishedActionResult();
 
-            return new ConseqActionResult(true, CreateSharpStone.Create(stones.First()));
+
+
+            return new ConseqActionResult(true, CreateSharpStone.CreateIfKnowledge(stones.First()));
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
@@ -73,6 +75,25 @@ namespace Engine.Actions
                 stone.RemoveFromContainer();
                 var sharpStone = new SharpStone();
                 Game.AddToGame(hero, sharpStone);
+            };
+        }
+
+        public static Action<Hero> CreateIfKnowledge(GameObject stone)
+        {
+            return hero =>
+            {
+                stone.RemoveFromContainer();
+
+                Consequance.ProbabilityOrElse(
+                    hero.GetKnowledge(Knowledges.CreateSharpStone),
+                    Consequance.Composite(
+                        heroInner =>
+                        {
+                            var sharpStone = new SharpStone();
+                            Game.AddToGame(heroInner, sharpStone);
+                        },
+                        Consequance.AddKnowledge(Knowledges.CreateSharpStone, 10)),
+                    Consequance.AddKnowledge(Knowledges.CreateSharpStone, 5))(hero);                
             };
         }
     }

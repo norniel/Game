@@ -15,6 +15,16 @@ namespace Engine
             };
         }
 
+        public static Action<Hero> ProbabilityOrElse(double prbab, Action<Hero> action, Action<Hero> elseAction)
+        {
+            return hero =>
+            {
+                var random = Game.Random.NextDouble();
+                if (prbab > random) action(hero);
+                else elseAction(hero);
+            };
+        }
+
         public static Action<Hero> Composite(params Action<Hero>[] actions)
         {
             return hero =>
@@ -31,6 +41,14 @@ namespace Engine
             return hero =>
             {
                 hero.AddKnowledge(knowledge);
+            };
+        }
+
+        public static Action<Hero> AddKnowledge(Knowledges knowledge, uint koef)
+        {
+            return hero =>
+            {
+                hero.SetKnowledge(knowledge, koef);
             };
         }
 

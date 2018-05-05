@@ -26,7 +26,7 @@ namespace Engine.Heros
 
         private bool _isThen;
 
-        private readonly HashSet<Knowledges> _knowledgeses = new HashSet<Knowledges> {Knowledges.Nothing};
+        private readonly Dictionary<Knowledges, uint> _knowledgeses = new Dictionary<Knowledges, uint> { { Knowledges.Nothing, 100 } };
         private readonly Dictionary<string, uint> _ObjectKnowledgeses = new Dictionary<string, uint>();
         
         public Hero()
@@ -185,12 +185,12 @@ namespace Engine.Heros
 
         public void AddKnowledge(Knowledges knowledge)
         {
-            _knowledgeses.Add(knowledge);
+            SetKnowledge(knowledge, 1);
         }
 
         public bool HasKnowledge(Knowledges knowledge)
         {
-            return _knowledgeses.Contains(knowledge);
+            return _knowledgeses.ContainsKey(knowledge);
         }
 
         public double GetObjectKnowledge(string gameObjectName)
@@ -209,6 +209,24 @@ namespace Engine.Heros
             {
                 _ObjectKnowledgeses[gameObjectName] = Math.Min(100, knowledge);
             }
+        }
+
+        public void SetKnowledge(Knowledges knowledge, uint koef)
+        {
+            if (_knowledgeses.ContainsKey(knowledge))
+            {
+                _knowledgeses[knowledge] = Math.Min(100, _knowledgeses[knowledge] + koef);
+            }
+            else
+            {
+                _knowledgeses[knowledge] = Math.Min(100, koef);
+            }
+        }
+
+        public double GetKnowledge(Knowledges knowledge)
+        {
+            uint koef;
+            return _knowledgeses.TryGetValue(knowledge, out koef) ? koef / 100.0 : 0.0;
         }
     }
 }
