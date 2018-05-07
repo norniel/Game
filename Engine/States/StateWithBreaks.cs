@@ -2,7 +2,7 @@
 {
     class StateWithBreaks
     { 
-        private const uint maxTimeStamp = 50;
+        protected virtual uint maxTimeStamp => 50;
         protected uint timestamp;
 
         public StateWithBreaks()

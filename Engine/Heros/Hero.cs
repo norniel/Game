@@ -163,24 +163,44 @@ namespace Engine.Heros
             StateEvent.FireEvent();
         }
 
+        private void Halt()
+        {
+            _stateQueue.Clear();
+            _stateQueue.Enqueue(new Halting(this));
+            _stateQueue.Enqueue(new Halt());
+            StateEvent.FireEvent();
+        }
+
         public override bool CheckForUnExpected()
         {
-            if (!HeroLifeCycle.TotallyTired() || State is Unconscios)
-                return true;
+            if (HeroLifeCycle.HeroProperties.Health <= 0 && !(State is Halting) && !(State is Halt))
+            {
+                Halt();
+                return false;
+            }
 
-            FallUnconscios();
+            if (HeroLifeCycle.TotallyTired() && !(State is Unconscios))
+            {
+                FallUnconscios();
+                return false;
+            }
 
-            return false;
+            return true;
         }
 
         public bool IsUnconscios()
+        { 
+            return State is Unconscios || State is Halting || State is Halt;
+        }
+
+        public bool IsHalt()
         {
-            return State is Unconscios;
+            return State is Halt;
         }
 
         public bool IsHorizontal()
         {
-            return State is Unconscios || State is Sleeping;
+            return IsUnconscios() || State is Sleeping;
         }
 
         public void AddKnowledge(Knowledges knowledge)

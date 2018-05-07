@@ -90,7 +90,7 @@ namespace MonoBrJozik
             }).ToList());
         }
 
-        public void DrawDayNight(double lightness, GameDateTime gameDateTime, List<BurningProps> lightObjects)
+        public void DrawDayNight(double lightness, List<BurningProps> lightObjects)
         {
             //You can probably turn this in to a re-useable method
             Byte transparency_amount = (Byte)(255 * lightness); //0 transparent; 255 opaque
@@ -100,10 +100,6 @@ namespace MonoBrJozik
             texture.SetData<Color>(c);
 
             _spriteBatch.Draw(texture, new Rectangle(0, 0, 564, 394), Color.Black);
-
-            var timeOfDay = $"{gameDateTime.Day}:{gameDateTime.Hour}:{gameDateTime.Minute}";
-            var timeStrLength = _font.MeasureString(timeOfDay);
-            _spriteBatch.DrawString(_font, timeOfDay, new Vector2(SCREEN_WIDTH - timeStrLength.X - 2, SCREEN_HEIGHT + 20), Color.Black);
         }
 
         public void DrawHero(Point position, double angle, List<Point> pointList, bool isHorizontal)
@@ -245,6 +241,22 @@ namespace MonoBrJozik
             c2[0] = Color.LightGray;
             texture2.SetData<Color>(c2);
             _spriteBatch.Draw(texture2, new Rectangle(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT + HEALTH_BAR_HEIGHT), Color.White);*/
+        }
+
+        public void DrawTime(GameDateTime gameDateTime)
+        {
+            var timeOfDay = $"{gameDateTime.Day}:{gameDateTime.Hour}:{gameDateTime.Minute}";
+            var timeStrLength = _font.MeasureString(timeOfDay);
+            _spriteBatch.DrawString(_font, timeOfDay, new Vector2(SCREEN_WIDTH - timeStrLength.X - 2, SCREEN_HEIGHT + 20), Color.Black);
+        }
+
+        public void DrawHaltScreen(uint width, uint height)
+        {
+            Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Color[] c = new Color[1];
+            c[0] = Color.DarkGray;
+            texture.SetData<Color>(c);//_screenTexture
+            _spriteBatch.Draw(texture, new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), Color.White);
         }
 
         private void DrawRotatedImage(Texture2D texture, long x, long y, uint angle)

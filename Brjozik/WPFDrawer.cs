@@ -652,7 +652,7 @@ namespace Game
             }
         }
 
-        public void DrawDayNight(double lightness, GameDateTime gameDateTime, List<BurningProps> lightObjects)
+        public void DrawDayNight(double lightness, List<BurningProps> lightObjects)
         {
             var drawingGroup = new DrawingGroup();
 
@@ -694,9 +694,6 @@ namespace Game
             _canvas.Children.Add(rec);
             Canvas.SetLeft(rec, 0);
             Canvas.SetTop(rec, 0);
-
-            _listBoxDateTime.Items.Clear();
-            _listBoxDateTime.Items.Add($"{gameDateTime.Day}:{gameDateTime.Hour}:{gameDateTime.Minute}");
         }
 
         public void DrawShaddow(Point innerPoint, Size innerSize)
@@ -742,6 +739,15 @@ namespace Game
             Canvas.SetLeft(rec, 0);
             Canvas.SetTop(rec, 0);
         }
+
+        public void DrawTime(GameDateTime gameDateTime)
+        {
+            _listBoxDateTime.Items.Clear();
+            _listBoxDateTime.Items.Add($"{gameDateTime.Day}:{gameDateTime.Hour}:{gameDateTime.Minute}");
+        }
+
+        public void DrawHaltScreen(uint width, uint height)
+        { }
 
         private void CreateActing()
         {

@@ -19,8 +19,7 @@ namespace Engine
         {
             return hero =>
             {
-                var random = Game.Random.NextDouble();
-                if (prbab > random) action(hero);
+                if (prbab == 1.0 || prbab > Game.Random.NextDouble()) action(hero);
                 else elseAction(hero);
             };
         }

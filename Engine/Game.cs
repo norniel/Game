@@ -215,6 +215,34 @@ namespace Engine
 
             _drawer.Clear();
 
+            if (_hero.IsHalt())
+            {
+                _drawer.DrawHaltScreen(curRect.Width, curRect.Height);
+            }
+            else
+            {
+                DrawSurface();
+            }
+
+            IEnumerable<MenuItems> groupedItems = _hero.GetContainerItems()
+                .GroupBy(go => go.Name,
+                    (name, gos) =>
+                    new MenuItems
+                    {
+                        Name = $"{name}({gos.Count()})",
+                        Id = gos.First().Id,
+                        GetClientActions = GetFuncForClientActions(gos.First())
+                    });
+
+            _drawer.DrawContainer(groupedItems);
+
+            _drawer.DrawHeroProperties(_hero.GetProperties());
+
+            _drawer.DrawTime(_dayNightCycle.CurrentGameDate);
+        }
+
+        private void DrawSurface()
+        {
             _drawer.DrawSurface(curRect.Width, curRect.Height);
 
             var visibleCells = Map.RectToCellRect(Map.VisibleRect);
@@ -225,7 +253,7 @@ namespace Engine
             for (int j = visibleCells.Top; j < visibleCells.Top + visibleCells.Height; j++)
             {
                 for (int i = visibleCells.Left; i < visibleCells.Left + visibleCells.Width; i++)
-                {                    
+                {
                     var gameObject = Map.GetHObjectFromCell(new Point(i, j));
 
                     if (gameObject == null) continue;
@@ -250,7 +278,7 @@ namespace Engine
 
                 if ((j * Map.CellMeasure <= _hero.Position.Y) && ((j + 1) * Map.CellMeasure > _hero.Position.Y))
                 {
-                   _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
+                    _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
                 }
             }
 
@@ -264,7 +292,7 @@ namespace Engine
                 }
             }
 
-          //  _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
+            //  _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
 
             if (IsHeroInInnerMap())
             {
@@ -274,29 +302,19 @@ namespace Engine
             }
             else
             {
-                _drawer.DrawDayNight(_dayNightCycle.Lightness(), _dayNightCycle.CurrentGameDate, lightObjectsList);
+                _drawer.DrawDayNight(_dayNightCycle.Lightness(), lightObjectsList);
             }
 
             _drawer.DrawActing(_hero.State.ShowActing);
-
-            var groupedItems = _hero.GetContainerItems()
-                .GroupBy(go => go.Name,
-                    (name, gos) =>
-                    new MenuItems {
-                        Name = $"{name}({gos.Count()})",
-                        Id = gos.First().Id,
-                        GetClientActions = GetFuncForClientActions(gos.First())
-                    });
-
-            _drawer.DrawContainer(groupedItems);
-
-            _drawer.DrawHeroProperties(_hero.GetProperties());
         }
 
         private Func<IEnumerable<ClientAction>> GetFuncForClientActions(GameObject first)
         {
             return (() =>
             {
+                if (_hero.IsUnconscios())
+                    return new List<ClientAction>();
+
                 var possibleActions = ActionRepository.GetPossibleActions(_hero, first).ToList();
 
                 var objects = new List<GameObject>(new[] {first});

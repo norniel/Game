@@ -26,8 +26,12 @@ namespace Engine
 
         void DrawActing(bool showActing);
 
-        void DrawDayNight(double lightness, GameDateTime gameDateTime, List<BurningProps> lightObjects);
+        void DrawDayNight(double lightness, List<BurningProps> lightObjects);
 
         void DrawShaddow(Point innerPoint, Size innerSize);
+
+        void DrawTime(GameDateTime gameDateTime);
+
+        void DrawHaltScreen(uint width, uint height);
     }
 }
