@@ -74,7 +74,7 @@ namespace MonoBrJozik
                         : _actingString.Length == 8 ? "Acting..." : "Acting..";
                 }
 
-               // _spriteBatch.DrawString()
+                _spriteBatch.DrawString(_font, _actingString, new Vector2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), Color.White);
             }
         }
 
