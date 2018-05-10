@@ -52,12 +52,8 @@ namespace Engine.Objects
         public uint BaseId { get; set; }
         public uint BaseGrowingId { get; set; }
 
-        private MushroomContext _mushroomContext;
-
         public Mushroom(MushroomContext context) : base(context)
         {
-            _mushroomContext = context;
-
             NeedKnowledge = true;
             KnowledgeKoef = Game.Random.NextDouble();
 

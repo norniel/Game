@@ -70,7 +70,11 @@ namespace Engine
 
         public override uint GetDrawingCode()
         {
-            var berriesCount = (GetBehavior(typeof(CollectBehavior<Berry>)) as CollectBehavior<Berry>).CurrentCount;
+            var berryCollect = GetBehavior(typeof(CollectBehavior<Berry>)) as CollectBehavior<Berry>;
+            if (berryCollect == null)
+                return Id;
+
+            var berriesCount = berryCollect.CurrentCount;
 
             if (berriesCount > _treeContext.BerriesCount / 2) return Id;
 

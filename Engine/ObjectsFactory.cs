@@ -88,6 +88,13 @@ namespace Engine
                         new EatableBehavior(2, 10, 8)
                     }
                 }
+            },
+            { "Birch tree", new TreeContext(){Name = "Birch tree", Id =0x00002900, HalfEmptyId = 0x00002900,
+                Behaviors  = () => new HashSet<IBehavior>
+                {
+                    new CollectBehavior<Branch>("Branch", 1, 4),
+                    new CollectBehavior<Twig>("Twig", 2, 16)
+                }}
             }
         };
 
@@ -101,7 +108,8 @@ namespace Engine
             Resource.Plant,
             Resource.Rock,
             "Muhomor",
-            "Poganka"
+            "Poganka",
+            "Birch tree"
         };
 
         public ObjectsFactory()

@@ -84,7 +84,7 @@ namespace MonoBrJozik
         {
             var textureDict = new Dictionary<uint, Texture2D>();
 
-            foreach (string str in Directory.GetFiles(@"D:\Code\Game\Game\MonoBrJozik\Content", "*.png", SearchOption.TopDirectoryOnly))
+            foreach (string str in Directory.GetFiles(@"Content", "*.png", SearchOption.TopDirectoryOnly))
             {
                 int lastSlash = str.LastIndexOf('\\');
                 string textureName = ((lastSlash > -1) ? str.Substring(lastSlash + 1) : str).Replace(".png", "");
