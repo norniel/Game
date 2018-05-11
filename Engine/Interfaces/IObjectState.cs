@@ -1,6 +1,6 @@
 ﻿namespace Engine.Interfaces
 {
-    interface IObjectState
+    public interface IObjectState
     {
         int TickCount { get; set; }
         int Distribution { get; set; }

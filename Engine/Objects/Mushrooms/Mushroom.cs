@@ -31,7 +31,8 @@ namespace Engine.Objects
         public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>
         {
             new RoastBehavior( Resource.RoastedBurovik),
-            new EatableBehavior(2)
+            new EatableBehavior(2),
+            new SpoileringBehavior()
         };
 
         public GameObject Produce()
@@ -41,9 +42,9 @@ namespace Engine.Objects
     }
 
     [GenerateMap]
-    public class Mushroom : FixedObject
+    public class Mushroom : FixedObject, IWithObjectWithState
     {
-        private ObjectWithState ObjectWithState { get; }
+        public ObjectWithState ObjectWithState { get; }
 
         public override int Weight => 2;
 

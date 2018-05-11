@@ -77,7 +77,8 @@ namespace Engine
                 Behaviors  = () => new HashSet<IBehavior>
                     {
                         new RoastBehavior( Resource.RoastedBurovik),
-                        new EatableBehavior(2, 50, 1)
+                        new EatableBehavior(2, 50, 1),
+                        new SpoileringBehavior()
                     }
                 }
             },
@@ -85,7 +86,8 @@ namespace Engine
                     Behaviors  = () => new HashSet<IBehavior>
                     {
                         new RoastBehavior( Resource.RoastedBurovik),
-                        new EatableBehavior(2, 10, 8)
+                        new EatableBehavior(2, 10, 8),
+                        new SpoileringBehavior()
                     }
                 }
             },

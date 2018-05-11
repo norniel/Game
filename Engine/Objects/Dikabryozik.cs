@@ -12,9 +12,9 @@ using Engine.Tools;
 
 namespace Engine.Objects
 {
-    class Dikabryozik: MobileObject, IEater
+    class Dikabryozik: MobileObject, IEater, IWithObjectWithState
     {
-        private ObjectWithState ObjectWithState { get; }
+        public ObjectWithState ObjectWithState { get; }
 
         private readonly Bag _bundle;
 

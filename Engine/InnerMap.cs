@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Engine.Behaviors;
 using Engine.Interfaces;
+using Engine.Objects;
 using Engine.Objects.LargeObjects;
+using Engine.ObjectStates;
 
 namespace Engine
 {
@@ -70,6 +73,8 @@ namespace Engine
                     SetObjectFromCell(cell, null);
                 }
 
+                ApplySpoileringBehavior(gameObject);
+
                 if (gameObject.Properties.Contains(Property.Regrowable))
                 {
                     SetObjectFromCell(GetRandomNearEmptyPoint(cell, 3), (FixedObject)Game.Factory.Produce(gameObject.Name));
@@ -87,7 +92,20 @@ namespace Engine
             _map[cell.X, cell.Y] = gameObject;
         }
 
+        private void ApplySpoileringBehavior(GameObject gameObject)
+        {
+            var spoileringBehavior = gameObject.GetBehavior(typeof(SpoileringBehavior)) as SpoileringBehavior;
+            var withObjectWithStates = gameObject as IWithObjectWithState;
 
+            if (spoileringBehavior == null || withObjectWithStates == null || withObjectWithStates.ObjectWithState.HasState(typeof(Spoilering)))
+                return;
+
+            withObjectWithStates.ObjectWithState.ChangeStateList(new List<IObjectState>
+            {
+                new Staying {TickCount = spoileringBehavior.StayingProps.TickCount, Distribution = spoileringBehavior.StayingProps.Distribution, Eternal = spoileringBehavior.StayingProps.Eternal},
+                new Spoilering {TickCount = spoileringBehavior.SpoileringProps.TickCount, Distribution = spoileringBehavior.SpoileringProps.Distribution, Eternal = spoileringBehavior.SpoileringProps.Eternal}
+            });
+        }
 
         private Point GetRandomNearEmptyPoint(Point cell, int radius)
         {

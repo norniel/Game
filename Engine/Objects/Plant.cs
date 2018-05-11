@@ -42,9 +42,9 @@ namespace Engine.Objects
     }
 
     [GenerateMap]
-    internal class Plant: FixedObject
+    internal class Plant: FixedObject, IWithObjectWithState
     {
-        private ObjectWithState ObjectWithState { get; }
+        public ObjectWithState ObjectWithState { get; }
 
         private readonly PlantContext _plantContext;
 

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using Engine.Behaviors;
 using Engine.Interfaces;
+using Engine.ObjectStates;
 
 namespace Engine.Objects
 {
-    internal class ObjectWithState: IComparable<ObjectWithState>
+    public class ObjectWithState: IComparable<ObjectWithState>
     {
         // todo : object with state
         // to switch state objects are added to quiue in appropriate game tick
@@ -56,7 +59,7 @@ namespace Engine.Objects
             }
         }
 
-        protected readonly List<IObjectState> ObjectStateQueue;
+        protected List<IObjectState> ObjectStateQueue;
         private readonly bool _isCircling;
         private int _currentStateId = -1;
 
@@ -92,6 +95,11 @@ namespace Engine.Objects
             }
 
             ChangeStateInternal(nextStateId);
+        }
+
+        internal bool HasState(Type type)
+        {
+            return ObjectStateQueue.OfType<Spoilering>().Any();
         }
 
         public virtual void ChangeState(int newstateId, int? newTicksCount = null)
@@ -132,6 +140,15 @@ namespace Engine.Objects
         public virtual void OnLastStateFinished()
         {
             LastStateHandler?.Invoke();
+        }
+
+        public void ChangeStateList(List<IObjectState> objectStates)
+        {
+            if (objectStates.Count <= 0)
+                return;
+
+            ObjectStateQueue = objectStates;
+            ChangeState(0);
         }
     }
 }

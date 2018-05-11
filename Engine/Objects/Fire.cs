@@ -4,9 +4,9 @@ using Engine.ObjectStates;
 
 namespace Engine.Objects
 {
-    internal class Fire : FixedObject, IBurning
+    internal class Fire : FixedObject, IBurning, IWithObjectWithState
     {
-        private ObjectWithState ObjectWithState { get; }
+        public ObjectWithState ObjectWithState { get; }
 
         public Fire()
         {
