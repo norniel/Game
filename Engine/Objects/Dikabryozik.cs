@@ -39,10 +39,10 @@ namespace Engine.Objects
             _bundle = new Bag(2, 2);
 
             ObjectWithState = new ObjectWithState(
-                new List<IObjectState>
+                new List<ObjectState>
                     {
-                        new Staying {TickCount = STAYING_BASE_TICKCOUNT, Distribution = STAYING_BASE_TICKCOUNT/10, Eternal = false},
-                        new Hungry {TickCount = 300, Distribution = 30, Eternal = true}
+                        new ObjectState(ObjectStates.ObjectStates.Staying) {TickCount = STAYING_BASE_TICKCOUNT, Distribution = STAYING_BASE_TICKCOUNT/10, Eternal = false},
+                        new ObjectState(ObjectStates.ObjectStates.Hungry){TickCount = 300, Distribution = 30, Eternal = true}
                     },
                     false, null, OnChangeState);
 
@@ -56,7 +56,7 @@ namespace Engine.Objects
 
         public override void EnqueueNextState()
         {
-            if (ObjectWithState.CurrentState is Hungry)
+            if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Hungry)
             {
                 StartLookingForFood();
                 return;
@@ -117,7 +117,7 @@ namespace Engine.Objects
 
         private void OnChangeState()
         {
-            if (ObjectWithState?.CurrentState is Hungry)
+            if (ObjectWithState?.CurrentState.Name == ObjectStates.ObjectStates.Hungry)
             {
                 StartLookingForFood();
             }

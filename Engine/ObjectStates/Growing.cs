@@ -1,4 +1,4 @@
-﻿using Engine.Interfaces;
+﻿/*using Engine.Interfaces;
 
 namespace Engine.ObjectStates
 {
@@ -8,4 +8,4 @@ namespace Engine.ObjectStates
         public int Distribution { get; set; }
         public bool Eternal { get; set; }
     }
-}
+}*/

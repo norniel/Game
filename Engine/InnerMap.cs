@@ -97,13 +97,14 @@ namespace Engine
             var spoileringBehavior = gameObject.GetBehavior(typeof(SpoileringBehavior)) as SpoileringBehavior;
             var withObjectWithStates = gameObject as IWithObjectWithState;
 
-            if (spoileringBehavior == null || withObjectWithStates == null || withObjectWithStates.ObjectWithState.HasState(typeof(Spoilering)))
+            if (spoileringBehavior == null || withObjectWithStates == null || withObjectWithStates.ObjectWithState.HasState(ObjectStates.ObjectStates.Spoilering))
                 return;
 
-            withObjectWithStates.ObjectWithState.ChangeStateList(new List<IObjectState>
+            var currentStateName = withObjectWithStates.ObjectWithState.CurrentState?.Name ?? ObjectStates.ObjectStates.Staying;
+            withObjectWithStates.ObjectWithState.ChangeStateList(new List<ObjectState>
             {
-                new Staying {TickCount = spoileringBehavior.StayingProps.TickCount, Distribution = spoileringBehavior.StayingProps.Distribution, Eternal = spoileringBehavior.StayingProps.Eternal},
-                new Spoilering {TickCount = spoileringBehavior.SpoileringProps.TickCount, Distribution = spoileringBehavior.SpoileringProps.Distribution, Eternal = spoileringBehavior.SpoileringProps.Eternal}
+                new ObjectState(currentStateName, spoileringBehavior.StayingProps),
+                new ObjectState(ObjectStates.ObjectStates.Spoilering, spoileringBehavior.SpoileringProps)
             });
         }
 

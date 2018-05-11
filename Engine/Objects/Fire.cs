@@ -18,10 +18,10 @@ namespace Engine.Objects
 
             ObjectWithState =
                 new ObjectWithState(
-                    new List<IObjectState>
+                    new List<ObjectState>
                     {
-                        new Firing {TickCount = 300, Distribution = 10, Eternal = false},
-                        new Attenuating {TickCount = 150, Distribution = 10, Eternal = false}
+                        new ObjectState(ObjectStates.ObjectStates.Firing) {TickCount = 300, Distribution = 10, Eternal = false},
+                        new ObjectState(ObjectStates.ObjectStates.Attenuating) {TickCount = 150, Distribution = 10, Eternal = false}
                     }, 
                     false,
                     OnLastStateFinished);
@@ -38,7 +38,7 @@ namespace Engine.Objects
         public int TimeOfBurning {
             get
             {
-                if (ObjectWithState.CurrentState is Firing)
+                if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Firing)
                 {
                     return ObjectWithState.TicksToNextState;
                 }
@@ -51,7 +51,7 @@ namespace Engine.Objects
         public int LightRadius {
             get
             {
-                if (ObjectWithState.CurrentState is Attenuating)
+                if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Attenuating)
                     return 1;
 
                 return 3;
@@ -60,7 +60,7 @@ namespace Engine.Objects
 
         public override uint GetDrawingCode()
         {
-            if (ObjectWithState.CurrentState is Attenuating)
+            if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Attenuating)
                 return 0x00001500;
 
             return Id;

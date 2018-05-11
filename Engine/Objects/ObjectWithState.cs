@@ -30,7 +30,7 @@ namespace Engine.Objects
         }
 
 
-        public ObjectWithState(List<IObjectState> objectStateQueue, bool isCircling, Action lastStateHandler, Action nextStateHandler)
+        public ObjectWithState(List<ObjectState> objectStateQueue, bool isCircling, Action lastStateHandler, Action nextStateHandler)
         {
             _id = GenerateId();
             ObjectStateQueue = objectStateQueue;
@@ -42,7 +42,7 @@ namespace Engine.Objects
             NextState();
         }
 
-        public ObjectWithState(List<IObjectState> objectStateQueue, bool isCircling, Action lastStateHandler)
+        public ObjectWithState(List<ObjectState> objectStateQueue, bool isCircling, Action lastStateHandler)
             :this(objectStateQueue, isCircling, lastStateHandler, null)
         {}
 
@@ -59,13 +59,13 @@ namespace Engine.Objects
             }
         }
 
-        protected List<IObjectState> ObjectStateQueue;
+        protected List<ObjectState> ObjectStateQueue;
         private readonly bool _isCircling;
         private int _currentStateId = -1;
 
         private readonly int _id;
 
-        public IObjectState CurrentState {
+        public ObjectState CurrentState {
             get
             {
                 if (_currentStateId < 0 || _currentStateId >= ObjectStateQueue.Count)
@@ -97,9 +97,9 @@ namespace Engine.Objects
             ChangeStateInternal(nextStateId);
         }
 
-        internal bool HasState(Type type)
+        internal bool HasState(ObjectStates.ObjectStates stateName)
         {
-            return ObjectStateQueue.OfType<Spoilering>().Any();
+            return ObjectStateQueue.Any(objState => objState.Name == stateName);
         }
 
         public virtual void ChangeState(int newstateId, int? newTicksCount = null)
@@ -122,7 +122,7 @@ namespace Engine.Objects
             }
         }
 
-        protected virtual void OnChangeState(IObjectState oldState)
+        protected virtual void OnChangeState(ObjectState oldState)
         {
             NextStateHandler?.Invoke();
         }
@@ -142,7 +142,7 @@ namespace Engine.Objects
             LastStateHandler?.Invoke();
         }
 
-        public void ChangeStateList(List<IObjectState> objectStates)
+        public void ChangeStateList(List<ObjectState> objectStates)
         {
             if (objectStates.Count <= 0)
                 return;

@@ -65,10 +65,10 @@ namespace Engine.Objects
 
         ObjectWithState =
                 new ObjectWithState(
-                    new List<IObjectState>
+                    new List<ObjectState>
                     {
-                        new Growing {TickCount = context.GrowingProps.TickCount, Distribution = context.GrowingProps.Distribution, Eternal = context.GrowingProps.Eternal},
-                        new Staying {TickCount = context.StayingProps.TickCount, Distribution = context.StayingProps.Distribution, Eternal = context.StayingProps.Eternal}
+                        new ObjectState(ObjectStates.ObjectStates.Growing, context.GrowingProps),
+                        new ObjectState(ObjectStates.ObjectStates.Staying, context.StayingProps)
                     },
                     false,
                     OnLastStateFinished);
@@ -86,7 +86,7 @@ namespace Engine.Objects
 
         private uint DrawingCode(uint growingId, uint id)
         {
-            if (ObjectWithState.CurrentState is Growing)
+            if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Growing)
                 return growingId;
 
             return id;
@@ -101,7 +101,7 @@ namespace Engine.Objects
         {
             get
             {
-                if (ObjectWithState.CurrentState is Growing)
+                if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Growing)
                     return 0.5;
 
                 return 1;

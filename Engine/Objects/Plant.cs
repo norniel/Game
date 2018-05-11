@@ -54,11 +54,11 @@ namespace Engine.Objects
 
             ObjectWithState =
                 new ObjectWithState(
-                    new List<IObjectState>
+                    new List<ObjectState>
                     {
-                        new Growing {TickCount = plantContext.GrowingProps.TickCount, Distribution = plantContext.GrowingProps.Distribution, Eternal = plantContext.GrowingProps.Eternal},
-                        new Staying {TickCount = plantContext.StayingProps.TickCount, Distribution = plantContext.StayingProps.Distribution, Eternal = plantContext.StayingProps.Eternal},
-                        new Drying {TickCount = plantContext.DryingProps.TickCount, Distribution = plantContext.DryingProps.Distribution, Eternal = plantContext.DryingProps.Eternal}
+                        new ObjectState(ObjectStates.ObjectStates.Growing, plantContext.GrowingProps),
+                        new ObjectState(ObjectStates.ObjectStates.Staying, plantContext.StayingProps),
+                        new ObjectState(ObjectStates.ObjectStates.Drying, plantContext.DryingProps)
                     }, 
                     false, 
                     OnLastStateFinished);
@@ -68,7 +68,7 @@ namespace Engine.Objects
         {
             get
             {
-                if (ObjectWithState.CurrentState is Growing)
+                if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Growing)
                 {
                     var tToNext = ObjectWithState.TicksToNextState;
                     var tCount = ObjectWithState.CurrentState.TickCount;
@@ -87,10 +87,10 @@ namespace Engine.Objects
 
         public override uint GetDrawingCode()
         {
-            if (ObjectWithState.CurrentState is Growing)
+            if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Growing)
                 return _plantContext.GrowingId;
 
-            if (ObjectWithState.CurrentState is Drying)
+            if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Drying)
                 return _plantContext.DryingId;
 
             return Id;
