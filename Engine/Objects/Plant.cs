@@ -10,13 +10,10 @@ namespace Engine.Objects
 {
     public class PlantContext : IObjectContext
     {
-        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties() { TickCount = 300, Distribution = 50, Eternal = false };
-        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties() { TickCount = 1000, Distribution = 100, Eternal = false };
-        public ObjStateProperties DryingProps { get; set; } = new ObjStateProperties() { TickCount = 300, Distribution = 30, Eternal = false };
-
-        public uint GrowingId { get; set; } = 0x10001100;
-        public uint DryingId { get; set; } = 0x20001100;
-
+        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties() { TickCount = 300, Distribution = 50, Eternal = false, Id = 0x10001100 };
+        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties() { TickCount = 1000, Distribution = 100, Eternal = false, Id = 0x00001100 };
+        public ObjStateProperties DryingProps { get; set; } = new ObjStateProperties() { TickCount = 300, Distribution = 30, Eternal = false, Id = 0x20001100 };
+        
         public uint Id { get; set; } = 0x00001100;
 
         public string Name { get; set; } = Resource.Plant;
@@ -87,13 +84,7 @@ namespace Engine.Objects
 
         public override uint GetDrawingCode()
         {
-            if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Growing)
-                return _plantContext.GrowingId;
-
-            if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Drying)
-                return _plantContext.DryingId;
-
-            return Id;
+            return ObjectWithState.CurrentState?.Id ?? Id;
         }
     }
 }

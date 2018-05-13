@@ -5,6 +5,7 @@ using System.Reflection;
 using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.Objects;
+using Engine.ObjectStates;
 using Engine.Resources;
 using Engine.Tools;
 using Unity.Interception.Utilities;
@@ -73,22 +74,27 @@ namespace Engine
                 }
                 }
             },
-            { "Muhomor", new MushroomContext(){Name = "Muhomor", Weight = 2, Id = 0x00002700, GrowingId = 0x10002700,
+            { "Muhomor", new MushroomContext(){Name = "Muhomor", Weight = 2, Id = 0x00002700,
                 Behaviors  = () => new HashSet<IBehavior>
                     {
                         new RoastBehavior( Resource.RoastedBurovik),
                         new EatableBehavior(2, 50, 1),
                         new SpoileringBehavior()
-                    }
+                    },
+                    GrowingProps = new ObjStateProperties() { TickCount = 250, Distribution = 100, Eternal = false, Id = 0x10002700 },
+                    StayingProps = new ObjStateProperties() { TickCount = 1000, Distribution = 100, Eternal = false, Id = 0x00002700 }
                 }
+
             },
-            { "Poganka", new MushroomContext(){Name = "Poganka", Weight = 2, Id = 0x00002800, GrowingId = 0x10002800,
+            { "Poganka", new MushroomContext(){Name = "Poganka", Weight = 2, Id = 0x00002800,
                     Behaviors  = () => new HashSet<IBehavior>
                     {
                         new RoastBehavior( Resource.RoastedBurovik),
                         new EatableBehavior(2, 10, 8),
                         new SpoileringBehavior()
-                    }
+                    },
+                    GrowingProps = new ObjStateProperties() { TickCount = 280, Distribution = 100, Eternal = false, Id = 0x10002800 },
+                    StayingProps = new ObjStateProperties() { TickCount = 1000, Distribution = 100, Eternal = false, Id = 0x00002800 }
                 }
             },
             { "Birch tree", new TreeContext(){Name = "Birch tree", Id =0x00002900, HalfEmptyId = 0x00002900,

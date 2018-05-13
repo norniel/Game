@@ -10,10 +10,11 @@ namespace Engine.Objects
 {
     public class MushroomContext : IObjectContext
     {
-        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties() {TickCount = 300, Distribution = 50, Eternal = false};
-        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties() {TickCount = 1000, Distribution = 100, Eternal = false };
+        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties() {TickCount = 300, Distribution = 50, Eternal = false, Id = 0x10001900};
+        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties() {TickCount = 1000, Distribution = 100, Eternal = false, Id = 0x00001900 };
 
-        public uint GrowingId { get; set; } = 0x10001900;
+        public Dictionary<ObjectStates.ObjectStates, uint>
+            BaseIds = new Dictionary<ObjectStates.ObjectStates, uint> { { ObjectStates.ObjectStates.Growing, 0x10001900 }, { ObjectStates.ObjectStates.Staying, 0x00001900 }, { ObjectStates.ObjectStates.Spoilering, 0x00001900 } };
         
         public uint Id { get; set; } = 0x00001900;
 
@@ -48,22 +49,16 @@ namespace Engine.Objects
 
         public override int Weight => 2;
 
-        public uint GrowingId { get; set; }
-
-        public uint BaseId { get; set; }
-        public uint BaseGrowingId { get; set; }
+        public Dictionary<ObjectStates.ObjectStates, uint> BaseIds { get; set; }
 
         public Mushroom(MushroomContext context) : base(context)
         {
             NeedKnowledge = true;
             KnowledgeKoef = Game.Random.NextDouble();
 
-            GrowingId = context.GrowingId;
+            BaseIds = context.BaseIds;
 
-            BaseId = 0x00001900;
-            BaseGrowingId = 0x10001900;
-
-        ObjectWithState =
+            ObjectWithState =
                 new ObjectWithState(
                     new List<ObjectState>
                     {
@@ -81,20 +76,17 @@ namespace Engine.Objects
         
         public override uint GetDrawingCode()
         {
-            return DrawingCode(GrowingId, Id);
+            return DrawingCode();
         }
 
-        private uint DrawingCode(uint growingId, uint id)
+        private uint DrawingCode()
         {
-            if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Growing)
-                return growingId;
-
-            return id;
+            return ObjectWithState.CurrentState?.Id ?? Id;
         }
 
         public override uint GetBaseCode()
         {
-            return DrawingCode(BaseGrowingId, BaseId);
+            return ObjectWithState.CurrentState == null ? DrawingCode() : BaseIds[ObjectWithState.CurrentState.Name];
         }
 
         public override double WeightDbl
