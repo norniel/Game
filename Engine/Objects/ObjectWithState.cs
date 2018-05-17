@@ -8,7 +8,7 @@ using Engine.ObjectStates;
 
 namespace Engine.Objects
 {
-    public class ObjectWithState: IComparable<ObjectWithState>
+    public class ObjectWithState: ObjectWithStateBase
     {
         // todo : object with state
         // to switch state objects are added to quiue in appropriate game tick
@@ -22,17 +22,9 @@ namespace Engine.Objects
         private readonly Action NextStateHandler;
         public readonly Action LastStateHandler;
 
-        private static int _idCounter;
-
-        private static int GenerateId()
-        {
-            return Interlocked.Increment(ref _idCounter);
-        }
-
 
         public ObjectWithState(List<ObjectState> objectStateQueue, bool isCircling, Action lastStateHandler, Action nextStateHandler)
         {
-            _id = GenerateId();
             ObjectStateQueue = objectStateQueue;
             _isCircling = isCircling;
 
@@ -46,7 +38,6 @@ namespace Engine.Objects
             :this(objectStateQueue, isCircling, lastStateHandler, null)
         {}
 
-        public int NextStateTick { get; set; }
         public int TicksToNextState {
             get
             {
@@ -62,8 +53,6 @@ namespace Engine.Objects
         protected List<ObjectState> ObjectStateQueue;
         private readonly bool _isCircling;
         private int _currentStateId = -1;
-
-        private readonly int _id;
 
         public ObjectState CurrentState {
             get
@@ -125,16 +114,6 @@ namespace Engine.Objects
         protected virtual void OnChangeState(ObjectState oldState)
         {
             NextStateHandler?.Invoke();
-        }
-
-        public int CompareTo(ObjectWithState other)
-        {
-            if (NextStateTick.CompareTo(other.NextStateTick) != 0)
-            {
-                return NextStateTick.CompareTo(other.NextStateTick);
-            }
-
-            return _id.CompareTo(other._id);
         }
 
         public virtual void OnLastStateFinished()

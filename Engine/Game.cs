@@ -65,6 +65,7 @@ namespace Engine
 
         //todo - change to lazy
         internal static StateQueueManager StateQueueManager;
+        internal static PlannedQueueManager PlannedQueueManager;
 
         //todo - change to lazy
         internal static IObservable<long> Intervals;
@@ -85,6 +86,8 @@ namespace Engine
             RegisterInUnityContainer();
 
             StateQueueManager = _unityContainer.Resolve<StateQueueManager>();
+            PlannedQueueManager = _unityContainer.Resolve<PlannedQueueManager>();
+
             Map = _unityContainer.Resolve<Map>();
             Factory = _unityContainer.Resolve<ObjectsFactory>();
 
@@ -99,6 +102,7 @@ namespace Engine
             _drawer = drawer;
 
             Intervals.Subscribe(StateQueueManager);
+            Intervals.Subscribe(PlannedQueueManager);
 
             _dayNightCycle = new DayNightCycle();
             Intervals.Subscribe(_dayNightCycle);
@@ -109,6 +113,7 @@ namespace Engine
             _unityContainer.RegisterInstance(typeof (Hero), new Hero());
             _unityContainer.RegisterInstance(typeof(Map), new Map(curRect));
             _unityContainer.RegisterInstance(typeof (StateQueueManager), new StateQueueManager());
+            _unityContainer.RegisterInstance(typeof(PlannedQueueManager), new PlannedQueueManager());
             _unityContainer.RegisterType(typeof(IActionRepository), typeof(ActionRepository), new ContainerControlledLifetimeManager());
 
             foreach(var type in Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type))){

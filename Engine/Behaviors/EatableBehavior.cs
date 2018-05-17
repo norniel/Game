@@ -9,6 +9,8 @@ namespace Engine.Behaviors
         public int Poisoness { get; set; } = 0;
         public int Time { get; set; } = 0;
 
+      //  public Dictionary<ObjectStates.ObjectStates, EatableProps> EatableByStates;
+
         public EatableBehavior(int eatingCoefficient)
         {
             SatietyCoefficient = eatingCoefficient;
@@ -21,4 +23,11 @@ namespace Engine.Behaviors
             Time = time;
         }
     }
+    /*
+    public class EatableProps
+    {
+        public int SatietyCoefficient { get; set; }
+        public int Poisoness { get; set; }
+        public int Time { get; set; }
+    }*/
 }

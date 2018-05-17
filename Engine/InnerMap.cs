@@ -77,7 +77,18 @@ namespace Engine
 
                 if (gameObject.Properties.Contains(Property.Regrowable))
                 {
-                    SetObjectFromCell(GetRandomNearEmptyPoint(cell, 3), (FixedObject)Game.Factory.Produce(gameObject.Name));
+                    var gameObjName = gameObject.Name;
+                    Game.PlannedQueueManager.AddObjectToQueue(new PlannedEvent(() =>
+                    {
+                        var nearCell = GetRandomNearEmptyPoint(cell, 3);
+                        if (nearCell == null)
+                        {
+                            return false;
+                        }
+
+                        SetObjectFromCell(nearCell, (FixedObject)Game.Factory.Produce(gameObjName));
+                        return true;
+                    }));
                 }
             });
 
