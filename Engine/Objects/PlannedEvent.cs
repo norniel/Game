@@ -2,7 +2,7 @@
 
 namespace Engine.Objects
 {
-    internal class PlannedEvent: ObjectWithStateBase//, IComparable<PlannedEvent>
+    internal class PlannedEvent: ObjectWithStateBase
     {
         public readonly Func<bool> Act;
 
@@ -10,10 +10,5 @@ namespace Engine.Objects
         {
             Act = act;
         }
-        /*
-        public int CompareTo(PlannedEvent other)
-        {
-            return base.CompareTo(other);
-        }*/
     }
 }

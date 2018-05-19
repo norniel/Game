@@ -6,6 +6,8 @@ namespace Engine.Heros
     {
         private const int INITIAL_HEALTH = 100;
         private const int INITIAL_SATIETY = 100;
+        private const int QUOTER_SATIETY = 25;
+
         private const int INITIAl_TIREDNESS = 0;
         private const int MIDDLE_TIREDNESS = 50;
         private const int STRONG_TIREDNESS = 100;
@@ -60,6 +62,11 @@ namespace Engine.Heros
                         _heroProperties.Poisoness = 0;
                     }
                 }
+
+                if (_heroProperties.Health < INITIAL_HEALTH && _heroProperties.Satiety > QUOTER_SATIETY && _heroProperties.Tiredness < STRONG_TIREDNESS)
+                {
+                    _heroProperties.Health = Math.Min(_heroProperties.Health + 1, INITIAL_HEALTH);
+                }
             }
         }
 
@@ -75,7 +82,7 @@ namespace Engine.Heros
 
         public void Eat(int satiety, int poisoness, int time)
         {
-            if (_heroProperties.Satiety >= INITIAL_SATIETY && _heroProperties.Health >= INITIAL_HEALTH && poisoness == 0)
+            if (_heroProperties.Satiety >= INITIAL_SATIETY &&  poisoness == 0)
                 return;
             
             lock (_heroProperties)
@@ -83,16 +90,13 @@ namespace Engine.Heros
                 _heroProperties.Poisoness = poisoness;
                 _heroProperties.PoisonesTime = time;
 
-                if (_heroProperties.Satiety < INITIAL_SATIETY || _heroProperties.Health < INITIAL_HEALTH)
+                if (_heroProperties.Satiety < INITIAL_SATIETY)
                 {
                     if (_heroProperties.Satiety < INITIAL_SATIETY)
                         _heroProperties.Satiety = Math.Min(_heroProperties.Satiety+ satiety, INITIAL_SATIETY);
-                    if (_heroProperties.Health < INITIAL_HEALTH)
-                        _heroProperties.Health = Math.Min(_heroProperties.Health + satiety, INITIAL_HEALTH);
                 }
             }
         }
-
 
         public double GetSpeedCoefficient()
         {

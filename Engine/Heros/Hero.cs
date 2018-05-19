@@ -248,5 +248,11 @@ namespace Engine.Heros
             uint koef;
             return _knowledgeses.TryGetValue(knowledge, out koef) ? koef / 100.0 : 0.0;
         }
+
+        public override void EnqueueNextState()
+        {
+            _stateQueue.Enqueue(new StandingHero(this));
+        }
+
     }
 }

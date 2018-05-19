@@ -93,7 +93,7 @@ namespace Engine.Objects
         {
             get
             {
-                if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Growing)
+                if (ObjectWithState.CurrentState?.Name == ObjectStates.ObjectStates.Growing)
                     return 0.5;
 
                 return 1;

@@ -237,6 +237,8 @@ namespace Engine
 
             //  if( workPoints.Count > 0 )
             //  {
+
+            current = current?.Parent;
             while (current != null)
             {
                 var stackPoint = new Point(current.Point.X * CellMeasure + CellMeasure / 2, current.Point.Y * CellMeasure + CellMeasure / 2);
