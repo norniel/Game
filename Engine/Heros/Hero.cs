@@ -5,6 +5,7 @@ using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
 using Engine.States;
+using Unity.Attributes;
 
 namespace Engine.Heros
 {
@@ -19,10 +20,9 @@ namespace Engine.Heros
         private const int INITIAL_SPEED = 20;
 
         private readonly Bag _bag;
-
-        private readonly HeroLifeCycle _heroLifeCycle;
-
-        internal HeroLifeCycle HeroLifeCycle => _heroLifeCycle;
+        
+        [Dependency]
+        public HeroLifeCycle HeroLifeCycle { get; set; }
 
         private bool _isThen;
 
@@ -36,11 +36,11 @@ namespace Engine.Heros
 
             _bag = new Bag(20, 20);
 
-            _heroLifeCycle = new HeroLifeCycle();
+           // _heroLifeCycle = new HeroLifeCycle();
 
             //todo - extract to method
 
-            Game.Intervals.Subscribe(HeroLifeCycle);
+           // Game.Intervals.Subscribe(HeroLifeCycle);
         }
 
         public IMap Map { get; set; }
@@ -138,15 +138,15 @@ namespace Engine.Heros
         {
             return new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>(HeroResource.Health, _heroLifeCycle.HeroProperties.Health),
-                new KeyValuePair<string, int>(HeroResource.Satiety, _heroLifeCycle.HeroProperties.Satiety),
-                new KeyValuePair<string, int>(HeroResource.Tiredness, _heroLifeCycle.HeroProperties.Tiredness)
+                new KeyValuePair<string, int>(HeroResource.Health, HeroLifeCycle.HeroProperties.Health),
+                new KeyValuePair<string, int>(HeroResource.Satiety, HeroLifeCycle.HeroProperties.Satiety),
+                new KeyValuePair<string, int>(HeroResource.Tiredness, HeroLifeCycle.HeroProperties.Tiredness)
             };
         }
 
         public override uint Speed
         {
-            get { return (uint)(INITIAL_SPEED *_heroLifeCycle.GetSpeedCoefficient()); }
+            get { return (uint)(INITIAL_SPEED * HeroLifeCycle.GetSpeedCoefficient()); }
             set {  }
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace Engine.Heros
 {
-    internal class HeroProperties
+    public class HeroProperties
     {
         public double _innerTiredness;
         public int Satiety { get; set; }

@@ -2,14 +2,14 @@
 
 namespace Engine
 {
-    internal class DayNightCycle : IObserver<long>
+    public class DayNightCycle : IObserver<long>
     {
         private readonly GameDateTime _startGameDate;
         private GameDateTime _currentGameDate;
         private int _totalSeconds;
         public DayNightCycle()
         {
-            _startGameDate = new GameDateTime(0,0,0,8,0);
+            _startGameDate = new GameDateTime(0,0,0,3,0);
             _currentGameDate = _startGameDate;
         }
 
@@ -69,6 +69,16 @@ namespace Engine
         }
 
         public GameDateTime CurrentGameDate => _currentGameDate;
+
+        public bool IsNight()
+        {
+            return _currentGameDate.Hour >= 1 && _currentGameDate.Hour < 5;
+        }
+
+        public bool IsDusk()
+        {
+            return (_currentGameDate.Hour >= 5 && _currentGameDate.Hour < 8) || _currentGameDate.Hour < 1 || (_currentGameDate.Hour >= 22 && _currentGameDate.Hour < 24);
+        }
 
         public void OnError(Exception error)
         {

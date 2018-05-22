@@ -104,19 +104,28 @@ namespace Engine
             Intervals.Subscribe(StateQueueManager);
             Intervals.Subscribe(PlannedQueueManager);
 
-            _dayNightCycle = new DayNightCycle();
+            _dayNightCycle = _unityContainer.Resolve<DayNightCycle>();
             Intervals.Subscribe(_dayNightCycle);
+
+            var heroLifeCycle = _unityContainer.Resolve<HeroLifeCycle>();
+            Game.Intervals.Subscribe(heroLifeCycle);
         }
 
         private void RegisterInUnityContainer()
         {
-            _unityContainer.RegisterInstance(typeof (Hero), new Hero());
+
             _unityContainer.RegisterInstance(typeof(Map), new Map(curRect));
             _unityContainer.RegisterInstance(typeof (StateQueueManager), new StateQueueManager());
             _unityContainer.RegisterInstance(typeof(PlannedQueueManager), new PlannedQueueManager());
             _unityContainer.RegisterType(typeof(IActionRepository), typeof(ActionRepository), new ContainerControlledLifetimeManager());
+            _unityContainer.RegisterType(typeof(HeroLifeCycle), typeof(HeroLifeCycle), new ContainerControlledLifetimeManager());
+            _unityContainer.RegisterType(typeof(DayNightCycle), typeof(DayNightCycle), new ContainerControlledLifetimeManager());
 
-            foreach(var type in Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type))){
+            var hero = new Hero();
+            _unityContainer.BuildUp<Hero>(hero);
+            _unityContainer.RegisterInstance(typeof(Hero), hero);
+
+            foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type))){
                 _unityContainer.RegisterType(typeof(IAction), type, type.ToString(), new ContainerControlledTransientManager(), null);
             }
 

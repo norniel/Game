@@ -1,8 +1,9 @@
 ﻿using System;
+using Unity.Attributes;
 
 namespace Engine.Heros
 {
-    internal class HeroLifeCycle:IObserver<long>
+    public class HeroLifeCycle:IObserver<long>
     {
         private const int INITIAL_HEALTH = 100;
         private const int INITIAL_SATIETY = 100;
@@ -15,6 +16,9 @@ namespace Engine.Heros
         private readonly HeroProperties _heroProperties;
         private const uint maxTimeStamp = 20000 / Game.TimeStep;
         private uint timestamp;
+
+        [Dependency]
+        public DayNightCycle DayNightCycle { get; set; }
 
         public HeroProperties HeroProperties => _heroProperties;
 
@@ -67,6 +71,12 @@ namespace Engine.Heros
                 {
                     _heroProperties.Health = Math.Min(_heroProperties.Health + 1, INITIAL_HEALTH);
                 }
+
+                if(DayNightCycle.IsNight())
+                    IncreaseTiredness(5);
+
+                if (DayNightCycle.IsDusk())
+                    IncreaseTiredness(1);
             }
         }
 
@@ -111,14 +121,20 @@ namespace Engine.Heros
 
         public void IncreaseTiredness(double value)
         {
-            _heroProperties.InnerTiredNess += value;
-            _heroProperties.InnerTiredNess = Math.Min(_heroProperties.InnerTiredNess, FINAL_TIREDNESS);
+            lock (_heroProperties)
+            {
+                _heroProperties.InnerTiredNess += value;
+                _heroProperties.InnerTiredNess = Math.Min(_heroProperties.InnerTiredNess, FINAL_TIREDNESS);
+            }
         }
 
         public void DecreaseTiredness(double value)
         {
-            _heroProperties.InnerTiredNess -= value;
-            _heroProperties.InnerTiredNess = Math.Max(_heroProperties.InnerTiredNess, INITIAl_TIREDNESS);
+            lock (_heroProperties)
+            {
+                _heroProperties.InnerTiredNess -= value;
+                _heroProperties.InnerTiredNess = Math.Max(_heroProperties.InnerTiredNess, INITIAl_TIREDNESS);
+            }
         }
 
         public bool TotallyTired()
