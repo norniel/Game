@@ -25,7 +25,7 @@ namespace Engine.Objects
         public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>
         {
             new BurnableBehavior(300),
-            new CollectBehavior<Twig>("Twig", 2, 4)
+            new CollectBehavior<Twig>("Twig", 2, 4, false)
         };
 
         public int Weight { get; set; } = 5;

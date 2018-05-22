@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using Engine.Behaviors;
-using Engine.Interfaces;
 using Engine.ObjectStates;
 
 namespace Engine.Objects
@@ -23,7 +20,7 @@ namespace Engine.Objects
         public readonly Action LastStateHandler;
 
 
-        public ObjectWithState(List<ObjectState> objectStateQueue, bool isCircling, Action lastStateHandler, Action nextStateHandler)
+        public ObjectWithState(List<ObjectState> objectStateQueue, bool isCircling, Action lastStateHandler, Action nextStateHandler = null, bool isOffOnStart = false)
         {
             ObjectStateQueue = objectStateQueue;
             _isCircling = isCircling;
@@ -31,12 +28,13 @@ namespace Engine.Objects
             LastStateHandler = lastStateHandler;
             NextStateHandler = nextStateHandler;
 
+            if (isOffOnStart)
+            {
+                _currentStateId = ObjectStateQueue.Count;
+            }
+
             NextState();
         }
-
-        public ObjectWithState(List<ObjectState> objectStateQueue, bool isCircling, Action lastStateHandler)
-            :this(objectStateQueue, isCircling, lastStateHandler, null)
-        {}
 
         public int TicksToNextState {
             get
