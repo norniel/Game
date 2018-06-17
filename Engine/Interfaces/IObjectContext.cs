@@ -13,5 +13,8 @@ namespace Engine.Interfaces
         uint Id { get; set; }
         string Name { get; set; }
         int Weight { get; set; }
+
+        bool NeedKnowledge { get; set; }
+        uint BaseId { get; set; }
     }
 }

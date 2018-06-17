@@ -39,7 +39,7 @@ namespace Engine.Objects.LargeObjects.Builder
                 _percentLeftToBuild = _percentLeftToBuild - itemsToBuildCount * buildItem.PercentPerItem;
             }
 
-            availableObjects.ForEach(go => go.RemoveFromContainer());
+            availableObjects.ForEach(go => go.RemoveFromContainer?.Invoke());
 
             return gameObjects.Except(availableObjects).ToList();
         }

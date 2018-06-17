@@ -20,6 +20,8 @@ namespace Engine.Objects
 
         public string Name { get; set; } = Resource.Burovik;
         public int Weight { get; set; } = 1;
+        public bool NeedKnowledge { get; set; } = true;
+        public uint BaseId { get; set; }
 
         public Func<HashSet<Property>> Properties { get; set; } = () => new HashSet<Property>
         {
@@ -53,9 +55,6 @@ namespace Engine.Objects
 
         public Mushroom(MushroomContext context) : base(context)
         {
-            NeedKnowledge = true;
-            KnowledgeKoef = Game.Random.NextDouble();
-
             BaseIds = context.BaseIds;
 
             ObjectWithState =

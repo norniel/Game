@@ -29,6 +29,8 @@ namespace Engine.Objects
         };
 
         public int Weight { get; set; } = 5;
+        public bool NeedKnowledge { get; set; }
+        public uint BaseId { get; set; }
 
         public GameObject Produce()
         {

@@ -30,6 +30,8 @@ namespace Engine.Objects
         public uint Id { get; set; } = 0x00001200;
         public string Name { get; set; } = Resource.Bush;
         public int Weight { get; set; } = 1;
+        public bool NeedKnowledge { get; set; }
+        public uint BaseId { get; set; }
     }
 
     [GenerateMap]

@@ -10,7 +10,8 @@ namespace Engine.Objects
         public HashSet<Property> Properties { get; set; }
         public HashSet<IBehavior> Behaviors { get; set; }
         public uint Id { get; set; }
-
+        public uint BaseId { get; set; }
+        
         public string Name { get; set; }
 
         public virtual int Weight { get; set; } = 1;
@@ -32,8 +33,18 @@ namespace Engine.Objects
             Behaviors = context.Behaviors() ?? new HashSet<IBehavior>();
 
             Id = context.Id;
+            BaseId = context.BaseId == 0 ? context.Id : context.BaseId; 
             Name = context.Name;
             Weight = context.Weight;
+
+            if(context.NeedKnowledge)
+                InitKnowledgeKoef();
+        }
+
+        protected void InitKnowledgeKoef()
+        {
+            NeedKnowledge = true;
+            KnowledgeKoef = Game.Random.NextDouble();
         }
 
         public virtual void InitializeProperties()
@@ -53,6 +64,11 @@ namespace Engine.Objects
 
         public virtual uint GetBaseCode()
         {
+            if (NeedKnowledge)
+            {
+                return BaseId;
+            }
+
             return GetDrawingCode();
         }
 

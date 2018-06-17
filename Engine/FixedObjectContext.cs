@@ -16,6 +16,8 @@ namespace Engine
         public Func<HashSet<IBehavior>> Behaviors { get; set; }
 
         public int Weight { get; set; } = 1;
+        public bool NeedKnowledge { get; set; }
+        public uint BaseId { get; set; }
 
         public string Name { get; set; }
 

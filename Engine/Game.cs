@@ -239,12 +239,12 @@ namespace Engine
             }
 
             IEnumerable<MenuItems> groupedItems = _hero.GetContainerItems()
-                .GroupBy(go => go.Name,
-                    (name, gos) =>
+                .GroupBy(go => GetDrawingCode(go),
+                    (id, gos) =>
                     new MenuItems
                     {
-                        Name = $"{name}({gos.Count()})",
-                        Id = gos.First().Id,
+                        Name = $"{gos.First().Name}({gos.Count()})",
+                        Id = id,
                         GetClientActions = GetFuncForClientActions(gos.First())
                     });
 
@@ -276,11 +276,7 @@ namespace Engine
 
                     var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
 
-                    var drawingCode = gameObject.GetDrawingCode();
-                    if (gameObject.NeedKnowledge)
-                    {
-                        drawingCode = _hero.GetObjectKnowledge(gameObject.Name) >= gameObject.KnowledgeKoef ? drawingCode : gameObject.GetBaseCode();
-                    }
+                    var drawingCode = GetDrawingCode(gameObject);
 
                     _drawer.DrawObject(drawingCode, visibleDestination.X, visibleDestination.Y, gameObject.Height);
 
@@ -320,6 +316,19 @@ namespace Engine
             }
 
             _drawer.DrawActing(_hero.State.ShowActing);
+        }
+
+        private uint GetDrawingCode(GameObject gameObject)
+        {
+            var drawingCode = gameObject.GetDrawingCode();
+            if (gameObject.NeedKnowledge)
+            {
+                drawingCode = _hero.GetObjectKnowledge(gameObject.Name) >= gameObject.KnowledgeKoef
+                    ? drawingCode
+                    : gameObject.GetBaseCode();
+            }
+
+            return drawingCode;
         }
 
         private Func<IEnumerable<ClientAction>> GetFuncForClientActions(GameObject first)

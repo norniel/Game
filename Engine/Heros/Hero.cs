@@ -221,6 +221,9 @@ namespace Engine.Heros
 
         public void SetObjectKnowledge(string gameObjectName, uint knowledge)
         {
+            if (string.IsNullOrEmpty(gameObjectName))
+                return;
+
             if (_ObjectKnowledgeses.ContainsKey(gameObjectName))
             {
                 _ObjectKnowledgeses[gameObjectName] = Math.Min(100, _ObjectKnowledgeses[gameObjectName] + knowledge);

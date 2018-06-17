@@ -15,6 +15,8 @@ namespace Engine
 
         public string Name { get; set; } = "Tree";
         public int Weight { get; set; } = 1;
+        public bool NeedKnowledge { get; set; }
+        public uint BaseId { get; set; }
 
         public int BerriesCount { get; set; } = 4;
 

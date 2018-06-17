@@ -29,7 +29,7 @@ namespace Engine
                 Properties = () => new HashSet<Property>{Property.Pickable, Property.Crackable},
                 Behaviors  = () => new HashSet<IBehavior>{new CrackableBehavior("Nut Kernel") }
             }},
-            { "Nut Kernel", new BerryContext(){Id = 0x00002600,Name = "Nut Kernel", Weight = 1, Properties = () => new HashSet<Property>{Property.Pickable,Property.Eatable},
+            { "Nut Kernel", new FixedObjectContext(){Id = 0x00003600,Name = "Nut Kernel", Weight = 1, Properties = () => new HashSet<Property>{Property.Pickable,Property.Eatable},
                 Behaviors  = () => new HashSet<IBehavior>{new EatableBehavior(4)}}
             },
             { Resource.RoastedApple, new FixedObjectContext(){Id = 0x00001B00,Name = Resource.RoastedApple, Weight = 2, Properties = () => new HashSet<Property>{Property.Pickable,Property.Eatable},
@@ -95,19 +95,50 @@ namespace Engine
                     StayingProps = new ObjStateProperties() { TickCount = 1000, Distribution = 100, Eternal = false, Id = 0x00002800 }
                 }
             },
-            { "Birch tree", new TreeContext(){Name = "Birch tree", Id =0x00002900, HalfEmptyId = 0x00002900,
+            { "Birch tree", new TreeContext(){Name = "Birch tree", Id =0x00002900, HalfEmptyId = 0x00002900, EmptyId = 0x00002900,
                 Behaviors  = () => new HashSet<IBehavior>
                 {
                     new CollectBehavior<Branch>("Branch", 1, 4),
                     new CollectBehavior<Twig>("Twig", 2, 16)
                 }}
+            },
+            { "Walnut tree", new TreeContext(){Name = "Walnut tree", Id = 0x00003000, HalfEmptyId = 0x00003000, EmptyId = 0x00003000,
+                Behaviors  = () => new HashSet<IBehavior>
+                {
+                    new CollectBehavior<Berry>("Walnut", 2, 4),
+                    new CollectBehavior<Branch>("Branch", 1, 4),
+                    new CollectBehavior<Twig>("Twig", 2, 16)
+                }}
+            },
+            { "Hazelnut tree", new TreeContext(){Name = "Hazelnut tree", Id = 0x00003100, HalfEmptyId = 0x00003100, EmptyId = 0x00003100,
+                Behaviors  = () => new HashSet<IBehavior>
+                {
+                    new CollectBehavior<Berry>("Hazelnut", 2, 4),
+                    new CollectBehavior<Branch>("Branch", 1, 4),
+                    new CollectBehavior<Twig>("Twig", 2, 16)
+                }}
+            },
+            { "Walnut", new BerryContext(){Id = 0x00003400,Name = "Walnut", Weight = 1, NeedKnowledge = true, BaseId = 0x00002600,
+                Properties = () => new HashSet<Property>{Property.Pickable, Property.Crackable},
+                Behaviors  = () => new HashSet<IBehavior>{new CrackableBehavior("Walnut Kernel") }
+            }},
+            { "Walnut Kernel", new FixedObjectContext(){Id = 0x00003500,Name = "Walnut Kernel", Weight = 1, NeedKnowledge = true, BaseId = 0x00003600,
+                Properties = () => new HashSet<Property>{Property.Pickable,Property.Eatable},
+                Behaviors  = () => new HashSet<IBehavior>{new EatableBehavior(4)}}
+            },
+            { "Hazelnut", new BerryContext(){Id = 0x00003200,Name = "Hazelnut", Weight = 1, NeedKnowledge = true, BaseId = 0x00002600,
+                Properties = () => new HashSet<Property>{Property.Pickable, Property.Crackable},
+                Behaviors  = () => new HashSet<IBehavior>{new CrackableBehavior("Hazelnut Kernel") }
+            }},
+            { "Hazelnut Kernel", new FixedObjectContext(){Id = 0x00003300,Name = "Hazelnut Kernel", Weight = 1, NeedKnowledge = true, BaseId = 0x00003600,
+                Properties = () => new HashSet<Property>{Property.Pickable,Property.Eatable},
+                Behaviors  = () => new HashSet<IBehavior>{new EatableBehavior(4)}}
             }
         };
 
         public readonly List<string> ObjectsToGenMap = new List<string>()
         {
             "Apple tree",
-            "Nut tree",
             "Spruce tree",
             Resource.Burovik,
             Resource.Bush,
@@ -115,7 +146,9 @@ namespace Engine
             Resource.Rock,
             "Muhomor",
             "Poganka",
-            "Birch tree"
+            "Birch tree",
+            "Hazelnut tree",
+            "Walnut tree"
         };
 
         public ObjectsFactory()

@@ -36,9 +36,12 @@ namespace Engine.Actions
 
         public virtual IActionResult Do(Hero hero, IList<GameObject> objects)
         {
-            var actionIsNotOver = objects.Select(x => (x.GetBehavior(typeof(CollectBehavior<T>)) as CollectBehavior<T>)).Any(hb => Collect(hb, hero));
+            var collectBehavior = objects.Select(x => (x.GetBehavior(typeof(CollectBehavior<T>)) as CollectBehavior<T>))
+                .FirstOrDefault();
 
-            return actionIsNotOver ? (IActionResult) new UnFinishedActionResult() : new FinishedActionResult();
+            var actionIsNotOver = Collect(collectBehavior, hero);
+
+            return new ConseqActionResult(!actionIsNotOver, Consequance.Probability(0.5, Consequance.AddObjectKnowledge(collectBehavior?.Name, 1)));
         }
 
         public abstract bool CanDo(Hero hero, IEnumerable<GameObject> objects);
@@ -75,7 +78,7 @@ namespace Engine.Actions
                 var objToBag = objectWithSmth.GetSmth();
                 if (!hero.AddToBag(objToBag))
                     break;
-
+                
                 addedToBagCount++;
             }
 

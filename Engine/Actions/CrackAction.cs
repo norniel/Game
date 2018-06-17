@@ -5,6 +5,7 @@ using Engine.Behaviors;
 using Engine.Heros;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
+using Engine.Objects.Tool;
 using Engine.Tools;
 
 namespace Engine.Actions
@@ -37,7 +38,7 @@ namespace Engine.Actions
                 objects.Union(hero.GetContainerItems()).ToList();
 
             var nut = allObjects.FirstOrDefault(ao => ao.HasBehavior(typeof(CrackableBehavior)));
-            var stone = allObjects.FirstOrDefault(ao => ao is Rock);
+            var stone = allObjects.FirstOrDefault(ao => ao is Rock || ao is SharpStone);
             var cracker = allObjects.Where(ao => ao != stone)
                 .FirstOrDefault(ao => ao.Properties.Contains(Property.Cracker));
 
@@ -67,7 +68,7 @@ namespace Engine.Actions
             var gameObjects = objects as GameObject[] ?? objects.ToArray();
 
             var nut = gameObjects.FirstOrDefault(ao => ao.HasBehavior(typeof(CrackableBehavior)));
-            var stone = gameObjects.FirstOrDefault(ao => ao is Rock);
+            var stone = gameObjects.FirstOrDefault(ao => ao is Rock || ao is SharpStone);
             var cracker = gameObjects.Where(ao => ao != stone)
                 .FirstOrDefault(ao => ao.Properties.Contains(Property.Cracker));
 
@@ -81,8 +82,11 @@ namespace Engine.Actions
             var nutKernel = crackableBehavior?.GetCrackable();
 
             Game.AddToGame(hero, nutKernel as FixedObject);
-            
-            return new ConseqActionResult(true, SharpStoneConseq(0.5, stone));
+
+            return new ConseqActionResult(true, 
+                SharpStoneConseq(0.5, stone), 
+                Consequance.AddObjectKnowledge(nut.Name, 5), 
+                Consequance.Probability(0.5, Consequance.AddObjectKnowledge(nutKernel?.Name, 1)));
         }
 
         private static Action<Hero> SharpStoneConseq(double prbab, GameObject stone)

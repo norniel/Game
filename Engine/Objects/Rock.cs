@@ -26,6 +26,8 @@ namespace Engine.Objects
         public uint Id { get; set; } = 0x00001000;
         public string Name { get; set; } = Resource.Rock;
         public int Weight { get; set; } = 1;
+        public bool NeedKnowledge { get; set; }
+        public uint BaseId { get; set; }
     }
 
     [GenerateMap]
