@@ -46,7 +46,7 @@ namespace Engine.Actions
 
             Map.SetHObjectFromDestination(hero.Position, fire);
 
-            return new FinishedActionResult();
+            return new ConseqActionResult(true, Consequance.Probability(0.5, Consequance.AddObjectKnowledge(plant.Name, 1)));
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

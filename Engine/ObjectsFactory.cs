@@ -133,6 +133,16 @@ namespace Engine
             { "Hazelnut Kernel", new FixedObjectContext(){Id = 0x00003300,Name = "Hazelnut Kernel", Weight = 1, NeedKnowledge = true, BaseId = 0x00003600,
                 Properties = () => new HashSet<Property>{Property.Pickable,Property.Eatable},
                 Behaviors  = () => new HashSet<IBehavior>{new EatableBehavior(4)}}
+            },
+            { "Fern", new PlantContext()
+                {
+                    Id = 0x00003700,Name = "Fern", Weight = 1, NeedKnowledge = true, /*BaseId = 0x00001100,*/
+                    GrowingProps  = new ObjStateProperties() { TickCount = 300, Distribution = 50, Eternal = false, Id =0x10003700, BaseId = 0x10001100 },
+                    StayingProps = new ObjStateProperties() { TickCount = 1000, Distribution = 100, Eternal = false, Id = 0x00003700, BaseId = 0x00001100 },
+                    DryingProps = new ObjStateProperties() { TickCount = 300, Distribution = 30, Eternal = false, Id = 0x20003700, BaseId = 0x20001100 }
+
+                }
+
             }
         };
 
@@ -142,13 +152,14 @@ namespace Engine
             "Spruce tree",
             Resource.Burovik,
             Resource.Bush,
-            Resource.Plant,
+           // Resource.Plant,
             Resource.Rock,
             "Muhomor",
             "Poganka",
             "Birch tree",
             "Hazelnut tree",
-            "Walnut tree"
+            "Walnut tree",
+            "Fern"
         };
 
         public ObjectsFactory()

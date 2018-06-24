@@ -88,5 +88,15 @@ namespace Engine.Objects
         {
             return ObjectWithState.CurrentState?.Id ?? Id;
         }
+
+        public override uint GetBaseCode()
+        {
+            if (NeedKnowledge)
+            {
+                return ObjectWithState.CurrentState?.BaseId ?? GetDrawingCode();
+            }
+
+            return GetDrawingCode();
+        }
     }
 }

@@ -7,6 +7,7 @@
         public int Distribution { get; set; }
         public bool Eternal { get; set; }
         public uint? Id { get; set; }
+        public uint? BaseId { get; set; }
 
         public ObjectState(ObjectStates name)
         {
@@ -19,14 +20,16 @@
             Distribution = props.Distribution;
             Eternal = props.Eternal;
             Id = props.Id;
+            BaseId = props.BaseId;
         }
 
-        public ObjectState(ObjectStates name, ObjStateProperties props, uint? id) : this(name)
+        public ObjectState(ObjectStates name, ObjStateProperties props, uint? id, uint? baseId = null) : this(name)
         {
             TickCount = props.TickCount;
             Distribution = props.Distribution;
             Eternal = props.Eternal;
             Id = id;
+            BaseId = baseId;
         }
     }
 
@@ -36,5 +39,6 @@
         public int Distribution { get; set; }
         public bool Eternal { get; set; }
         public uint? Id { get; set; }
+        public uint? BaseId { get; set; }
     }
 }

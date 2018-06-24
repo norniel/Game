@@ -114,7 +114,7 @@ namespace Engine
             var currentStateName = withObjectWithStates.ObjectWithState.CurrentState?.Name ?? ObjectStates.ObjectStates.Staying;
             withObjectWithStates.ObjectWithState.ChangeStateList(new List<ObjectState>
             {
-                new ObjectState(currentStateName, spoileringBehavior.StayingProps, withObjectWithStates.ObjectWithState.CurrentState?.Id),
+                new ObjectState(currentStateName, spoileringBehavior.StayingProps, withObjectWithStates.ObjectWithState.CurrentState?.Id, withObjectWithStates.ObjectWithState.CurrentState?.BaseId),
                 new ObjectState(ObjectStates.ObjectStates.Spoilering, spoileringBehavior.SpoileringProps)
             });
         }

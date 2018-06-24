@@ -46,8 +46,9 @@ namespace Engine.Actions
                     hero.GetKnowledge(Knowledges.MakeFireWithStone), 
                     Consequance.Composite(
                         this.Create(branch, plant),
-                        Consequance.AddKnowledge(Knowledges.MakeFireWithStone, 10)), 
-                    Consequance.AddKnowledge(Knowledges.MakeFireWithStone, 5))
+                        Consequance.AddKnowledge(Knowledges.MakeFireWithStone, 10),
+                        Consequance.AddObjectKnowledge(plant.Name, 1)),
+                    Consequance.Composite(Consequance.AddKnowledge(Knowledges.MakeFireWithStone, 5), Consequance.AddObjectKnowledge(plant.Name, 1)))
                     ); 
         }
 
