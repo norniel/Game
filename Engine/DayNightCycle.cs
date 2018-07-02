@@ -7,6 +7,10 @@ namespace Engine
         private readonly GameDateTime _startGameDate;
         private GameDateTime _currentGameDate;
         private int _totalSeconds;
+
+        public static int DayLength = 10 * 60 * 24;
+        public static int HalfDayLength = DayLength/2;
+
         public DayNightCycle()
         {
             _startGameDate = new GameDateTime(0,0,0,8,0);

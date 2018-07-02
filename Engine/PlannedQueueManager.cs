@@ -53,7 +53,7 @@ namespace Engine
 
         public void AddObjectToQueue(PlannedEvent plannedEvent)
         {
-            plannedEvent.NextStateTick = CurrentTick + 100 - (int)(50 * Game.Random.NextDouble());
+            plannedEvent.NextStateTick = CurrentTick + DayNightCycle.HalfDayLength - (int)((DayNightCycle.HalfDayLength / 10) * Game.Random.NextDouble());
             _queue.Add(plannedEvent);
             
         }
