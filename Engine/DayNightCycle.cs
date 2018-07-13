@@ -7,8 +7,14 @@ namespace Engine
         private readonly GameDateTime _startGameDate;
         private GameDateTime _currentGameDate;
         private int _totalSeconds;
+        private uint _totalTicks = 0;
 
-        public static int DayLength = 10 * 60 * 24;
+        public static int MinutesInHour = 60;
+        public static int HoursInDay = 24;
+        public static int DaysInMonth = 10;
+        public static int MonthesInYear = 12;
+        public static int TicksInSecond = 1000 / Game.TimeStep;
+        public static int DayLength = TicksInSecond * MinutesInHour * HoursInDay;
         public static int HalfDayLength = DayLength/2;
 
         public DayNightCycle()
@@ -19,15 +25,35 @@ namespace Engine
 
         public void OnNext(long value)
         {
-            var currentTime = DateTime.UtcNow;
-            var substraction = currentTime.Subtract(Game.StartDate);
-            var totalSecondsDouble = substraction.TotalSeconds;
-            int currentTotalSeconds = Convert.ToInt32(totalSecondsDouble);
+            _totalTicks++;
+            int currentTotalSeconds = (int)(_totalTicks / TicksInSecond);
+
+           // var currentTime = DateTime.UtcNow;
+           // var substraction = currentTime.Subtract(Game.StartDate);
+          //  var totalSecondsDouble = substraction.TotalSeconds;
+          //  int currentTotalSeconds = Convert.ToInt32(totalSecondsDouble);
 
             if (currentTotalSeconds == _totalSeconds)
                 return;
 
             _totalSeconds = currentTotalSeconds;
+
+            var currentTotalMinutes = currentTotalSeconds + _startGameDate.Hour * MinutesInHour;
+            var currentYear = currentTotalMinutes / (MinutesInHour * HoursInDay * DaysInMonth * MonthesInYear);
+            var currentWithoutYear = currentTotalMinutes % (MinutesInHour * HoursInDay * DaysInMonth * MonthesInYear);
+
+            var currentMonth = currentWithoutYear / (MinutesInHour * HoursInDay * DaysInMonth);
+            var currentWithoutMonth = currentWithoutYear % (MinutesInHour * HoursInDay * DaysInMonth);
+
+            var currentDay = currentWithoutMonth / (MinutesInHour * HoursInDay);
+            var currentWithoutDay = currentWithoutMonth % (MinutesInHour * HoursInDay);
+
+            var currentHour = currentWithoutDay / (MinutesInHour);
+            var currentMinute = currentWithoutDay % (MinutesInHour);
+
+            _currentGameDate = new GameDateTime(currentYear, currentMonth, currentDay, currentHour, currentMinute);
+
+            /*
 
             var currentTotalMinutes = (int)substraction.TotalMinutes + _startGameDate.Hour;
             var currentYear = currentTotalMinutes / (24 * 10 * 12);
@@ -41,7 +67,7 @@ namespace Engine
 
             var currentMinute = substraction.Seconds;
 
-            _currentGameDate = new GameDateTime(currentYear, currentMonth, currentDay, currentWithoutDay, currentMinute);
+            _currentGameDate = new GameDateTime(currentYear, currentMonth, currentDay, currentWithoutDay, currentMinute);*/
         }
 
         public double Lightness()
