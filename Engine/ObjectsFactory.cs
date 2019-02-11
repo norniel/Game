@@ -76,7 +76,7 @@ namespace Engine
                 Behaviors  = () => new HashSet<IBehavior>
                     {
                         new RoastBehavior( Resource.RoastedBurovik),
-                        new EatableBehavior(2, 50, 1),
+                        new EatableBehavior(2, 40, 1),
                         new SpoileringBehavior()
                     },
                     GrowingProps = new ObjStateProperties() { TickCount = DayNightCycle.OneEightDayLength, Distribution = DayNightCycle.OneEightDayLength/3, Eternal = false, Id = 0x10002700 },

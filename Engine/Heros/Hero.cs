@@ -255,7 +255,7 @@ namespace Engine.Heros
 
         public bool IsBaseToShow(GameObject gameObject)
         {
-            return gameObject.NeedKnowledge && this.GetObjectKnowledge(gameObject.Name) < gameObject.KnowledgeKoef;
+            return Game.SHOWBASE && gameObject.NeedKnowledge && this.GetObjectKnowledge(gameObject.Name) < gameObject.KnowledgeKoef;
         }
 
         public override void EnqueueNextState()

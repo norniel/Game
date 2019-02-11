@@ -142,15 +142,22 @@ namespace Engine.Heros
         }
 
 
-        public void ApplyEffects()
+        private void ApplyEffects()
         {
-            foreach (var effect in _effects)
+            var i = 0;
+            while (i < _effects.Count)
             {
+                var effect = _effects[i];
+
                 if (effect.Counter <= 0)
-                    _effects.Remove(effect);
+                {
+                    _effects.RemoveAt(i);
+                    continue;
+                }
 
                 effect.Counter--;
                 effect.Apply(this);
+                i++;
             }
         }
 

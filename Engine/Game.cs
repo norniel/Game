@@ -59,6 +59,8 @@ namespace Engine
 
         private IActionRepository ActionRepository { get; }
 
+        public const bool SHOWBASE = false;
+
        // private readonly StateQueueManager _stateQueueManager;
 
        private UnityContainer _unityContainer;
