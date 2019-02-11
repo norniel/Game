@@ -10,7 +10,7 @@ namespace Engine.Actions
     {
         public abstract string Name { get; }
 
-        public abstract string GetName(IEnumerable<GameObject> objects);
+        public abstract string GetName(IEnumerable<GameObject> objects, Hero hero);
 
         public abstract bool IsApplicable(Property property);
 

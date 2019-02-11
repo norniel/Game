@@ -14,7 +14,7 @@ namespace Engine.Actions
     {
         public string Name => ActionsResource.Eat;
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             return Name;
         }
@@ -35,9 +35,10 @@ namespace Engine.Actions
             foreach (var eatableObject in objects.Where(o => o.HasBehavior(typeof(EatableBehavior))))
             {
                 var eatableBehavior = eatableObject.GetBehavior(typeof(EatableBehavior)) as EatableBehavior;
-                hero.Eat((int)(eatableBehavior.SatietyCoefficient * eatableObject.WeightDbl), eatableBehavior.Poisoness, eatableBehavior.Time);
+                hero.Eat((int)(eatableBehavior.SatietyCoefficient * eatableObject.WeightDbl));
                 eatableObject.RemoveFromContainer();
                 conseqList.Add(Consequance.AddObjectKnowledge(eatableObject.Name, 5));
+                conseqList.Add(Consequance.AddToxicEffect(eatableBehavior.Poisoness, eatableBehavior.Time));
             }
 
             return new ConseqActionResult(true, conseqList.ToArray());

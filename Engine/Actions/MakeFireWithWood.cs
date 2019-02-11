@@ -17,7 +17,7 @@ namespace Engine.Actions
 
         public string Name => ActionsResource.MakeFire;
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             return Name;
         }

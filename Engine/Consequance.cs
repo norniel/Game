@@ -1,4 +1,5 @@
 ﻿using System;
+using Engine.Effects;
 using Engine.Heros;
 using Engine.Tools;
 
@@ -57,6 +58,17 @@ namespace Engine
             return hero =>
             {
                 hero.SetObjectKnowledge(objName, knowledgeKoef);
+            };
+        }
+
+        public static Action<Hero> AddToxicEffect(int poisonness, int time)
+        {
+            return hero =>
+            {
+                if (poisonness <= 0 || time <= 0)
+                    return;
+
+                hero.AddEffect(new ToxicEffect(poisonness, time));
             };
         }
     }

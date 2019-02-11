@@ -217,7 +217,7 @@ namespace MonoBrJozik
             if (_textures.TryGetValue(id, out texture))
             {
                 if (height > 1)
-                    y = y - 20*(height - 1);
+                    y = y - Engine.Map.CellMeasure*(height - 1);
 
                 _spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
             }

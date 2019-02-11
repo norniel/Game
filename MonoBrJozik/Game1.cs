@@ -56,7 +56,7 @@ namespace MonoBrJozik
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
             var textures = LoadTextures();
             var heroTexture = Content.Load<Texture2D>("hero");
             var screenTexture = Content.Load<Texture2D>("green-paper2");
@@ -68,15 +68,22 @@ namespace MonoBrJozik
             c[0] = Color.White;
             menuTexture.SetData<Color>(c);
 
-            _menu = new MonoMenu(font, Color.MintCream, MonoDrawer.SCREEN_WIDTH, MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT);
-            _inventory = new MonoInventory(MonoDrawer.SCREEN_WIDTH, 0, MonoDrawer.INVENTORY_WIDTH, MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT, font, Color.Black, menuTexture);
+            _menu = new MonoMenu(font, Color.MintCream, MonoDrawer.SCREEN_WIDTH,
+                MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT);
+            _inventory = new MonoInventory(MonoDrawer.SCREEN_WIDTH, 0, MonoDrawer.INVENTORY_WIDTH,
+                MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT, font, Color.Black, menuTexture);
 
-            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture, heroPropTextures, font, _menu, _inventory);
-            _game = new Engine.Game(_drawer, (uint)MonoDrawer.SCREEN_WIDTH, (uint)MonoDrawer.SCREEN_HEIGHT);
+            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture,
+                heroPropTextures, font, _menu, _inventory);
+            _game = new Engine.Game(_drawer, (uint) MonoDrawer.SCREEN_WIDTH, (uint) MonoDrawer.SCREEN_HEIGHT);
 
 
-            _graphics.PreferredBackBufferWidth = MonoDrawer.SCREEN_WIDTH + MonoDrawer.INVENTORY_WIDTH;  // set this value to the desired width of your window
-            _graphics.PreferredBackBufferHeight = MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT;   // set this value to the desired height of your window
+            _graphics.PreferredBackBufferWidth =
+                MonoDrawer.SCREEN_WIDTH +
+                MonoDrawer.INVENTORY_WIDTH; // set this value to the desired width of your window
+            _graphics.PreferredBackBufferHeight =
+                MonoDrawer.SCREEN_HEIGHT +
+                MonoDrawer.HEALTH_BAR_HEIGHT; // set this value to the desired height of your window
             _graphics.ApplyChanges();
         }
 
@@ -86,26 +93,23 @@ namespace MonoBrJozik
 
             foreach (string str in Directory.GetFiles(@"Content", "*.png", SearchOption.TopDirectoryOnly))
             {
-                int lastSlash = str.LastIndexOf('\\');
-                string textureName = ((lastSlash > -1) ? str.Substring(lastSlash + 1) : str).Replace(".png", "");
-                uint n;
-                if (uint.TryParse(textureName, NumberStyles.AllowHexSpecifier, new NumberFormatInfo(),out n))
+                var lastSlash = str.LastIndexOf('\\');
+                var textureName = ((lastSlash > -1) ? str.Substring(lastSlash + 1) : str).Replace(".png", "");
+                if (uint.TryParse(textureName, NumberStyles.AllowHexSpecifier, new NumberFormatInfo(), out var n))
                 {
                     using (FileStream fs = File.OpenRead(str))
                     {
-                        var t = Texture2D.FromStream(GraphicsDevice, fs);
+                       // Texture2D.FromStream(GraphicsDevice graphicsDevice, Stream stream,
+                       // int width, int height, bool zoom)
+                        var t = Texture2D.FromStream(GraphicsDevice, fs/*, Engine.Map.CellMeasure, Engine.Map.CellMeasure, true*/);
                         textureDict[n] = t;
-                        if (n == 0x00000100)
-                        {
-                            var t1 = Content.Load<Texture2D>("apple tree icon_w");
-                        }
                     }
                 }
-                
             }
 
             return textureDict;
         }
+
 /*
     private Dictionary<uint, Texture2D> LoadTextures()
         {
@@ -191,7 +195,8 @@ namespace MonoBrJozik
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             var currentMouseState = Mouse.GetState();
@@ -237,9 +242,9 @@ namespace MonoBrJozik
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.LightGray);//new Color(0, 80, 0));
+            GraphicsDevice.Clear(Color.LightGray); //new Color(0, 80, 0));
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
-           
+
             _game.DrawChanges();
 
             _menu.Draw(_spriteBatch);

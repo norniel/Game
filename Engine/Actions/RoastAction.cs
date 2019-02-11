@@ -13,9 +13,12 @@ namespace Engine.Actions
     {
         public override string Name => "Roast";
 
-        public override string GetName(IEnumerable<GameObject> objects)
+        public override string GetName(IEnumerable<GameObject> objects,Hero hero)
         {
-            return string.Format(ActionsResource.Roast, objects.First().Name);
+            var gameObject = objects.First();
+            var name = hero.IsBaseToShow(gameObject) ? gameObject.GetBaseName() : gameObject.Name;
+
+            return string.Format(ActionsResource.Roast, name);
         }
 
         public override bool IsApplicable(Property property)

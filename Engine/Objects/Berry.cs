@@ -13,6 +13,7 @@ namespace Engine.Objects
         public int Weight { get; set; } = 1;
         public bool NeedKnowledge { get; set; }
         public uint BaseId { get; set; }
+        public string BaseName { get; set; } = "Berry";
 
         public Func<HashSet<Property>> Properties { get; set; } = () => new HashSet<Property>
         {

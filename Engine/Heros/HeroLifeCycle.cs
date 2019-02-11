@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Engine.Effects;
 using Unity.Attributes;
 
 namespace Engine.Heros
@@ -23,6 +25,8 @@ namespace Engine.Heros
         public HeroProperties HeroProperties => _heroProperties;
 
         public int Tiredness => HeroProperties.Tiredness;
+
+        private readonly List<IEffect> _effects = new List<IEffect>();
 
         public HeroLifeCycle()
         {
@@ -54,19 +58,7 @@ namespace Engine.Heros
                 {
                     _heroProperties.Health--;
                 }
-
-                if (_heroProperties.PoisonesTime > 0)
-                {
-                    _heroProperties.PoisonesTime--;
-                    _heroProperties.Health = Math.Max(_heroProperties.Health - _heroProperties.Poisoness, 0);
-
-                    if (_heroProperties.PoisonesTime == 0)
-                    {
-                        _heroProperties.PoisonesTime = 0;
-                        _heroProperties.Poisoness = 0;
-                    }
-                }
-
+                
                 if (_heroProperties.Health < INITIAL_HEALTH && _heroProperties.Satiety > QUOTER_SATIETY && _heroProperties.Tiredness < STRONG_TIREDNESS)
                 {
                     _heroProperties.Health = Math.Min(_heroProperties.Health + 1, INITIAL_HEALTH);
@@ -77,6 +69,16 @@ namespace Engine.Heros
 
                 if (DayNightCycle.IsDusk())
                     IncreaseTiredness(1);
+            }
+
+            ApplyEffects();
+        }
+
+        internal void ApplyToxic(int poisoness)
+        {
+            lock (_heroProperties)
+            {
+                _heroProperties.Health = Math.Max(_heroProperties.Health - poisoness, 0);
             }
         }
 
@@ -90,16 +92,13 @@ namespace Engine.Heros
             throw new NotImplementedException();
         }
 
-        public void Eat(int satiety, int poisoness, int time)
+        public void Eat(int satiety)
         {
-            if (_heroProperties.Satiety >= INITIAL_SATIETY &&  poisoness == 0)
+            if (_heroProperties.Satiety >= INITIAL_SATIETY)
                 return;
             
             lock (_heroProperties)
             {
-                _heroProperties.Poisoness = poisoness;
-                _heroProperties.PoisonesTime = time;
-
                 if (_heroProperties.Satiety < INITIAL_SATIETY)
                 {
                     if (_heroProperties.Satiety < INITIAL_SATIETY)
@@ -140,6 +139,27 @@ namespace Engine.Heros
         public bool TotallyTired()
         {
             return HeroProperties.Tiredness >= FINAL_TIREDNESS;
+        }
+
+
+        public void ApplyEffects()
+        {
+            foreach (var effect in _effects)
+            {
+                if (effect.Counter <= 0)
+                    _effects.Remove(effect);
+
+                effect.Counter--;
+                effect.Apply(this);
+            }
+        }
+
+        internal void AddEffect(IEffect effect)
+        {
+            if (effect.Counter <= 0)
+                return;
+
+            _effects.Add(effect);
         }
     }
 }

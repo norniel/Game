@@ -16,5 +16,6 @@ namespace Engine.Interfaces
 
         bool NeedKnowledge { get; set; }
         uint BaseId { get; set; }
+        string BaseName { get; set; }
     }
 }

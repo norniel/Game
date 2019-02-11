@@ -16,7 +16,7 @@ namespace Engine.Actions
 
         public string Name => ActionsResource.Drop;
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             return Name;
         }

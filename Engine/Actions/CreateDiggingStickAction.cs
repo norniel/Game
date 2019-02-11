@@ -19,7 +19,7 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             return Name;
         }

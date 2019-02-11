@@ -18,7 +18,7 @@ namespace Engine.Actions
 
         public override string Name => ActionsResource.Cut;
 
-        public override string GetName(IEnumerable<GameObject> objects)
+        public override string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             return Name;
         }

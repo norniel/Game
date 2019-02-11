@@ -16,6 +16,9 @@ namespace Engine
         public static int TicksInSecond = 1000 / Game.TimeStep;
         public static int DayLength = TicksInSecond * MinutesInHour * HoursInDay;
         public static int HalfDayLength = DayLength/2;
+        public static int OneSixDayLength = DayLength/6;
+        public static int OneSevenDayLength = DayLength/7;
+        public static int OneEightDayLength = DayLength/8;
 
         public DayNightCycle()
         {

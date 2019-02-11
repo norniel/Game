@@ -25,7 +25,7 @@ namespace Engine.Actions
 
         public string Name => _builderPlan.Name;
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             if (objects.Any(o => o is T))
             {

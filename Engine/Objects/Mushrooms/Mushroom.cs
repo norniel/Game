@@ -10,8 +10,8 @@ namespace Engine.Objects
 {
     public class MushroomContext : IObjectContext
     {
-        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties() {TickCount = 300, Distribution = 50, Eternal = false, Id = 0x10001900};
-        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties() {TickCount = 1000, Distribution = 100, Eternal = false, Id = 0x00001900 };
+        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties() {TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/6, Eternal = false, Id = 0x10001900};
+        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties() {TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00001900 };
 
         public Dictionary<ObjectStates.ObjectStates, uint>
             BaseIds = new Dictionary<ObjectStates.ObjectStates, uint> { { ObjectStates.ObjectStates.Growing, 0x10001900 }, { ObjectStates.ObjectStates.Staying, 0x00001900 }, { ObjectStates.ObjectStates.Spoilering, 0x00001900 } };
@@ -22,6 +22,7 @@ namespace Engine.Objects
         public int Weight { get; set; } = 1;
         public bool NeedKnowledge { get; set; } = true;
         public uint BaseId { get; set; }
+        public string BaseName { get; set; } = "Mushroom";
 
         public Func<HashSet<Property>> Properties { get; set; } = () => new HashSet<Property>
         {

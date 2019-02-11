@@ -19,7 +19,7 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public virtual string GetName(IEnumerable<GameObject> objects)
+        public virtual string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             var objectToCollectFrom = objects
                 .Select(x => (x.GetBehavior(typeof(CollectBehavior<T>)) as CollectBehavior<T>)).FirstOrDefault();

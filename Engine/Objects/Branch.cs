@@ -11,6 +11,7 @@ namespace Engine.Objects
         public uint Id { get; set; } = 0x00000800;
 
         public string Name { get; set; } = Resource.Branch;
+        public string BaseName { get; set; } = Resource.Branch;
 
         public Func<HashSet<Property>> Properties { get; set; } = () => new HashSet<Property>
         {

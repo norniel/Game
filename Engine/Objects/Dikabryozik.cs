@@ -192,7 +192,7 @@ namespace Engine.Objects
             EnqueueMovingToDestination(destination);
         }
 
-        public void Eat(int satiety, int poisoness, int time)
+        public void Eat(int satiety)
         {
             ObjectWithState.ChangeState(0, STAYING_BASE_TICKCOUNT + (int)(STAYING_BASE_TICKCOUNT * satiety * 0.1));
         }

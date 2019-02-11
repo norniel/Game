@@ -14,7 +14,7 @@ namespace Engine.Actions
     {
         public string Name => ActionsResource.CreateSharpStone;
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             return Name;
         }

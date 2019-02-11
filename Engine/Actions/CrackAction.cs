@@ -14,9 +14,11 @@ namespace Engine.Actions
     {
         public string Name => "Crack";
         
-        public string GetName(IEnumerable<GameObject> objects)
+        public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
-            var name = objects.First(ao => ao.HasBehavior(typeof(CrackableBehavior))).Name;
+            var gameObject = objects.First(ao => ao.HasBehavior(typeof(CrackableBehavior)));
+            var name = hero.IsBaseToShow(gameObject) ? gameObject.GetBaseName() : gameObject.Name;
+
             return $"Crack {name}";
         }
 

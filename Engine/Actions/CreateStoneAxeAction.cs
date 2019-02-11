@@ -12,7 +12,7 @@ namespace Engine.Actions
     {
         public string Name => ActionsResource.CreateStoneAxe;
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             return Name;
         }

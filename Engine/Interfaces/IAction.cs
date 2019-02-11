@@ -10,7 +10,7 @@ namespace Engine.Interfaces.IActions
         //TODO Add method FillContext and CheckContext
         string Name { get; }
 
-        string GetName(IEnumerable<GameObject>objects);
+        string GetName(IEnumerable<GameObject>objects, Hero hero);
 
         bool IsApplicable(Property property);
 

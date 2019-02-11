@@ -14,6 +14,7 @@ namespace Engine
         public uint Id { get; set; } = 0x00000100;
 
         public string Name { get; set; } = "Tree";
+        public string BaseName { get; set; } = "Tree";
         public int Weight { get; set; } = 1;
         public bool NeedKnowledge { get; set; }
         public uint BaseId { get; set; }

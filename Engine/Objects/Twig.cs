@@ -11,6 +11,7 @@ namespace Engine.Objects
         public uint Id { get; set; } = 0x00001C00;
 
         public string Name { get; set; } = Resource.Twig;
+        public string BaseName { get; set; } = Resource.Twig;
         public int Weight { get; set; } = 1;
         public bool NeedKnowledge { get; set; }
         public uint BaseId { get; set; }

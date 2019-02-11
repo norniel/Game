@@ -197,7 +197,7 @@ namespace Engine
                     return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
                     new ClientAction
                         {
-                            Name = pa.GetName(objectsForAction),
+                            Name = pa.GetName(objectsForAction, _hero),
                             //CanDo = pa.CanDo(_hero, objects),
                             Do = () => MoveAndDoAction(pa, dest, objectsForAction)
                         }
@@ -243,7 +243,7 @@ namespace Engine
                     (id, gos) =>
                     new MenuItems
                     {
-                        Name = $"{gos.First().Name}({gos.Count()})",
+                        Name = $"{GetScreenName(gos.First())}({gos.Count()})",
                         Id = id,
                         GetClientActions = GetFuncForClientActions(gos.First())
                     });
@@ -320,15 +320,12 @@ namespace Engine
 
         private uint GetDrawingCode(GameObject gameObject)
         {
-            var drawingCode = gameObject.GetDrawingCode();
-            if (gameObject.NeedKnowledge)
-            {
-                drawingCode = _hero.GetObjectKnowledge(gameObject.Name) >= gameObject.KnowledgeKoef
-                    ? drawingCode
-                    : gameObject.GetBaseCode();
-            }
+            return _hero.IsBaseToShow(gameObject) ? gameObject.GetBaseCode() : gameObject.GetDrawingCode();
+        }
 
-            return drawingCode;
+        private string GetScreenName(GameObject gameObject)
+        {
+            return _hero.IsBaseToShow(gameObject) ? gameObject.GetBaseName() : gameObject.Name;
         }
 
         private Func<IEnumerable<ClientAction>> GetFuncForClientActions(GameObject first)
@@ -348,7 +345,7 @@ namespace Engine
                     return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
                     new ClientAction
                     {
-                        Name = pa.GetName(objectsForAction),
+                        Name = pa.GetName(objectsForAction, _hero),
                         //CanDo = pa.CanDo(_hero, objects),
                         Do = () => DoAction(pa, objectsForAction)
                     }

@@ -79,8 +79,8 @@ namespace Engine
                         new EatableBehavior(2, 50, 1),
                         new SpoileringBehavior()
                     },
-                    GrowingProps = new ObjStateProperties() { TickCount = 250, Distribution = 100, Eternal = false, Id = 0x10002700 },
-                    StayingProps = new ObjStateProperties() { TickCount = 1000, Distribution = 100, Eternal = false, Id = 0x00002700 }
+                    GrowingProps = new ObjStateProperties() { TickCount = DayNightCycle.OneEightDayLength, Distribution = DayNightCycle.OneEightDayLength/3, Eternal = false, Id = 0x10002700 },
+                    StayingProps = new ObjStateProperties() { TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00002700 }
                 }
 
             },
@@ -91,8 +91,8 @@ namespace Engine
                         new EatableBehavior(2, 10, 8),
                         new SpoileringBehavior()
                     },
-                    GrowingProps = new ObjStateProperties() { TickCount = 280, Distribution = 100, Eternal = false, Id = 0x10002800 },
-                    StayingProps = new ObjStateProperties() { TickCount = 1000, Distribution = 100, Eternal = false, Id = 0x00002800 }
+                    GrowingProps = new ObjStateProperties() { TickCount = DayNightCycle.OneSevenDayLength, Distribution = DayNightCycle.OneSevenDayLength/3, Eternal = false, Id = 0x10002800 },
+                    StayingProps = new ObjStateProperties() { TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00002800 }
                 }
             },
             { "Birch tree", new TreeContext(){Name = "Birch tree", Id =0x00002900, HalfEmptyId = 0x00002900, EmptyId = 0x00002900,
@@ -137,9 +137,9 @@ namespace Engine
             { "Fern", new PlantContext()
                 {
                     Id = 0x00003700,Name = "Fern", Weight = 1, NeedKnowledge = true, /*BaseId = 0x00001100,*/
-                    GrowingProps  = new ObjStateProperties() { TickCount = 300, Distribution = 50, Eternal = false, Id =0x10003700, BaseId = 0x10001100 },
-                    StayingProps = new ObjStateProperties() { TickCount = 1000, Distribution = 100, Eternal = false, Id = 0x00003700, BaseId = 0x00001100 },
-                    DryingProps = new ObjStateProperties() { TickCount = 300, Distribution = 30, Eternal = false, Id = 0x20003700, BaseId = 0x20001100 }
+                    GrowingProps  = new ObjStateProperties() { TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/5, Eternal = false, Id =0x10003700, BaseId = 0x10001100 },
+                    StayingProps = new ObjStateProperties() { TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00003700, BaseId = 0x00001100 },
+                    DryingProps = new ObjStateProperties() { TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/10, Eternal = false, Id = 0x20003700, BaseId = 0x20001100 }
 
                 }
 

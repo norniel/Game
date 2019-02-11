@@ -51,7 +51,7 @@ namespace Engine.Behaviors
                 new ObjectWithState(
                     new List<ObjectState>
                     {
-                        new ObjectState(ObjectStates.ObjectStates.Growing, new ObjStateProperties{TickCount=100, Distribution= 100, Eternal= false})
+                        new ObjectState(ObjectStates.ObjectStates.Growing, new ObjStateProperties{TickCount=DayNightCycle.HalfDayLength, Distribution= DayNightCycle.HalfDayLength, Eternal= false})
                     },
                     false,
                     OnLastStateFinished, null, true);

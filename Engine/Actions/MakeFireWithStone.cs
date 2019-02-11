@@ -16,7 +16,7 @@ namespace Engine.Actions
 
         public string Name => "Make fire with stone";
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             return Name;
         }

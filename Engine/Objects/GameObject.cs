@@ -10,9 +10,10 @@ namespace Engine.Objects
         public HashSet<Property> Properties { get; set; }
         public HashSet<IBehavior> Behaviors { get; set; }
         public uint Id { get; set; }
-        public uint BaseId { get; set; }
+        private uint BaseId { get; set; }
         
         public string Name { get; set; }
+        private string BaseName { get; set; }
 
         public virtual int Weight { get; set; } = 1;
 
@@ -33,7 +34,8 @@ namespace Engine.Objects
             Behaviors = context.Behaviors() ?? new HashSet<IBehavior>();
 
             Id = context.Id;
-            BaseId = context.BaseId == 0 ? context.Id : context.BaseId; 
+            BaseId = context.BaseId == 0 ? context.Id : context.BaseId;
+            BaseName = string.IsNullOrEmpty(context.BaseName) ? context.Name : context.BaseName; 
             Name = context.Name;
             Weight = context.Weight;
 
@@ -70,6 +72,16 @@ namespace Engine.Objects
             }
 
             return GetDrawingCode();
+        }
+
+        public virtual string GetBaseName()
+        {
+            if (NeedKnowledge)
+            {
+                return BaseName;
+            }
+
+            return Name;
         }
 
         public Action RemoveFromContainer { get; set; }

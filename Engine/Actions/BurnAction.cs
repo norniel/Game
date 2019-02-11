@@ -20,7 +20,7 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             var burnable = objects.FirstOrDefault(o => o.HasBehavior(typeof(BurnableBehavior)));
 
@@ -29,7 +29,9 @@ namespace Engine.Actions
                 return Name;
             }
 
-            return string.Format(ActionsResource.AddToFire, burnable.Name);
+            var name = hero.IsBaseToShow(burnable) ? burnable.GetBaseName() : burnable.Name;
+
+            return string.Format(ActionsResource.AddToFire, name);
         }
 
         public bool IsApplicable(Property property)

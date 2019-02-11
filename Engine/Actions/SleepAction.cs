@@ -14,7 +14,7 @@ namespace Engine.Actions
     {
         public string Name => ActionsResource.Sleep;
 
-        public string GetName(IEnumerable<GameObject> objects)
+        public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             return Name;
         }

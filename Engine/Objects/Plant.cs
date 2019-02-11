@@ -10,9 +10,9 @@ namespace Engine.Objects
 {
     public class PlantContext : IObjectContext
     {
-        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties() { TickCount = 300, Distribution = 50, Eternal = false, Id = 0x10001100 };
-        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties() { TickCount = 1000, Distribution = 100, Eternal = false, Id = 0x00001100 };
-        public ObjStateProperties DryingProps { get; set; } = new ObjStateProperties() { TickCount = 300, Distribution = 30, Eternal = false, Id = 0x20001100 };
+        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties() { TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/6, Eternal = false, Id = 0x10001100 };
+        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties() { TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00001100 };
+        public ObjStateProperties DryingProps { get; set; } = new ObjStateProperties() { TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/10, Eternal = false, Id = 0x20001100 };
         
         public uint Id { get; set; } = 0x00001100;
 
@@ -20,6 +20,7 @@ namespace Engine.Objects
         public int Weight { get; set; } = 1;
         public bool NeedKnowledge { get; set; }
         public uint BaseId { get; set; }
+        public string BaseName { get; set; } = Resource.Plant;
 
         public Func<HashSet<Property>> Properties { get; set; } = () => new HashSet<Property>
         {

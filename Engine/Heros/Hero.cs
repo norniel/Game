@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Engine.Effects;
 using Engine.Interfaces;
 using Engine.Interfaces.IActions;
 using Engine.Objects;
@@ -129,9 +130,9 @@ namespace Engine.Heros
             }
         }
 
-        public void Eat(int satiety, int poisoness, int time)
+        public void Eat(int satiety)
         {
-            HeroLifeCycle.Eat(satiety, poisoness, time);
+            HeroLifeCycle.Eat(satiety);
         }
 
         public IEnumerable<KeyValuePair<string, int>> GetProperties()
@@ -252,10 +253,19 @@ namespace Engine.Heros
             return _knowledgeses.TryGetValue(knowledge, out koef) ? koef / 100.0 : 0.0;
         }
 
+        public bool IsBaseToShow(GameObject gameObject)
+        {
+            return gameObject.NeedKnowledge && this.GetObjectKnowledge(gameObject.Name) < gameObject.KnowledgeKoef;
+        }
+
         public override void EnqueueNextState()
         {
             _stateQueue.Enqueue(new StandingHero(this));
         }
 
+        internal void AddEffect(IEffect effect)
+        {
+            HeroLifeCycle.AddEffect(effect);
+        }
     }
 }
