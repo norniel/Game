@@ -749,6 +749,11 @@ namespace Game
         public void DrawHaltScreen(uint width, uint height)
         { }
 
+        public void SetPaused(bool isPaused)
+        {
+            throw new NotImplementedException();
+        }
+
         private void CreateActing()
         {
             _acting.Foreground = Brushes.FloralWhite;

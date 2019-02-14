@@ -22,6 +22,7 @@ namespace MonoBrJozik
         private MonoDrawer _drawer;
         private MonoMenu _menu;
         private MonoInventory _inventory;
+        private MonoSwich _pauseSwich;
 
         private bool _lButtonPressed = false;
         private bool _rButtonPressed = false;
@@ -73,10 +74,18 @@ namespace MonoBrJozik
             _inventory = new MonoInventory(MonoDrawer.SCREEN_WIDTH, 0, MonoDrawer.INVENTORY_WIDTH,
                 MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT, font, Color.Black, menuTexture);
 
-            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture,
-                heroPropTextures, font, _menu, _inventory);
-            _game = new Engine.Game(_drawer, (uint) MonoDrawer.SCREEN_WIDTH, (uint) MonoDrawer.SCREEN_HEIGHT);
+            
+            var pauseStrLength = font.MeasureString("Pause");
+            var switchTexture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Color[] c1 = new Color[1];
+            c[0] = Color.WhiteSmoke;
+            switchTexture.SetData<Color>(c);
+            var switchInfo = new MonoItemInfo(switchTexture, null, "Pause", () => _game.SetPaused());
+            _pauseSwich = new MonoSwich(switchInfo, false, switchTexture, font, Color.Black, MonoDrawer.SCREEN_WIDTH - (int)pauseStrLength.X - 2, MonoDrawer.SCREEN_HEIGHT);
 
+            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture,
+                heroPropTextures, font, _menu, _inventory, _pauseSwich);
+            _game = new Engine.Game(_drawer, (uint) MonoDrawer.SCREEN_WIDTH, (uint) MonoDrawer.SCREEN_HEIGHT);
 
             _graphics.PreferredBackBufferWidth =
                 MonoDrawer.SCREEN_WIDTH +
@@ -99,9 +108,7 @@ namespace MonoBrJozik
                 {
                     using (FileStream fs = File.OpenRead(str))
                     {
-                       // Texture2D.FromStream(GraphicsDevice graphicsDevice, Stream stream,
-                       // int width, int height, bool zoom)
-                        var t = Texture2D.FromStream(GraphicsDevice, fs/*, Engine.Map.CellMeasure, Engine.Map.CellMeasure, true*/);
+                        var t = Texture2D.FromStream(GraphicsDevice, fs);
                         textureDict[n] = t;
                     }
                 }
@@ -209,7 +216,7 @@ namespace MonoBrJozik
                 _lButtonPressed = false;
                 if (!_menu.MouseLClick(currentMouseState))
                 {
-                    if (!_inventory.MouseLClick(currentMouseState))
+                    if (!_inventory.MouseLClick(currentMouseState) && !_pauseSwich.MouseLClick(currentMouseState))
                         _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
                 }
             }
@@ -223,7 +230,7 @@ namespace MonoBrJozik
                 _rButtonPressed = false;
                 if (!_menu.MouseRClick(currentMouseState))
                 {
-                    if (!_inventory.MouseRClick(currentMouseState))
+                    if (!_inventory.MouseRClick(currentMouseState) && !_pauseSwich.MouseRClick(currentMouseState))
                         _game.RClick(new Point(currentMouseState.X, currentMouseState.Y));
                 }
             }
@@ -250,6 +257,8 @@ namespace MonoBrJozik
             _menu.Draw(_spriteBatch);
 
             _inventory.Draw(_spriteBatch);
+
+            _pauseSwich.Draw(_spriteBatch);
 
             _spriteBatch.End();
 

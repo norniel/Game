@@ -59,6 +59,9 @@ namespace Engine
 
         private IActionRepository ActionRepository { get; }
 
+        private bool _isPaused = false;
+        public bool IsPaused => _isPaused;
+
         public const bool SHOWBASE = false;
 
        // private readonly StateQueueManager _stateQueueManager;
@@ -83,7 +86,9 @@ namespace Engine
             curRect.Width = width;
             curRect.Height = height;
 
-            Intervals = Observable.Interval(TimeSpan.FromMilliseconds(TimeStep));
+            Intervals = Observable.Interval(TimeSpan.FromMilliseconds(TimeStep))
+                .Where(t => !this._isPaused);
+
             _unityContainer = new UnityContainer();
             RegisterInUnityContainer();
 
@@ -369,6 +374,12 @@ namespace Engine
             {
                 Map.SetHObjectFromDestination(hero.Position, gameObject);
             }
+        }
+
+        public void SetPaused()
+        {
+            _isPaused = !_isPaused;
+            _drawer.SetPaused(_isPaused);
         }
     }
 

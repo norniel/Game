@@ -50,6 +50,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\MonoSwich.cs" />
     <Compile Include="Controls\MonoControl.cs" />
     <Compile Include="Controls\MonoInventory.cs" />
     <Compile Include="Controls\MonoInventoryItem.cs" />

@@ -33,5 +33,7 @@ namespace Engine
         void DrawTime(GameDateTime gameDateTime);
 
         void DrawHaltScreen(uint width, uint height);
+
+        void SetPaused(bool isPaused);
     }
 }

@@ -11,11 +11,11 @@ namespace MonoBrJozik.Controls
         private const int _textOffset = 5;
         private readonly SpriteFont _font;
         private readonly Action _action;
-        private readonly Texture2D _texture;
+        protected Texture2D _texture;
         private readonly Texture2D _innerTexture;
         private readonly string _text;
-        private Color _textColor;// = Color.MintCream;
-        private Color _fontColor;// = Color.MintCream;
+        protected Color _textColor;// = Color.MintCream;
+        protected Color _fontColor;// = Color.MintCream;
 
         public MonoItem(MonoItemInfo itemInfo, SpriteFont font, Color fontColor, int x, int y)
         {

@@ -27,7 +27,7 @@ namespace MonoBrJozik.Controls
             Height = height;
         }
 
-        public virtual bool IsInside(MouseState mouseState)
+        protected virtual bool IsInside(MouseState mouseState)
         {
             return mouseState.X >= LeftTopX && mouseState.X < RightBottomX && mouseState.Y >= LeftTopY &&
                    mouseState.Y < RightBottomY;

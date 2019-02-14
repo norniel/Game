@@ -35,14 +35,16 @@ namespace MonoBrJozik
         private readonly int _dcenter;
         private readonly GraphicsDevice _graphicsDevice;
 
+        private readonly MonoSwich _pauseSwich;
+
         private int _tick = 0;
 
         public const int SCREEN_WIDTH = 564;
         public const int SCREEN_HEIGHT = 394;
-        public const int HEALTH_BAR_HEIGHT = 35;
+        public const int HEALTH_BAR_HEIGHT = 45;
         public const int INVENTORY_WIDTH = 100;
 
-        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu, Controls.MonoInventory inventory)
+        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu, Controls.MonoInventory inventory, MonoSwich pauseSwich)
         {
             _spriteBatch = spriteBatch;
             _textures = textures;
@@ -58,6 +60,8 @@ namespace MonoBrJozik
             Color[] c = new Color[1];
             c[0] = Color.White;
             _menuTexture.SetData<Color>(c);
+            
+            _pauseSwich = pauseSwich;
         }
 
         public void Clear()
@@ -247,7 +251,7 @@ namespace MonoBrJozik
         {
             var timeOfDay = $"{gameDateTime.Day}:{gameDateTime.Hour}:{gameDateTime.Minute}";
             var timeStrLength = _font.MeasureString(timeOfDay);
-            _spriteBatch.DrawString(_font, timeOfDay, new Vector2(SCREEN_WIDTH - timeStrLength.X - 2, SCREEN_HEIGHT + 20), Color.Black);
+            _spriteBatch.DrawString(_font, timeOfDay, new Vector2(SCREEN_WIDTH - timeStrLength.X - 2, SCREEN_HEIGHT + 30), Color.Black);
         }
 
         public void DrawHaltScreen(uint width, uint height)
@@ -257,6 +261,11 @@ namespace MonoBrJozik
             c[0] = Color.DarkGray;
             texture.SetData<Color>(c);//_screenTexture
             _spriteBatch.Draw(texture, new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), Color.White);
+        }
+
+        public void SetPaused(bool isPaused)
+        {
+            _pauseSwich.SetSwitched(isPaused);
         }
 
         private void DrawRotatedImage(Texture2D texture, long x, long y, uint angle)
