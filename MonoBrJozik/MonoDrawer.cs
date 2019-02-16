@@ -36,6 +36,11 @@ namespace MonoBrJozik
         private readonly GraphicsDevice _graphicsDevice;
 
         private readonly MonoSwich _pauseSwich;
+        private readonly MonoSwich _knowledgesSwich;
+
+        private readonly MonoKnowledges _monoKnowledges;
+
+        private bool _isHaltShown = false;
 
         private int _tick = 0;
 
@@ -44,7 +49,8 @@ namespace MonoBrJozik
         public const int HEALTH_BAR_HEIGHT = 45;
         public const int INVENTORY_WIDTH = 100;
 
-        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture, Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu, Controls.MonoInventory inventory, MonoSwich pauseSwich)
+        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture,
+            Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu, Controls.MonoInventory inventory, MonoSwich pauseSwich, MonoSwich knowledgesSwich)
         {
             _spriteBatch = spriteBatch;
             _textures = textures;
@@ -60,8 +66,11 @@ namespace MonoBrJozik
             Color[] c = new Color[1];
             c[0] = Color.White;
             _menuTexture.SetData<Color>(c);
-            
+
             _pauseSwich = pauseSwich;
+            _knowledgesSwich = knowledgesSwich;
+
+            _monoKnowledges = new MonoKnowledges(graphicsDevice, _font);
         }
 
         public void Clear()
@@ -254,18 +263,43 @@ namespace MonoBrJozik
             _spriteBatch.DrawString(_font, timeOfDay, new Vector2(SCREEN_WIDTH - timeStrLength.X - 2, SCREEN_HEIGHT + 30), Color.Black);
         }
 
-        public void DrawHaltScreen(uint width, uint height)
+        public void DrawHaltScreen(Dictionary<string, uint> knowledges)
         {
+            if (_isHaltShown)
+            {
+                _monoKnowledges.Draw(_spriteBatch);
+                return;
+            }
+
+            _isHaltShown = true;
+
             Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Color[] c = new Color[1];
             c[0] = Color.DarkGray;
-            texture.SetData<Color>(c);//_screenTexture
-            _spriteBatch.Draw(texture, new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), Color.White);
+            texture.SetData<Color>(c);
+            _monoKnowledges.SetItems(knowledges);
+            _monoKnowledges.Draw(_spriteBatch);
         }
 
         public void SetPaused(bool isPaused)
         {
             _pauseSwich.SetSwitched(isPaused);
+        }
+
+        public void ShowKnowledges(bool isKnowledgesShown, Dictionary<string, uint> knowledges)
+        {
+            _knowledgesSwich.SetSwitched(isKnowledgesShown);
+
+            Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Color[] c = new Color[1];
+            c[0] = Color.DarkGray;
+            texture.SetData<Color>(c);
+            _monoKnowledges.SetItems(knowledges);
+        }
+
+        public void DrawKnowledges()
+        {
+            _monoKnowledges.Draw(_spriteBatch);
         }
 
         private void DrawRotatedImage(Texture2D texture, long x, long y, uint angle)

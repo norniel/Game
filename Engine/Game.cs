@@ -80,6 +80,7 @@ namespace Engine
         internal static DateTime StartDate = DateTime.UtcNow;
 
         private DayNightCycle _dayNightCycle;
+        private bool _isKnowledgesShown;
 
         public Game(IDrawer drawer, uint width, uint height)
         {            
@@ -148,7 +149,7 @@ namespace Engine
 
         public void LClick(Point visibleDestination)
         {
-            if (_hero.IsUnconscios())
+            if (_hero.IsUnconscios() || this.IsPaused)
                 return;
 
             var destination = Map.GetRealDestinationFromVisibleDestination(visibleDestination);
@@ -161,7 +162,7 @@ namespace Engine
 
         public void RClick(Point destination)
         {
-            if (_hero.IsUnconscios())
+            if (_hero.IsUnconscios() || this.IsPaused)
                 return;
 
             if (destination.X < 0 || destination.X >= Map.VisibleRect.Width || destination.Y < 0 || destination.Y >= Map.VisibleRect.Height)
@@ -235,10 +236,14 @@ namespace Engine
             Map.RecalcVisibleRect(_hero.Position);
 
             _drawer.Clear();
-
-            if (_hero.IsHalt())
+            if (_isKnowledgesShown)
             {
-                _drawer.DrawHaltScreen(curRect.Width, curRect.Height);
+                _drawer.DrawKnowledges();
+            }
+            else if (_hero.IsHalt())
+            {
+                SetPaused(true);
+                _drawer.DrawHaltScreen(_hero.GetAllKnowledges());
             }
             else
             {
@@ -378,8 +383,38 @@ namespace Engine
 
         public void SetPaused()
         {
-            _isPaused = !_isPaused;
+            if (_hero.IsHalt())
+                return;
+
+            SetPaused(!_isPaused);
+        }
+
+        private void SetPaused(bool isPaused)
+        {
+            if (isPaused == _isPaused)
+                return;
+
+            _isPaused = isPaused;
             _drawer.SetPaused(_isPaused);
+
+            if (!isPaused)
+                ShowKnowledges(false);
+        }
+
+        public void ShowKnowledges()
+        {
+            if (_hero.IsHalt())
+                return;
+
+            var isKnowledgesShown = !_isKnowledgesShown;
+            ShowKnowledges(isKnowledgesShown);
+            SetPaused(_isKnowledgesShown);
+        }
+
+        private void ShowKnowledges(bool isKnowledgesShown)
+        {
+            _isKnowledgesShown = isKnowledgesShown;
+            _drawer.ShowKnowledges(_isKnowledgesShown, _hero.GetAllKnowledges());
         }
     }
 

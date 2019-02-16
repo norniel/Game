@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Engine.Effects;
 using Engine.Interfaces;
 using Engine.Interfaces.IActions;
@@ -251,6 +252,12 @@ namespace Engine.Heros
         {
             uint koef;
             return _knowledgeses.TryGetValue(knowledge, out koef) ? koef / 100.0 : 0.0;
+        }
+
+        public Dictionary<string, uint> GetAllKnowledges()
+        {
+            return _knowledgeses.Select(k => new KeyValuePair<string, uint>(k.Key.ToString(), k.Value))
+                .Union(_ObjectKnowledgeses.Select(t => t)).ToDictionary(t => t.Key, t => t.Value);
         }
 
         public bool IsBaseToShow(GameObject gameObject)

@@ -32,8 +32,12 @@ namespace Engine
 
         void DrawTime(GameDateTime gameDateTime);
 
-        void DrawHaltScreen(uint width, uint height);
+        void DrawHaltScreen(Dictionary<string, uint> knowledges);
 
         void SetPaused(bool isPaused);
+
+        void ShowKnowledges(bool isKnowledgesShown, Dictionary<string, uint> knowledges);
+
+        void DrawKnowledges();
     }
 }

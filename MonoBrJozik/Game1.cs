@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Threading;
 using Point = Engine.Point;
 using System.IO;
+using System.Linq;
 
 namespace MonoBrJozik
 {
@@ -23,9 +24,12 @@ namespace MonoBrJozik
         private MonoMenu _menu;
         private MonoInventory _inventory;
         private MonoSwich _pauseSwich;
-
+        private MonoSwich _knowledgeSwich;
+        
         private bool _lButtonPressed = false;
         private bool _rButtonPressed = false;
+
+        private readonly List<MonoControl> _monoControls = new List<MonoControl>();
 
         public Game1()
         {
@@ -80,11 +84,15 @@ namespace MonoBrJozik
             Color[] c1 = new Color[1];
             c[0] = Color.WhiteSmoke;
             switchTexture.SetData<Color>(c);
-            var switchInfo = new MonoItemInfo(switchTexture, null, "Pause", () => _game.SetPaused());
-            _pauseSwich = new MonoSwich(switchInfo, false, switchTexture, font, Color.Black, MonoDrawer.SCREEN_WIDTH - (int)pauseStrLength.X - 2, MonoDrawer.SCREEN_HEIGHT);
+            var pauseInfo = new MonoItemInfo(switchTexture, null, "Pause", () => _game.SetPaused());
+            _pauseSwich = new MonoSwich(pauseInfo, false, switchTexture, font, Color.Black, MonoDrawer.SCREEN_WIDTH - (int)pauseStrLength.X - 2, MonoDrawer.SCREEN_HEIGHT);
 
+            var knowledgesStrLength = font.MeasureString("Knowledges");
+            var knowledgesInfo = new MonoItemInfo(switchTexture, null, "Knowledges", () => _game.ShowKnowledges());
+            _knowledgeSwich = new MonoSwich(knowledgesInfo, false, switchTexture, font, Color.Black, MonoDrawer.SCREEN_WIDTH - (int)pauseStrLength.X - (int)knowledgesStrLength.X - 10, MonoDrawer.SCREEN_HEIGHT);
+            
             _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture,
-                heroPropTextures, font, _menu, _inventory, _pauseSwich);
+                heroPropTextures, font, _menu, _inventory, _pauseSwich, _knowledgeSwich);
             _game = new Engine.Game(_drawer, (uint) MonoDrawer.SCREEN_WIDTH, (uint) MonoDrawer.SCREEN_HEIGHT);
 
             _graphics.PreferredBackBufferWidth =
@@ -94,6 +102,11 @@ namespace MonoBrJozik
                 MonoDrawer.SCREEN_HEIGHT +
                 MonoDrawer.HEALTH_BAR_HEIGHT; // set this value to the desired height of your window
             _graphics.ApplyChanges();
+
+            _monoControls.Add(_menu);
+            _monoControls.Add(_inventory);
+            _monoControls.Add(_pauseSwich);
+            _monoControls.Add(_knowledgeSwich);
         }
 
         private Dictionary<uint, Texture2D> LoadTextures()
@@ -214,11 +227,17 @@ namespace MonoBrJozik
             else if (_lButtonPressed)
             {
                 _lButtonPressed = false;
-                if (!_menu.MouseLClick(currentMouseState))
+
+                if (!_monoControls.Any(ctrl => ctrl.MouseLClick(currentMouseState)))
                 {
-                    if (!_inventory.MouseLClick(currentMouseState) && !_pauseSwich.MouseLClick(currentMouseState))
-                        _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
+                    _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
                 }
+
+                /*if (!_menu.MouseLClick(currentMouseState))
+                {
+                    if (!_inventory.MouseLClick(currentMouseState) && !_pauseSwich.MouseLClick(currentMouseState) && !_knowledgeSwich.MouseLClick(currentMouseState))
+                        _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
+                }*/
             }
 
             if (currentMouseState.RightButton == ButtonState.Pressed)
@@ -228,11 +247,16 @@ namespace MonoBrJozik
             else if (_rButtonPressed)
             {
                 _rButtonPressed = false;
-                if (!_menu.MouseRClick(currentMouseState))
+                if (!_monoControls.Any(ctrl => ctrl.MouseRClick(currentMouseState)))
                 {
-                    if (!_inventory.MouseRClick(currentMouseState) && !_pauseSwich.MouseRClick(currentMouseState))
-                        _game.RClick(new Point(currentMouseState.X, currentMouseState.Y));
+                    _game.RClick(new Point(currentMouseState.X, currentMouseState.Y));
                 }
+
+              /*  if (!_menu.MouseRClick(currentMouseState))
+                {
+                    if (!_inventory.MouseRClick(currentMouseState) && !_pauseSwich.MouseRClick(currentMouseState) && !_knowledgeSwich.MouseRClick(currentMouseState))
+                        _game.RClick(new Point(currentMouseState.X, currentMouseState.Y));
+                }*/
             }
 
             if (!_menu.MouseOver(currentMouseState))
@@ -254,11 +278,15 @@ namespace MonoBrJozik
 
             _game.DrawChanges();
 
+            _monoControls.ForEach(ctrl => ctrl.Draw(_spriteBatch));
+/*
             _menu.Draw(_spriteBatch);
 
             _inventory.Draw(_spriteBatch);
 
             _pauseSwich.Draw(_spriteBatch);
+
+            _knowledgeSwich.Draw(_spriteBatch);*/
 
             _spriteBatch.End();
 

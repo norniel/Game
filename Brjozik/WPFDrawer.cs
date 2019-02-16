@@ -746,10 +746,20 @@ namespace Game
             _listBoxDateTime.Items.Add($"{gameDateTime.Day}:{gameDateTime.Hour}:{gameDateTime.Minute}");
         }
 
-        public void DrawHaltScreen(uint width, uint height)
+        public void DrawHaltScreen(Dictionary<string, uint> knowledges)
         { }
 
         public void SetPaused(bool isPaused)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShowKnowledges(bool isKnowledgesShown, Dictionary<string, uint> knowledges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawKnowledges()
         {
             throw new NotImplementedException();
         }
