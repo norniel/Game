@@ -13,36 +13,37 @@ namespace Engine.Heros
 {
     public class Hero : MobileObject, IEater
     {
-      //  private Subject<EventPattern<StateEventArgs>> staSubject = new Subject<EventPattern<StateEventArgs>>();
+        //  private Subject<EventPattern<StateEventArgs>> staSubject = new Subject<EventPattern<StateEventArgs>>();
 
-      //  public uint Speed { get; set; }
+        //  public uint Speed { get; set; }
 
-     //   public double Angle { get; set; }
+        //   public double Angle { get; set; }
 
         private const int INITIAL_SPEED = 20;
 
         private readonly Bag _bag;
-        
-        [Dependency]
-        public HeroLifeCycle HeroLifeCycle { get; set; }
+
+        [Dependency] public HeroLifeCycle HeroLifeCycle { get; set; }
 
         private bool _isThen;
 
-        private readonly Dictionary<Knowledges, uint> _knowledgeses = new Dictionary<Knowledges, uint> { { Knowledges.Nothing, 100 } };
-        private readonly Dictionary<string, uint> _ObjectKnowledgeses = new Dictionary<string, uint>();
-        
+        private Dictionary<Knowledges, uint> _knowledgeses =
+            new Dictionary<Knowledges, uint> {{Knowledges.Nothing, 100}};
+
+        private Dictionary<string, uint> _ObjectKnowledgeses = new Dictionary<string, uint>();
+
         public Hero()
         {
-          //  Position = new Point();
+            //  Position = new Point();
             Angle = 0;
 
             _bag = new Bag(20, 20);
 
-           // _heroLifeCycle = new HeroLifeCycle();
+            // _heroLifeCycle = new HeroLifeCycle();
 
             //todo - extract to method
 
-           // Game.Intervals.Subscribe(HeroLifeCycle);
+            // Game.Intervals.Subscribe(HeroLifeCycle);
         }
 
         public IMap Map { get; set; }
@@ -73,6 +74,7 @@ namespace Engine.Heros
         {
             return _bag.Add(gameObject);
         }
+
         public void AddToBag(IEnumerable<GameObject> objects)
         {
             _bag.Add(objects);
@@ -82,6 +84,7 @@ namespace Engine.Heros
         {
             return _bag.GameObjects;
         }
+
         /*
         public List<GameObject> GetContainerItemsAsRemovable()
         {
@@ -112,6 +115,7 @@ namespace Engine.Heros
         class StateFirer : IDisposable
         {
             private readonly Hero _hero;
+
             public StateFirer(Hero hero)
             {
                 _hero = hero;
@@ -122,6 +126,7 @@ namespace Engine.Heros
                 else
                     _hero._isThen = _hero._stateQueue.Count > 0;
             }
+
             public void Dispose()
             {
                 if (!_hero._isThen)
@@ -148,8 +153,8 @@ namespace Engine.Heros
 
         public override uint Speed
         {
-            get { return (uint)(INITIAL_SPEED * HeroLifeCycle.GetSpeedCoefficient()); }
-            set {  }
+            get { return (uint) (INITIAL_SPEED * HeroLifeCycle.GetSpeedCoefficient()); }
+            set { }
         }
 
         public void Sleep()
@@ -191,7 +196,7 @@ namespace Engine.Heros
         }
 
         public bool IsUnconscios()
-        { 
+        {
             return State is Unconscios || State is Halting || State is Halt;
         }
 
@@ -257,12 +262,14 @@ namespace Engine.Heros
         public Dictionary<string, uint> GetAllKnowledges()
         {
             return _knowledgeses.Select(k => new KeyValuePair<string, uint>(k.Key.ToString(), k.Value))
+                .Where(t => !string.Equals(t.Key, Knowledges.Nothing.ToString()))
                 .Union(_ObjectKnowledgeses.Select(t => t)).ToDictionary(t => t.Key, t => t.Value);
         }
 
         public bool IsBaseToShow(GameObject gameObject)
         {
-            return Game.SHOWBASE && gameObject.NeedKnowledge && this.GetObjectKnowledge(gameObject.Name) < gameObject.KnowledgeKoef;
+            return Game.SHOWBASE && gameObject.NeedKnowledge &&
+                   this.GetObjectKnowledge(gameObject.Name) < gameObject.KnowledgeKoef;
         }
 
         public override void EnqueueNextState()
@@ -273,6 +280,34 @@ namespace Engine.Heros
         internal void AddEffect(IEffect effect)
         {
             HeroLifeCycle.AddEffect(effect);
+        }
+
+        internal void RewriteKnowledges(Dictionary<string, uint> newKnowledges)
+        {
+            var allKnowledges = newKnowledges.Where(t => t.Value > 0).Select(t =>
+            {
+                Knowledges knowledge;
+                var knowledgeExist = Knowledges.TryParse(t.Key, true, out knowledge);
+                return new
+                {
+                    Key = t.Key,
+                    KnKey = knowledge,
+                    KnowledgeExist = knowledgeExist,
+                    t.Value
+                };
+            }).ToList();
+
+            _knowledgeses = allKnowledges.Where(t => t.KnowledgeExist).ToDictionary(t => t.KnKey, t => t.Value);
+            _knowledgeses[Knowledges.Nothing] = 100;
+
+            _ObjectKnowledgeses = _ObjectKnowledgeses.Join(allKnowledges.Where(t => !t.KnowledgeExist), t => t.Key, u => u.Key,
+                    (pair, kn) => new KeyValuePair<string, uint>(pair.Key, kn.Value))
+                .ToDictionary(pair => pair.Key, pair => pair.Value);
+
+            HeroLifeCycle.NextGen();
+
+            _stateQueue.Clear();
+            StateEvent.FireEvent();
         }
     }
 }

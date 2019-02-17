@@ -746,7 +746,7 @@ namespace Game
             _listBoxDateTime.Items.Add($"{gameDateTime.Day}:{gameDateTime.Hour}:{gameDateTime.Minute}");
         }
 
-        public void DrawHaltScreen(Dictionary<string, uint> knowledges)
+        public void DrawHaltScreen(Dictionary<string, uint> knowledges, Action<Dictionary<string, uint>> newKnowledges)
         { }
 
         public void SetPaused(bool isPaused)

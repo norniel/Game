@@ -228,7 +228,7 @@ namespace MonoBrJozik
             {
                 _lButtonPressed = false;
 
-                if (!_monoControls.Any(ctrl => ctrl.MouseLClick(currentMouseState)))
+                if (!_monoControls.Any(ctrl => ctrl.MouseLClick(currentMouseState)) && !_drawer.MouseLClick(currentMouseState))
                 {
                     _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
                 }

@@ -168,5 +168,13 @@ namespace Engine.Heros
 
             _effects.Add(effect);
         }
+
+        public void NextGen()
+        {
+            _heroProperties.Satiety = INITIAL_SATIETY;
+            _heroProperties.InnerTiredNess = 0;
+            _heroProperties.Health = INITIAL_HEALTH;
+            _effects.Clear();
+        }
     }
 }

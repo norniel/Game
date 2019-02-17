@@ -243,7 +243,11 @@ namespace Engine
             else if (_hero.IsHalt())
             {
                 SetPaused(true);
-                _drawer.DrawHaltScreen(_hero.GetAllKnowledges());
+                _drawer.DrawHaltScreen(_hero.GetAllKnowledges(), (newKnowledges) =>
+                {
+                    _hero.RewriteKnowledges(newKnowledges);
+                    this.SetPaused(false);
+                });
             }
             else
             {

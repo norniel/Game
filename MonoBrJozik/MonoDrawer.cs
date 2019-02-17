@@ -6,6 +6,7 @@ using Engine.BridgeObjects;
 using Engine.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoBrJozik.Controls;
 using MoreLinq;
 using Point = Engine.Point;
@@ -39,8 +40,6 @@ namespace MonoBrJozik
         private readonly MonoSwich _knowledgesSwich;
 
         private readonly MonoKnowledges _monoKnowledges;
-
-        private bool _isHaltShown = false;
 
         private int _tick = 0;
 
@@ -248,12 +247,6 @@ namespace MonoBrJozik
                c[0] = new Color(23, 90, 0); 
                texture.SetData<Color>(c);//_screenTexture
             _spriteBatch.Draw(texture, new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), Color.White);
-
-            /*Texture2D texture2 = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            Color[] c2 = new Color[1];
-            c2[0] = Color.LightGray;
-            texture2.SetData<Color>(c2);
-            _spriteBatch.Draw(texture2, new Rectangle(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT + HEALTH_BAR_HEIGHT), Color.White);*/
         }
 
         public void DrawTime(GameDateTime gameDateTime)
@@ -263,21 +256,15 @@ namespace MonoBrJozik
             _spriteBatch.DrawString(_font, timeOfDay, new Vector2(SCREEN_WIDTH - timeStrLength.X - 2, SCREEN_HEIGHT + 30), Color.Black);
         }
 
-        public void DrawHaltScreen(Dictionary<string, uint> knowledges)
+        public void DrawHaltScreen(Dictionary<string, uint> knowledges, Action<Dictionary<string, uint>> newKnowledgesAction)
         {
-            if (_isHaltShown)
+            if (_monoKnowledges.IsHaltShown)
             {
                 _monoKnowledges.Draw(_spriteBatch);
                 return;
             }
 
-            _isHaltShown = true;
-
-            Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            Color[] c = new Color[1];
-            c[0] = Color.DarkGray;
-            texture.SetData<Color>(c);
-            _monoKnowledges.SetItems(knowledges);
+            _monoKnowledges.Init(true, knowledges, true, newKnowledgesAction);
             _monoKnowledges.Draw(_spriteBatch);
         }
 
@@ -289,12 +276,7 @@ namespace MonoBrJozik
         public void ShowKnowledges(bool isKnowledgesShown, Dictionary<string, uint> knowledges)
         {
             _knowledgesSwich.SetSwitched(isKnowledgesShown);
-
-            Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            Color[] c = new Color[1];
-            c[0] = Color.DarkGray;
-            texture.SetData<Color>(c);
-            _monoKnowledges.SetItems(knowledges);
+            _monoKnowledges.Init(isKnowledgesShown, knowledges);
         }
 
         public void DrawKnowledges()
@@ -306,6 +288,11 @@ namespace MonoBrJozik
         {
             var angleInRads = (float)(((float)angle - 90) / 180f * Math.PI);
             _spriteBatch.Draw(texture, new Vector2(x + texture.Width / 2, y + texture.Height / 2), null, Color.White, angleInRads, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0);
+        }
+
+        public bool MouseLClick(MouseState mouseState)
+        {
+            return _monoKnowledges.MouseLClick(mouseState);
         }
     }
 }
