@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\MonoKnowledges.cs" />
+    <Compile Include="Controls\MonoSlider.cs" />
     <Compile Include="Controls\MonoSwich.cs" />
     <Compile Include="Controls\MonoControl.cs" />
     <Compile Include="Controls\MonoInventory.cs" />

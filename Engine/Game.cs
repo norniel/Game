@@ -62,7 +62,7 @@ namespace Engine
         private bool _isPaused = false;
         public bool IsPaused => _isPaused;
 
-        public const bool SHOWBASE = false;
+        public const bool SHOWBASE = true;
 
        // private readonly StateQueueManager _stateQueueManager;
 

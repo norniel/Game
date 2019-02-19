@@ -32,6 +32,8 @@ namespace Engine.Heros
 
         private Dictionary<string, uint> _ObjectKnowledgeses = new Dictionary<string, uint>();
 
+        private uint _expirience = 0;
+
         public Hero()
         {
             //  Position = new Point();
@@ -233,11 +235,14 @@ namespace Engine.Heros
 
             if (_ObjectKnowledgeses.ContainsKey(gameObjectName))
             {
+                var prevKnowledge = _ObjectKnowledgeses[gameObjectName];
                 _ObjectKnowledgeses[gameObjectName] = Math.Min(100, _ObjectKnowledgeses[gameObjectName] + knowledge);
+                _expirience += _ObjectKnowledgeses[gameObjectName] - prevKnowledge;
             }
             else
             {
                 _ObjectKnowledgeses[gameObjectName] = Math.Min(100, knowledge);
+                _expirience += _ObjectKnowledgeses[gameObjectName];
             }
         }
 
@@ -245,11 +250,14 @@ namespace Engine.Heros
         {
             if (_knowledgeses.ContainsKey(knowledge))
             {
+                var prevKnowledge = _knowledgeses[knowledge];
                 _knowledgeses[knowledge] = Math.Min(100, _knowledgeses[knowledge] + koef);
+                _expirience += _knowledgeses[knowledge] - prevKnowledge;
             }
             else
             {
                 _knowledgeses[knowledge] = Math.Min(100, koef);
+                _expirience += _knowledgeses[knowledge];
             }
         }
 

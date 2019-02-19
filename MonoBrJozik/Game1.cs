@@ -25,6 +25,7 @@ namespace MonoBrJozik
         private MonoInventory _inventory;
         private MonoSwich _pauseSwich;
         private MonoSwich _knowledgeSwich;
+        private MonoKnowledges _monoKnowledges;
         
         private bool _lButtonPressed = false;
         private bool _rButtonPressed = false;
@@ -90,9 +91,11 @@ namespace MonoBrJozik
             var knowledgesStrLength = font.MeasureString("Knowledges");
             var knowledgesInfo = new MonoItemInfo(switchTexture, null, "Knowledges", () => _game.ShowKnowledges());
             _knowledgeSwich = new MonoSwich(knowledgesInfo, false, switchTexture, font, Color.Black, MonoDrawer.SCREEN_WIDTH - (int)pauseStrLength.X - (int)knowledgesStrLength.X - 10, MonoDrawer.SCREEN_HEIGHT);
-            
+
+            _monoKnowledges = new MonoKnowledges(GraphicsDevice, font);
+
             _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture,
-                heroPropTextures, font, _menu, _inventory, _pauseSwich, _knowledgeSwich);
+                heroPropTextures, font, _menu, _inventory, _pauseSwich, _knowledgeSwich, _monoKnowledges);
             _game = new Engine.Game(_drawer, (uint) MonoDrawer.SCREEN_WIDTH, (uint) MonoDrawer.SCREEN_HEIGHT);
 
             _graphics.PreferredBackBufferWidth =
@@ -220,7 +223,7 @@ namespace MonoBrJozik
                 Exit();
 
             var currentMouseState = Mouse.GetState();
-            if (currentMouseState.LeftButton == ButtonState.Pressed)
+            if (currentMouseState.LeftButton == ButtonState.Pressed && !_monoKnowledges.LButtonDown(currentMouseState.X, currentMouseState.Y))
             {
                 _lButtonPressed = true;
             }
@@ -228,7 +231,7 @@ namespace MonoBrJozik
             {
                 _lButtonPressed = false;
 
-                if (!_monoControls.Any(ctrl => ctrl.MouseLClick(currentMouseState)) && !_drawer.MouseLClick(currentMouseState))
+                if (!_monoControls.Any(ctrl => ctrl.MouseLClick(currentMouseState)) && !_monoKnowledges.MouseLClick(currentMouseState))
                 {
                     _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
                 }
@@ -238,6 +241,10 @@ namespace MonoBrJozik
                     if (!_inventory.MouseLClick(currentMouseState) && !_pauseSwich.MouseLClick(currentMouseState) && !_knowledgeSwich.MouseLClick(currentMouseState))
                         _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
                 }*/
+            }
+            else if (currentMouseState.LeftButton == ButtonState.Released)
+            {
+                _monoKnowledges.LButtonUp(currentMouseState.X, currentMouseState.Y);
             }
 
             if (currentMouseState.RightButton == ButtonState.Pressed)
@@ -259,7 +266,7 @@ namespace MonoBrJozik
                 }*/
             }
 
-            if (!_menu.MouseOver(currentMouseState))
+            if (!_monoKnowledges.MouseMove(currentMouseState.X, currentMouseState.Y) && !_menu.MouseOver(currentMouseState))
             {
                 _inventory.MouseOver(currentMouseState);
             }

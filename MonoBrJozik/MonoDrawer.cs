@@ -49,7 +49,7 @@ namespace MonoBrJozik
         public const int INVENTORY_WIDTH = 100;
 
         public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture,
-            Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu, Controls.MonoInventory inventory, MonoSwich pauseSwich, MonoSwich knowledgesSwich)
+            Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu, Controls.MonoInventory inventory, MonoSwich pauseSwich, MonoSwich knowledgesSwich, MonoKnowledges knowledges)
         {
             _spriteBatch = spriteBatch;
             _textures = textures;
@@ -69,7 +69,7 @@ namespace MonoBrJozik
             _pauseSwich = pauseSwich;
             _knowledgesSwich = knowledgesSwich;
 
-            _monoKnowledges = new MonoKnowledges(graphicsDevice, _font);
+            _monoKnowledges = knowledges;
         }
 
         public void Clear()
@@ -288,11 +288,6 @@ namespace MonoBrJozik
         {
             var angleInRads = (float)(((float)angle - 90) / 180f * Math.PI);
             _spriteBatch.Draw(texture, new Vector2(x + texture.Width / 2, y + texture.Height / 2), null, Color.White, angleInRads, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0);
-        }
-
-        public bool MouseLClick(MouseState mouseState)
-        {
-            return _monoKnowledges.MouseLClick(mouseState);
         }
     }
 }
