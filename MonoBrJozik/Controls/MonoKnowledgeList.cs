@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,6 +11,7 @@ namespace MonoBrJozik.Controls
         private Texture2D _btexture;
         private Texture2D _blueLightTexture;
         private Texture2D _bltexture;
+        private Texture2D _graytexture;
 
         public MonoKnowledgeList(GraphicsDevice graphicsDevice, int x, int y, int width, int height, SpriteFont font, Texture2D texture) : base(x, y, width, height, font, Color.Black, texture)
         {
@@ -27,11 +29,16 @@ namespace MonoBrJozik.Controls
             Color[] c2 = new Color[1];
             c2[0] = Color.Blue;
             _bltexture.SetData<Color>(c2);
+
+            _graytexture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            Color[] c4 = new Color[1];
+            c4[0] = Color.Gray;
+            _graytexture.SetData<Color>(c4);
         }
 
         public override MonoControl ProduceItem(MonoItemInfoBase itemInfo, SpriteFont font, Color fontColor, int x, int y)
         {
-            return !(itemInfo is MonoKnowledgeItemInfo info) ? null : new MonoSlider(x, y, info.Text, info.End, info.Start, info.Current, font, _btexture, _bltexture, _blueLightTexture);
+            return !(itemInfo is MonoKnowledgeItemInfo info) ? null : new MonoSlider(x, y, info.Text, info.End, info.Start, info.Current, info.IsDisabled, font, _btexture, _bltexture, _blueLightTexture, _graytexture);
         }
 
         public bool LButtonDown(int mouseX, int mouseY)
@@ -47,6 +54,11 @@ namespace MonoBrJozik.Controls
         public bool MouseMove(int mouseX, int mouseY)
         {
             return childControls.OfType<MonoSlider>().Any(sl => sl.MouseMove(mouseX, mouseY));
+        }
+
+        public Dictionary<string, uint> NewKnowledges()
+        {
+            return childControls.OfType<MonoSlider>().ToDictionary(sl => sl.Text, sl => sl.Current);
         }
     }
 }

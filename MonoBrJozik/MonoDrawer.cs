@@ -267,7 +267,7 @@ namespace MonoBrJozik
                 return;
             }
 
-            _monoKnowledges.Init(true, knowledges, true, newKnowledgesAction);
+            _monoKnowledges.Init(true, knowledges, newKnowledgesAction);
             _monoKnowledges.Draw(_spriteBatch);
         }
 

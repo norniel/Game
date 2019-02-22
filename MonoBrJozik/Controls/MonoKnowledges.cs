@@ -10,25 +10,24 @@ namespace MonoBrJozik.Controls
     internal class MonoKnowledges
     {
         private readonly MonoKnowledgeList _changableKnowledgesList;
-        private readonly Texture2D _texture;
 
         private Dictionary<string, uint> _originalKnowledges;
         private bool _isVisible;
         public bool IsVisible => _isVisible;
         private readonly MonoItem _okButton;
-
+        
         private Action<Dictionary<string, uint>> _rewriteKnowledges;
 
         public MonoKnowledges(GraphicsDevice graphicsDevice, SpriteFont font)
         {
             var graphicsDevice1 = graphicsDevice;
-            _texture = new Texture2D(graphicsDevice1, 1, 1, false, SurfaceFormat.Color);
+            var texture = new Texture2D(graphicsDevice1, 1, 1, false, SurfaceFormat.Color);
             Color[] c = new Color[1];
             c[0] = Color.White;
-            _texture.SetData<Color>(c);
+            texture.SetData<Color>(c);
 
-            _okButton = new MonoItem(new MonoItemInfo(_texture, null, "Ok", DoRewrite), font, Color.Black, MonoDrawer.SCREEN_WIDTH - 40, MonoDrawer.SCREEN_HEIGHT - 40);
-            _changableKnowledgesList = new MonoKnowledgeList(graphicsDevice1, 0, 0, MonoDrawer.SCREEN_WIDTH, MonoDrawer.SCREEN_HEIGHT, font, _texture);
+            _okButton = new MonoItem(new MonoItemInfo(texture, null, "Ok", DoRewrite), font, Color.Black, MonoDrawer.SCREEN_WIDTH - 40, MonoDrawer.SCREEN_HEIGHT - 40);
+            _changableKnowledgesList = new MonoKnowledgeList(graphicsDevice1, 0, 0, MonoDrawer.SCREEN_WIDTH, MonoDrawer.SCREEN_HEIGHT, font, texture);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -38,11 +37,9 @@ namespace MonoBrJozik.Controls
 
             _changableKnowledgesList.Draw(spriteBatch);
             _okButton.Draw(spriteBatch);
-
-            //_slider.Draw(spriteBatch);
         }
 
-        public void Init(bool isVisible, Dictionary<string, uint> knowledges, bool showButton = false, Action<Dictionary<string, uint>> newKnowledgesAction = null)
+        public void Init(bool isVisible, Dictionary<string, uint> knowledges, Action<Dictionary<string, uint>> newKnowledgesAction = null)
         {
             if (!isVisible)
             {
@@ -56,7 +53,7 @@ namespace MonoBrJozik.Controls
             _rewriteKnowledges = newKnowledgesAction;
 
             if (knowledges != null)
-                _changableKnowledgesList.SetItems(knowledges.Select(kn => new MonoKnowledgeItemInfo(kn.Key, 0, kn.Value, kn.Value/2)).ToList());
+                _changableKnowledgesList.SetItems(knowledges.Select(kn => new MonoKnowledgeItemInfo(kn.Key, 0, kn.Value, kn.Value/2, true)).ToList());
         }
 
         private void Hide()
@@ -68,9 +65,10 @@ namespace MonoBrJozik.Controls
 
         private void DoRewrite()
         {
-            var newKnowledges = _originalKnowledges.Select(pair => new KeyValuePair<string, uint>(pair.Key, pair.Value / 2))
+            var newKnowledges = _changableKnowledgesList.NewKnowledges();
+                /*_originalKnowledges.Select(pair => new KeyValuePair<string, uint>(pair.Key, pair.Value / 2))
                 .ToDictionary(pair => pair.Key, pair => pair.Value);
-
+*/
             _rewriteKnowledges?.Invoke(newKnowledges);
 
             Hide();

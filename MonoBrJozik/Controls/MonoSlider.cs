@@ -14,11 +14,13 @@ namespace MonoBrJozik.Controls
         private readonly Texture2D _blackTexture;
         private readonly Texture2D _blueTexture;
         private readonly Texture2D _blueLightTexture;
+        private readonly Texture2D _grayTexture;
         private Rectangle _lineRectangle;
         private Rectangle _squareRectangle;
         private int _textHeight;
 
         private int _diffLTX;
+        private bool _isEnabled;
 
         private bool _isPressed = false;
 
@@ -27,9 +29,10 @@ namespace MonoBrJozik.Controls
         private const int _sqHeight = 10;
         private const int _sqOffset = 2;
 
-        public MonoSlider(int x, int y, string text, uint end, uint start, uint current, SpriteFont font, Texture2D blackTexture,
-            Texture2D blueTexture, Texture2D blueLightTexture)
+        public MonoSlider(int x, int y, string text, uint end, uint start, uint current, bool isDisabled, SpriteFont font, Texture2D blackTexture,
+            Texture2D blueTexture, Texture2D blueLightTexture, Texture2D grayTexture)
         {
+            _isEnabled = !isDisabled;
             _text = text;
 
             _textHeight = (int)font.MeasureString(_text).Y;
@@ -41,8 +44,8 @@ namespace MonoBrJozik.Controls
 
             _blackTexture = blackTexture;
             _blueTexture = blueTexture;
-
             _blueLightTexture = blueLightTexture;
+            _grayTexture = grayTexture;
 
             LeftTopX = x;
             LeftTopY = y;
@@ -53,6 +56,10 @@ namespace MonoBrJozik.Controls
 
             Height = _sqHeight + _sqOffset + 2*(int)_font.MeasureString(_current.ToString()).Y;
         }
+
+        public uint Current => _current;
+
+        public string Text => _text;
 
         private void CalculateSquare()
         {
@@ -65,7 +72,7 @@ namespace MonoBrJozik.Controls
             spriteBatch.DrawString(_font, _text, new Vector2(LeftTopX, LeftTopY), Color.Black);
 
             spriteBatch.Draw(_blackTexture, _lineRectangle, Color.White);
-            spriteBatch.Draw(_isPressed ? _blueLightTexture :_blueTexture, _squareRectangle, Color.White);
+            spriteBatch.Draw(!_isEnabled ? _grayTexture : _isPressed ? _blueLightTexture :_blueTexture, _squareRectangle, Color.White);
 
             if (_current > _start)
             {
@@ -82,18 +89,18 @@ namespace MonoBrJozik.Controls
 
         public bool LButtonDown(int mouseX, int mouseY)
         {
-            if (!_isPressed && _squareRectangle.Contains(mouseX, mouseY))
+            if (_isEnabled && !_isPressed && _squareRectangle.Contains(mouseX, mouseY))
             {
                 _diffLTX = mouseX - _squareRectangle.Left;
                 _isPressed = true;
             }
 
-            return _isPressed;
+            return _isEnabled && _isPressed;
         }
 
         public bool LButtonUp(int mouseX, int mouseY)
         {
-            if (!_isPressed)
+            if (!_isEnabled || !_isPressed)
                 return false;
 
             CalculateSquare();
@@ -105,7 +112,7 @@ namespace MonoBrJozik.Controls
 
         public bool MouseMove(int mouseX, int mouseY)
         {
-            if (!_isPressed)
+            if (!_isEnabled || !_isPressed)
                 return false;
 
             var tmpX = Math.Max(LeftTopX, Math.Min(mouseX - _diffLTX, LeftTopX + _width));
