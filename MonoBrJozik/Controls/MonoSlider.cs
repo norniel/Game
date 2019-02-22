@@ -9,12 +9,14 @@ namespace MonoBrJozik.Controls
         private readonly uint _start;
         private uint _current;
         private readonly SpriteFont _font;
+        private readonly string _text;
         private readonly uint _end;
         private readonly Texture2D _blackTexture;
         private readonly Texture2D _blueTexture;
         private readonly Texture2D _blueLightTexture;
         private Rectangle _lineRectangle;
         private Rectangle _squareRectangle;
+        private int _textHeight;
 
         private int _diffLTX;
 
@@ -25,9 +27,13 @@ namespace MonoBrJozik.Controls
         private const int _sqHeight = 10;
         private const int _sqOffset = 2;
 
-        public MonoSlider(int x, int y, uint end, uint start, uint current, SpriteFont font, Texture2D blackTexture,
+        public MonoSlider(int x, int y, string text, uint end, uint start, uint current, SpriteFont font, Texture2D blackTexture,
             Texture2D blueTexture, Texture2D blueLightTexture)
         {
+            _text = text;
+
+            _textHeight = (int)font.MeasureString(_text).Y;
+
             _end = end;
             _start = start;
             _current = current;
@@ -43,33 +49,35 @@ namespace MonoBrJozik.Controls
 
             CalculateSquare();
 
-            _lineRectangle = new Rectangle(LeftTopX + _sqWidth / 2, LeftTopY + _sqHeight/2-1, _width, 2);
+            _lineRectangle = new Rectangle(LeftTopX + _sqWidth / 2, LeftTopY + _textHeight + _sqHeight/2-1, _width, 2);
 
-            Height = _sqHeight + _sqOffset + (int)_font.MeasureString(_current.ToString()).Y;
+            Height = _sqHeight + _sqOffset + 2*(int)_font.MeasureString(_current.ToString()).Y;
         }
 
         private void CalculateSquare()
         {
             var currentLtx = LeftTopX + (int) (_width * ((double) (_current - _start) / (_end - _start)));
-            _squareRectangle = new Rectangle(currentLtx, LeftTopY, _sqWidth, _sqHeight);
+            _squareRectangle = new Rectangle(currentLtx, LeftTopY + _textHeight, _sqWidth, _sqHeight);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.DrawString(_font, _text, new Vector2(LeftTopX, LeftTopY), Color.Black);
+
             spriteBatch.Draw(_blackTexture, _lineRectangle, Color.White);
             spriteBatch.Draw(_isPressed ? _blueLightTexture :_blueTexture, _squareRectangle, Color.White);
 
             if (_current > _start)
             {
-                spriteBatch.DrawString(_font, _start.ToString(), new Vector2(LeftTopX, LeftTopY + _sqHeight + _sqOffset), Color.Black);
+                spriteBatch.DrawString(_font, _start.ToString(), new Vector2(LeftTopX, LeftTopY + _textHeight + _sqHeight + _sqOffset), Color.Black);
             }
 
             if (_current < _end)
             {
-                spriteBatch.DrawString(_font, _end.ToString(), new Vector2(LeftTopX + _width, LeftTopY + _sqHeight + _sqOffset), Color.Black);
+                spriteBatch.DrawString(_font, _end.ToString(), new Vector2(LeftTopX + _width, LeftTopY + _textHeight + _sqHeight + _sqOffset), Color.Black);
             }
 
-            spriteBatch.DrawString(_font, _current.ToString(), new Vector2(_squareRectangle.X, LeftTopY + _sqHeight + _sqOffset), Color.Black);
+            spriteBatch.DrawString(_font, _current.ToString(), new Vector2(_squareRectangle.X, LeftTopY + _textHeight + _sqHeight + _sqOffset), Color.Black);
         }
 
         public bool LButtonDown(int mouseX, int mouseY)
@@ -103,8 +111,7 @@ namespace MonoBrJozik.Controls
             var tmpX = Math.Max(LeftTopX, Math.Min(mouseX - _diffLTX, LeftTopX + _width));
             _current = _start + (uint)Math.Round((_end - _start) * ((double)(tmpX - LeftTopX) / _width));
 
-            if(_squareRectangle.X != tmpX)
-                _squareRectangle.X = tmpX;
+            _squareRectangle.X = tmpX;
 
             return true;
         }

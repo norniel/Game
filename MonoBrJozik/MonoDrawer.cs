@@ -40,6 +40,7 @@ namespace MonoBrJozik
         private readonly MonoSwich _knowledgesSwich;
 
         private readonly MonoKnowledges _monoKnowledges;
+        private readonly MonoKnowledgesSimple _monoKnowledgesSimple;
 
         private int _tick = 0;
 
@@ -70,6 +71,8 @@ namespace MonoBrJozik
             _knowledgesSwich = knowledgesSwich;
 
             _monoKnowledges = knowledges;
+
+            _monoKnowledgesSimple = new MonoKnowledgesSimple(_graphicsDevice, _font);
         }
 
         public void Clear()
@@ -258,7 +261,7 @@ namespace MonoBrJozik
 
         public void DrawHaltScreen(Dictionary<string, uint> knowledges, Action<Dictionary<string, uint>> newKnowledgesAction)
         {
-            if (_monoKnowledges.IsHaltShown)
+            if (_monoKnowledges.IsVisible)
             {
                 _monoKnowledges.Draw(_spriteBatch);
                 return;
@@ -276,12 +279,12 @@ namespace MonoBrJozik
         public void ShowKnowledges(bool isKnowledgesShown, Dictionary<string, uint> knowledges)
         {
             _knowledgesSwich.SetSwitched(isKnowledgesShown);
-            _monoKnowledges.Init(isKnowledgesShown, knowledges);
+            _monoKnowledgesSimple.Init(isKnowledgesShown, knowledges);
         }
 
         public void DrawKnowledges()
         {
-            _monoKnowledges.Draw(_spriteBatch);
+            _monoKnowledgesSimple.Draw(_spriteBatch);
         }
 
         private void DrawRotatedImage(Texture2D texture, long x, long y, uint angle)

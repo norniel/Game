@@ -27,7 +27,7 @@ namespace MonoBrJozik.Controls
 
             _topButton = new MonoItem(new MonoItemInfo(null, null, "<", () => this.MovePrev()), _font, _fontColor, x, 0);
             _bottomButton = new MonoItem(new MonoItemInfo(null, null, ">", () => this.MoveNext()), _font, _fontColor, x, bottomY);
-            _monoList = new MonoList(x, _topButton.Height, width, bottomY - _topButton.Height, _font, _fontColor, texture);
+            _monoList = new MonoInventoryList(x, _topButton.Height, width, bottomY - _topButton.Height, _font, _fontColor, texture);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

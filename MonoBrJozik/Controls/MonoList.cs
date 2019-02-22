@@ -6,15 +6,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoBrJozik.Controls
 {
-    internal class MonoList: MonoItemsControl
+    internal abstract class MonoList: MonoItemsControl
     {
         private readonly int _virtualY;
 
         private int _realHeight;
 
-        private MonoMenu _menu;
-
-        private readonly SpriteFont _font;
+        protected readonly SpriteFont _font;
         private readonly Color _fontColor;
 
         private int startIndex;
@@ -28,8 +26,6 @@ namespace MonoBrJozik.Controls
             Height = height;
             _fontColor = fontColor;
             _font = font;
-
-            _menu = new MonoMenu(_font, Color.Black, MonoDrawer.SCREEN_WIDTH + width, height, texture);
         }
 
         public void MoveNext()
@@ -68,18 +64,16 @@ namespace MonoBrJozik.Controls
             {
                 childCtrl.Draw(spriteBatch);
             }
-
-            _menu.Draw(spriteBatch);
         }
 
-        public void SetItems(List<MonoInvItemInfo> itemInfo)
+        public void SetItems(IEnumerable<MonoItemInfoBase> itemInfo)
         {
             var y = LeftTopY;
             var height = 0;
 
             var monoItems = itemInfo.Select(info =>
             {
-                var monoItem = new MonoInventoryItem(info, _menu, _font, _fontColor, LeftTopX, y);
+                var monoItem = ProduceItem(info, _font, _fontColor, LeftTopX, y);
                 height = height + monoItem.Height;
                 y = LeftTopY + height;
                 return monoItem;
@@ -96,28 +90,6 @@ namespace MonoBrJozik.Controls
                 visibleCount = 0;
         }
 
-        public override bool MouseLClick(MouseState mouseState)
-        {
-            if (_menu.MouseLClick(mouseState))
-                return true;
-
-            return base.MouseLClick(mouseState);
-        }
-
-        public override bool MouseRClick(MouseState mouseState)
-        {
-            if (_menu.MouseRClick(mouseState))
-                return true;
-
-            return base.MouseRClick(mouseState);
-        }
-
-        public override bool MouseOver(MouseState mouseState)
-        {
-            if (_menu.MouseOver(mouseState))
-                return true;
-
-            return base.MouseOver(mouseState);
-        }
+        public abstract MonoControl ProduceItem(MonoItemInfoBase itemInfo, SpriteFont font, Color fontColor, int x, int y);
     }
 }
