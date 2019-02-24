@@ -19,7 +19,7 @@ namespace Engine.Heros
 
         //   public double Angle { get; set; }
 
-        private const int INITIAL_SPEED = 20;
+        private const int INITIAL_SPEED = 100;
 
         private readonly Bag _bag;
 

@@ -1,13 +1,13 @@
 ﻿namespace MonoBrJozik.Controls
 {
-    internal class MonoKnowledgeItemInfo:MonoItemInfoBase
+    internal class MonoKnowledgeItemInfo : MonoItemInfoBase
     {
-        public uint Start { get; set; }
-        public uint Current { get; set; }
-        public uint End { get; set; }
-        public bool IsDisabled { get; set; }
+        public int Start { get; private set; }
+        public int Current { get; private set; }
+        public int End { get; private set; }
+        public bool IsDisabled { get; private set; }
 
-        public MonoKnowledgeItemInfo(string text, uint start, uint end, uint current, bool isDisabled) : base(text)
+        public MonoKnowledgeItemInfo(string text, int start, int end, int current, bool isDisabled) : base(text)
         {
             Start = start;
             End = end;

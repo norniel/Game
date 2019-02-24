@@ -58,7 +58,20 @@ namespace MonoBrJozik.Controls
 
         public Dictionary<string, uint> NewKnowledges()
         {
-            return childControls.OfType<MonoSlider>().ToDictionary(sl => sl.Text, sl => sl.Current);
+            return childControls.OfType<MonoSlider>().ToDictionary(sl => sl.Text, sl => (uint)sl.Current);
+        }
+
+        public int CurrentSum()
+        {
+            return childControls.OfType<MonoSlider>().Sum(sl => sl.Current);
+        }
+
+        public void SetMin(int diff)
+        {
+            foreach (var slider in childControls.OfType<MonoSlider>())
+            {
+                slider.SetMin(slider.Current - diff);
+            }
         }
     }
 }

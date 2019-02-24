@@ -6,11 +6,13 @@ namespace MonoBrJozik.Controls
 {
     internal class MonoSlider: MonoControl
     {
-        private readonly uint _start;
-        private uint _current;
+        private readonly int _start;
+        private int _min;
+        private int _minX;
+        private int _current;
         private readonly SpriteFont _font;
         private readonly string _text;
-        private readonly uint _end;
+        private readonly int _end;
         private readonly Texture2D _blackTexture;
         private readonly Texture2D _blueTexture;
         private readonly Texture2D _blueLightTexture;
@@ -29,7 +31,7 @@ namespace MonoBrJozik.Controls
         private const int _sqHeight = 10;
         private const int _sqOffset = 2;
 
-        public MonoSlider(int x, int y, string text, uint end, uint start, uint current, bool isDisabled, SpriteFont font, Texture2D blackTexture,
+        public MonoSlider(int x, int y, string text, int end, int start, int current, bool isDisabled, SpriteFont font, Texture2D blackTexture,
             Texture2D blueTexture, Texture2D blueLightTexture, Texture2D grayTexture)
         {
             _isEnabled = !isDisabled;
@@ -39,6 +41,8 @@ namespace MonoBrJozik.Controls
 
             _end = end;
             _start = start;
+            _min = start;
+            _minX = x;
             _current = current;
             _font = font;
 
@@ -57,7 +61,7 @@ namespace MonoBrJozik.Controls
             Height = _sqHeight + _sqOffset + 2*(int)_font.MeasureString(_current.ToString()).Y;
         }
 
-        public uint Current => _current;
+        public int Current => _current;
 
         public string Text => _text;
 
@@ -116,11 +120,18 @@ namespace MonoBrJozik.Controls
                 return false;
 
             var tmpX = Math.Max(LeftTopX, Math.Min(mouseX - _diffLTX, LeftTopX + _width));
-            _current = _start + (uint)Math.Round((_end - _start) * ((double)(tmpX - LeftTopX) / _width));
+            _current = _start + (int)Math.Round((_end - _start) * ((double)(tmpX - LeftTopX) / _width));
 
-            _squareRectangle.X = tmpX;
+            _squareRectangle.X = _current < _min ? _minX : tmpX;
+            _current = Math.Max(_current, _min);
 
             return true;
+        }
+
+        public void SetMin(int min)
+        {
+            _min = Math.Max(_start, min);
+            _minX = LeftTopX + (int)(_width * ((double)(_min - _start) / (_end - _start)));
         }
     }
 }
