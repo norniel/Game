@@ -37,12 +37,12 @@ namespace MonoBrJozik.Controls
             _monoList.Draw(spriteBatch);
         }
 
-        public void MovePrev()
+        private void MovePrev()
         {
             _monoList.MovePrev();
         }
 
-        public void MoveNext()
+        private void MoveNext()
         {
             _monoList.MoveNext();
         }

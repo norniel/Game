@@ -65,6 +65,23 @@ namespace MonoBrJozik.Controls
 
         public string Text => _text;
 
+        private int _leftTopY;
+        public override int LeftTopY
+        {
+            get
+            {
+                return _leftTopY;
+            }
+
+            set
+            {
+                _leftTopY = value;
+                _lineRectangle.Y = _leftTopY + _textHeight + _sqHeight / 2 - 1;
+                _squareRectangle.Y = _leftTopY + _textHeight;
+            }
+        }
+
+
         private void CalculateSquare()
         {
             var currentLtx = LeftTopX + (int) (_width * ((double) (_current - _start) / (_end - _start)));

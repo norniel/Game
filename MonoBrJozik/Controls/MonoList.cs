@@ -45,7 +45,7 @@ namespace MonoBrJozik.Controls
 
             childControls.ForEach(ctrl => ctrl.LeftTopY -= delta);
 
-            visibleCount = childControls.Count(ctrl => ctrl.LeftTopY <= LeftTopY + Height) - startIndex;
+            visibleCount = childControls.Count(ctrl => ctrl.RightBottomY <= LeftTopY + Height) - startIndex;
         }
 
         public void MovePrev()

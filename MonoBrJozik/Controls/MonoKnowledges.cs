@@ -20,6 +20,8 @@ namespace MonoBrJozik.Controls
         private int _pointsToRemember = 0;
 
         private readonly MonoItem _okButton;
+        private readonly MonoItem _topButton;
+        private readonly MonoItem _bottomButton;
         private bool _okButtonShow = false;
 
         private Action<Dictionary<string, uint>> _rewriteKnowledges;
@@ -35,7 +37,10 @@ namespace MonoBrJozik.Controls
 
             var textHeight = (int)font.MeasureString(_pointsToForget.ToString()).Y;
 
-            _okButton = new MonoItem(new MonoItemInfo(texture, null, "Ok", DoRewrite), font, Color.Black, MonoDrawer.SCREEN_WIDTH - 40, MonoDrawer.SCREEN_HEIGHT - 40);
+            _topButton = new MonoItem(new MonoItemInfo(texture, null, "<", this.MovePrev), _font, Color.Black, MonoDrawer.SCREEN_WIDTH - (int)font.MeasureString("<".ToString()).X - 10 - 40, MonoDrawer.SCREEN_HEIGHT - 40);
+            _bottomButton = new MonoItem(new MonoItemInfo(texture, null, ">", this.MoveNext), _font, Color.Black, MonoDrawer.SCREEN_WIDTH - 40, MonoDrawer.SCREEN_HEIGHT - 40);
+
+            _okButton = new MonoItem(new MonoItemInfo(texture, null, "Ok", DoRewrite), font, Color.Black, MonoDrawer.SCREEN_WIDTH - 40, MonoDrawer.SCREEN_HEIGHT - 40 - _topButton.Height - 10);
             _changableKnowledgesList = new MonoKnowledgeList(graphicsDevice1, 0, textHeight, MonoDrawer.SCREEN_WIDTH, MonoDrawer.SCREEN_HEIGHT - textHeight, font, texture);
         }
 
@@ -47,6 +52,8 @@ namespace MonoBrJozik.Controls
             spriteBatch.DrawString(_font, $"Points to forget: {_pointsToForget}", new Vector2(0, 0), Color.Black);
 
             _changableKnowledgesList.Draw(spriteBatch);
+            _topButton.Draw(spriteBatch);
+            _bottomButton.Draw(spriteBatch);
 
             if(_okButtonShow)
                 _okButton.Draw(spriteBatch);
@@ -96,7 +103,7 @@ namespace MonoBrJozik.Controls
 
         public bool MouseLClick(MouseState mouseState)
         {
-            return _isVisible && _okButtonShow && _okButton.MouseLClick(mouseState);
+            return _isVisible && ((_okButtonShow && _okButton.MouseLClick(mouseState)) || _topButton.MouseLClick(mouseState) || _bottomButton.MouseLClick(mouseState)) ;
         }
 
         public bool LButtonDown(int mouseX, int mouseY)
@@ -137,6 +144,17 @@ namespace MonoBrJozik.Controls
                 _okButtonShow = knowledgeSum == _pointsToRemember;
             }
 
-            return isSliderPressed;        }
+            return isSliderPressed;
+        }
+
+        private void MovePrev()
+        {
+            _changableKnowledgesList.MovePrev();
+        }
+
+        private void MoveNext()
+        {
+            _changableKnowledgesList.MoveNext();
+        }
     }
 }
