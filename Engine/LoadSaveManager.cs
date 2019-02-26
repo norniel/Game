@@ -69,17 +69,21 @@ namespace Engine
                 count--;
             }
 
-            while (true)
+            for (int i = 0; i < 50; i++)
             {
-                tmpX = rand.Next(width);
-                tmpY = rand.Next(height);
+                while (true)
+                {
+                    tmpX = rand.Next(width);
+                    tmpY = rand.Next(height);
 
-                if (map.GetObjectFromCell(new Point(tmpX, tmpY)) != null)
-                    continue;
+                    if (map.GetObjectFromCell(new Point(tmpX, tmpY)) != null)
+                        continue;
 
-                map.AddMobileObject(new Dikabryozik(new Point(tmpX, tmpY)));
-                break;
+                    map.AddMobileObject(new Dikabryozik(new Point(tmpX, tmpY)));
+                    break;
+                }
             }
+
         }
 
         private int[,] GenerateRiver(Map map)

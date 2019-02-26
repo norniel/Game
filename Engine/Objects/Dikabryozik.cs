@@ -28,7 +28,7 @@ namespace Engine.Objects
 
             Id = 0x00018000;
 
-            Speed = 10;
+            Speed = 50;
 
             Name = "Dikabryozik";
 
@@ -85,9 +85,9 @@ namespace Engine.Objects
             if (_bundle.IsFull || !(State is Resting || State is Wondering))
                 return true;
 
-            var visiblePoints = ShadowCasting.For(PositionCell, ViewRadius - 1, Game.Map).GetVisibleCells().OrderBy(p => p.Distance).ToList();
+            var visibleCells = ShadowCasting.For(PositionCell, ViewRadius - 1, Game.Map).GetVisibleCells().OrderBy(p => p.Distance).ToList();
 
-            var eatablePoint = visiblePoints.FirstOrDefault(p =>
+            var eatableCell = visibleCells.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
                 if ((obj is Berry && obj.Name == Resource.Apple) || obj is Mushroom)
@@ -96,13 +96,13 @@ namespace Engine.Objects
                 return false;
             });
 
-            if (eatablePoint != null)
+            if (eatableCell != null)
             {
                 _stateQueue.Clear();
-                EnqueueMovingToDestination(eatablePoint);
+                EnqueueMovingToDestination(eatableCell);
                 _stateQueue.Enqueue(new Doing(this, () =>
                 {
-                    var obj = Game.Map.GetObjectFromCell(eatablePoint);
+                    var obj = Game.Map.GetObjectFromCell(eatableCell);
                     if(obj != null)
                         _bundle.Add(obj);
 
@@ -133,29 +133,29 @@ namespace Engine.Objects
                 return;
             }
 
-            var destination = Position;
+            var destination = PositionCell;
 
-            var visiblePoints = ShadowCasting.For(PositionCell, ViewRadius, Game.Map)
+            var visibleCells = ShadowCasting.For(PositionCell, ViewRadius, Game.Map)
                 .GetVisibleCells()
                 .OrderBy(p => p.Distance)
                 .ToList();
 
             //var neighbourList = Game.Map.GetNearestToPointList(Position, 1);
 
-            var eatablePoint = visiblePoints.FirstOrDefault(p =>
+            var eatableCell = visibleCells.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
                 return (obj is Berry && obj.Name == Resource.Apple) || obj is Mushroom;
             });
 
-            if (eatablePoint != null)
+            if (eatableCell != null)
             {
-                EnqueueMovingToDestination(eatablePoint);
-                _stateQueue.Enqueue(new Eating(this, Game.Map.GetObjectFromCell(eatablePoint)));
+                EnqueueMovingToDestination(eatableCell);
+                _stateQueue.Enqueue(new Eating(this, Game.Map.GetObjectFromCell(eatableCell)));
                 return;
             }
 
-            var treePoint = visiblePoints.FirstOrDefault(p =>
+            var treeCell = visibleCells.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
                 if ((obj is Tree && obj.Name == "Apple tree") && (obj.GetBehavior(typeof(CollectBehavior<Berry>)) as CollectBehavior<Berry>)?.CurrentCount > 0)
@@ -164,28 +164,28 @@ namespace Engine.Objects
                 return false;
             });
 
-            if (treePoint != null)
+            if (treeCell != null)
             {
-                EnqueueMovingToDestination(treePoint);
-                var appleTree = Game.Map.GetObjectFromCell(treePoint) as Tree;
+                EnqueueMovingToDestination(treeCell);
+                var appleTree = Game.Map.GetObjectFromCell(treeCell) as Tree;
                 _stateQueue.Enqueue(new ShakingTree(this, appleTree?.GetBehavior(typeof(CollectBehavior<Berry>)) as CollectBehavior<Berry>));
                 return;
             }
 
-            while (visiblePoints.Any())
+            while (visibleCells.Any())
             {
                // var maxDistance = visiblePoints.Last().Distance;
                //var farestVisible = visiblePoints.Where(p => p.Distance == maxDistance).ToList();
-                var randNumber = Game.Random.Next(visiblePoints.Count);
+                var randNumber = Game.Random.Next(visibleCells.Count);
 
-                var obj = Game.Map.GetObjectFromCell(visiblePoints[randNumber]);
+                var obj = Game.Map.GetObjectFromCell(visibleCells[randNumber]);
                 if (obj != null && !obj.IsPassable)
                 {
-                    visiblePoints.RemoveAt(randNumber);
+                    visibleCells.RemoveAt(randNumber);
                     continue;
                 }
 
-                destination = Map.CellToPoint(visiblePoints[randNumber]);
+                destination = visibleCells[randNumber];
                 break;
             }
 
@@ -197,10 +197,10 @@ namespace Engine.Objects
             ObjectWithState.ChangeState(0, STAYING_BASE_TICKCOUNT + (int)(STAYING_BASE_TICKCOUNT * satiety * 0.1));
         }
 
-        private IEnumerable<Point> GetMovingPointsToDestination(Point destinationPoint)
+        private IEnumerable<Point> GetMovingPointsToDestination(Point destinationCell)
         {
-            var deltaX = PositionCell.X - destinationPoint.X;
-            var deltaY = PositionCell.Y - destinationPoint.Y;
+            var deltaX = PositionCell.X - destinationCell.X;
+            var deltaY = PositionCell.Y - destinationCell.Y;
             var maxDist = Math.Max(Math.Abs(deltaX), Math.Abs(deltaY));
 
             for (int i = 1; i < maxDist; i++)
@@ -212,13 +212,13 @@ namespace Engine.Objects
                 yi = Math.Max(yi, 0);
 
                 var size = Game.Map.GetSize();
-                xi = Math.Min(xi, (int)size.Width);
-                yi = Math.Min(yi, (int)size.Height);
+                xi = Math.Min(xi, (int)size.Width - 1);
+                yi = Math.Min(yi, (int)size.Height - 1);
                 
                 yield return new Point(xi, yi);
             }
 
-            yield return destinationPoint;
+            yield return destinationCell;
         }
 
         private void EnqueueMovingToDestination(Point destinationPoint)

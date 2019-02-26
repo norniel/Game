@@ -11,18 +11,17 @@ namespace MonoBrJozik.Controls
     {
         private readonly SpriteFont _font;
         private readonly MonoKnowledgeList _changableKnowledgesList;
-
-        private Dictionary<string, uint> _originalKnowledges;
+        
         private bool _isVisible;
         public bool IsVisible => _isVisible;
 
-        private int _pointsToForget = 0;
-        private int _pointsToRemember = 0;
+        private int _pointsToForget;
+        private int _pointsToRemember;
 
         private readonly MonoItem _okButton;
         private readonly MonoItem _topButton;
         private readonly MonoItem _bottomButton;
-        private bool _okButtonShow = false;
+        private bool _okButtonShow;
 
         private Action<Dictionary<string, uint>> _rewriteKnowledges;
 
@@ -69,8 +68,7 @@ namespace MonoBrJozik.Controls
 
             _isVisible = true;
             _okButtonShow = false;
-
-            _originalKnowledges = knowledges;
+            
             _rewriteKnowledges = newKnowledgesAction;
 
             if (knowledges != null)
@@ -86,7 +84,6 @@ namespace MonoBrJozik.Controls
         {
             _isVisible = false;
             _rewriteKnowledges = null;
-            _originalKnowledges = null;
             _pointsToForget = 0;
             _pointsToRemember = 0;
             _okButtonShow = false;

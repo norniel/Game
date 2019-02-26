@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
+using System.Runtime.Remoting.Messaging;
 using Engine.BridgeObjects;
 using Engine.Heros;
 using Engine.Interfaces;
@@ -75,7 +76,9 @@ namespace Engine
         //todo - change to lazy
         internal static IObservable<long> Intervals;
 
-        internal static Random Random = new Random();
+        [ThreadStatic] private static Random _random;
+
+        internal static Random Random => _random ?? (_random = new Random());
 
         internal static DateTime StartDate = DateTime.UtcNow;
 
