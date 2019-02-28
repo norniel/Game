@@ -205,8 +205,8 @@ namespace Engine.Objects
 
             for (int i = 1; i < maxDist; i++)
             {
-                var xi = (int)Math.Round((i*deltaX)/(double)maxDist + PositionCell.X);
-                var yi = (int)Math.Round((i * deltaY) / (double)maxDist + PositionCell.Y);
+                var xi = (int)Math.Round(PositionCell.X - (i*deltaX)/(double)maxDist);
+                var yi = (int)Math.Round(PositionCell.Y - (i * deltaY) / (double)maxDist);
 
                 xi = Math.Max(xi, 0);
                 yi = Math.Max(yi, 0);

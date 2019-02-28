@@ -69,7 +69,7 @@ namespace Engine
                 count--;
             }
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 5; i++)
             {
                 while (true)
                 {

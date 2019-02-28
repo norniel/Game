@@ -191,7 +191,8 @@ namespace MonoBrJozik
                     if (heroProp.Key.Equals("health", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var health = heroProp.Value;
-                        var t = _tick % ((int)((health+10)/10)*10) < 5 ? 1 : 0; 
+                        var healthKoef = (((health+10)/10)*10);
+                        var t = _tick % (healthKoef <= 0 ? 10 : healthKoef) < 5 ? 1 : 0; 
                         _spriteBatch.Draw(texture, new Rectangle(2 + 70 * i + t, SCREEN_HEIGHT + 2 + t, texture.Width - 2*t, texture.Height - 2*t ), Color.White);
                     }
                     else

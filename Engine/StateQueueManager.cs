@@ -31,20 +31,18 @@ namespace Engine
             {
                 if(first.CurrentState == null || !first.CurrentState.Eternal)
                 {
-                    // _queue.RemoveFirst();
-                    // _queue.Remove(first);
                     RemoveObjectFromQueue(first);
                     first.NextState();
                 }
-                else 
+               /* else 
                 {
                     first.NextStateTick += 1;
-                }
+                }*/
 
                 first = _queue.GetFirst();
             }
 
-            CurrentTick++;
+           CurrentTick++;
         }
 
         public void OnError(Exception error)

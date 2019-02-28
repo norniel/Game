@@ -19,6 +19,20 @@ namespace Engine.Objects
         private readonly Action NextStateHandler;
         public readonly Action LastStateHandler;
 
+        public override int NextStateTick
+        {
+            get => _nextStateTick;
+            set
+            {
+                if (CurrentState?.Eternal ?? false)
+                {
+                    _nextStateTick = int.MaxValue;
+                }
+                else
+                    _nextStateTick = value;
+            } 
+        }
+
 
         public ObjectWithState(List<ObjectState> objectStateQueue, bool isCircling, Action lastStateHandler, Action nextStateHandler = null, bool isOffOnStart = false)
         {
@@ -51,6 +65,7 @@ namespace Engine.Objects
         protected List<ObjectState> ObjectStateQueue;
         private readonly bool _isCircling;
         private int _currentStateId = -1;
+        private int _nextStateTick;
 
         public ObjectState CurrentState {
             get

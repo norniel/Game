@@ -64,7 +64,9 @@ namespace Engine.Heros
                     _heroProperties.Health = Math.Min(_heroProperties.Health + 1, INITIAL_HEALTH);
                 }
 
-                if(DayNightCycle.IsNight())
+                _heroProperties.Health = Math.Max(_heroProperties.Health, 0);
+                
+                if (DayNightCycle.IsNight())
                     IncreaseTiredness(5);
 
                 if (DayNightCycle.IsDusk())

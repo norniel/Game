@@ -76,6 +76,8 @@ namespace MonoBrJozik.Controls
                 var totalPoints = (int)(knowledges.Values.Sum(t => t));
                 _pointsToRemember = totalPoints/2;
                 _pointsToForget = totalPoints - _pointsToRemember;
+                _okButtonShow = _pointsToForget == 0;
+
                 _changableKnowledgesList.SetItems(knowledges.Where(kn => kn.Value != 0).Select(kn => new MonoKnowledgeItemInfo(kn.Key, 0, (int)kn.Value, (int)kn.Value, false)).ToList());
             }
         }

@@ -70,7 +70,7 @@ namespace Engine.Objects.LargeObjects.BuilderPlans
         {
             var mapSize = Game.Map.GetSize();
 
-            if (cell.Y + 1 >= mapSize.Height || cell.Y + 1 >= mapSize.Height || cell.X + 1 >= mapSize.Width)
+            if (cell.Y + 1 >= mapSize.Height || cell.Y + 2 >= mapSize.Height || cell.X + 1 >= mapSize.Width)
                 return false;
 
             for (int cx = 0; cx < 2 ; cx++)

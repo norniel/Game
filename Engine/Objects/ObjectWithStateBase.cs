@@ -7,7 +7,7 @@ namespace Engine.Objects
     {
         private static int _idCounter;
         protected int _id;
-        public int NextStateTick { get; set; }
+        public virtual int NextStateTick { get; set; }
 
         public ObjectWithStateBase()
         {
