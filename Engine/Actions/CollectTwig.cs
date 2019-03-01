@@ -17,7 +17,7 @@ namespace Engine.Actions
 
         public override bool CanDo(Hero hero, IEnumerable<GameObject> objects)
         {
-            return objects.Any(obj => obj.Properties.Contains(Property.CollectTwig) && (obj.GetBehavior(typeof(CollectBehavior<Twig>)) as CollectBehavior<Twig>)?.CurrentCount > 0);
+            return objects.Any(obj => obj.Properties.Contains(Property.CollectTwig) && obj.GetBehavior<CollectBehavior<Twig>>()?.CurrentCount > 0);
         }
 
         public override double GetTiredness()

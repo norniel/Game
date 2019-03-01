@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.Resources;
 
@@ -21,7 +20,7 @@ namespace Engine.Objects
             Property.Diggable
         };
 
-        public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>{};
+        public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>();
 
         public GameObject Produce()
         {

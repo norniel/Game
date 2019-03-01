@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Engine.Resources;
-
-namespace Engine.Objects.Fruits
+﻿namespace Engine.Objects.Fruits
 {
    /* class Cone:Berry
     {

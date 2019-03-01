@@ -1,9 +1,4 @@
-﻿using Engine.Behaviors;
-using Engine.Objects;
-using Engine.Objects.Fruits;
-using Engine.Tools;
-
-namespace Engine
+﻿namespace Engine
 {
    /* [GenerateMap]
     class NutTree: Tree

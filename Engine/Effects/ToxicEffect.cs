@@ -1,5 +1,4 @@
-﻿using System;
-using Engine.Heros;
+﻿using Engine.Heros;
 
 namespace Engine.Effects
 {

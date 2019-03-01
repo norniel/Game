@@ -10,9 +10,9 @@ namespace Engine.Objects
 {
     public class PlantContext : IObjectContext
     {
-        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties() { TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/6, Eternal = false, Id = 0x10001100 };
-        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties() { TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00001100 };
-        public ObjStateProperties DryingProps { get; set; } = new ObjStateProperties() { TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/10, Eternal = false, Id = 0x20001100 };
+        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties { TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/6, Eternal = false, Id = 0x10001100 };
+        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties { TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00001100 };
+        public ObjStateProperties DryingProps { get; set; } = new ObjStateProperties { TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/10, Eternal = false, Id = 0x20001100 };
         
         public uint Id { get; set; } = 0x00001100;
 

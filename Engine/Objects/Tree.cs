@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.Objects;
-using Engine.Resources;
 
 namespace Engine
 {
@@ -73,7 +72,7 @@ namespace Engine
 
         public override uint GetDrawingCode()
         {
-            var berryCollect = GetBehavior(typeof(CollectBehavior<Berry>)) as CollectBehavior<Berry>;
+            var berryCollect = GetBehavior<CollectBehavior<Berry>>();
             if (berryCollect == null)
                 return Id;
 

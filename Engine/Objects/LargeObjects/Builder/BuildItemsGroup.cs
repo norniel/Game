@@ -33,7 +33,7 @@ namespace Engine.Objects.LargeObjects.Builder
                 availableObjects.AddRange(buildItemAVObjects);
 
                 var itemsToBuildCount = buildItemAVObjects.Count;
-                buildItemAVObjects.OrderBy(gobj => gobj.Quaolity);
+                buildItemAVObjects.OrderBy(gobj => gobj.Quality);
                 buildItem.CountUsedToBuild += itemsToBuildCount;
 
                 _percentLeftToBuild = _percentLeftToBuild - itemsToBuildCount * buildItem.PercentPerItem;

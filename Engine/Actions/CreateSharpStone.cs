@@ -38,7 +38,7 @@ namespace Engine.Actions
 
 
 
-            return new ConseqActionResult(true, CreateSharpStone.CreateIfKnowledge(stones.First()));
+            return new ConseqActionResult(true, CreateIfKnowledge(stones.First()));
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

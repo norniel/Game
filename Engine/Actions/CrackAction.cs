@@ -16,7 +16,7 @@ namespace Engine.Actions
         
         public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
-            var gameObject = objects.First(ao => ao.HasBehavior(typeof(CrackableBehavior)));
+            var gameObject = objects.First(ao => ao.HasBehavior<CrackableBehavior>());
             var name = hero.IsBaseToShow(gameObject) ? gameObject.GetBaseName() : gameObject.Name;
 
             return $"Crack {name}";
@@ -39,7 +39,7 @@ namespace Engine.Actions
             var allObjects =
                 objects.Union(hero.GetContainerItems()).ToList();
 
-            var nut = allObjects.FirstOrDefault(ao => ao.HasBehavior(typeof(CrackableBehavior)));
+            var nut = allObjects.FirstOrDefault(ao => ao.HasBehavior<CrackableBehavior>());
             var stone = allObjects.FirstOrDefault(ao => ao is Rock || ao is SharpStone);
             var cracker = allObjects.Where(ao => ao != stone)
                 .FirstOrDefault(ao => ao.Properties.Contains(Property.Cracker));
@@ -69,7 +69,7 @@ namespace Engine.Actions
         {
             var gameObjects = objects as GameObject[] ?? objects.ToArray();
 
-            var nut = gameObjects.FirstOrDefault(ao => ao.HasBehavior(typeof(CrackableBehavior)));
+            var nut = gameObjects.FirstOrDefault(ao => ao.HasBehavior<CrackableBehavior>());
             var stone = gameObjects.FirstOrDefault(ao => ao is Rock || ao is SharpStone);
             var cracker = gameObjects.Where(ao => ao != stone)
                 .FirstOrDefault(ao => ao.Properties.Contains(Property.Cracker));
@@ -79,7 +79,7 @@ namespace Engine.Actions
                 return new FinishedActionResult();
             }
 
-            var crackableBehavior = nut.GetBehavior(typeof(CrackableBehavior)) as CrackableBehavior;
+            var crackableBehavior = nut.GetBehavior<CrackableBehavior>();
             nut.RemoveFromContainer();
             var nutKernel = crackableBehavior?.GetCrackable();
 

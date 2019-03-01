@@ -32,7 +32,7 @@ namespace Engine.Heros
 
         private Dictionary<string, uint> _ObjectKnowledgeses = new Dictionary<string, uint>();
 
-        private uint _expirience = 0;
+        private uint _expirience;
 
         public Hero()
         {
@@ -277,7 +277,7 @@ namespace Engine.Heros
         public bool IsBaseToShow(GameObject gameObject)
         {
             return Game.SHOWBASE && gameObject.NeedKnowledge &&
-                   this.GetObjectKnowledge(gameObject.Name) < gameObject.KnowledgeKoef;
+                   GetObjectKnowledge(gameObject.Name) < gameObject.KnowledgeKoef;
         }
 
         public override void EnqueueNextState()
@@ -298,7 +298,7 @@ namespace Engine.Heros
                 var knowledgeExist = Knowledges.TryParse(t.Key, true, out knowledge);
                 return new
                 {
-                    Key = t.Key,
+                    t.Key,
                     KnKey = knowledge,
                     KnowledgeExist = knowledgeExist,
                     t.Value

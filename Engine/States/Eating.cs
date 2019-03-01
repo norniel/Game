@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Engine.Behaviors;
+﻿using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.Objects;
 using JetBrains.Annotations;
@@ -20,7 +19,7 @@ namespace Engine.States
         }
         public void Act()
         {
-            var eatableBehavior = _objectToEat?.GetBehavior(typeof(EatableBehavior)) as EatableBehavior;
+            var eatableBehavior = _objectToEat?.GetBehavior<EatableBehavior>();
             if (eatableBehavior != null) {
                 _eater.Eat((int)(eatableBehavior.SatietyCoefficient + _objectToEat.WeightDbl));
                 _objectToEat.RemoveFromContainer?.Invoke();

@@ -6,8 +6,8 @@ namespace Engine.Behaviors
     {
         public int SatietyCoefficient { get; set; }
 
-        public int Poisoness { get; set; } = 0;
-        public int Time { get; set; } = 0;
+        public int Poisoness { get; set; }
+        public int Time { get; set; }
 
       //  public Dictionary<ObjectStates.ObjectStates, EatableProps> EatableByStates;
 

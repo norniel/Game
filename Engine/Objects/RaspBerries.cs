@@ -1,6 +1,4 @@
-﻿using Engine.Behaviors;
-
-namespace Engine.Objects
+﻿namespace Engine.Objects
 {/*
     class RaspBerries : Berry
     {

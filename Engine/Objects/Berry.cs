@@ -21,7 +21,7 @@ namespace Engine.Objects
             Property.Eatable
         };
 
-        public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>{};
+        public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>();
 
         public GameObject Produce()
         {

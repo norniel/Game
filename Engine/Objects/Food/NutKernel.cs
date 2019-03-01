@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Engine.Behaviors;
-
-namespace Engine.Objects.Food
+﻿namespace Engine.Objects.Food
 {
    /* public class NutKernel : FixedObject
     {

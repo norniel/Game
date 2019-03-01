@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
-using System.Runtime.Remoting.Messaging;
 using Engine.BridgeObjects;
 using Engine.Heros;
 using Engine.Interfaces;
@@ -60,7 +59,7 @@ namespace Engine
 
         private IActionRepository ActionRepository { get; }
 
-        private bool _isPaused = false;
+        private bool _isPaused;
         public bool IsPaused => _isPaused;
 
         public const bool SHOWBASE = true;
@@ -91,7 +90,7 @@ namespace Engine
             curRect.Height = height;
 
             Intervals = Observable.Interval(TimeSpan.FromMilliseconds(TimeStep))
-                .Where(t => !this._isPaused);
+                .Where(t => !_isPaused);
 
             _unityContainer = new UnityContainer();
             RegisterInUnityContainer();
@@ -119,7 +118,7 @@ namespace Engine
             Intervals.Subscribe(_dayNightCycle);
 
             var heroLifeCycle = _unityContainer.Resolve<HeroLifeCycle>();
-            Game.Intervals.Subscribe(heroLifeCycle);
+            Intervals.Subscribe(heroLifeCycle);
         }
 
         private void RegisterInUnityContainer()
@@ -133,7 +132,7 @@ namespace Engine
             _unityContainer.RegisterType(typeof(DayNightCycle), typeof(DayNightCycle), new ContainerControlledLifetimeManager());
 
             var hero = new Hero();
-            _unityContainer.BuildUp<Hero>(hero);
+            _unityContainer.BuildUp(hero);
             _unityContainer.RegisterInstance(typeof(Hero), hero);
 
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type))){
@@ -152,7 +151,7 @@ namespace Engine
 
         public void LClick(Point visibleDestination)
         {
-            if (_hero.IsUnconscios() || this.IsPaused)
+            if (_hero.IsUnconscios() || IsPaused)
                 return;
 
             var destination = Map.GetRealDestinationFromVisibleDestination(visibleDestination);
@@ -165,7 +164,7 @@ namespace Engine
 
         public void RClick(Point destination)
         {
-            if (_hero.IsUnconscios() || this.IsPaused)
+            if (_hero.IsUnconscios() || IsPaused)
                 return;
 
             if (destination.X < 0 || destination.X >= Map.VisibleRect.Width || destination.Y < 0 || destination.Y >= Map.VisibleRect.Height)
@@ -246,10 +245,10 @@ namespace Engine
             else if (_hero.IsHalt())
             {
                 SetPaused(true);
-                _drawer.DrawHaltScreen(_hero.GetAllKnowledges(), (newKnowledges) =>
+                _drawer.DrawHaltScreen(_hero.GetAllKnowledges(), newKnowledges =>
                 {
                     _hero.RewriteKnowledges(newKnowledges);
-                    this.SetPaused(false);
+                    SetPaused(false);
                 });
             }
             else

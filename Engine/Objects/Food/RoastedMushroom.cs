@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Engine.Behaviors;
-using Engine.Resources;
-
-namespace Engine.Objects
+﻿namespace Engine.Objects
 {
    /* internal class RoastedMushroom : FixedObject
     {

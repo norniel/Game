@@ -105,7 +105,7 @@ namespace Engine
 
         private void ApplySpoileringBehavior(GameObject gameObject)
         {
-            var spoileringBehavior = gameObject.GetBehavior(typeof(SpoileringBehavior)) as SpoileringBehavior;
+            var spoileringBehavior = gameObject.GetBehavior<SpoileringBehavior>();
             var withObjectWithStates = gameObject as IWithObjectWithState;
 
             if (spoileringBehavior == null || withObjectWithStates == null || withObjectWithStates.ObjectWithState.HasState(ObjectStates.ObjectStates.Spoilering))

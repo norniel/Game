@@ -10,8 +10,8 @@ namespace Engine.Objects
 {
     public class MushroomContext : IObjectContext
     {
-        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties() {TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/6, Eternal = false, Id = 0x10001900};
-        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties() {TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00001900 };
+        public ObjStateProperties GrowingProps { get; set; } = new ObjStateProperties {TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/6, Eternal = false, Id = 0x10001900};
+        public ObjStateProperties StayingProps { get; set; } = new ObjStateProperties {TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00001900 };
 
         public Dictionary<ObjectStates.ObjectStates, uint>
             BaseIds = new Dictionary<ObjectStates.ObjectStates, uint> { { ObjectStates.ObjectStates.Growing, 0x10001900 }, { ObjectStates.ObjectStates.Staying, 0x00001900 }, { ObjectStates.ObjectStates.Spoilering, 0x00001900 } };

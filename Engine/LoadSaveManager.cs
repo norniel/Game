@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Engine.Objects;
-using Engine.Tools;
 
 namespace Engine
 {
@@ -105,9 +103,9 @@ namespace Engine
             mapTmp[tmpX, tmpY] = deep;
             pointList.Add(new Point(tmpX, tmpY));
 
-            var posibility = rand.Next(4);
-            tmpX = posibility == 0 ? tmpX - 1 : posibility == 1 ? tmpX + 1 : tmpX;
-            tmpY = posibility == 2 ? tmpY - 1 : posibility == 3 ? tmpY + 1 : tmpY;
+            var possibility = rand.Next(4);
+            tmpX = possibility == 0 ? tmpX - 1 : possibility == 1 ? tmpX + 1 : tmpX;
+            tmpY = possibility == 2 ? tmpY - 1 : possibility == 3 ? tmpY + 1 : tmpY;
             mapTmp[tmpX, tmpY] = deep;
             pointList.Add(new Point(tmpX, tmpY));
 
@@ -148,9 +146,9 @@ namespace Engine
                             || mapTmp[i, j] > 0)
                             continue;
 
-                        var posibilityForDeepness = rand.Next(9);
+                        var possibilityForDeepness = rand.Next(9);
 
-                        var nextDeepness = posibilityForDeepness < 8 ? curDeepness - 1 : curDeepness;
+                        var nextDeepness = possibilityForDeepness < 8 ? curDeepness - 1 : curDeepness;
 
                         if(nextDeepness <= 0)
                             continue;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Engine.Interfaces;
+using JetBrains.Annotations;
 
 namespace Engine.Objects
 {
@@ -19,8 +20,8 @@ namespace Engine.Objects
 
         public virtual double WeightDbl => 1.0;
 
-        public bool NeedKnowledge { get; set; } = false;
-        public double KnowledgeKoef { get; set; } = 0;
+        public bool NeedKnowledge { get; set; }
+        public double KnowledgeKoef { get; set; }
         
         public GameObject()
         {
@@ -85,16 +86,19 @@ namespace Engine.Objects
         }
 
         public Action RemoveFromContainer { get; set; }
-        public object Quaolity { get; set; }
+        public object Quality { get; set; }
 
-        public bool HasBehavior(Type type)
+        public bool HasBehavior<TBehavior>() where TBehavior : IBehavior
         {
-            return Behaviors.Any(b => b.GetType() == type);
+            return GetBehavior<TBehavior>() != null;
         }
 
-        public IBehavior GetBehavior(Type type)
+        [CanBeNull]
+        public TBehavior GetBehavior<TBehavior>() where TBehavior:IBehavior
         {
-            return Behaviors.FirstOrDefault(b => b.GetType() == type);
+            return Behaviors.OfType<TBehavior>().FirstOrDefault();
         }
     }
+
+    
 }

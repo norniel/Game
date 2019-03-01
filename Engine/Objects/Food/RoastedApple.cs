@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Engine.Behaviors;
-using Engine.Resources;
-
-namespace Engine.Objects.Food
+﻿namespace Engine.Objects.Food
 {
    /* internal class RoastedApple : FixedObject
     {

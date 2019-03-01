@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Engine.Behaviors;
 using Engine.Interfaces;
-using Engine.Objects.Fruits;
-using Engine.Objects.Trees;
 using Engine.ObjectStates;
 using Engine.Resources;
 using Engine.States;
@@ -158,7 +156,8 @@ namespace Engine.Objects
             var treeCell = visibleCells.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
-                if ((obj is Tree && obj.Name == "Apple tree") && (obj.GetBehavior(typeof(CollectBehavior<Berry>)) as CollectBehavior<Berry>)?.CurrentCount > 0)
+                if ((obj is Tree && obj.Name == "Apple tree") && 
+                    obj.GetBehavior<CollectBehavior<Berry>>()?.CurrentCount > 0)
                     return true;
 
                 return false;
@@ -168,7 +167,7 @@ namespace Engine.Objects
             {
                 EnqueueMovingToDestination(treeCell);
                 var appleTree = Game.Map.GetObjectFromCell(treeCell) as Tree;
-                _stateQueue.Enqueue(new ShakingTree(this, appleTree?.GetBehavior(typeof(CollectBehavior<Berry>)) as CollectBehavior<Berry>));
+                _stateQueue.Enqueue(new ShakingTree(this, appleTree?.GetBehavior<CollectBehavior<Berry>>()));
                 return;
             }
 
@@ -205,8 +204,8 @@ namespace Engine.Objects
 
             for (int i = 1; i < maxDist; i++)
             {
-                var xi = (int)Math.Round(PositionCell.X - (i*deltaX)/(double)maxDist);
-                var yi = (int)Math.Round(PositionCell.Y - (i * deltaY) / (double)maxDist);
+                var xi = (int) Math.Round(PositionCell.X - (i * deltaX) / (double) maxDist);
+                var yi = (int) Math.Round(PositionCell.Y - (i * deltaY) / (double) maxDist);
 
                 xi = Math.Max(xi, 0);
                 yi = Math.Max(yi, 0);

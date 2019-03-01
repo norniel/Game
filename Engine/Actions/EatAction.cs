@@ -32,9 +32,9 @@ namespace Engine.Actions
         public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             var conseqList = new List<Action<Hero>>();
-            foreach (var eatableObject in objects.Where(o => o.HasBehavior(typeof(EatableBehavior))))
+            foreach (var eatableObject in objects.Where(o => o.HasBehavior<EatableBehavior>()))
             {
-                var eatableBehavior = eatableObject.GetBehavior(typeof(EatableBehavior)) as EatableBehavior;
+                var eatableBehavior = eatableObject.GetBehavior<EatableBehavior>();
                 hero.Eat((int)(eatableBehavior.SatietyCoefficient * eatableObject.WeightDbl));
                 eatableObject.RemoveFromContainer();
                 conseqList.Add(Consequance.AddObjectKnowledge(eatableObject.Name, 5));

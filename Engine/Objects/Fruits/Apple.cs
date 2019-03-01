@@ -1,8 +1,4 @@
-﻿using Engine.Behaviors;
-using Engine.Objects.Food;
-using Engine.Resources;
-
-namespace Engine.Objects.Fruits
+﻿namespace Engine.Objects.Fruits
 {
    /* public class Apple: Berry
     {

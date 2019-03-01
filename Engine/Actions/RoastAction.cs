@@ -44,7 +44,7 @@ namespace Engine.Actions
         {
             var hasBurning = objects.Any(o => o is IBurning);
             var twig = objects.OfType<Twig>().FirstOrDefault();
-            var roastable = objects.Where(o => o.HasBehavior(typeof(RoastBehavior))).ToList();
+            var roastable = objects.Where(o => o.HasBehavior<RoastBehavior>()).ToList();
 
             if (!hasBurning || twig == null || !roastable.Any())
             {
@@ -54,7 +54,7 @@ namespace Engine.Actions
             twig.RemoveFromContainer();
             foreach (var r in roastable)
             {
-                if(!(r.GetBehavior(typeof(RoastBehavior)) is RoastBehavior roastBehavior))
+                if(!(r.GetBehavior<RoastBehavior>() is RoastBehavior roastBehavior))
                     continue;
 
                 var roasted = roastBehavior.GetRoasted();
@@ -76,7 +76,7 @@ namespace Engine.Actions
             Hero hero)
         {
             var roastingObjects = hero.GetContainerItems()
-                .Where(o => o.Properties.Contains(Property.Roastable) && o.HasBehavior(typeof(RoastBehavior)))
+                .Where(o => o.Properties.Contains(Property.Roastable) && o.HasBehavior<RoastBehavior>())
                 .GroupBy(o => o.GetType())
                 .Select(gr => gr.Take(3));
 

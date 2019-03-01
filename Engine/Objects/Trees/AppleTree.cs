@@ -1,9 +1,4 @@
-﻿using Engine.Behaviors;
-using Engine.Objects.Fruits;
-using Engine.Resources;
-using Engine.Tools;
-
-namespace Engine.Objects.Trees
+﻿namespace Engine.Objects.Trees
 {
    /*  [GenerateMap]
    class AppleTree : Tree

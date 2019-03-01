@@ -1,5 +1,4 @@
 ﻿using Engine.Behaviors;
-using Engine.Interfaces;
 using Engine.Objects;
 
 namespace Engine.States
@@ -20,7 +19,7 @@ namespace Engine.States
 
         public void Act()
         {
-            if (TreeBehavior.CurrentCount <= 0)
+            if (TreeBehavior == null || TreeBehavior.CurrentCount <= 0)
             {
                 _mobileObject.StateEvent.FireEvent();
                 return;

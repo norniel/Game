@@ -22,7 +22,7 @@ namespace Engine.Actions
 
         public string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
-            var burnable = objects.FirstOrDefault(o => o.HasBehavior(typeof(BurnableBehavior)));
+            var burnable = objects.FirstOrDefault(o => o.HasBehavior<BurnableBehavior>());
 
             if (burnable == null)
             {
@@ -42,7 +42,7 @@ namespace Engine.Actions
         public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             var gameObjects = objects as GameObject[] ?? objects.ToArray();
-            var burnable = gameObjects.FirstOrDefault(o => o.HasBehavior(typeof(BurnableBehavior)));
+            var burnable = gameObjects.FirstOrDefault(o => o.HasBehavior< BurnableBehavior>());
             var burning = gameObjects.OfType<IBurning>().FirstOrDefault();
 
             if (burnable == null || burning == null)
@@ -50,7 +50,7 @@ namespace Engine.Actions
                 return new FinishedActionResult();
             }
 
-            var burnableBehavior = burnable.GetBehavior(typeof(BurnableBehavior)) as BurnableBehavior;
+            var burnableBehavior = burnable.GetBehavior<BurnableBehavior>();
             burning.TimeOfBurning += (int)(burnableBehavior.Сoefficient * burnable.WeightDbl);
             burnable.RemoveFromContainer();
 
@@ -64,7 +64,8 @@ namespace Engine.Actions
 
         public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
-            var burningObjects = hero.GetContainerItems().Where(o => o.HasBehavior(typeof(BurnableBehavior))).GroupBy(o => o.GetType()).Select(gr => gr.First());
+            var burningObjects = hero.GetContainerItems().Where(o => o.HasBehavior<BurnableBehavior>())
+                .GroupBy(o => o.GetType()).Select(gr => gr.First());
 
             return burningObjects.Select(bo => new List<GameObject> {bo}.Union(objects).ToList());
         }

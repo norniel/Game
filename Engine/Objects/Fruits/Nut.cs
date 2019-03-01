@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Engine.Objects.Fruits
+﻿namespace Engine.Objects.Fruits
 {
     /*class Nut: Berry
     {

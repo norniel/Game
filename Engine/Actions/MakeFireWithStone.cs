@@ -45,7 +45,7 @@ namespace Engine.Actions
                 Consequance.ProbabilityOrElse(
                     hero.GetKnowledge(Knowledges.MakeFireWithStone), 
                     Consequance.Composite(
-                        this.Create(branch, plant),
+                        Create(branch, plant),
                         Consequance.AddKnowledge(Knowledges.MakeFireWithStone, 10),
                         Consequance.AddObjectKnowledge(plant.Name, 1)),
                     Consequance.Composite(Consequance.AddKnowledge(Knowledges.MakeFireWithStone, 5), Consequance.AddObjectKnowledge(plant.Name, 1)))

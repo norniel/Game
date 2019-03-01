@@ -22,7 +22,7 @@ namespace Engine.Actions
         public virtual string GetName(IEnumerable<GameObject> objects, Hero hero)
         {
             var objectToCollectFrom = objects
-                .Select(x => (x.GetBehavior(typeof(CollectBehavior<T>)) as CollectBehavior<T>)).FirstOrDefault();
+                .Select(x => x.GetBehavior<CollectBehavior<T>>()).FirstOrDefault();
 
             if (objectToCollectFrom == null)
             {
@@ -36,7 +36,7 @@ namespace Engine.Actions
 
         public virtual IActionResult Do(Hero hero, IList<GameObject> objects)
         {
-            var collectBehavior = objects.Select(x => (x.GetBehavior(typeof(CollectBehavior<T>)) as CollectBehavior<T>))
+            var collectBehavior = objects.Select(x => x.GetBehavior<CollectBehavior<T>>())
                 .FirstOrDefault();
 
             var actionIsNotOver = Collect(collectBehavior, hero);
@@ -50,8 +50,8 @@ namespace Engine.Actions
             Hero hero)
         {
             var necessaryObjects = objects.Where(obj => obj.Properties.Any(IsApplicable))
-                .Where(x => x.HasBehavior(typeof(CollectBehavior<T>))) //.OfType<IHasSmthToCollect<T>>()
-                .Where(x => (x.GetBehavior(typeof(CollectBehavior<T>)) as CollectBehavior<T>).CurrentCount >
+                .Where(x => x.HasBehavior<CollectBehavior<T>>()) //.OfType<IHasSmthToCollect<T>>()
+                .Where(x => x.GetBehavior<CollectBehavior<T>>().CurrentCount >
                             0) //.Where(x => x.GetSmthTotalCount() > 0)
                 //.Cast<GameObject>()
                 .ToList();

@@ -21,10 +21,10 @@ namespace Engine.Objects
             Property.CollectBranch
         };
 
-        public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>()
+        public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>
         {
             new CollectBehavior<Berry>("RaspBerries", 2, 2),
-            new CollectBehavior<Branch>("Branch", 2, 4),
+            new CollectBehavior<Branch>("Branch", 2, 4)
         };
 
         public uint Id { get; set; } = 0x00001200;

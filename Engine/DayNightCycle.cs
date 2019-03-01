@@ -7,7 +7,7 @@ namespace Engine
         private readonly GameDateTime _startGameDate;
         private GameDateTime _currentGameDate;
         private int _totalSeconds;
-        private uint _totalTicks = 0;
+        private uint _totalTicks;
 
         public static int MinutesInHour = 60;
         public static int HoursInDay = 24;
