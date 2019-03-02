@@ -7,13 +7,13 @@ namespace Engine
         private readonly GameDateTime _startGameDate;
         private GameDateTime _currentGameDate;
         private int _totalSeconds;
-        private uint _totalTicks;
+        private uint _totalTicks = 0;
 
         public static int MinutesInHour = 60;
         public static int HoursInDay = 24;
         public static int DaysInMonth = 10;
         public static int MonthesInYear = 12;
-        public static int TicksInSecond = 1000 / Game.TimeStep;
+        public static int TicksInSecond = Game.TimeStep;
         public static int DayLength = TicksInSecond * MinutesInHour * HoursInDay;
         public static int HalfDayLength = DayLength/2;
         public static int OneSixDayLength = DayLength/6;

@@ -47,7 +47,7 @@ namespace Engine
 
         internal static ObjectsFactory Factory;
 
-        public const int TimeStep = 100;
+        public const int TimeStep = 50;
 
         private Dictionary<uint, Cell> _cellSamples;
 

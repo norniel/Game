@@ -43,10 +43,8 @@ namespace Engine
         }
 
         #region Implementation of IState
-
-       // public event StateHandler NextState;
-
-        public void Act()
+        
+        public virtual void Act()
         {
             if(_isInitialized == false)
                 Initialize();
@@ -57,29 +55,26 @@ namespace Engine
 
             _steps--;
 
-            if ( /*NextState != null && */(_mobileObject.Position == _destination || _steps <= -1))
+            if (_mobileObject.Position == _destination || _steps <= -1)
             {
-
-                var hero = _mobileObject as Hero;
-                if (hero != null)
+                if (_mobileObject is Hero hero)
                 {
                     hero.HeroLifeCycle.IncreaseTiredness(0.1);
                 }
 
                 _mobileObject.StateEvent.FireEvent();
             }
-            //NextState( new StateEventArgs(){State = new Standing( _hero )} );  
         }
 
-        public void HeroAdditional()
+        private void HeroAdditional()
         {
-            if (!(_mobileObject is Hero))
-                return;
-
-            var cell = Map.PointToCell(_mobileObject.Position);
-            if (!Game.Map.CellInInnerMap(cell))
+            if (_mobileObject is Hero)
             {
-                Game.Map.ClearInnerMap();
+                var cell = Map.PointToCell(_mobileObject.Position);
+                if (!Game.Map.CellInInnerMap(cell))
+                {
+                    Game.Map.ClearInnerMap();
+                }
             }
         }
 

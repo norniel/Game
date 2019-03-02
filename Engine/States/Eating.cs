@@ -1,4 +1,5 @@
-﻿using Engine.Behaviors;
+﻿using System;
+using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.Objects;
 using JetBrains.Annotations;
@@ -17,6 +18,13 @@ namespace Engine.States
             _eater = eater;
             _objectToEat = objectToEat;
         }
+
+        public Eating(IEater eater, Func<GameObject> objectToEatFunc)
+        {
+            _eater = eater;
+            _objectToEat = objectToEatFunc();
+        }
+
         public void Act()
         {
             var eatableBehavior = _objectToEat?.GetBehavior<EatableBehavior>();

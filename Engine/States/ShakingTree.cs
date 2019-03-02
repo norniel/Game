@@ -1,4 +1,5 @@
-﻿using Engine.Behaviors;
+﻿using System;
+using Engine.Behaviors;
 using Engine.Objects;
 
 namespace Engine.States
@@ -15,6 +16,13 @@ namespace Engine.States
             _mobileObject = mobileObject;
             _maxRestingTicks = Game.Random.Next(MAX_MAXSHAKINGTICK);
             TreeBehavior = treeBehavior;
+        }
+
+        public ShakingTree(MobileObject mobileObject, Func<CollectBehavior<Berry>> treeBehaviorFunc)
+        {
+            _mobileObject = mobileObject;
+            _maxRestingTicks = Game.Random.Next(MAX_MAXSHAKINGTICK);
+            TreeBehavior = treeBehaviorFunc();
         }
 
         public void Act()
