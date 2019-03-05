@@ -9,8 +9,8 @@ namespace Engine
     public class Map: InnerMap
     {
         public const int CellMeasure = 20;
-        private const int MAP_WIDTH = 1000;
-        private const int MAP_HEIGHT = 1000;
+        public const int MAP_WIDTH = 1000;
+        public const int MAP_HEIGHT = 1000;
         private const int MAP_CELL_WIDTH = MAP_WIDTH / CellMeasure;
         private const int MAP_CELL_HEIGHT = MAP_HEIGHT / CellMeasure;
 
@@ -311,6 +311,11 @@ namespace Engine
         public List<MobileObject> GetMobileObjects()
         {
             return _mobileObjects;
+        }
+
+        public MobileObject GetMobileObject(Point cell)
+        {
+            return _mobileObjects.FirstOrDefault(mo => mo.PositionCell == cell);
         }
 
         public bool PointInVisibleRect(Point point)

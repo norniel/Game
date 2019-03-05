@@ -16,7 +16,7 @@ namespace Engine.Heros
         private const int STRONG_TIREDNESS = 100;
         private const int FINAL_TIREDNESS = 150;
         private readonly HeroProperties _heroProperties;
-        private const uint maxTimeStamp = 20* Game.TimeStep;
+        private const uint maxTimeStamp = 2* Game.TimeStep;
         private uint timestamp;
 
         [Dependency]

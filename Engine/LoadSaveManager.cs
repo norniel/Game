@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Engine.Objects;
+using Engine.Objects.Animals;
 
 namespace Engine
 {
@@ -67,7 +68,7 @@ namespace Engine
                 count--;
             }
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 20; i++)
             {
                 while (true)
                 {
@@ -78,6 +79,8 @@ namespace Engine
                         continue;
 
                     map.AddMobileObject(new Dikabryozik(new Point(tmpX, tmpY)));
+                    map.AddMobileObject(new Hare(Map.CellToPoint(new Point(tmpX, tmpY))));
+                    map.AddMobileObject(new Fox(Map.CellToPoint(new Point(tmpX, tmpY))));
                     break;
                 }
             }

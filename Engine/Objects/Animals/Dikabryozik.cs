@@ -18,11 +18,7 @@ namespace Engine.Objects
         public Dikabryozik(Point position) 
             : base(false, new Size(1,1), 0x00018000, 50, "Dikabryozik", 3, position)
         {}
-
-        protected override void InitProperties()
-        {
-        }
-
+        
         public override void InitializeProperties()
         {
             Properties = new HashSet<Property>();
@@ -71,7 +67,7 @@ namespace Engine.Objects
             return true;
         }
 
-        protected override bool LookForFood(List<PointWithDistance> visibleCells)
+        protected override bool LookForFood()
         {
             if (!_bundle.IsEmpty)
             {
@@ -79,10 +75,10 @@ namespace Engine.Objects
                 return true;
             }
 
-            if (base.LookForFood(visibleCells))
+            if (base.LookForFood())
                 return true;
 
-            var treeCell = visibleCells.FirstOrDefault(p =>
+            var treeCell = VisibleCells.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
                 if ((obj is Tree && obj.Name == "Apple tree") &&

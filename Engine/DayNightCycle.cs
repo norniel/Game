@@ -13,7 +13,7 @@ namespace Engine
         public static int HoursInDay = 24;
         public static int DaysInMonth = 10;
         public static int MonthesInYear = 12;
-        public static int TicksInSecond = Game.TimeStep;
+        public static int TicksInSecond = Game.TimeStep/10 == 0 ? 1 : Game.TimeStep / 10;
         public static int DayLength = TicksInSecond * MinutesInHour * HoursInDay;
         public static int HalfDayLength = DayLength/2;
         public static int OneSixDayLength = DayLength/6;

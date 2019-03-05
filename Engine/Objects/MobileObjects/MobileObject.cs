@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using Engine.Tools;
 
 namespace Engine
 {
@@ -112,6 +114,24 @@ namespace Engine
         public virtual bool CheckForUnExpected()
         {
             return true;
+        }
+
+        private List<PointWithDistance> _visibleCells;
+        public IReadOnlyList<PointWithDistance> VisibleCells
+        {
+            get
+            {
+                if (_visibleCells == null || !_visibleCells.Any() || _visibleCells.First().Point != PositionCell)
+                {
+                    _visibleCells = ShadowCasting.For(PositionCell, ViewRadius, Game.Map)
+                        .GetVisibleCells()
+                        .OrderBy(p => p.Distance)
+                        .ToList();
+                    _visibleCells.Insert(0, new PointWithDistance { Distance = 0, Point = PositionCell });
+                }
+
+                return _visibleCells;
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using Engine.Interfaces;
 using Engine.ObjectStates;
 using Engine.States;
 using Engine.Tools;
+using MoreLinq;
 
 namespace Engine.Objects.Animals
 {
@@ -14,6 +15,8 @@ namespace Engine.Objects.Animals
 
         private const int STAYING_BASE_TICKCOUNT = 300;
 
+      //  private List<PointWithDistance> _visibleCells;
+        
         protected Animal(bool isPassable, Size size, uint id, uint speed, string name, int viewRadius, Point position)
         {
             IsPassable = isPassable;
@@ -30,8 +33,6 @@ namespace Engine.Objects.Animals
             ViewSight = new Size((uint)ViewRadius, (uint)ViewRadius);
             Position = position;
 
-            InitProperties();
-
             ObjectWithState = new ObjectWithState(
                 new List<ObjectState>
                 {
@@ -46,8 +47,6 @@ namespace Engine.Objects.Animals
 
             StateEvent.FireEvent();
         }
-
-        protected abstract void InitProperties();
 
         public override void EnqueueNextState()
         {
@@ -81,39 +80,44 @@ namespace Engine.Objects.Animals
 
             var destination = PositionCell;
 
-            var visibleCells = ShadowCasting.For(PositionCell, ViewRadius, Game.Map)
-                .GetVisibleCells()
-                .OrderBy(p => p.Distance)
+            if (LookForFood()) return;
+            var passable = VisibleCells
+                .Where(x => Game.Map.GetObjectFromCell(x)?.IsPassable ?? true)
                 .ToList();
 
-            if (LookForFood(visibleCells)) return;
-
-            while (visibleCells.Any())
-            {
-                var randNumber = Game.Random.Next(visibleCells.Count);
-
-                var obj = Game.Map.GetObjectFromCell(visibleCells[randNumber]);
-                if (obj != null && !obj.IsPassable)
-                {
-                    visibleCells.RemoveAt(randNumber);
-                    continue;
-                }
-
-                destination = visibleCells[randNumber];
-                break;
-            }
+            if (passable.Any())
+                destination = passable[Game.Random.Next(passable.Count)];
 
             EnqueueMovingToDestination(destination);
         }
-
-        protected virtual bool LookForFood(List<PointWithDistance> visibleCells)
+/*
+        private List<PointWithDistance> VisibleCells
         {
-            var eatableCell = visibleCells.FirstOrDefault(IsCellEatable);
+            get
+            {
+                if (_visibleCells == null || !_visibleCells.Any() || _visibleCells.First().Point != Position)
+                {
+                    _visibleCells = ShadowCasting.For(PositionCell, ViewRadius, Game.Map)
+                    .GetVisibleCells()
+                    .OrderBy(p => p.Distance)
+                    .ToList();
+                    _visibleCells.Insert(0, new PointWithDistance(){Distance = 0, Point = PositionCell});
+                }
+                
+                return _visibleCells;
+            }
+        }*/
+
+        protected virtual bool LookForFood()
+        {
+            var eatableCell = VisibleCells.FirstOrDefault(IsCellEatable);
 
             if (eatableCell != null)
             {
                 EnqueueMovingToDestinationObject(eatableCell, Game.Map.GetObjectFromCell(eatableCell));
                 _stateQueue.Enqueue(new Eating(this, () => Game.Map.GetObjectFromCell(eatableCell)));
+                _stateQueue.Enqueue(new Resting(this));
+
                 return true;
             }
 
@@ -164,6 +168,11 @@ namespace Engine.Objects.Animals
         protected void EnqueueMovingToDestinationObject(Point destinationCell, GameObject destinationObject)
         {
             _stateQueue.Enqueue(new MovingToObject(this, Map.CellToPoint(destinationCell), destinationObject));
+        }
+
+        public virtual IEnumerable<MobileObject> GetEnemies()
+        {
+            return null;
         }
     }
 }

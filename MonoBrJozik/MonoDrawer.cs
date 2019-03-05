@@ -221,7 +221,7 @@ namespace MonoBrJozik
             Texture2D texture = null;
 
             var origId = (id / 0x1000) * 0x1000;
-            if (origId == 0x00018000 || origId == 0x10018000)
+            if (origId == 0x00018000 || origId == 0x10018000 || origId == 0x00019000 || origId == 0x00020000)
             {
                 if (!_textures.TryGetValue(origId, out texture))
                     return; 
