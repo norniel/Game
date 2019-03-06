@@ -35,7 +35,7 @@ namespace Engine.Objects
         public Func<HashSet<IBehavior>> Behaviors { get; set; } = () => new HashSet<IBehavior>
         {
             new RoastBehavior( Resource.RoastedBurovik),
-            new EatableBehavior(2),
+            new EatableBehavior(2){EaterType = EaterType.Human | EaterType.Herbivorous},
             new SpoileringBehavior()
         };
 

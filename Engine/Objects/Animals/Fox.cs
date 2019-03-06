@@ -17,6 +17,8 @@ namespace Engine.Objects.Animals
             throw new System.NotImplementedException();
         }
 
+        public override EaterType EaterType => EaterType.Carnivorous;
+
         public override void InitializeProperties()
         {
             Properties = new HashSet<Property>();

@@ -116,7 +116,6 @@ namespace Engine.Objects.Animals
             {
                 EnqueueMovingToDestinationObject(eatableCell, Game.Map.GetObjectFromCell(eatableCell));
                 _stateQueue.Enqueue(new Eating(this, () => Game.Map.GetObjectFromCell(eatableCell)));
-                _stateQueue.Enqueue(new Resting(this));
 
                 return true;
             }
@@ -130,6 +129,8 @@ namespace Engine.Objects.Animals
         {
             ObjectWithState.ChangeState(0, STAYING_BASE_TICKCOUNT + (int) (STAYING_BASE_TICKCOUNT * satiety * 0.1));
         }
+
+        public abstract EaterType EaterType { get; }
 
         private IEnumerable<Point> GetMovingPointsToDestination(Point destinationCell)
         {

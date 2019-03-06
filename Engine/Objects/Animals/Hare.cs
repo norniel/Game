@@ -30,6 +30,8 @@ namespace Engine.Objects.Animals
             return obj != null && obj.GetBaseName() == Resource.Plant;
         }
 
+        public override EaterType EaterType => EaterType.Herbivorous;
+
         public override bool CheckForUnExpected()
         {
             if (State is Fleeing)

@@ -22,7 +22,7 @@ namespace Engine
                 Behaviors  = () => new HashSet<IBehavior>
                     {
                         new RoastBehavior(Resource.RoastedApple),
-                        new EatableBehavior(2)
+                        new EatableBehavior(2){EaterType = EaterType.Human | EaterType.Herbivorous}
                     }}
 
             },
@@ -85,7 +85,7 @@ namespace Engine
                 Behaviors  = () => new HashSet<IBehavior>
                     {
                         new RoastBehavior( Resource.RoastedBurovik),
-                        new EatableBehavior(2, 40, 1),
+                        new EatableBehavior(2, 40, 1){EaterType = EaterType.Human| EaterType.Herbivorous},
                         new SpoileringBehavior()
                     },
                     GrowingProps = new ObjStateProperties { TickCount = DayNightCycle.OneEightDayLength, Distribution = DayNightCycle.OneEightDayLength/3, Eternal = false, Id = 0x10002700 },
@@ -98,7 +98,7 @@ namespace Engine
                     Behaviors  = () => new HashSet<IBehavior>
                     {
                         new RoastBehavior( Resource.RoastedBurovik),
-                        new EatableBehavior(2, 10, 8),
+                        new EatableBehavior(2, 10, 8){EaterType =EaterType.Human | EaterType.Herbivorous},
                         new SpoileringBehavior()
                     },
                     GrowingProps = new ObjStateProperties { TickCount = DayNightCycle.OneSevenDayLength, Distribution = DayNightCycle.OneSevenDayLength/3, Eternal = false, Id = 0x10002800 },
@@ -156,8 +156,11 @@ namespace Engine
                     Id = 0x00003700,Name = "Fern", Weight = 1, NeedKnowledge = true, /*BaseId = 0x00001100,*/
                     GrowingProps  = new ObjStateProperties { TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/5, Eternal = false, Id =0x10003700, BaseId = 0x10001100 },
                     StayingProps = new ObjStateProperties { TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00003700, BaseId = 0x00001100 },
-                    DryingProps = new ObjStateProperties { TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/10, Eternal = false, Id = 0x20003700, BaseId = 0x20001100 }
-
+                    DryingProps = new ObjStateProperties { TickCount = DayNightCycle.OneSixDayLength, Distribution = DayNightCycle.OneSixDayLength/10, Eternal = false, Id = 0x20003700, BaseId = 0x20001100 },
+                    Behaviors  = () => new HashSet<IBehavior>
+                    {
+                        new EatableBehavior(2){EaterType = EaterType.Herbivorous}
+                    }
                 }
 
             }

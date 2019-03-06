@@ -28,7 +28,7 @@ namespace Engine.States
         public void Act()
         {
             var eatableBehavior = _objectToEat?.GetBehavior<EatableBehavior>();
-            if (eatableBehavior != null) {
+            if (eatableBehavior != null && eatableBehavior.ForType(_eater.EaterType)) {
                 _eater.Eat((int)(eatableBehavior.SatietyCoefficient + _objectToEat.WeightDbl));
                 _objectToEat.RemoveFromContainer?.Invoke();
             }

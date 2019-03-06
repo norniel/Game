@@ -105,5 +105,7 @@ namespace Engine.Objects
             var obj = Game.Map.GetObjectFromCell(p);
             return (obj is Berry && obj.Name == Resource.Apple) || obj is Mushroom;
         }
+
+        public override EaterType EaterType => EaterType.Herbivorous;
     }
 }

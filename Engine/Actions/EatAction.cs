@@ -35,6 +35,9 @@ namespace Engine.Actions
             foreach (var eatableObject in objects.Where(o => o.HasBehavior<EatableBehavior>()))
             {
                 var eatableBehavior = eatableObject.GetBehavior<EatableBehavior>();
+                if (!eatableBehavior.ForHuman())
+                    continue;
+
                 hero.Eat((int)(eatableBehavior.SatietyCoefficient * eatableObject.WeightDbl));
                 eatableObject.RemoveFromContainer();
                 conseqList.Add(Consequance.AddObjectKnowledge(eatableObject.Name, 5));

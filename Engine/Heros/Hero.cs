@@ -143,6 +143,8 @@ namespace Engine.Heros
             HeroLifeCycle.Eat(satiety);
         }
 
+        public EaterType EaterType => EaterType.Human;
+
         public IEnumerable<KeyValuePair<string, int>> GetProperties()
         {
             return new List<KeyValuePair<string, int>>

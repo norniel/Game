@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Engine.Objects.Animals;
-using MoreLinq;
 
 namespace Engine.States
 {
@@ -20,8 +19,7 @@ namespace Engine.States
                 .Distinct().Select(mo => new
                 {
                     Mo = mo,
-                    Distance = Math.Sqrt((mo.Position.X - _animal.Position.X) * (mo.Position.X - _animal.Position.X) +
-                                         (mo.Position.Y - _animal.Position.Y) * (mo.Position.Y - _animal.Position.Y))
+                    Distance = Point.Distance(mo.Position, _animal.Position)
                 }).GroupBy(mo => mo.Distance).OrderByDescending(gr => gr.Key).FirstOrDefault()?.ToList();
 
             if (enemies == null || !enemies.Any())
@@ -41,11 +39,7 @@ namespace Engine.States
                 {
                     for (int j = i + 1; j < enemies.Count; j++)
                     {
-                        var distance = Math.Sqrt(
-                            (enemies[i].Mo.Position.X - enemies[j].Mo.Position.X) *
-                            (enemies[i].Mo.Position.X - enemies[j].Mo.Position.X) +
-                            (enemies[i].Mo.Position.Y - enemies[j].Mo.Position.Y) *
-                            (enemies[i].Mo.Position.Y - enemies[j].Mo.Position.Y));
+                        var distance = Point.Distance(enemies[i].Mo.Position, enemies[j].Mo.Position);
 
                         if (maxDistance < distance)
                         {
@@ -59,7 +53,7 @@ namespace Engine.States
                 endPoint = new Point((enemies[maxI].Mo.Position.X + enemies[maxJ].Mo.Position.X)/2, (enemies[maxI].Mo.Position.Y + enemies[maxJ].Mo.Position.Y) / 2);
             }
 
-            var distanceToEnemies = Math.Sqrt((_animal.Position.X - endPoint.X) * (_animal.Position.X - endPoint.X) + (_animal.Position.Y - endPoint.Y) * (_animal.Position.Y - endPoint.Y));
+            var distanceToEnemies = Point.Distance(_animal.Position, endPoint);
 
             if (distanceToEnemies >= 0.00001)
             {
@@ -78,6 +72,6 @@ namespace Engine.States
             }
         }
 
-        public bool ShowActing { get; }
+        public bool ShowActing => false;
     }
 }

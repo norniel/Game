@@ -80,7 +80,7 @@ namespace Engine
 
                     map.AddMobileObject(new Dikabryozik(new Point(tmpX, tmpY)));
                     map.AddMobileObject(new Hare(Map.CellToPoint(new Point(tmpX, tmpY))));
-                    map.AddMobileObject(new Fox(Map.CellToPoint(new Point(tmpX, tmpY))));
+                   // map.AddMobileObject(new Fox(Map.CellToPoint(new Point(tmpX, tmpY))));
                     break;
                 }
             }

@@ -1,4 +1,6 @@
-﻿namespace Engine
+﻿using System;
+
+namespace Engine
 {
     public class Point
     {
@@ -71,6 +73,12 @@
         public override string ToString()
         {
             return $"[{X};{Y}]";
+        }
+
+        public static double Distance(Point start, Point end)
+        {
+            return Math.Sqrt((start.X - end.X) * (start.X - end.X) +
+                             (start.Y - end.Y) * (start.Y - end.Y));
         }
     }
 }
