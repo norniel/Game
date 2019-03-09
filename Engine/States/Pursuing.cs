@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Engine.Objects.Animals;
 
 namespace Engine.States
 {
     class Pursuing: IState
     {
         private readonly MobileObject _mobileObject;
-        private readonly MobileObject _destinationObject;
+        private readonly Animal _destinationObject;
         private int _pursuingInvisible;
 
-        public Pursuing(MobileObject mobileObject, MobileObject destinationObject)
+        public Pursuing(MobileObject mobileObject, Animal destinationObject)
         {
             _mobileObject = mobileObject;
             _destinationObject = destinationObject;
@@ -18,6 +19,12 @@ namespace Engine.States
 
         public void Act()
         {
+            if (_destinationObject.IsDead)
+            {
+                _mobileObject.StateEvent.FireEvent();
+                return;
+            }
+
             var destination = _destinationObject.Position;
 
             if (_mobileObject.VisibleCells?.All(vc => vc != _destinationObject.PositionCell) ?? true)

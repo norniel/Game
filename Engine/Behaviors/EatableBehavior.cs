@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Engine.Interfaces;
 
 namespace Engine.Behaviors
@@ -10,9 +11,7 @@ namespace Engine.Behaviors
         public int Poisoness { get; set; }
         public int Time { get; set; }
         internal EaterType EaterType { get; set; } = EaterType.Human;
-
-        //  public Dictionary<ObjectStates.ObjectStates, EatableProps> EatableByStates;
-
+        
         public EatableBehavior(int eatingCoefficient)
         {
             SatietyCoefficient = eatingCoefficient;
@@ -27,12 +26,12 @@ namespace Engine.Behaviors
 
         public bool ForHuman()
         {
-            return (EaterType & EaterType.Human) == EaterType.Human;
+            return EaterType.HasFlag(EaterType.Human);
         }
 
         internal bool ForType(Engine.EaterType eaterType)
         {
-            return (EaterType & eaterType) == eaterType;
+            return EaterType.HasFlag(eaterType);
         }
     }
 }

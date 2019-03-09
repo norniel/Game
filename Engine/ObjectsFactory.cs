@@ -163,6 +163,14 @@ namespace Engine
                     }
                 }
 
+            },
+            { "Dead hare", new FixedObjectContext
+                {
+                    Id = 0x00021000,Name = "Dead hare", Weight = 1, NeedKnowledge = false, /*BaseId = 0x00001100,*/
+                    Properties = () => new HashSet<Property>{Property.Pickable},
+                    Behaviors  = () => new HashSet<IBehavior>()
+                }
+
             }
         };
 

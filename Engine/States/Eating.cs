@@ -9,28 +9,22 @@ namespace Engine.States
     class Eating:IState
     {
         private readonly IEater _eater;
-
-        [CanBeNull]
-        private readonly GameObject _objectToEat;
-
-        public Eating(IEater eater, [CanBeNull] GameObject objectToEat)
-        {
-            _eater = eater;
-            _objectToEat = objectToEat;
-        }
+        
+        private readonly Func<GameObject> _objectToEatFunc;
 
         public Eating(IEater eater, Func<GameObject> objectToEatFunc)
         {
             _eater = eater;
-            _objectToEat = objectToEatFunc();
+            _objectToEatFunc = objectToEatFunc;
         }
 
         public void Act()
         {
-            var eatableBehavior = _objectToEat?.GetBehavior<EatableBehavior>();
+            var objectToEat = _objectToEatFunc();
+            var eatableBehavior = objectToEat?.GetBehavior<EatableBehavior>();
             if (eatableBehavior != null && eatableBehavior.ForType(_eater.EaterType)) {
-                _eater.Eat((int)(eatableBehavior.SatietyCoefficient + _objectToEat.WeightDbl));
-                _objectToEat.RemoveFromContainer?.Invoke();
+                _eater.Eat((int)(eatableBehavior.SatietyCoefficient + objectToEat.WeightDbl));
+                objectToEat.RemoveFromContainer?.Invoke();
             }
 
             var mobileObject = _eater as MobileObject;

@@ -42,8 +42,8 @@ namespace Engine.Objects.Animals
 
             if (destinationObject != null)
             {
-                _stateQueue.Enqueue(new Pursuing(this, destinationObject));
-                _stateQueue.Enqueue(new Resting(this));
+                _stateQueue.Enqueue(new Pursuing(this, destinationObject as Animal));
+                _stateQueue.Enqueue(new Killing(this, () => destinationObject as Animal));
 
                 return true;
             }

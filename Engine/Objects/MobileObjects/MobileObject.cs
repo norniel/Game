@@ -16,6 +16,8 @@ namespace Engine
         private Point _positionCell;
         private bool _positionChanged = true;
 
+        protected List<IDisposable> _disposables = new List<IDisposable>();
+
         public Point Position {
             get => _position;
             set
@@ -70,10 +72,11 @@ namespace Engine
             PointList = new List<Point>();
             State = new Standing();
 
-            Observable.FromEventPattern<StateHandler, StateEventArgs>(
+            _disposables.Add(Observable.FromEventPattern<StateHandler, StateEventArgs>(
                 ev => StateEvent.NextState += ev,
-                ev => StateEvent.NextState -= ev).Subscribe(staSubject);
-            staSubject.Subscribe(x =>
+                ev => StateEvent.NextState -= ev).Subscribe(staSubject));
+
+            _disposables.Insert(0, staSubject.Subscribe(x =>
             {   
                 if (_stateQueue.Count == 0)
                 {
@@ -97,13 +100,13 @@ namespace Engine
                 }
 
 
-            });
+            }));
 
-            Game.Intervals.CombineLatest(States, (tick, state) => state).Subscribe(x =>
+            _disposables.Insert(0, Game.Intervals.CombineLatest(States, (tick, state) => state).Subscribe(x =>
             {
                 if (State != null && CheckForUnExpected()) 
                     State.Act();
-            });
+            }));
         }
 
         public virtual void EnqueueNextState()

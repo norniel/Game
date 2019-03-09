@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Engine.Objects.Animals;
 using Engine.Objects.LargeObjects;
 using Wintellect.PowerCollections;
 
@@ -19,7 +20,7 @@ namespace Engine
 
        // private readonly FixedObject[,] _map;
 
-        private readonly List<MobileObject> _mobileObjects;
+        private List<MobileObject> _mobileObjects;
 
         public Rect VisibleRect { get; private set; }
 
@@ -360,5 +361,9 @@ namespace Engine
         }
 
 
+        public void RemoveMobileObject(MobileObject mobileObject)
+        {
+            _mobileObjects =_mobileObjects.Where(t => t != mobileObject).ToList();
+        }
     }
 }

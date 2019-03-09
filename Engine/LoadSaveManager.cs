@@ -68,7 +68,7 @@ namespace Engine
                 count--;
             }
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 19; i++)
             {
                 while (true)
                 {
@@ -78,9 +78,9 @@ namespace Engine
                     if (map.GetObjectFromCell(new Point(tmpX, tmpY)) != null)
                         continue;
 
-                    map.AddMobileObject(new Dikabryozik(new Point(tmpX, tmpY)));
+             //       map.AddMobileObject(new Dikabryozik(new Point(tmpX, tmpY)));
                     map.AddMobileObject(new Hare(Map.CellToPoint(new Point(tmpX, tmpY))));
-                   // map.AddMobileObject(new Fox(Map.CellToPoint(new Point(tmpX, tmpY))));
+                    map.AddMobileObject(new Fox(Map.CellToPoint(new Point(tmpX, tmpY))));
                     break;
                 }
             }

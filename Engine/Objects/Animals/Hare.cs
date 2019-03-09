@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using Engine.Resources;
 using Engine.States;
 using Engine.Tools;
@@ -56,6 +57,16 @@ namespace Engine.Objects.Animals
         public override IEnumerable<MobileObject> GetEnemies()
         {
             return VisibleCells.SelectMany(c => Game.Map.GetMobileObjects().Where(mb => mb.PositionCell == c).Where(mb => mb.Name == "Fox"));
+        }
+
+        public override void Die()
+        {
+            base.Die();
+
+            _stateQueue.Clear();
+            Game.Map.RemoveMobileObject(this);
+            Game.Map.SetObjectFromCell(PositionCell,  Game.Factory.Produce("Dead hare") as FixedObject);
+            _disposables.ForEach(d => d.Dispose());
         }
     }
 }

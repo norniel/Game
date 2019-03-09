@@ -15,7 +15,9 @@ namespace Engine.Objects.Animals
 
         private const int STAYING_BASE_TICKCOUNT = 300;
 
-      //  private List<PointWithDistance> _visibleCells;
+        public bool IsDead { get; protected set; }
+
+        //  private List<PointWithDistance> _visibleCells;
         
         protected Animal(bool isPassable, Size size, uint id, uint speed, string name, int viewRadius, Point position)
         {
@@ -174,6 +176,11 @@ namespace Engine.Objects.Animals
         public virtual IEnumerable<MobileObject> GetEnemies()
         {
             return null;
+        }
+
+        public virtual void Die()
+        {
+            IsDead = true;
         }
     }
 }
