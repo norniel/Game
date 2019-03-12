@@ -11,7 +11,7 @@ namespace Engine.Objects.Animals
     class Hare: Animal
     {
         public Hare(Point position) 
-            : base(false, new Size(1,1), 0x00019000, 50, "Hare", 4, position)
+            : base(false, new Size(1,1), 0x00019000, 60, "Hare", 4, position)
         {
         }
 
