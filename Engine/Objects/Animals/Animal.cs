@@ -92,23 +92,6 @@ namespace Engine.Objects.Animals
 
             EnqueueMovingToDestination(destination);
         }
-/*
-        private List<PointWithDistance> VisibleCells
-        {
-            get
-            {
-                if (_visibleCells == null || !_visibleCells.Any() || _visibleCells.First().Point != Position)
-                {
-                    _visibleCells = ShadowCasting.For(PositionCell, ViewRadius, Game.Map)
-                    .GetVisibleCells()
-                    .OrderBy(p => p.Distance)
-                    .ToList();
-                    _visibleCells.Insert(0, new PointWithDistance(){Distance = 0, Point = PositionCell});
-                }
-                
-                return _visibleCells;
-            }
-        }*/
 
         protected virtual bool LookForFood()
         {

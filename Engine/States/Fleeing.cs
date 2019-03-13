@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
+﻿using System.Linq;
 using Engine.Objects.Animals;
 using Engine.Tools;
 
@@ -10,7 +8,7 @@ namespace Engine.States
     {
         private readonly Animal _animal;
         private int _fleeingInvisible;
-        private Vector vector;
+        private Vector _vector;
 
         public Fleeing(Animal animal)
         {
@@ -33,7 +31,7 @@ namespace Engine.States
 
             if (enemies == null || !enemies.Any())
             {
-                if (_fleeingInvisible > 5 || vector == null)
+                if (_fleeingInvisible > 5 || _vector == null)
                 {
                     _animal.StateEvent.FireEvent();
                     return;
@@ -41,7 +39,7 @@ namespace Engine.States
 
                 _fleeingInvisible++;
 
-                CalculateFinalVectorAndPosition(vector);
+                CalculateFinalVectorAndPosition(_vector);
 
                 return;
             }
@@ -53,7 +51,7 @@ namespace Engine.States
 
             if (maxDistance < 0.0001)
             {
-                CalculateFinalVectorAndPosition(new Vector(1.0, 1.0).Normalize());
+                CalculateFinalVectorAndPosition(_vector ?? new Vector(1.0, 1.0).Normalize());
                 return;
             }
 
@@ -72,9 +70,9 @@ namespace Engine.States
         {
             var vectorForFree = _animal.GetNearestPassibleVector(newVector);
 
-            if (vector != null)
+            if (_vector != null)
             {
-                vectorForFree += vector;
+                vectorForFree += _vector;
                 vectorForFree = vectorForFree.Normalize();
             }
 
@@ -86,7 +84,7 @@ namespace Engine.States
             _animal.Position = new Point(x < 0 ? 0 : x >= Map.MAP_WIDTH ? Map.MAP_WIDTH - 1 : x,
                 y < 0 ? 0 : y >= Map.MAP_HEIGHT ? Map.MAP_HEIGHT - 1 : y);
 
-            vector = vectorForFree;
+            _vector = vectorForFree;
         }
 
         private void GetFleeVector()
@@ -134,8 +132,8 @@ namespace Engine.States
 
             if (distanceToEnemies >= 0.00001)
             {
-                var dx = -((double)endPoint.X - _animal.Position.X) / distanceToEnemies;
-                var dy = -((double)endPoint.Y - _animal.Position.Y) / distanceToEnemies;
+                var dx = -((double) endPoint.X - _animal.Position.X) / distanceToEnemies;
+                var dy = -((double) endPoint.Y - _animal.Position.Y) / distanceToEnemies;
 
                 var vectorForFree = _animal.GetNearestPassibleVector(new Vector(dx, dy));
 
@@ -146,8 +144,8 @@ namespace Engine.States
                                 else
                                     _animal.Angle = (dy < 0) ? 90 : 270;
                                 */
-                var x = (int)(vectorForFree.X * _animal.Speed / 10 + _animal.Position.X);
-                var y = (int)(vectorForFree.Y * _animal.Speed / 10 + _animal.Position.Y);
+                var x = (int) (vectorForFree.X * _animal.Speed / 10 + _animal.Position.X);
+                var y = (int) (vectorForFree.Y * _animal.Speed / 10 + _animal.Position.Y);
 
                 _animal.Position = new Point(x < 0 ? 0 : x >= Map.MAP_WIDTH ? Map.MAP_WIDTH - 1 : x,
                     y < 0 ? 0 : y >= Map.MAP_HEIGHT ? Map.MAP_HEIGHT - 1 : y);
