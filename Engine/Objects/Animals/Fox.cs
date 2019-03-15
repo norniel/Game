@@ -35,9 +35,9 @@ namespace Engine.Objects.Animals
             {
                 var t =  Game.Map.GetMobileObject(vCell);
                 return t;
-            }).FirstOrDefault(mo =>
+            }).OfType<Animal>().FirstOrDefault(mo =>
             {
-                return mo != null && mo.Name == "Hare";
+                return mo != null && mo.Name == "Hare" && !mo.IsDead;
             });
 
             if (destinationObject != null)

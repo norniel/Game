@@ -21,7 +21,7 @@ namespace Engine.States
         public void Act()
         {
             var victim = _victimFunc();
-            if (victim == null || Point.Distance(_hunter.Position, victim.Position) > 1)
+            if (victim == null || victim.IsDead || Point.Distance(_hunter.Position, victim.Position) > 1)
             {
                 _hunter.StateEvent.FireEvent();
                 return;

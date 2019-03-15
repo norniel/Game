@@ -40,13 +40,13 @@ namespace Engine
                 for (int j = 0; j < mapWithRiver.GetLength(1); j++)
                 {
                     if (mapWithRiver[i, j] > 0)
-                        map.SetObjectFromCell(new Point(i, j), new FixedObject(new Size(1, 1), (uint)(mapWithRiver[i, j] > 1 ? 0x00002000 : 0x00002100)));
+                        map.SetObjectFromCell(new Point(i, j), new FixedObject(new Size(1, 1), (uint)(mapWithRiver[i, j] > 1 ? 0x00002000 : 0x00002100)){IsPassable = false});
                 }
             }
-
+            
             int tmpX, tmpY;
             Random rand = new Random();
-
+            
             while( count > 0 )
             {
                 tmpX = rand.Next(width);
@@ -63,12 +63,12 @@ namespace Engine
                 var randIndex = count % typesCount;//typesOnMap.Count;
 
                 //map.SetObjectFromCell(new Point(tmpX, tmpY), Activator.CreateInstance(typesOnMap[randIndex]) as FixedObject);
-                map.SetObjectFromCell(new Point(tmpX, tmpY), Game.Factory.Produce(Game.Factory.ObjectsToGenMap[randIndex]) as FixedObject);
+              //  map.SetObjectFromCell(new Point(tmpX, tmpY), Game.Factory.Produce(Game.Factory.ObjectsToGenMap[randIndex]) as FixedObject);
                 
                 count--;
             }
 
-            for (int i = 0; i < 19; i++)
+            for (int i = 0; i < 20; i++)
             {
                 while (true)
                 {

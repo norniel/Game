@@ -7,7 +7,7 @@ namespace Engine
 {
     public class FixedObjectContext : IObjectContext
     {
-        public GameObject Produce()
+        public virtual GameObject Produce()
         {
             return new FixedObject(this);
         }

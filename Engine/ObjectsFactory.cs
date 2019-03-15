@@ -88,8 +88,8 @@ namespace Engine
                         new EatableBehavior(2, 40, 1){EaterType = EaterType.Human| EaterType.Herbivorous},
                         new SpoileringBehavior()
                     },
-                    GrowingProps = new ObjStateProperties { TickCount = DayNightCycle.OneEightDayLength, Distribution = DayNightCycle.OneEightDayLength/3, Eternal = false, Id = 0x10002700 },
-                    StayingProps = new ObjStateProperties { TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00002700 }
+                GrowingProps = new ObjStateProperties { TickCount = DayNightCycle.OneEightDayLength, Distribution = DayNightCycle.OneEightDayLength/3, Eternal = false, Id = 0x10002700 },
+                StayingProps = new ObjStateProperties { TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00002700 }
                 }
 
             },
@@ -164,11 +164,15 @@ namespace Engine
                 }
 
             },
-            { "Dead hare", new FixedObjectContext
+            { "Dead hare", new ObjectWithStateContext
                 {
-                    Id = 0x00021000,Name = "Dead hare", Weight = 1, NeedKnowledge = false, /*BaseId = 0x00001100,*/
+                    Id = 0x00021000,Name = "Dead hare", Weight = 1, NeedKnowledge = false, 
                     Properties = () => new HashSet<Property>{Property.Pickable},
-                    Behaviors  = () => new HashSet<IBehavior>()
+                    Behaviors  = () => new HashSet<IBehavior>(),
+                    ObjectStateProps = new Dictionary<ObjectStates.ObjectStates, ObjStateProperties>(){
+                        { ObjectStates.ObjectStates.Staying, new ObjStateProperties { TickCount = DayNightCycle.OneEightDayLength, Distribution = 0/*DayNightCycle.HalfDayLength/10*/, Eternal = false, Id = 0x00021000 }},
+                        { ObjectStates.ObjectStates.Spoilering, new ObjStateProperties { TickCount = DayNightCycle.OneEightDayLength, Distribution = 0/*DayNightCycle.HalfDayLength/10*/, Eternal = false, Id = 0x00021000 }}
+                    }
                 }
 
             }
@@ -193,7 +197,7 @@ namespace Engine
         public ObjectsFactory()
         {
             Assembly.GetExecutingAssembly().GetTypes().Where(
-                    type => typeof(IObjectContext).IsAssignableFrom(type) && type != typeof(FixedObjectContext) && !type.IsInterface)
+                    type => typeof(IObjectContext).IsAssignableFrom(type) && type != typeof(FixedObjectContext) && type != typeof(ObjectWithStateContext) && !type.IsInterface)
                 .Select(type => Activator.CreateInstance(type) as IObjectContext)
                 .ToList()
                 .ForEach(context =>

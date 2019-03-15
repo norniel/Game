@@ -85,7 +85,7 @@ namespace Engine.Tools
         {
             var distance = Math.Sqrt(X * X + Y * Y);
 
-            return new Vector(X/distance, Y/distance);
+            return distance < 0.000001 ? new Vector(0,0):  new Vector(X/distance, Y/distance);
         }
 
         public double Angle()
