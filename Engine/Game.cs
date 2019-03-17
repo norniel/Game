@@ -135,8 +135,10 @@ namespace Engine
             _unityContainer.BuildUp(hero);
             _unityContainer.RegisterInstance(typeof(Hero), hero);
 
-            foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type))){
-                _unityContainer.RegisterType(typeof(IAction), type, type.ToString(), new ContainerControlledTransientManager(), null);
+            foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type)))
+            {
+                _unityContainer
+                    .RegisterType(typeof(IAction), type, type.ToString());
             }
 
 
