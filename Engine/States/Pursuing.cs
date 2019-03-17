@@ -42,7 +42,7 @@ namespace Engine.States
 
             double distance = Math.Sqrt((_mobileObject.Position.X - destination.X) * (_mobileObject.Position.X - destination.X) + (_mobileObject.Position.Y - destination.Y) * (_mobileObject.Position.Y - destination.Y));
 
-            if (distance >= 0.01)
+            if (distance >= 1)
             {
                 var dx = (_mobileObject.Position.X - (double)destination.X) / distance;
                 var dy = (_mobileObject.Position.Y - (double)destination.Y) / distance;

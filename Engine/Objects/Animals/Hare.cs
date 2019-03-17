@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Channels;
 using Engine.Resources;
 using Engine.States;
 using Engine.Tools;
@@ -11,7 +9,7 @@ namespace Engine.Objects.Animals
     class Hare: Animal
     {
         public Hare(Point position) 
-            : base(false, new Size(1,1), 0x00019000, 60, "Hare", 4, position)
+            : base(false, new Size(1,1), 0x00019000, 50, "Hare", 4, position)
         {
         }
 
@@ -67,6 +65,16 @@ namespace Engine.Objects.Animals
             Game.Map.RemoveMobileObject(this);
             Game.Map.SetObjectFromCell(PositionCell,  Game.Factory.Produce("Dead hare") as FixedObject);
             _disposables.ForEach(d => d.Dispose());
+
+            var position = PositionCell;
+            
+            Game.PlannedQueueManager.AddObjectToQueue(new PlannedEvent(() =>
+            {
+                var nearCell = Game.Map.GetRandomNearEmptyPoint(position, 3);
+                Game.Map.AddMobileObject(new Hare(Map.CellToPoint(nearCell?? position)));
+
+                return true;
+            }));
         }
     }
 }

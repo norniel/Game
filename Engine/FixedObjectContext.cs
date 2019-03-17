@@ -20,7 +20,7 @@ namespace Engine
         public uint BaseId { get; set; }
         public string BaseName { get; set; }
 
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         public uint Id { get; set; }
     }

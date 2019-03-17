@@ -101,8 +101,6 @@ namespace Engine.States
                 y = Map.MAP_HEIGHT - 1;
             }
 
-           /* _animal.Position = new Point(x < 0 ? 0 : x >= Map.MAP_WIDTH ? Map.MAP_WIDTH - 1 : x,
-                y < 0 ? 0 : y >= Map.MAP_HEIGHT ? Map.MAP_HEIGHT - 1 : y);*/
            _animal.Position = new Point(x, y);
 
             _vector = vectorForFree;
