@@ -30,6 +30,8 @@ namespace Engine
         Enterable,
         Crackable,
         Cracker,
-        NeedToMakeFireWithStone
+        NeedToMakeFireWithStone,
+        CollectMeat,
+        CollectFur
     }
 }

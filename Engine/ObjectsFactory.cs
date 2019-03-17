@@ -166,15 +166,42 @@ namespace Engine
             },
             { "Dead hare", new ObjectWithStateContext
                 {
-                    Id = 0x00021000,Name = "Dead hare", Weight = 1, NeedKnowledge = false, 
-                    Properties = () => new HashSet<Property>{Property.Pickable},
-                    Behaviors  = () => new HashSet<IBehavior>(),
+                    Id = 0x00003800,Name = "Dead hare", Weight = 1, NeedKnowledge = false, 
+                    Properties = () => new HashSet<Property>{Property.Pickable, Property.CollectFur, Property.CollectMeat},
+                    Behaviors  = () => new HashSet<IBehavior> {
+                        new CollectBehavior<FixedObjectWithState>("Meat", 1, 2, false),
+                        new CollectBehavior<FixedObjectWithState>("Fur", 1, 1, false),
+                    },
                     ObjectStateProps = new Dictionary<ObjectStates.ObjectStates, ObjStateProperties>(){
-                        { ObjectStates.ObjectStates.Staying, new ObjStateProperties { TickCount = DayNightCycle.OneEightDayLength, Distribution = 0/*DayNightCycle.HalfDayLength/10*/, Eternal = false, Id = 0x00021000 }},
-                        { ObjectStates.ObjectStates.Spoilering, new ObjStateProperties { TickCount = DayNightCycle.OneEightDayLength, Distribution = 0/*DayNightCycle.HalfDayLength/10*/, Eternal = false, Id = 0x00021000 }}
+                        { ObjectStates.ObjectStates.Staying, new ObjStateProperties { TickCount = DayNightCycle.DayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00003800 }},
+                        { ObjectStates.ObjectStates.Spoilering, new ObjStateProperties { TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00003800 }}
                     }
                 }
-
+            },
+            { "Meat", new MeatContext()
+                {
+                    Id = 0x00003900, Name = "Meat", Weight = 1, NeedKnowledge = false, 
+                    Properties = () =>new HashSet<Property>{Property.Pickable, Property.Eatable},
+                    Behaviors  = () => new HashSet<IBehavior>
+                    {
+                        new EatableBehavior(10){EaterType = EaterType.Carnivorous & EaterType.Human}
+                    },
+                    ObjectStateProps = new Dictionary<ObjectStates.ObjectStates, ObjStateProperties>(){
+                        { ObjectStates.ObjectStates.Staying, new ObjStateProperties { TickCount = DayNightCycle.DayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00003900 }},
+                        { ObjectStates.ObjectStates.Spoilering, new ObjStateProperties { TickCount = DayNightCycle.HalfDayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00003900 }}
+                    }
+                }
+            },
+            { "Fur", new FurContext()
+                {
+                    Id = 0x00004000, Name = "Fur", Weight = 1, NeedKnowledge = false,
+                    Properties = () =>new HashSet<Property>{Property.Pickable},
+                    Behaviors  = () => new HashSet<IBehavior>(),
+                    ObjectStateProps = new Dictionary<ObjectStates.ObjectStates, ObjStateProperties>(){
+                        { ObjectStates.ObjectStates.Staying, new ObjStateProperties { TickCount = 2*DayNightCycle.DayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00004000 }},
+                        { ObjectStates.ObjectStates.Spoilering, new ObjStateProperties { TickCount = 2*DayNightCycle.DayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00004000 }}
+                    }
+                }
             }
         };
 
