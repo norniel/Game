@@ -8,9 +8,11 @@ using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Resources;
 using Engine.Tools;
+using JetBrains.Annotations;
 
 namespace Engine.Actions
 {
+    [UsedImplicitly]
     internal class BurnAction : IAction
     {
         public string Name => "Burn";

@@ -2,7 +2,6 @@
 using Engine.Behaviors;
 using Engine.Interfaces;
 using Engine.Objects;
-using JetBrains.Annotations;
 
 namespace Engine.States
 {

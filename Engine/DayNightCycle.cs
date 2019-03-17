@@ -87,15 +87,15 @@ namespace Engine
 
             if (_currentGameDate.Hour >= 5 && _currentGameDate.Hour < 10)
             {
-                return 0.7 - 0.7 * (((_currentGameDate.Hour - 5) * 60 + _currentGameDate.Minute) / minutesDiv * fract + fract);
+                return 0.7 - 0.7 * (((_currentGameDate.Hour - 5) * 60.0 + _currentGameDate.Minute) / minutesDiv * fract + fract);
             }
 
             if ((_currentGameDate.Hour >= 20 && _currentGameDate.Hour < 24) || _currentGameDate.Hour < 1)
             {
                 if (_currentGameDate.Hour < 1)
-                    return 0.7 * ((4 * 60 + _currentGameDate.Minute) / minutesDiv * fract + fract);
+                    return 0.7 * ((4 * 60.0 + _currentGameDate.Minute) / minutesDiv * fract + fract);
 
-                return 0.7 * (((_currentGameDate.Hour - 20) * 60 + _currentGameDate.Minute) / minutesDiv * fract + fract);
+                return 0.7 * (((_currentGameDate.Hour - 20) * 60.0 + _currentGameDate.Minute) / minutesDiv * fract + fract);
             }
 
             return 0;

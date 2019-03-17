@@ -84,7 +84,7 @@ namespace Engine.Actions
 
             var newCurrent = objectWithSmth.CurrentCount - addedToBagCount;
 
-            objectWithSmth.CurrentCount = Math.Max(0, newCurrent);;
+            objectWithSmth.CurrentCount = Math.Max(0, newCurrent);
 
             return objectWithSmth.CurrentCount > 0 && addedToBagCount == smthToBagCount && !hero.Bag.IsFull;
         }

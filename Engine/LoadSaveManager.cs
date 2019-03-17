@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Engine.Objects;
 using Engine.Objects.Animals;
 
 namespace Engine
@@ -63,7 +62,7 @@ namespace Engine
                 var randIndex = count % typesCount;//typesOnMap.Count;
 
                 //map.SetObjectFromCell(new Point(tmpX, tmpY), Activator.CreateInstance(typesOnMap[randIndex]) as FixedObject);
-              //  map.SetObjectFromCell(new Point(tmpX, tmpY), Game.Factory.Produce(Game.Factory.ObjectsToGenMap[randIndex]) as FixedObject);
+                map.SetObjectFromCell(new Point(tmpX, tmpY), Game.Factory.Produce(Game.Factory.ObjectsToGenMap[randIndex]) as FixedObject);
                 
                 count--;
             }

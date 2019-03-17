@@ -169,8 +169,8 @@ namespace Engine
                     Id = 0x00003800,Name = "Dead hare", Weight = 1, NeedKnowledge = false, 
                     Properties = () => new HashSet<Property>{Property.Pickable, Property.CollectFur, Property.CollectMeat},
                     Behaviors  = () => new HashSet<IBehavior> {
-                        new CollectBehavior<FixedObjectWithState>("Meat", 1, 2, false),
-                        new CollectBehavior<FixedObjectWithState>("Fur", 1, 1, false),
+                        new CollectBehavior<Meat>("Meat", 1, 2, false),
+                        new CollectBehavior<Fur>("Fur", 1, 1, false),
                     },
                     ObjectStateProps = new Dictionary<ObjectStates.ObjectStates, ObjStateProperties>(){
                         { ObjectStates.ObjectStates.Staying, new ObjStateProperties { TickCount = DayNightCycle.DayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00003800 }},

@@ -59,7 +59,7 @@ namespace Engine.Actions
             var allObjects =
                 objects.Union(hero.GetContainerItems()).Distinct();
 
-            var branches = allObjects.Where(ao => ao is Branch).Select(ao => ao).Take(2).ToList();
+            var branches = allObjects.Where(ao => ao is Branch).Take(2).ToList();
             var plant = allObjects.FirstOrDefault(ao => ao is Plant);
 
             if (branches.Count == 2 && plant != null)

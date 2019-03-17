@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Engine.Interfaces;
+﻿using Engine.Interfaces;
 
 namespace Engine.Behaviors
 {

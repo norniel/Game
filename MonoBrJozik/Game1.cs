@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoBrJozik.Controls;
-using System;
 using System.Globalization;
 using System.Threading;
 using Point = Engine.Point;

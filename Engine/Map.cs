@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Engine.Objects.Animals;
 using Engine.Objects.LargeObjects;
 using Wintellect.PowerCollections;
 

@@ -6,9 +6,7 @@ using Engine.BridgeObjects;
 using Engine.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoBrJozik.Controls;
-using MoreLinq;
 using Point = Engine.Point;
 
 namespace MonoBrJozik

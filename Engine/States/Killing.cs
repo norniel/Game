@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Engine.Objects;
 using Engine.Objects.Animals;
 
 namespace Engine.States
 {
     class Killing :IState
     {
-        public readonly MobileObject _hunter;
-        public readonly Func<Animal> _victimFunc;
+        private readonly MobileObject _hunter;
+        private readonly Func<Animal> _victimFunc;
         public Killing(MobileObject hunter, Func<Animal> victimFunc)
         {
             _hunter = hunter;

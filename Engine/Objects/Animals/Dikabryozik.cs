@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Engine.Behaviors;
-using Engine.Interfaces;
 using Engine.Objects.Animals;
-using Engine.ObjectStates;
 using Engine.Resources;
 using Engine.States;
 using Engine.Tools;
