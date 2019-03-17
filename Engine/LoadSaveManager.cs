@@ -69,21 +69,36 @@ namespace Engine
 
             for (int i = 0; i < 20; i++)
             {
-                while (true)
-                {
-                    tmpX = rand.Next(width);
-                    tmpY = rand.Next(height);
+                var point = GetRandCell(map, rand, width, height);
+                map.AddMobileObject(new Fox(Map.CellToPoint(point)));
+                
+                var point2 = GetRandCell(map, rand, width, height);
+                map.SetObjectFromCell(point2, Game.Factory.Produce("Dead hare") as FixedObject);
 
-                    if (map.GetObjectFromCell(new Point(tmpX, tmpY)) != null)
-                        continue;
-
-             //       map.AddMobileObject(new Dikabryozik(new Point(tmpX, tmpY)));
-                    map.AddMobileObject(new Hare(Map.CellToPoint(new Point(tmpX, tmpY))));
-                    map.AddMobileObject(new Fox(Map.CellToPoint(new Point(tmpX, tmpY))));
-                    break;
-                }
             }
 
+        }
+
+        private static Point GetRandCell(Map map, Random rand, int width, int height)
+        {
+            int tmpX;
+            int tmpY;
+            Point p = null;
+            while (true)
+            {
+                tmpX = rand.Next(width);
+                tmpY = rand.Next(height);
+                var newP = new Point(tmpX, tmpY);
+
+                if (map.GetObjectFromCell(newP) != null)
+                    continue;
+
+                p = newP;
+                    
+                break;
+            }
+
+            return p;
         }
 
         private int[,] GenerateRiver(Map map)

@@ -12,7 +12,7 @@ namespace Engine.Objects.Animals
     {
         public ObjectWithState ObjectWithState { get; }
 
-        private const int STAYING_BASE_TICKCOUNT = 300;
+        protected const int STAYING_BASE_TICKCOUNT = 300;
 
         public bool IsDead { get; protected set; }
 
@@ -109,7 +109,7 @@ namespace Engine.Objects.Animals
 
         protected abstract bool IsCellEatable(PointWithDistance p);
 
-        public void Eat(int satiety)
+        public virtual void Eat(int satiety)
         {
             ObjectWithState.ChangeState(0, STAYING_BASE_TICKCOUNT + (int) (STAYING_BASE_TICKCOUNT * satiety * 0.1));
         }

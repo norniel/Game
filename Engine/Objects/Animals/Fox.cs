@@ -31,11 +31,30 @@ namespace Engine.Objects.Animals
             return 0x00020000 + 90 + (uint)Angle;
         }
 
+        public override void Eat(int satiety)
+        {
+            if(ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Hungry)
+                ObjectWithState.ChangeState(0, STAYING_BASE_TICKCOUNT + (int) (STAYING_BASE_TICKCOUNT * satiety * 0.1));
+            else
+            {
+                ObjectWithState.ChangeState(0, ObjectWithState.TicksToNextState + (int) (STAYING_BASE_TICKCOUNT * satiety * 0.1));
+            }
+        }
+
         public override bool CheckForUnExpected()
         {
-            if (!(State is Resting || State is Wondering))
+            if (State is Pursuing || State is Killing || State is MovingToObject || State is Eating)
                 return true;
 
+            if (!GoToFoodAndEat()) 
+                return true;
+            
+            StateEvent.FireEvent();
+            return false;
+        }
+
+        private bool GoToFoodAndEat()
+        {
             var objWithMeatCell = VisibleCells.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
@@ -47,7 +66,7 @@ namespace Engine.Objects.Animals
             });
 
             if (objWithMeatCell == null)
-                return true;
+                return false;
 
             _stateQueue.Clear();
 
@@ -56,7 +75,8 @@ namespace Engine.Objects.Animals
             GameObject GetObjFunc()
             {
                 var objWithMeat = Game.Map.GetObjectFromCell(objWithMeatCell);
-                if (!objWithMeat.HasBehavior<CollectBehavior<Meat>>() || objWithMeat.GetBehavior<CollectBehavior<Meat>>()?.CurrentCount <= 0)
+                if (!objWithMeat.HasBehavior<CollectBehavior<Meat>>() ||
+                    objWithMeat.GetBehavior<CollectBehavior<Meat>>()?.CurrentCount <= 0)
                     return null;
 
                 var meatBehavior = objWithMeat.GetBehavior<CollectBehavior<Meat>>();
@@ -65,41 +85,13 @@ namespace Engine.Objects.Animals
             }
 
             _stateQueue.Enqueue(new Eating(this, GetObjFunc));
-            StateEvent.FireEvent();
-            return false;
+            return true;
         }
 
         protected override bool LookForFood()
         {
-            var objWithMeatCell = VisibleCells.FirstOrDefault(p =>
-            {
-                var obj = Game.Map.GetObjectFromCell(p);
-                if (obj != null && obj.HasBehavior<CollectBehavior<Meat>>() &&
-                    obj.GetBehavior<CollectBehavior<Meat>>()?.CurrentCount > 0)
-                    return true;
-
-                return false;
-            });
-
-            if (objWithMeatCell != null)
-            {
-                EnqueueMovingToDestinationObject(objWithMeatCell, Game.Map.GetObjectFromCell(objWithMeatCell));
-
-                GameObject GetObjFunc()
-                {
-                    var objWithMeat = Game.Map.GetObjectFromCell(objWithMeatCell);
-                    if (!objWithMeat.HasBehavior<CollectBehavior<Meat>>() ||
-                        objWithMeat.GetBehavior<CollectBehavior<Meat>>()?.CurrentCount <= 0)
-                        return null;
-
-                    var meatBehavior = objWithMeat.GetBehavior<CollectBehavior<Meat>>();
-                    meatBehavior.CurrentCount = meatBehavior.CurrentCount - 1;
-                    return meatBehavior.GetSmth();
-                }
-
-                _stateQueue.Enqueue(new Eating(this, GetObjFunc));
+            if (GoToFoodAndEat())
                 return true;
-            }
 
             var destinationObject = VisibleCells.Select(vCell =>
                 {
