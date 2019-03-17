@@ -119,7 +119,7 @@ namespace Engine
             });
         }
 
-        private Point GetRandomNearEmptyPoint(Point cell, int radius)
+        public Point GetRandomNearEmptyPoint(Point cell, int radius)
         {
             var nearestPoints = GetNearestToCellList(cell, radius);
 

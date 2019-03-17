@@ -118,8 +118,8 @@ namespace MonoBrJozik
 
             foreach (string str in Directory.GetFiles(@"Content", "*.png", SearchOption.TopDirectoryOnly))
             {
-                var lastSlash = str.LastIndexOf('\\');
-                var textureName = ((lastSlash > -1) ? str.Substring(lastSlash + 1) : str).Replace(".png", "");
+                var textureName = Path.GetFileNameWithoutExtension(str);
+                
                 if (uint.TryParse(textureName, NumberStyles.AllowHexSpecifier, new NumberFormatInfo(), out var n))
                 {
                     using (FileStream fs = File.OpenRead(str))

@@ -155,7 +155,7 @@ namespace MonoBrJozik
             if (pointCount <= 1)
                 return;
 
-            var primitiveList = position.Concat(pointList)
+            var primitiveList = new List<Point>{position}.Concat(pointList)
                 .Select(p => new VertexPositionColor(new Vector3(p.X, p.Y, 0), Color.White))
                 .ToArray();
 
