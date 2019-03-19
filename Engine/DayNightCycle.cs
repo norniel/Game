@@ -9,12 +9,13 @@ namespace Engine
         private int _totalSeconds;
         private uint _totalTicks = 0;
 
-        public static int MinutesInHour = 60;
+        public static double MinutesInHourDouble = 60.0;
+        public static int MinutesInHour = (int)MinutesInHourDouble;
         public static int HoursInDay = 24;
         public static int DaysInMonth = 10;
         public static int MonthesInYear = 12;
         public static int TicksInSecond = Game.TimeStep/10 == 0 ? 1 : Game.TimeStep / 10;
-        public static int DayLength = TicksInSecond * MinutesInHour * HoursInDay;
+        public static int DayLength = TicksInSecond * (int)MinutesInHour * HoursInDay;
         public static int HalfDayLength = DayLength/2;
         public static int OneSixDayLength = DayLength/6;
         public static int OneSevenDayLength = DayLength/7;
@@ -80,22 +81,29 @@ namespace Engine
 
             if (_currentGameDate.Hour >= 1 && _currentGameDate.Hour < 5)
                 return 0.7;
-
+/*
             int parts = 4;
             int minutesDiv = 60/parts;
-            double fract = 1/((double)(5*parts));
+            double fract = 1/((double)(5*parts));*/
 
             if (_currentGameDate.Hour >= 5 && _currentGameDate.Hour < 10)
             {
-                return 0.7 - 0.7 * (((_currentGameDate.Hour - 5) * 60.0 + _currentGameDate.Minute) / minutesDiv * fract + fract);
+                //return 0.7 - 0.7 * (((_currentGameDate.Hour - 5) * 60.0 + _currentGameDate.Minute) / minutesDiv * fract + fract);
+                return 0.7 - 0.7 * (((_currentGameDate.Hour-5) * MinutesInHourDouble + _currentGameDate.Minute) /(5 * MinutesInHourDouble));
             }
 
             if ((_currentGameDate.Hour >= 20 && _currentGameDate.Hour < 24) || _currentGameDate.Hour < 1)
             {
-                if (_currentGameDate.Hour < 1)
-                    return 0.7 * ((4 * 60.0 + _currentGameDate.Minute) / minutesDiv * fract + fract);
+                /*   if (_currentGameDate.Hour < 1)
+                       return 0.7 * ((4 * 60.0 + _currentGameDate.Minute) / minutesDiv * fract + fract);
 
-                return 0.7 * (((_currentGameDate.Hour - 20) * 60.0 + _currentGameDate.Minute) / minutesDiv * fract + fract);
+                   return 0.7 * (((_currentGameDate.Hour - 20) * 60.0 + _currentGameDate.Minute) / minutesDiv * fract + fract);
+               */
+                if (_currentGameDate.Hour < 1)
+                    return 0.7 * ((4 * MinutesInHourDouble + _currentGameDate.Minute) / (5 * MinutesInHourDouble));
+
+                return 0.7 * (((_currentGameDate.Hour - 20) * MinutesInHourDouble + _currentGameDate.Minute) / (5 * MinutesInHourDouble));
+
             }
 
             return 0;
