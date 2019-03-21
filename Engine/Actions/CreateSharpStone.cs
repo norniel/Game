@@ -34,7 +34,7 @@ namespace Engine.Actions
             var stones = objects.Where(o => o is Rock).Take(2).ToList();
 
             if (stones.Count < 2)
-                return new FinishedActionResult();
+                return FinishedActionResult.Instance;
 
 
 

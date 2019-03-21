@@ -39,7 +39,7 @@ namespace Engine.Actions
 
 
             if (stones.Count < 2 || plant == null || branch == null)
-                return new FinishedActionResult();
+                return FinishedActionResult.Instance;
 
             return new ConseqActionResult(true, 
                 Consequance.ProbabilityOrElse(
@@ -60,7 +60,7 @@ namespace Engine.Actions
         public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var allObjects =
-                objects.Union(hero.GetContainerItems()).Distinct();
+                objects.Union(hero.GetContainerItems()).Distinct().ToList();
 
             var stones = allObjects.Where(o => o.Properties.Contains(Property.Stone)).Select(ao => ao).Take(2).ToList();
             var branch = allObjects.FirstOrDefault(ao => ao is Branch);

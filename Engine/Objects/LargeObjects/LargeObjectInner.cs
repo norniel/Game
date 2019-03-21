@@ -18,10 +18,10 @@ namespace Engine.Objects.LargeObjects
         {
             _lazyObjectsOuter = new Lazy<List<LargeObjectOuter>>(InitOuterObjects, true);
             _builderPlanLazy = new Lazy<BuilderPlan>(GetBuilderPlan, true);
-            RemoveFromContainer = (() =>
+            RemoveFromContainer = () =>
             {
                 foreach(var oo in OuterObjects) oo.RemoveFromContainer();
-            });
+            };
         }
   
         protected virtual List<LargeObjectOuter> InitOuterObjects()

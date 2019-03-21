@@ -91,9 +91,9 @@ namespace Engine.Tools
         public double Angle()
         {
             if (Math.Abs(X) >= 0.0001)
-                return (180 * Math.Atan(Y / X) / Math.PI) + (X <= 0 ? 180 : 0);
+                return 180 * Math.Atan(Y / X) / Math.PI + (X <= 0 ? 180 : 0);
             else
-                return (Y >= 0) ? 90 : 270;
+                return Y >= 0 ? 90 : 270;
         }
 
         public Vector TurnByAngle(int angle)

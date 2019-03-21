@@ -27,7 +27,7 @@ namespace Engine
 
         void DrawDayNight(double lightness, List<BurningProps> lightObjects);
 
-        void DrawShaddow(Point innerPoint, Size innerSize);
+        void DrawShadow(Point innerPoint, Size innerSize);
 
         void DrawTime(GameDateTime gameDateTime);
 

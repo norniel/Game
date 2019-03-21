@@ -66,17 +66,17 @@ namespace Engine.Tools
                 {
                     if (ObjectFromCellInQuoterIsPassable(quoterNumber, i, j) && i < endingI && !ObjectFromCellInQuoterIsPassable(quoterNumber, i + 1, j))
                     {
-                        foreach (var point in CalculateVisibleCellsFromQuoter(quoterNumber, startingSlope, GetNewSlope(i + 0.5m, j - ((i + 0.5m < 0) ? 0.5m : -0.5m)), j + 1))
+                        foreach (var point in CalculateVisibleCellsFromQuoter(quoterNumber, startingSlope, GetNewSlope(i + 0.5m, j - (i + 0.5m < 0 ? 0.5m : -0.5m)), j + 1))
                         {
                             yield return point;
                         }
                     }
                     else if (!ObjectFromCellInQuoterIsPassable(quoterNumber, i, j) && i < endingI && ObjectFromCellInQuoterIsPassable(quoterNumber, i + 1, j))
                     {
-                        startingSlope = GetNewSlope(i + 0.5m, j + ((i + 0.5m < 0) ? 0.5m : -0.5m));
+                        startingSlope = GetNewSlope(i + 0.5m, j + (i + 0.5m < 0 ? 0.5m : -0.5m));
                     }
 
-                    yield return new PointWithDistance { Distance = (i*i + j*j), Point = GetCellFromIJInQuoter(quoterNumber, i, j) };
+                    yield return new PointWithDistance { Distance = i*i + j*j, Point = GetCellFromIJInQuoter(quoterNumber, i, j) };
                 }
 
                 if (endingI < startingI || !ObjectFromCellInQuoterIsPassable(quoterNumber, endingI, j))
@@ -91,10 +91,10 @@ namespace Engine.Tools
 
         private bool ActualYOutOfRange(int j, int quoter)
         {
-            return ((quoter == 0 && _startingCell.Y - j < 0) || 
-                (quoter == 1 && _startingCell.X - j < 0) ||
-                (quoter == 2 && _startingCell.Y + j >= _mapHeight) || 
-                (quoter == 3 && _startingCell.X + j >= _mapWidth));
+            return quoter == 0 && _startingCell.Y - j < 0 || 
+                   quoter == 1 && _startingCell.X - j < 0 ||
+                   quoter == 2 && _startingCell.Y + j >= _mapHeight || 
+                   quoter == 3 && _startingCell.X + j >= _mapWidth;
         }
 
         private Point ReturnIBound(int quoter, int startingI, int endingI)
@@ -168,7 +168,7 @@ namespace Engine.Tools
 
         public override int GetHashCode()
         {
-            return (Point != null ? Point.GetHashCode() : 0);
+            return Point != null ? Point.GetHashCode() : 0;
         }
 
         public static implicit operator Point(PointWithDistance p)

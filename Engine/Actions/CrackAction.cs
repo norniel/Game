@@ -76,7 +76,7 @@ namespace Engine.Actions
 
             if (nut == null || stone == null || cracker == null)
             {
-                return new FinishedActionResult();
+                return FinishedActionResult.Instance;
             }
 
             var crackableBehavior = nut.GetBehavior<CrackableBehavior>();

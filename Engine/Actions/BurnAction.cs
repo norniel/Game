@@ -49,14 +49,17 @@ namespace Engine.Actions
 
             if (burnable == null || burning == null)
             {
-                return new FinishedActionResult();
+                return FinishedActionResult.Instance;
             }
 
             var burnableBehavior = burnable.GetBehavior<BurnableBehavior>();
-            burning.TimeOfBurning += (int)(burnableBehavior.Сoefficient * burnable.WeightDbl);
-            burnable.RemoveFromContainer();
+            if (burnableBehavior != null)
+            {
+                burning.TimeOfBurning += (int) (burnableBehavior.Сoefficient * burnable.WeightDbl);
+                burnable.RemoveFromContainer();
+            }
 
-            return new FinishedActionResult();
+            return FinishedActionResult.Instance;
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

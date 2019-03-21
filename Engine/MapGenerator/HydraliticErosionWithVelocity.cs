@@ -107,7 +107,7 @@ namespace Engine.MapGenerator
                     var minWater = Math.Min(totalH - avgTotalH, waterMap[i, j]);
 
                     deltaWaterMap[i, j] -= minWater;
-                    deltaSedimentMap[i, j] -= (minWater*sedimentMap[i, j])/waterMap[i, j];
+                    deltaSedimentMap[i, j] -= minWater*sedimentMap[i, j]/waterMap[i, j];
 
                     lowerNeighbours.ForEach(
                         p =>
@@ -116,7 +116,7 @@ namespace Engine.MapGenerator
                                 minWater * (totalH - GetTotalH(p.X, p.Y, resultMap, waterMap)) / (totalH * lowerNeighbours.Count - sumTotalH);
                             deltaWaterMap[p.X, p.Y] += currentDeltaWater;
 
-                            deltaSedimentMap[p.X, p.Y] += (currentDeltaWater*sedimentMap[i, j])/waterMap[i, j];
+                            deltaSedimentMap[p.X, p.Y] += currentDeltaWater*sedimentMap[i, j]/waterMap[i, j];
                         });
                 }
             }

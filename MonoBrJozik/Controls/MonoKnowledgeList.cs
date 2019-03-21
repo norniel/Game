@@ -17,22 +17,22 @@ namespace MonoBrJozik.Controls
             _btexture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Color[] c1 = new Color[1];
             c1[0] = Color.Black;
-            _btexture.SetData<Color>(c1);
+            _btexture.SetData(c1);
 
             _blueLightTexture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Color[] c3 = new Color[1];
             c3[0] = Color.LightBlue;
-            _blueLightTexture.SetData<Color>(c3);
+            _blueLightTexture.SetData(c3);
 
             _bltexture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Color[] c2 = new Color[1];
             c2[0] = Color.Blue;
-            _bltexture.SetData<Color>(c2);
+            _bltexture.SetData(c2);
 
             _graytexture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Color[] c4 = new Color[1];
             c4[0] = Color.Gray;
-            _graytexture.SetData<Color>(c4);
+            _graytexture.SetData(c4);
         }
 
         public override MonoControl ProduceItem(MonoItemInfoBase itemInfo, SpriteFont font, Color fontColor, int x, int y)

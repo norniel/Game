@@ -41,17 +41,13 @@ namespace Engine
 
     public class Game
     {
-        private Rect curRect;
+        private Rect _curRect;
 
         internal static Map Map;
 
         internal static ObjectsFactory Factory;
 
         public const int TimeStep = 100;
-
-        private Dictionary<uint, Cell> _cellSamples;
-
-        private LoadSaveManager loadSaveManager;
 
         private readonly Hero _hero;
 
@@ -60,15 +56,12 @@ namespace Engine
         private IActionRepository ActionRepository { get; }
 
         private bool _isPaused;
-        public bool IsPaused => _isPaused;
 
-        public const bool SHOWBASE = true;
+        public const bool IsShowBase = true;
 
        // private readonly StateQueueManager _stateQueueManager;
 
-       private UnityContainer _unityContainer;
-
-        //todo - change to lazy
+       //todo - change to lazy
         internal static StateQueueManager StateQueueManager;
         internal static PlannedQueueManager PlannedQueueManager;
 
@@ -79,81 +72,71 @@ namespace Engine
 
         internal static Random Random => _random ?? (_random = new Random());
 
-        internal static DateTime StartDate = DateTime.UtcNow;
-
-        private DayNightCycle _dayNightCycle;
+        private readonly DayNightCycle _dayNightCycle;
         private bool _isKnowledgesShown;
 
         public Game(IDrawer drawer, uint width, uint height)
-        {            
-            curRect.Width = width;
-            curRect.Height = height;
+        {
+            _curRect.Width = width;
+            _curRect.Height = height;
 
             Intervals = Observable.Interval(TimeSpan.FromMilliseconds(TimeStep))
                 .Where(t => !_isPaused);
 
-            _unityContainer = new UnityContainer();
-            RegisterInUnityContainer();
+            var unityContainer = new UnityContainer();
+            RegisterInUnityContainer(unityContainer);
 
-            StateQueueManager = _unityContainer.Resolve<StateQueueManager>();
-            PlannedQueueManager = _unityContainer.Resolve<PlannedQueueManager>();
+            StateQueueManager = unityContainer.Resolve<StateQueueManager>();
+            PlannedQueueManager = unityContainer.Resolve<PlannedQueueManager>();
 
-            Map = _unityContainer.Resolve<Map>();
-            Factory = _unityContainer.Resolve<ObjectsFactory>();
+            Map = unityContainer.Resolve<Map>();
+            Factory = unityContainer.Resolve<ObjectsFactory>();
 
-            loadSaveManager = new LoadSaveManager();
-            loadSaveManager.LoadSnapshot(Map);
+            var loadSaveManager = new LoadSaveManager();
+            loadSaveManager.LoadSnapshot(Map, unityContainer);
 
-            _hero = _unityContainer.Resolve<Hero>();
+            _hero = unityContainer.Resolve<Hero>();
             _hero.Map = Map;
 
-            ActionRepository = _unityContainer.Resolve<IActionRepository>();
+            ActionRepository = unityContainer.Resolve<IActionRepository>();
 
             _drawer = drawer;
 
             Intervals.Subscribe(StateQueueManager);
             Intervals.Subscribe(PlannedQueueManager);
 
-            _dayNightCycle = _unityContainer.Resolve<DayNightCycle>();
+            _dayNightCycle = unityContainer.Resolve<DayNightCycle>();
             Intervals.Subscribe(_dayNightCycle);
 
-            var heroLifeCycle = _unityContainer.Resolve<HeroLifeCycle>();
+            var heroLifeCycle = unityContainer.Resolve<HeroLifeCycle>();
             Intervals.Subscribe(heroLifeCycle);
         }
 
-        private void RegisterInUnityContainer()
+        private void RegisterInUnityContainer(IUnityContainer unityContainer)
         {
 
-            _unityContainer.RegisterInstance(typeof(Map), new Map(curRect));
-            _unityContainer.RegisterInstance(typeof (StateQueueManager), new StateQueueManager());
-            _unityContainer.RegisterInstance(typeof(PlannedQueueManager), new PlannedQueueManager());
-            _unityContainer.RegisterType(typeof(IActionRepository), typeof(ActionRepository), new ContainerControlledLifetimeManager());
-            _unityContainer.RegisterType(typeof(HeroLifeCycle), typeof(HeroLifeCycle), new ContainerControlledLifetimeManager());
-            _unityContainer.RegisterType(typeof(DayNightCycle), typeof(DayNightCycle), new ContainerControlledLifetimeManager());
+            unityContainer.RegisterInstance(typeof(Map), new Map(_curRect));
+            unityContainer.RegisterInstance(typeof (StateQueueManager), new StateQueueManager());
+            unityContainer.RegisterInstance(typeof(PlannedQueueManager), new PlannedQueueManager());
+            unityContainer.RegisterType(typeof(IActionRepository), typeof(ActionRepository), new ContainerControlledLifetimeManager());
+            unityContainer.RegisterType(typeof(HeroLifeCycle), typeof(HeroLifeCycle), new ContainerControlledLifetimeManager());
+            unityContainer.RegisterType(typeof(DayNightCycle), typeof(DayNightCycle), new ContainerControlledLifetimeManager());
 
             var hero = new Hero();
-            _unityContainer.BuildUp(hero);
-            _unityContainer.RegisterInstance(typeof(Hero), hero);
+            unityContainer.BuildUp(hero);
+            unityContainer.RegisterInstance(typeof(Hero), hero);
 
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && !type.IsInterface && typeof(IAction).IsAssignableFrom(type)))
             {
-                _unityContainer
+                unityContainer
                     .RegisterType(typeof(IAction), type, type.ToString());
             }
-
-
-            //_unityContainer.RegisterTypes(
-                //Assembly.GetExecutingAssembly().GetTypes().Where(
-                //),
-                //WithMappings.FromAllInterfacesInSameAssembly,//t => new[] { typeof(IAction) },
-                //t => t.FullName,
-                //WithLifetime.PerResolve);
         }
 
 
         public void LClick(Point visibleDestination)
         {
-            if (_hero.IsUnconscios() || IsPaused)
+            if (_hero.IsUnconscios() || _isPaused)
                 return;
 
             var destination = Map.GetRealDestinationFromVisibleDestination(visibleDestination);
@@ -166,7 +149,7 @@ namespace Engine
 
         public void RClick(Point destination)
         {
-            if (_hero.IsUnconscios() || IsPaused)
+            if (_hero.IsUnconscios() || _isPaused)
                 return;
 
             if (destination.X < 0 || destination.X >= Map.VisibleRect.Width || destination.Y < 0 || destination.Y >= Map.VisibleRect.Height)
@@ -203,19 +186,19 @@ namespace Engine
             var objects = new List<GameObject>(new[] {destObject});
 
           //  var removableObjects = objects.Select(o => this.PrepareRemovableObject(o, destination));
-            return (possibleActions.SelectMany(pa =>
+            return possibleActions.SelectMany(pa =>
             {
                 var dest = pa.GetDestination(destination, destObject, _hero);
-                    return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
+                return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
                     new ClientAction
-                        {
-                            Name = pa.GetName(objectsForAction, _hero),
-                            //CanDo = pa.CanDo(_hero, objects),
-                            Do = () => MoveAndDoAction(pa, dest, objectsForAction)
-                        }
-                    );
+                    {
+                        Name = pa.GetName(objectsForAction, _hero),
+                        //CanDo = pa.CanDo(_hero, objects),
+                        Do = () => MoveAndDoAction(pa, dest, objectsForAction)
+                    }
+                );
 
-                }));
+            });
         }
 
         public void MoveToDest(Point destination)
@@ -277,7 +260,7 @@ namespace Engine
 
         private void DrawSurface()
         {
-            _drawer.DrawSurface(curRect.Width, curRect.Height);
+            _drawer.DrawSurface(_curRect.Width, _curRect.Height);
 
             var visibleCells = Map.RectToCellRect(Map.VisibleRect);
 
@@ -288,13 +271,14 @@ namespace Engine
             {
                 for (int i = visibleCells.Left; i < visibleCells.Left + visibleCells.Width; i++)
                 {
-                    var gameObject = Map.GetHObjectFromCell(new Point(i, j));
+                    var point = new Point(i, j);
+                    var gameObject = Map.GetHObjectFromCell(point);
 
                     if (gameObject == null) continue;
                     if (gameObject is LargeObjectOuterAbstract largeObjectOuter && !largeObjectOuter.isLeftCorner)
                         continue;
 
-                    var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(i, j)));
+                    var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(point));
 
                     var drawingCode = GetDrawingCode(gameObject);
 
@@ -306,9 +290,13 @@ namespace Engine
                     }
                 }
 
-                if ((j * Map.CellMeasure <= _hero.Position.Y) && ((j + 1) * Map.CellMeasure > _hero.Position.Y))
+                if (j * Map.CellMeasure <= _hero.Position.Y && (j + 1) * Map.CellMeasure > _hero.Position.Y)
                 {
-                    _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
+                    _drawer.DrawHero(
+                        Map.GetVisibleDestinationFromRealDestination(_hero.Position), 
+                        _hero.Angle, 
+                        _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(),
+                        _hero.IsHorizontal());
                 }
             }
 
@@ -328,7 +316,7 @@ namespace Engine
             {
                 var innerMapSize = Map.GetInnerMapRect();
                 var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(new Point(innerMapSize.Left, innerMapSize.Top)));
-                _drawer.DrawShaddow(visibleDestination, new Size(innerMapSize.Width, innerMapSize.Height));
+                _drawer.DrawShadow(visibleDestination, new Size(innerMapSize.Width, innerMapSize.Height));
             }
             else
             {
@@ -350,7 +338,7 @@ namespace Engine
 
         private Func<IEnumerable<ClientAction>> GetFuncForClientActions(GameObject first)
         {
-            return (() =>
+            return () =>
             {
                 if (_hero.IsUnconscios())
                     return new List<ClientAction>();
@@ -359,20 +347,20 @@ namespace Engine
 
                 var objects = new List<GameObject>(new[] {first});
 
-              //  var removableObjects = objects.Select(o => this.PrepareRemovableObject(o));
-                return (possibleActions.SelectMany(pa =>
+                //  var removableObjects = objects.Select(o => this.PrepareRemovableObject(o));
+                return possibleActions.SelectMany(pa =>
                 {
                     return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
-                    new ClientAction
-                    {
-                        Name = pa.GetName(objectsForAction, _hero),
-                        //CanDo = pa.CanDo(_hero, objects),
-                        Do = () => DoAction(pa, objectsForAction)
-                    }
+                        new ClientAction
+                        {
+                            Name = pa.GetName(objectsForAction, _hero),
+                            //CanDo = pa.CanDo(_hero, objects),
+                            Do = () => DoAction(pa, objectsForAction)
+                        }
                     );
 
-                }));
-            });
+                });
+            };
         }
 
         private bool IsHeroInInnerMap()

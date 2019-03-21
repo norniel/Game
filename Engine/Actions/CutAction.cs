@@ -30,8 +30,10 @@ namespace Engine.Actions
 
         protected override bool DoNotLast(Hero hero, IEnumerable<GameObject> objects)
         {
-            var cuttableObject = objects.SingleOrDefault(o => o.Properties.Contains(Property.Cuttable));
-            var cutter = objects.SingleOrDefault(o => o.Properties.Contains(Property.Cutter));
+            var gameObjects = objects.ToList();
+
+            var cuttableObject = gameObjects.SingleOrDefault(o => o.Properties.Contains(Property.Cuttable));
+            var cutter = gameObjects.SingleOrDefault(o => o.Properties.Contains(Property.Cutter));
 
             if (cuttableObject == null || cutter == null)
             {
@@ -43,8 +45,9 @@ namespace Engine.Actions
 
         protected override void DoLast(Hero hero, IEnumerable<GameObject> objects)
         {
-            var cuttableObject = objects.SingleOrDefault(o => o.Properties.Contains(Property.Cuttable));
-            var cutter = objects.SingleOrDefault(o => o.Properties.Contains(Property.Cutter));
+            var gameObjects = objects.ToList();
+            var cuttableObject = gameObjects.SingleOrDefault(o => o.Properties.Contains(Property.Cuttable));
+            var cutter = gameObjects.SingleOrDefault(o => o.Properties.Contains(Property.Cutter));
 
             if (cuttableObject == null || cutter == null)
             {

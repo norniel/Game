@@ -50,8 +50,8 @@ namespace Engine.Actions
             Hero hero)
         {
             var necessaryObjects = objects.Where(obj => obj.Properties.Any(IsApplicable))
-                .Where(x => x.HasBehavior<CollectBehavior<T>>()) //.OfType<IHasSmthToCollect<T>>()
-                .Where(x => x.GetBehavior<CollectBehavior<T>>().CurrentCount >
+                .Where(x => x.HasBehavior<CollectBehavior<T>>())
+                .Where(x => x.GetBehavior<CollectBehavior<T>>()?.CurrentCount >
                             0) //.Where(x => x.GetSmthTotalCount() > 0)
                 //.Cast<GameObject>()
                 .ToList();

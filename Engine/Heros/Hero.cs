@@ -278,7 +278,7 @@ namespace Engine.Heros
 
         public bool IsBaseToShow(GameObject gameObject)
         {
-            return Game.SHOWBASE && gameObject.NeedKnowledge &&
+            return Game.IsShowBase && gameObject.NeedKnowledge &&
                    GetObjectKnowledge(gameObject.Name) < gameObject.KnowledgeKoef;
         }
 
@@ -297,7 +297,7 @@ namespace Engine.Heros
             var allKnowledges = newKnowledges.Where(t => t.Value > 0).Select(t =>
             {
                 Knowledges knowledge;
-                var knowledgeExist = Knowledges.TryParse(t.Key, true, out knowledge);
+                var knowledgeExist = Enum.TryParse(t.Key, true, out knowledge);
                 return new
                 {
                     t.Key,

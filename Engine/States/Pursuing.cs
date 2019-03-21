@@ -47,9 +47,9 @@ namespace Engine.States
                 var dy = (_mobileObject.Position.Y - (double)destination.Y) / distance;
 
                 if (Math.Abs(dx) >= 0.0001)
-                    _mobileObject.Angle = (180 * Math.Atan(dy / dx) / Math.PI) + (dx > 0 ? 180 : 0);
+                    _mobileObject.Angle = 180 * Math.Atan(dy / dx) / Math.PI + (dx > 0 ? 180 : 0);
                 else
-                    _mobileObject.Angle = (dy < 0) ? 90 : 270;
+                    _mobileObject.Angle = dy < 0 ? 90 : 270;
 
                 _mobileObject.Position = new Point((int)(_mobileObject.Position.X - dx *  _mobileObject.Speed / 10), (int)(_mobileObject.Position.Y - dy * _mobileObject.Speed / 10));
             }

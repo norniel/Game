@@ -32,7 +32,7 @@ namespace Engine.Actions
         public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             hero.Sleep();
-            return new FinishedActionResult();
+            return FinishedActionResult.Instance;
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

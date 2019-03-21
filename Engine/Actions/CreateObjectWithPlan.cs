@@ -59,7 +59,7 @@ namespace Engine.Actions
                 _isInitialized = false;
             }
 
-            return isOver ? (IActionResult)new FinishedActionResult() : new UnFinishedActionResult();
+            return isOver ? (IActionResult)FinishedActionResult.Instance : UnFinishedActionResult.Instance;
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

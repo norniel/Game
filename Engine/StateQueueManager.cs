@@ -26,7 +26,7 @@ namespace Engine
             // todo maybe write use tasks here
             var first = _queue.GetFirst();
 
-            while (_queue.Any() && (first.NextStateTick <= CurrentTick))
+            while (_queue.Any() && first.NextStateTick <= CurrentTick)
             {
                 if(first.CurrentState == null || !first.CurrentState.Eternal)
                 {

@@ -50,7 +50,7 @@ namespace Engine.MapGenerator
             for (int i = 0; i < power; i++)
             {
                 var distance = size >> i;
-                var height = (maxheight * distance) / (size * 256);
+                var height = maxheight * distance / (size * 256);
                 for (int x = 0; x < 1 << i; x++)
                 {
                     for (int y = 0; y < 1 << i; y++)
@@ -60,10 +60,10 @@ namespace Engine.MapGenerator
                 }
                 
                 distance = distance/2;
-                height = (maxheight * distance) / (size * 256);
+                height = maxheight * distance / (size * 256);
                 for (int x = -1; x < (int)Math.Pow(2, i + 1); x++)
                 {
-                    for (int y = (Math.Abs(x)%2)*distance; y <= size; y += 2*distance)
+                    for (int y = Math.Abs(x)%2*distance; y <= size; y += 2*distance)
                     {
                         DiamondStep(resultMap, distance, x, y, height, size);
                     }
@@ -81,8 +81,8 @@ namespace Engine.MapGenerator
                 (
                     map[(size + x*distance)%size, y]
                     + map[(size + x*distance + distance)%size + distance, y]
-                    + map[(x*distance)%size + distance, (size + y - distance)%size]
-                    + map[(x*distance)%size + distance, (size + y)%size + distance]
+                    + map[x*distance%size + distance, (size + y - distance)%size]
+                    + map[x*distance%size + distance, (size + y)%size + distance]
                     )/4 + GetDisplace(height);
 
           //  map[x * distance + distance, y] = Normalize(map[x * distance + distance, y]);
@@ -108,7 +108,7 @@ namespace Engine.MapGenerator
 
         private float GetDisplace(float height)
         {
-            return (2*((float) random.NextDouble()) - 1.0f)*height;
+            return (2*(float) random.NextDouble() - 1.0f)*height;
         }
 
         private float Normalize(float p)

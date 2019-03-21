@@ -45,7 +45,7 @@ namespace Engine.Actions
                 ClearAfterLast();
             }
 
-            return isOver ? (IActionResult)new FinishedActionResult() : new UnFinishedActionResult();
+            return isOver ? (IActionResult)FinishedActionResult.Instance : UnFinishedActionResult.Instance;
         }
 
         protected virtual void Initialize(Hero hero, IEnumerable<GameObject> objects)
@@ -71,7 +71,7 @@ namespace Engine.Actions
 
         protected abstract int TotalActionTime { get; }
 
-        protected bool _isInitialized;
+        private bool _isInitialized;
 
         public Point GetDestination(Point destination, FixedObject destObject, Hero hero)
         {

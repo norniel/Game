@@ -18,9 +18,9 @@ namespace MonoBrJozik.Controls
             _texture = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Color[] c = new Color[1];
             c[0] = Color.White;
-            _texture.SetData<Color>(c);
+            _texture.SetData(c);
 
-            _simpleKnowledgesList = new MonoInventoryList(0, 0, MonoDrawer.SCREEN_WIDTH, MonoDrawer.SCREEN_HEIGHT, font, Color.Black, _texture);
+            _simpleKnowledgesList = new MonoInventoryList(0, 0, MonoDrawer.ScreenWidth, MonoDrawer.ScreenHeight, font, Color.Black, _texture);
         }
 
         public void Draw(SpriteBatch spriteBatch)

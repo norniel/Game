@@ -31,7 +31,7 @@ namespace Engine.Actions
             var digger = objects.FirstOrDefault(d => d.Properties.Contains(Property.Digger));
 
             if (digger == null)
-                return new FinishedActionResult();
+                return FinishedActionResult.Instance;
 
             return base.Do(hero, objects);
         }

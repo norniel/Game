@@ -31,7 +31,7 @@ namespace Engine.Actions
             var cutter = objects.FirstOrDefault(d => d.Properties.Contains(Property.Cutter));
 
             if (cutter == null)
-                return new FinishedActionResult();
+                return FinishedActionResult.Instance;
 
             return base.Do(hero, objects);
         }

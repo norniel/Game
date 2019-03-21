@@ -38,7 +38,7 @@ namespace Engine.Actions
             var plant = objects.SingleOrDefault(o => o is Plant);
 
             if (branches.Count != 2 || plant == null)
-                return new FinishedActionResult();
+                return FinishedActionResult.Instance;
 
             branches.ForEach(b => b.RemoveFromContainer());
             plant.RemoveFromContainer();

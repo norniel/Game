@@ -52,8 +52,8 @@ namespace Engine
             var currentDay = currentWithoutMonth / (MinutesInHour * HoursInDay);
             var currentWithoutDay = currentWithoutMonth % (MinutesInHour * HoursInDay);
 
-            var currentHour = currentWithoutDay / (MinutesInHour);
-            var currentMinute = currentWithoutDay % (MinutesInHour);
+            var currentHour = currentWithoutDay / MinutesInHour;
+            var currentMinute = currentWithoutDay % MinutesInHour;
 
             _currentGameDate = new GameDateTime(currentYear, currentMonth, currentDay, currentHour, currentMinute);
 
@@ -92,7 +92,7 @@ namespace Engine
                 return 0.7 - 0.7 * (((_currentGameDate.Hour-5) * MinutesInHourDouble + _currentGameDate.Minute) /(5 * MinutesInHourDouble));
             }
 
-            if ((_currentGameDate.Hour >= 20 && _currentGameDate.Hour < 24) || _currentGameDate.Hour < 1)
+            if (_currentGameDate.Hour >= 20 && _currentGameDate.Hour < 24 || _currentGameDate.Hour < 1)
             {
                 /*   if (_currentGameDate.Hour < 1)
                        return 0.7 * ((4 * 60.0 + _currentGameDate.Minute) / minutesDiv * fract + fract);
@@ -118,7 +118,7 @@ namespace Engine
 
         public bool IsDusk()
         {
-            return (_currentGameDate.Hour >= 5 && _currentGameDate.Hour < 8) || _currentGameDate.Hour < 1 || (_currentGameDate.Hour >= 22 && _currentGameDate.Hour < 24);
+            return _currentGameDate.Hour >= 5 && _currentGameDate.Hour < 8 || _currentGameDate.Hour < 1 || _currentGameDate.Hour >= 22 && _currentGameDate.Hour < 24;
         }
 
         public void OnError(Exception error)

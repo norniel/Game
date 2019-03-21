@@ -28,7 +28,7 @@ namespace Engine.Objects.LargeObjects.Builder
                 var percentPerBuild = Math.Min(_percentLeftToBuild, PercentPerAction);
 
                 var buildItemCount = percentPerBuild / buildItem.PercentPerItem;
-                buildItemCount = (buildItemCount * buildItem.PercentPerItem) < percentPerBuild ? buildItemCount + 1 : buildItemCount;
+                buildItemCount = buildItemCount * buildItem.PercentPerItem < percentPerBuild ? buildItemCount + 1 : buildItemCount;
                 var buildItemAVObjects = gameObjects.Where(lgo => buildItem.CheckObject(lgo)).Take(buildItemCount).ToList();
                 availableObjects.AddRange(buildItemAVObjects);
 
@@ -55,7 +55,7 @@ namespace Engine.Objects.LargeObjects.Builder
                     break;
 
                 var buildItemCount = currentPercentLeft / buildItem.PercentPerItem;
-                buildItemCount = (buildItemCount* buildItem.PercentPerItem) < currentPercentLeft ? buildItemCount + 1 : buildItemCount;
+                buildItemCount = buildItemCount* buildItem.PercentPerItem < currentPercentLeft ? buildItemCount + 1 : buildItemCount;
                 var buildItemAVObjects = leftGameObjects.Where(lgo => buildItem.CheckObject(lgo)).Take(buildItemCount).ToList();
                 availableObjects.AddRange(buildItemAVObjects);
 

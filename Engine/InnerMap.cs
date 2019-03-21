@@ -64,7 +64,7 @@ namespace Engine
                 gameObject.RemoveFromContainer();
             }
 
-            gameObject.RemoveFromContainer = (() =>
+            gameObject.RemoveFromContainer = () =>
             {
                 gameObject.RemoveFromContainer = null;
 
@@ -90,7 +90,7 @@ namespace Engine
                         return true;
                     }));
                 }
-            });
+            };
 
             if (gameObject.Properties.Contains(Property.Dropable))
             {

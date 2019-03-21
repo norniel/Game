@@ -28,7 +28,7 @@ namespace MonoBrJozik.Controls
             _fontColor = fontColor;
             _screenWidth = screenWidth;
             _screenHeight = screenHeight;
-            MenuIsShown += this.Clear;
+            MenuIsShown += Clear;
         }
 
         public MonoMenu(SpriteFont font, Color fontColor, int screenWidth, int screenHeight, Texture2D texture):this(font, fontColor, screenWidth, screenHeight)

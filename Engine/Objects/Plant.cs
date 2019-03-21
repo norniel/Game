@@ -73,7 +73,7 @@ namespace Engine.Objects
                     var tToNext = ObjectWithState.TicksToNextState;
                     var tCount = ObjectWithState.CurrentState.TickCount;
 
-                    return tCount > 0 ? (tToNext/tCount) : 0;
+                    return tCount > 0 ? tToNext/tCount : 0;
                 }
 
                 return 1.0;

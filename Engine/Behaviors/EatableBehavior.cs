@@ -27,7 +27,7 @@ namespace Engine.Behaviors
             return EaterType.HasFlag(EaterType.Human);
         }
 
-        internal bool ForType(Engine.EaterType eaterType)
+        internal bool ForType(EaterType eaterType)
         {
             return EaterType.HasFlag(eaterType);
         }

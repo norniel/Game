@@ -53,7 +53,7 @@ namespace Engine
 
         public bool IsGameObjectFits(GameObject gameObject)
         {
-            return (MaxContainerCapacity >= gameObject.Weight + ContainerCapacity);
+            return MaxContainerCapacity >= gameObject.Weight + ContainerCapacity;
         }
     }
 }

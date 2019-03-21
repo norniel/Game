@@ -32,15 +32,15 @@ namespace MonoBrJozik.Controls
             var texture = new Texture2D(graphicsDevice1, 1, 1, false, SurfaceFormat.Color);
             Color[] c = new Color[1];
             c[0] = Color.White;
-            texture.SetData<Color>(c);
+            texture.SetData(c);
 
             var textHeight = (int)font.MeasureString(_pointsToForget.ToString()).Y;
 
-            _topButton = new MonoItem(new MonoItemInfo(texture, null, "<", this.MovePrev), _font, Color.Black, MonoDrawer.SCREEN_WIDTH - (int)font.MeasureString("<".ToString()).X - 10 - 40, MonoDrawer.SCREEN_HEIGHT - 40);
-            _bottomButton = new MonoItem(new MonoItemInfo(texture, null, ">", this.MoveNext), _font, Color.Black, MonoDrawer.SCREEN_WIDTH - 40, MonoDrawer.SCREEN_HEIGHT - 40);
+            _topButton = new MonoItem(new MonoItemInfo(texture, null, "<", MovePrev), _font, Color.Black, MonoDrawer.ScreenWidth - (int)font.MeasureString("<".ToString()).X - 10 - 40, MonoDrawer.ScreenHeight - 40);
+            _bottomButton = new MonoItem(new MonoItemInfo(texture, null, ">", MoveNext), _font, Color.Black, MonoDrawer.ScreenWidth - 40, MonoDrawer.ScreenHeight - 40);
 
-            _okButton = new MonoItem(new MonoItemInfo(texture, null, "Ok", DoRewrite), font, Color.Black, MonoDrawer.SCREEN_WIDTH - 40, MonoDrawer.SCREEN_HEIGHT - 40 - _topButton.Height - 10);
-            _changableKnowledgesList = new MonoKnowledgeList(graphicsDevice1, 0, textHeight, MonoDrawer.SCREEN_WIDTH, MonoDrawer.SCREEN_HEIGHT - textHeight, font, texture);
+            _okButton = new MonoItem(new MonoItemInfo(texture, null, "Ok", DoRewrite), font, Color.Black, MonoDrawer.ScreenWidth - 40, MonoDrawer.ScreenHeight - 40 - _topButton.Height - 10);
+            _changableKnowledgesList = new MonoKnowledgeList(graphicsDevice1, 0, textHeight, MonoDrawer.ScreenWidth, MonoDrawer.ScreenHeight - textHeight, font, texture);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -73,7 +73,7 @@ namespace MonoBrJozik.Controls
 
             if (knowledges != null)
             {
-                var totalPoints = (int)(knowledges.Values.Sum(t => t));
+                var totalPoints = (int)knowledges.Values.Sum(t => t);
                 _pointsToRemember = totalPoints/2;
                 _pointsToForget = totalPoints - _pointsToRemember;
                 _okButtonShow = _pointsToForget == 0;
@@ -102,7 +102,7 @@ namespace MonoBrJozik.Controls
 
         public bool MouseLClick(MouseState mouseState)
         {
-            return _isVisible && ((_okButtonShow && _okButton.MouseLClick(mouseState)) || _topButton.MouseLClick(mouseState) || _bottomButton.MouseLClick(mouseState)) ;
+            return _isVisible && (_okButtonShow && _okButton.MouseLClick(mouseState) || _topButton.MouseLClick(mouseState) || _bottomButton.MouseLClick(mouseState)) ;
         }
 
         public bool LButtonDown(int mouseX, int mouseY)

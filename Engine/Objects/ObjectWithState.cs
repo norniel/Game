@@ -112,7 +112,7 @@ namespace Engine.Objects
 
         protected virtual void ChangeStateInternal(int newstateId, int? newTicksCount = null)
         {
-            var oldState = (_currentStateId >= ObjectStateQueue.Count || _currentStateId < 0) ? null :ObjectStateQueue[_currentStateId];
+            var oldState = _currentStateId >= ObjectStateQueue.Count || _currentStateId < 0 ? null :ObjectStateQueue[_currentStateId];
             _currentStateId = newstateId;
 
             ObjectStateQueue[_currentStateId].TickCount = newTicksCount ?? ObjectStateQueue[_currentStateId].TickCount;

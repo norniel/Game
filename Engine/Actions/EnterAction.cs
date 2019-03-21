@@ -7,12 +7,14 @@ using Engine.Objects;
 using Engine.Objects.LargeObjects;
 using Engine.Resources;
 using Engine.Tools;
+using JetBrains.Annotations;
 
 namespace Engine.Actions
 {
+    [UsedImplicitly]
     internal class EnterAction : IAction
     {
-        private Point innerPoint;
+        private Point _innerPoint;
 
         public string Name => ActionsResource.Enter;
 
@@ -34,10 +36,10 @@ namespace Engine.Actions
         public IActionResult Do(Hero hero, IList<GameObject> objects)
         {
             var innerObject = objects.OfType<Wickiup>().First();
-            Game.Map.SetInnerMap(innerObject._map, innerPoint);
+            Game.Map.SetInnerMap(innerObject._map, _innerPoint);
 
-            innerPoint = null;
-            return new FinishedActionResult();
+            _innerPoint = null;
+            return FinishedActionResult.Instance;
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
@@ -85,7 +87,7 @@ namespace Engine.Actions
                     if (i > 0 && i < (int) innerObject.Size.Width + 1 && j > 0 && j < (int) innerObject.Size.Height + 1)
                         continue;
 
-                    var curPoint = new Point(i - 1, j - 1);
+                   
                     bool isPassable;
 
                     if (j == 0 || j == (int) innerObject.Size.Height + 1)
@@ -99,6 +101,8 @@ namespace Engine.Actions
 
                     if (!isPassable)
                         continue;
+
+                    var curPoint = new Point(i - 1, j - 1);
 
                     int totdistX = Math.Abs(heroPos.X - startingPoint.X - curPoint.X);
                     int totdistY = Math.Abs(heroPos.Y - startingPoint.Y - curPoint.Y);
@@ -117,7 +121,7 @@ namespace Engine.Actions
             var x = newCenterPoint.X + Map.CellMeasure / 2 + (p.X > -1 && p.X < innerObject.Size.Width ? 0 :  p.X == -1 ? Map.CellMeasure / 2 + 2 : -Map.CellMeasure / 2 - 2);
             var y = newCenterPoint.Y + Map.CellMeasure / 2 + (p.Y > -1 && p.Y < innerObject.Size.Height ? 0 : p.Y == -1 ? Map.CellMeasure / 2 + 2 : -Map.CellMeasure / 2 - 2);
 
-            innerPoint = startingPoint;
+            _innerPoint = startingPoint;
 
             return new Point(x, y);
         }

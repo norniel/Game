@@ -39,7 +39,7 @@ namespace Engine.Actions
               //  removableObject.RemoveFromContainer();
             }
 
-            return new FinishedActionResult();
+            return FinishedActionResult.Instance;
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)

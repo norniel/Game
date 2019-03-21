@@ -161,7 +161,7 @@ namespace Engine
 
             var totdistX = Math.Abs(destP.X - startP.X);
             var totdistY = Math.Abs(destP.Y - startP.Y);
-            var startWayP = new WayPoint(null, startP, 0, (totdistX > totdistY ? totdistY * 14 + 10 * (totdistX - totdistY) : totdistX * 14 + 10 * (totdistY - totdistX)));
+            var startWayP = new WayPoint(null, startP, 0, totdistX > totdistY ? totdistY * 14 + 10 * (totdistX - totdistY) : totdistX * 14 + 10 * (totdistY - totdistX));
             workPoints.Add(startWayP);
             processedPoints.Add(startWayP.Point, startWayP);
             WayPoint current = null;
@@ -196,7 +196,7 @@ namespace Engine
                             && !destP.Equals(temp))
                             continue;
 
-                        var tmpCost = (((dx + dy) % 2 == 0) ? 14 : 10) + current.Cost;
+                        var tmpCost = ((dx + dy) % 2 == 0 ? 14 : 10) + current.Cost;
                         // если обрабатываемая клетка лежит по диагонали к родительской - прибавляем 14(приближ. корень2), если нет - 10
 
                         if (processedPoints.ContainsKey(temp))
@@ -227,17 +227,6 @@ namespace Engine
                 current.IsProcessed = true;
             }
 
-            if (workPoints.Count == 0)
-            {
-                resultStack.Clear();
-                //  current = processedPoints.Values.Min()
-                //  current = processedPoints.Values.OrderBy( waypoint => waypoint.Evristic).First();
-            }
-
-
-            //  if( workPoints.Count > 0 )
-            //  {
-
             current = current?.Parent;
             while (current != null)
             {
@@ -248,7 +237,6 @@ namespace Engine
 
                 current = current.Parent;
             }
-            //  }
 
             return resultStack;
         }
@@ -300,10 +288,10 @@ namespace Engine
         public void RecalcVisibleRect(Point centerPosition)
         {
             var x = centerPosition.X - (int)(VisibleRect.Width/2);
-            x = x < 0 ? 0 : (x + (int)VisibleRect.Width > GetMapLength(0) ? GetMapLength(0) - (int)VisibleRect.Width : x);
+            x = x < 0 ? 0 : x + (int)VisibleRect.Width > GetMapLength(0) ? GetMapLength(0) - (int)VisibleRect.Width : x;
 
             var y = centerPosition.Y - VisibleRect.Height / 2;
-            y = y < 0 ? 0 : (y + VisibleRect.Height > GetMapLength(1) ? GetMapLength(1) - VisibleRect.Height : y);
+            y = y < 0 ? 0 : y + VisibleRect.Height > GetMapLength(1) ? GetMapLength(1) - VisibleRect.Height : y;
 
             VisibleRect = new Rect(x, (int)y, VisibleRect.Width, VisibleRect.Height);
         }
@@ -320,8 +308,8 @@ namespace Engine
 
         public bool PointInVisibleRect(Point point)
         {
-            return VisibleRect.Left <= point.X && (VisibleRect.Left + VisibleRect.Width) > point.X &&
-                   VisibleRect.Top <= point.Y && (VisibleRect.Top + VisibleRect.Height) > point.Y;
+            return VisibleRect.Left <= point.X && VisibleRect.Left + VisibleRect.Width > point.X &&
+                   VisibleRect.Top <= point.Y && VisibleRect.Top + VisibleRect.Height > point.Y;
         }
 
         public List<Point> GetNearestToPointList(Point positionPoint, int radius)

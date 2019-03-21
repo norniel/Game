@@ -31,9 +31,9 @@ namespace Engine
                 _dy = (_mobileObject.Position.Y - (double)_destination.Y) / distance;
 
                 if (Math.Abs(_dx) >= 0.0001)
-                    _mobileObject.Angle = (180 * Math.Atan(_dy / _dx) / Math.PI) + (_dx > 0 ? 180 : 0);
+                    _mobileObject.Angle = 180 * Math.Atan(_dy / _dx) / Math.PI + (_dx > 0 ? 180 : 0);
                 else
-                    _mobileObject.Angle = (_dy < 0) ? 90 : 270;
+                    _mobileObject.Angle = _dy < 0 ? 90 : 270;
             }
 
             if (_mobileObject.PointList.Any())

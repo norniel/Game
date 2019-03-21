@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Engine.Objects.Animals;
+using Unity;
 
 namespace Engine
 {
     class LoadSaveManager
     {
-        internal void LoadSnapshot( Map map )
+        internal void LoadSnapshot( Map map, UnityContainer unityContainer )
         {
-            GenerateMap( map );
+            GenerateMap(map, unityContainer);
         }
 
         internal void SaveSnapshot()
@@ -24,7 +25,7 @@ namespace Engine
         internal void SaveHero()
         {}
 
-        private void GenerateMap(Map map)
+        private void GenerateMap(Map map, UnityContainer unityContainer)
         {
             var mapSize = map.GetSize();
             int width = (int)mapSize.Width - 1;
@@ -70,10 +71,17 @@ namespace Engine
             for (int i = 0; i < 20; i++)
             {
                 var point = GetRandCell(map, rand, width, height);
-                map.AddMobileObject(new Fox(Map.CellToPoint(point)));
-                
-                var point2 = GetRandCell(map, rand, width, height);
-                map.SetObjectFromCell(point2, Game.Factory.Produce("Dead hare") as FixedObject);
+                var fox = new Fox(Map.CellToPoint(point));
+                unityContainer.BuildUp(fox);
+                map.AddMobileObject(fox);
+
+                var point1 = GetRandCell(map, rand, width, height);
+                var hare = new Hare(Map.CellToPoint(point1));
+                unityContainer.BuildUp(hare);
+                map.AddMobileObject(hare);
+
+                //var point2 = GetRandCell(map, rand, width, height);
+              //  map.SetObjectFromCell(point2, Game.Factory.Produce("Dead hare") as FixedObject);
 
             }
 
@@ -159,7 +167,7 @@ namespace Engine
                 {
                     for (int j = curPoint.Y - 1; j <= curPoint.Y + 1; j++)
                     {
-                        if ((i == curPoint.X && j == curPoint.Y) || i < 0 || i > width || j < 0 || j > height
+                        if (i == curPoint.X && j == curPoint.Y || i < 0 || i > width || j < 0 || j > height
                             || mapTmp[i, j] > 0)
                             continue;
 

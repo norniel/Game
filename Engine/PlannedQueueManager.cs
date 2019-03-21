@@ -29,7 +29,7 @@ namespace Engine
             
             var first = _queue.GetFirst();
 
-            while (_queue.Any() && (first.NextStateTick <= CurrentTick))
+            while (_queue.Any() && first.NextStateTick <= CurrentTick)
             {
                 RemoveObjectFromQueue(first);
                 var result = first.Act();
@@ -53,7 +53,7 @@ namespace Engine
 
         public void AddObjectToQueue(PlannedEvent plannedEvent)
         {
-            plannedEvent.NextStateTick = CurrentTick + DayNightCycle.HalfDayLength - (int)((DayNightCycle.HalfDayLength / 10) * Game.Random.NextDouble());
+            plannedEvent.NextStateTick = CurrentTick + DayNightCycle.HalfDayLength - (int)(DayNightCycle.HalfDayLength / 10 * Game.Random.NextDouble());
             _queue.Add(plannedEvent);
             
         }

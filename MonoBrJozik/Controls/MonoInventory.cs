@@ -25,8 +25,8 @@ namespace MonoBrJozik.Controls
             var textSize = _font.MeasureString(">");
             var bottomY = height - (int)textSize.Y;
 
-            _topButton = new MonoItem(new MonoItemInfo(null, null, "<", () => this.MovePrev()), _font, _fontColor, x, 0);
-            _bottomButton = new MonoItem(new MonoItemInfo(null, null, ">", () => this.MoveNext()), _font, _fontColor, x, bottomY);
+            _topButton = new MonoItem(new MonoItemInfo(null, null, "<", () => MovePrev()), _font, _fontColor, x, 0);
+            _bottomButton = new MonoItem(new MonoItemInfo(null, null, ">", () => MoveNext()), _font, _fontColor, x, bottomY);
             _monoList = new MonoInventoryList(x, _topButton.Height, width, bottomY - _topButton.Height, _font, _fontColor, texture);
         }
 

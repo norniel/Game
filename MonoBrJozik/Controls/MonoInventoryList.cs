@@ -10,7 +10,7 @@ namespace MonoBrJozik.Controls
 
         public MonoInventoryList(int x, int y, int width, int height, SpriteFont font, Color fontColor, Texture2D texture) : base(x, y, width, height, font, fontColor, texture)
         {
-            _menu = new MonoMenu(_font, Color.Black, MonoDrawer.SCREEN_WIDTH + width, height, texture);
+            _menu = new MonoMenu(_font, Color.Black, MonoDrawer.ScreenWidth + width, height, texture);
         }
 
         public override MonoControl ProduceItem(MonoItemInfoBase itemInfo, SpriteFont font, Color fontColor, int x, int y)

@@ -39,7 +39,7 @@ namespace Engine.Objects
             var eatableCell = visibleCells.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
-                if ((obj is Berry && obj.Name == Resource.Apple) || obj is Mushroom)
+                if (obj is Berry && obj.Name == Resource.Apple || obj is Mushroom)
                     return true;
 
                 return false;
@@ -78,7 +78,7 @@ namespace Engine.Objects
             var treeCell = VisibleCells.FirstOrDefault(p =>
             {
                 var obj = Game.Map.GetObjectFromCell(p);
-                if ((obj is Tree && obj.Name == "Apple tree") &&
+                if (obj is Tree && obj.Name == "Apple tree" &&
                     obj.GetBehavior<CollectBehavior<Berry>>()?.CurrentCount > 0)
                     return true;
 
@@ -100,7 +100,7 @@ namespace Engine.Objects
         protected override bool IsCellEatable(PointWithDistance p)
         {
             var obj = Game.Map.GetObjectFromCell(p);
-            return (obj is Berry && obj.Name == Resource.Apple) || obj is Mushroom;
+            return obj is Berry && obj.Name == Resource.Apple || obj is Mushroom;
         }
 
         public override EaterType EaterType => EaterType.Herbivorous;

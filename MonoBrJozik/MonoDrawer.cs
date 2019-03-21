@@ -25,8 +25,6 @@ namespace MonoBrJozik
         private int _drawCount;
         private string _actingString = string.Empty;
         private readonly Texture2D _heroTexture;
-        private readonly Texture2D _screenTexture;
-        private readonly Texture2D _menuTexture;
         private readonly SpriteFont _font;
         private readonly MonoMenu _menu;
         private readonly MonoInventory _inventory;
@@ -34,39 +32,48 @@ namespace MonoBrJozik
         private readonly int _dcenter;
         private readonly GraphicsDevice _graphicsDevice;
 
-        private readonly MonoSwich _pauseSwich;
-        private readonly MonoSwich _knowledgesSwich;
+        private readonly MonoSwitch _pauseSwitch;
+        private readonly MonoSwitch _knowledgesSwitch;
 
         private readonly MonoKnowledges _monoKnowledges;
         private readonly MonoKnowledgesSimple _monoKnowledgesSimple;
 
-        private int _tick = 0;
+        private int _tick;
 
-        public const int SCREEN_WIDTH = 564;
-        public const int SCREEN_HEIGHT = 394;
-        public const int HEALTH_BAR_HEIGHT = 45;
-        public const int INVENTORY_WIDTH = 100;
+        public const int ScreenWidth = 564;
+        public const int ScreenHeight = 394;
+        public const int HealthBarHeight = 45;
+        public const int InventoryWidth = 100;
 
-        public MonoDrawer(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Dictionary<uint, Texture2D> textures, Texture2D heroTexture,
-            Texture2D screenTexture, Dictionary<string, Texture2D> heroPropTextures, SpriteFont font, Controls.MonoMenu menu, Controls.MonoInventory inventory, MonoSwich pauseSwich, MonoSwich knowledgesSwich, MonoKnowledges knowledges)
+        public MonoDrawer(
+            SpriteBatch spriteBatch, 
+            GraphicsDevice graphicsDevice, 
+            Dictionary<uint, Texture2D> textures, 
+            Texture2D heroTexture, 
+            Dictionary<string, Texture2D> heroPropTextures, 
+            SpriteFont font, 
+            MonoMenu menu, 
+            MonoInventory inventory, 
+            MonoSwitch pauseSwitch, 
+            MonoSwitch knowledgesSwitch, 
+            MonoKnowledges knowledges)
         {
             _spriteBatch = spriteBatch;
             _textures = textures;
             _heroTexture = heroTexture;
-            _screenTexture = screenTexture;
             _graphicsDevice = graphicsDevice;
             _heroPropTextures = heroPropTextures;
             _font = font;
             _menu = menu;
             _inventory = inventory;
 
-            _menuTexture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            Color[] c = new Color[1];
+            var menuTexture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            var c = new Color[1];
             c[0] = Color.White;
-            _menuTexture.SetData<Color>(c);
+            menuTexture.SetData(c);
 
-            _pauseSwich = pauseSwich;
-            _knowledgesSwich = knowledgesSwich;
+            _pauseSwitch = pauseSwitch;
+            _knowledgesSwitch = knowledgesSwitch;
 
             _monoKnowledges = knowledges;
 
@@ -87,7 +94,7 @@ namespace MonoBrJozik
                         : _actingString.Length == 8 ? "Acting..." : "Acting..";
                 }
 
-                _spriteBatch.DrawString(_font, _actingString, new Vector2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), Color.White);
+                _spriteBatch.DrawString(_font, _actingString, new Vector2(ScreenWidth/2f, ScreenHeight/2f), Color.White);
             }
         }
 
@@ -95,8 +102,7 @@ namespace MonoBrJozik
         {
             _inventory.SetItems(objects.Select(it => 
             {
-                Texture2D texture = null;
-                _textures.TryGetValue(it.Id, out texture);
+                _textures.TryGetValue(it.Id, out var texture);
                 var infoList = it.GetClientActions().Select(act => new MonoItemInfo(null, null, act.Name, () => act.Do())).ToList();
 
                 return new MonoInvItemInfo(null, texture, it.Name, null, infoList);
@@ -106,18 +112,26 @@ namespace MonoBrJozik
         public void DrawDayNight(double lightness, List<BurningProps> lightObjects)
         {
             //You can probably turn this in to a re-useable method
-            Byte transparency_amount = (Byte)(255 * lightness); //0 transparent; 255 opaque
+            Byte transparencyAmount = (Byte)(255 * lightness); //0 transparent; 255 opaque
             Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Color[] c = new Color[1];
-            c[0] = Color.FromNonPremultiplied(255, 255, 255, transparency_amount);
-            texture.SetData<Color>(c);
+            c[0] = Color.FromNonPremultiplied(255, 255, 255, transparencyAmount);
+            texture.SetData(c);
 
             _spriteBatch.Draw(texture, new Rectangle(0, 0, 564, 394), Color.Black);
         }
 
         public void DrawHero(Point position, double angle, List<Point> pointList, bool isHorizontal)
         {
-            _spriteBatch.Draw(_heroTexture, new Vector2(position.X - _dcenter, position.Y - _dcenter), null, Color.White, (float)(angle - (Math.PI*0.25)), new Vector2(_heroTexture.Width / 2, _heroTexture.Height / 2), Vector2.One, SpriteEffects.None, 0);
+            _spriteBatch.Draw(_heroTexture, 
+                new Vector2(position.X - _dcenter, position.Y - _dcenter), 
+                null, 
+                Color.White, 
+                (float)(angle - Math.PI*0.25), 
+                new Vector2(_heroTexture.Width / 2f, _heroTexture.Height / 2f), 
+                Vector2.One, 
+                SpriteEffects.None, 
+                0);
 
             DrawPath(position, pointList);
             /*
@@ -157,13 +171,13 @@ namespace MonoBrJozik
                 .Select(p => new VertexPositionColor(new Vector3(p.X, p.Y, 0), Color.White))
                 .ToArray();
 
-            var lineListIndices = new short[(pointCount * 2) - 2];
+            var lineListIndices = new short[pointCount * 2 - 2];
 
             // Populate the array with references to indices in the vertex buffer
             for (int i = 0; i < pointCount - 1; i++)
             {
-                lineListIndices[i * 2] = (short) (i);
-                lineListIndices[(i * 2) + 1] = (short) (i + 1);
+                lineListIndices[i * 2] = (short) i;
+                lineListIndices[i * 2 + 1] = (short) (i + 1);
             }
 
             _graphicsDevice.DrawUserIndexedPrimitives(
@@ -180,24 +194,23 @@ namespace MonoBrJozik
         public void DrawHeroProperties(IEnumerable<KeyValuePair<string, int>> objects)
         {
             _tick++;
-            Texture2D texture;
             var i = 0;
             foreach (var heroProp in objects)
             {
-                if (_heroPropTextures.TryGetValue(heroProp.Key, out texture))
+                if (_heroPropTextures.TryGetValue(heroProp.Key, out var texture))
                 {
                     if (heroProp.Key.Equals("health", StringComparison.InvariantCultureIgnoreCase))
                     {
                         var health = heroProp.Value;
-                        var healthKoef = (((health+10)/10)*10);
+                        var healthKoef = (health+10)/10*10;
                         var t = _tick % (healthKoef <= 0 ? 10 : healthKoef) < 5 ? 1 : 0; 
-                        _spriteBatch.Draw(texture, new Rectangle(2 + 70 * i + t, SCREEN_HEIGHT + 2 + t, texture.Width - 2*t, texture.Height - 2*t ), Color.White);
+                        _spriteBatch.Draw(texture, new Rectangle(2 + 70 * i + t, ScreenHeight + 2 + t, texture.Width - 2*t, texture.Height - 2*t ), Color.White);
                     }
                     else
-                    _spriteBatch.Draw(texture, new Vector2(2 + 70*i, SCREEN_HEIGHT + 2), Color.White);
+                    _spriteBatch.Draw(texture, new Vector2(2 + 70*i, ScreenHeight + 2), Color.White);
                     
                 }
-                _spriteBatch.DrawString(_font, $"({heroProp.Value})", new Vector2(2 + 70 * i+ 33, SCREEN_HEIGHT + 20), Color.Black);
+                _spriteBatch.DrawString(_font, $"({heroProp.Value})", new Vector2(2 + 70 * i+ 33, ScreenHeight + 20), Color.Black);
                     i++;
             }
         }
@@ -207,7 +220,7 @@ namespace MonoBrJozik
             Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Color[] c = new Color[1];
             c[0] = Color.LightBlue;
-            texture.SetData<Color>(c);
+            texture.SetData(c);
 
             var infoList = actions.Select(act => new MonoItemInfo(null, null, act.Name,() => act.Do())).ToList();
 
@@ -218,7 +231,7 @@ namespace MonoBrJozik
         {
             Texture2D texture = null;
 
-            var origId = (id / 0x1000) * 0x1000;
+            var origId = id / 0x1000 * 0x1000;
             if (origId == 0x00018000 || origId == 0x10018000 || origId == 0x00019000 || origId == 0x00020000)
             {
                 if (!_textures.TryGetValue(origId, out texture))
@@ -231,13 +244,13 @@ namespace MonoBrJozik
             if (_textures.TryGetValue(id, out texture))
             {
                 if (height > 1)
-                    y = y - Engine.Map.CellMeasure*(height - 1);
+                    y = y - Map.CellMeasure*(height - 1);
 
                 _spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
             }
         }
 
-        public void DrawShaddow(Point innerPoint, Size innerSize)
+        public void DrawShadow(Point innerPoint, Size innerSize)
         {
             //throw new NotImplementedException();
         }
@@ -247,15 +260,15 @@ namespace MonoBrJozik
                Texture2D texture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
                Color[] c = new Color[1];
                c[0] = new Color(23, 90, 0); 
-               texture.SetData<Color>(c);//_screenTexture
-            _spriteBatch.Draw(texture, new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), Color.White);
+               texture.SetData(c);//_screenTexture
+            _spriteBatch.Draw(texture, new Rectangle(0, 0, ScreenWidth, ScreenHeight), Color.White);
         }
 
         public void DrawTime(GameDateTime gameDateTime)
         {
             var timeOfDay = $"{gameDateTime.Day}:{gameDateTime.Hour}:{gameDateTime.Minute}";
             var timeStrLength = _font.MeasureString(timeOfDay);
-            _spriteBatch.DrawString(_font, timeOfDay, new Vector2(SCREEN_WIDTH - timeStrLength.X - 2, SCREEN_HEIGHT + 30), Color.Black);
+            _spriteBatch.DrawString(_font, timeOfDay, new Vector2(ScreenWidth - timeStrLength.X - 2, ScreenHeight + 30), Color.Black);
         }
 
         public void DrawHaltScreen(Dictionary<string, uint> knowledges, Action<Dictionary<string, uint>> newKnowledgesAction)
@@ -272,12 +285,12 @@ namespace MonoBrJozik
 
         public void SetPaused(bool isPaused)
         {
-            _pauseSwich.SetSwitched(isPaused);
+            _pauseSwitch.SetSwitched(isPaused);
         }
 
         public void ShowKnowledges(bool isKnowledgesShown, Dictionary<string, uint> knowledges)
         {
-            _knowledgesSwich.SetSwitched(isKnowledgesShown);
+            _knowledgesSwitch.SetSwitched(isKnowledgesShown);
             _monoKnowledgesSimple.Init(isKnowledgesShown, knowledges);
         }
 

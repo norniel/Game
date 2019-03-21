@@ -34,7 +34,7 @@ namespace Engine.Actions
             var stone = objects.SingleOrDefault(o => o is Rock);
 
             if (branch == null || stone == null)
-                return new FinishedActionResult();
+                return FinishedActionResult.Instance;
 
             branch.RemoveFromContainer();
             stone.RemoveFromContainer();
@@ -42,7 +42,7 @@ namespace Engine.Actions
 
             Game.AddToGame(hero, axe);
 
-            return new FinishedActionResult();
+            return FinishedActionResult.Instance;
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
@@ -53,7 +53,7 @@ namespace Engine.Actions
         public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
         {
             var allObjects =
-                objects.Union(hero.GetContainerItems()).Distinct();
+                objects.Union(hero.GetContainerItems()).Distinct().ToList();
 
             var branch = allObjects.FirstOrDefault(ao => ao is Branch);
             var stone = allObjects.FirstOrDefault(ao => ao is Rock);

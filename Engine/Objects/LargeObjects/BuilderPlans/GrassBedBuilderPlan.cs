@@ -40,7 +40,7 @@ namespace Engine.Objects.LargeObjects.BuilderPlans
             var objectOnPlace = Game.Map.GetHObjectFromCell(cell);
             var objectOnNextPlace = Game.Map.GetHObjectFromCell(new Point(cell.X, cell.Y + 1));
 
-            return (objectOnPlace == null && objectOnNextPlace == null);
+            return objectOnPlace == null && objectOnNextPlace == null;
         }
 
         public override uint CurrentDrawingOrder {

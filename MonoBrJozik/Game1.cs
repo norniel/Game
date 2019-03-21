@@ -22,8 +22,8 @@ namespace MonoBrJozik
         private MonoDrawer _drawer;
         private MonoMenu _menu;
         private MonoInventory _inventory;
-        private MonoSwich _pauseSwich;
-        private MonoSwich _knowledgeSwich;
+        private MonoSwitch _pauseSwitch;
+        private MonoSwitch _knowledgeSwitch;
         private MonoKnowledges _monoKnowledges;
         
         private bool _lButtonPressed = false;
@@ -71,44 +71,44 @@ namespace MonoBrJozik
             var menuTexture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Color[] c = new Color[1];
             c[0] = Color.White;
-            menuTexture.SetData<Color>(c);
+            menuTexture.SetData(c);
 
-            _menu = new MonoMenu(font, Color.MintCream, MonoDrawer.SCREEN_WIDTH,
-                MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT);
-            _inventory = new MonoInventory(MonoDrawer.SCREEN_WIDTH, 0, MonoDrawer.INVENTORY_WIDTH,
-                MonoDrawer.SCREEN_HEIGHT + MonoDrawer.HEALTH_BAR_HEIGHT, font, Color.Black, menuTexture);
+            _menu = new MonoMenu(font, Color.MintCream, MonoDrawer.ScreenWidth,
+                MonoDrawer.ScreenHeight + MonoDrawer.HealthBarHeight);
+            _inventory = new MonoInventory(MonoDrawer.ScreenWidth, 0, MonoDrawer.InventoryWidth,
+                MonoDrawer.ScreenHeight + MonoDrawer.HealthBarHeight, font, Color.Black, menuTexture);
 
             
             var pauseStrLength = font.MeasureString("Pause");
             var switchTexture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             Color[] c1 = new Color[1];
             c[0] = Color.WhiteSmoke;
-            switchTexture.SetData<Color>(c);
+            switchTexture.SetData(c);
             var pauseInfo = new MonoItemInfo(switchTexture, null, "Pause", () => _game.SetPaused());
-            _pauseSwich = new MonoSwich(pauseInfo, false, switchTexture, font, Color.Black, MonoDrawer.SCREEN_WIDTH - (int)pauseStrLength.X - 2, MonoDrawer.SCREEN_HEIGHT);
+            _pauseSwitch = new MonoSwitch(pauseInfo, false, switchTexture, font, Color.Black, MonoDrawer.ScreenWidth - (int)pauseStrLength.X - 2, MonoDrawer.ScreenHeight);
 
             var knowledgesStrLength = font.MeasureString("Knowledges");
             var knowledgesInfo = new MonoItemInfo(switchTexture, null, "Knowledges", () => _game.ShowKnowledges());
-            _knowledgeSwich = new MonoSwich(knowledgesInfo, false, switchTexture, font, Color.Black, MonoDrawer.SCREEN_WIDTH - (int)pauseStrLength.X - (int)knowledgesStrLength.X - 10, MonoDrawer.SCREEN_HEIGHT);
+            _knowledgeSwitch = new MonoSwitch(knowledgesInfo, false, switchTexture, font, Color.Black, MonoDrawer.ScreenWidth - (int)pauseStrLength.X - (int)knowledgesStrLength.X - 10, MonoDrawer.ScreenHeight);
 
             _monoKnowledges = new MonoKnowledges(GraphicsDevice, font);
 
-            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture, screenTexture,
-                heroPropTextures, font, _menu, _inventory, _pauseSwich, _knowledgeSwich, _monoKnowledges);
-            _game = new Engine.Game(_drawer, (uint) MonoDrawer.SCREEN_WIDTH, (uint) MonoDrawer.SCREEN_HEIGHT);
+            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture,
+                heroPropTextures, font, _menu, _inventory, _pauseSwitch, _knowledgeSwitch, _monoKnowledges);
+            _game = new Engine.Game(_drawer, (uint) MonoDrawer.ScreenWidth, (uint) MonoDrawer.ScreenHeight);
 
             _graphics.PreferredBackBufferWidth =
-                MonoDrawer.SCREEN_WIDTH +
-                MonoDrawer.INVENTORY_WIDTH; // set this value to the desired width of your window
+                MonoDrawer.ScreenWidth +
+                MonoDrawer.InventoryWidth; // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight =
-                MonoDrawer.SCREEN_HEIGHT +
-                MonoDrawer.HEALTH_BAR_HEIGHT; // set this value to the desired height of your window
+                MonoDrawer.ScreenHeight +
+                MonoDrawer.HealthBarHeight; // set this value to the desired height of your window
             _graphics.ApplyChanges();
 
             _monoControls.Add(_menu);
             _monoControls.Add(_inventory);
-            _monoControls.Add(_pauseSwich);
-            _monoControls.Add(_knowledgeSwich);
+            _monoControls.Add(_pauseSwitch);
+            _monoControls.Add(_knowledgeSwitch);
         }
 
         private Dictionary<uint, Texture2D> LoadTextures()
@@ -237,7 +237,7 @@ namespace MonoBrJozik
 
                 /*if (!_menu.MouseLClick(currentMouseState))
                 {
-                    if (!_inventory.MouseLClick(currentMouseState) && !_pauseSwich.MouseLClick(currentMouseState) && !_knowledgeSwich.MouseLClick(currentMouseState))
+                    if (!_inventory.MouseLClick(currentMouseState) && !_pauseSwitch.MouseLClick(currentMouseState) && !_knowledgeSwitch.MouseLClick(currentMouseState))
                         _game.LClick(new Point(currentMouseState.X, currentMouseState.Y));
                 }*/
             }
@@ -260,7 +260,7 @@ namespace MonoBrJozik
 
               /*  if (!_menu.MouseRClick(currentMouseState))
                 {
-                    if (!_inventory.MouseRClick(currentMouseState) && !_pauseSwich.MouseRClick(currentMouseState) && !_knowledgeSwich.MouseRClick(currentMouseState))
+                    if (!_inventory.MouseRClick(currentMouseState) && !_pauseSwitch.MouseRClick(currentMouseState) && !_knowledgeSwitch.MouseRClick(currentMouseState))
                         _game.RClick(new Point(currentMouseState.X, currentMouseState.Y));
                 }*/
             }
@@ -290,9 +290,9 @@ namespace MonoBrJozik
 
             _inventory.Draw(_spriteBatch);
 
-            _pauseSwich.Draw(_spriteBatch);
+            _pauseSwitch.Draw(_spriteBatch);
 
-            _knowledgeSwich.Draw(_spriteBatch);*/
+            _knowledgeSwitch.Draw(_spriteBatch);*/
 
             _spriteBatch.End();
 

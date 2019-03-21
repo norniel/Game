@@ -36,14 +36,14 @@ namespace Engine.Actions
             var stone = gameObjects.SingleOrDefault(ao => ao.Properties.Contains(Property.Cutter));
 
             if (branch == null || stone == null)
-                return new FinishedActionResult();
+                return FinishedActionResult.Instance;
 
             branch.RemoveFromContainer();
             var diggingStick = new DiggingStick();
 
             Game.AddToGame(hero, diggingStick);
 
-            return new FinishedActionResult();
+            return FinishedActionResult.Instance;
         }
 
         public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
