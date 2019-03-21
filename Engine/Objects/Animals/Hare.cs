@@ -9,7 +9,7 @@ namespace Engine.Objects.Animals
     class Hare: Animal
     {
         public Hare(Point position) 
-            : base(false, new Size(1,1), 0x00019000, 50, "Hare", 4, position)
+            : base(false, new Size(1,1), 0x00019000, 60, "Hare", 4, position)
         {
         }
 
@@ -38,23 +38,13 @@ namespace Engine.Objects.Animals
                 return true;
             }
 
-            var enemiesExist = GetEnemies().Any();
-
-            if (enemiesExist)
-            {
-                _stateQueue.Clear();
-                _stateQueue.Enqueue(new Fleeing(this));
-                StateEvent.FireEvent();
-
-                return false;
-            }
-
-            return true;
+            return !FleeEnemies();
         }
 
         public override IEnumerable<MobileObject> GetEnemies()
         {
-            return VisibleCells.SelectMany(c => Game.Map.GetMobileObjects().Where(mb => mb.PositionCell == c).Where(mb => mb.Name == "Fox"));
+            return VisibleCells.SelectMany(c => Game.Map.GetMobileObjects().Where(mb => mb.PositionCell == c).Where(mb => mb.Name == "Fox"))
+                .Union(VisibleCells.Where(vc => Hero.PositionCell == vc).Select(vc => Hero));
         }
 
         public override void Die()

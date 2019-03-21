@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Engine.Heros;
 using Engine.Interfaces;
 using Engine.ObjectStates;
 using Engine.States;
 using Engine.Tools;
+using Unity;
 
 namespace Engine.Objects.Animals
 {
     abstract class Animal : MobileObject, IEater, IWithObjectWithState
     {
         public ObjectWithState ObjectWithState { get; }
+
+        [Dependency]
+        public Hero Hero { get; set; }
 
         protected const int STAYING_BASE_TICKCOUNT = 300;
 
@@ -124,8 +129,8 @@ namespace Engine.Objects.Animals
 
             for (int i = 1; i < maxDist; i++)
             {
-                var xi = (int) Math.Round(PositionCell.X - (i * deltaX) / (double) maxDist);
-                var yi = (int) Math.Round(PositionCell.Y - (i * deltaY) / (double) maxDist);
+                var xi = (int) Math.Round(PositionCell.X - i * deltaX / (double) maxDist);
+                var yi = (int) Math.Round(PositionCell.Y - i * deltaY / (double) maxDist);
 
                 xi = Math.Max(xi, 0);
                 yi = Math.Max(yi, 0);
@@ -163,6 +168,26 @@ namespace Engine.Objects.Animals
         public virtual void Die()
         {
             IsDead = true;
+        }
+
+        protected bool FleeEnemies()
+        {
+            var enemiesExist = GetEnemies()?.Any() ?? false;
+
+            if (!enemiesExist)
+                return false;
+
+            _stateQueue.Clear();
+            _stateQueue.Enqueue(new Fleeing(this));
+            StateEvent.FireEvent();
+
+            return true;
+        }
+        
+
+        public override bool CheckForUnExpected()
+        {
+            return !FleeEnemies();
         }
     }
 }

@@ -7,16 +7,16 @@ using Engine.Tools;
 
 namespace Engine.Objects.Animals
 {
-    class Fox :Animal
+    class Fox : Animal
     {
-        public Fox( Point position) 
-            : base(false, new Size(1,1), 0x00020000, 50, "Fox", 4, position)
+        public Fox(Point position)
+            : base(false, new Size(1, 1), 0x00020000, 50, "Fox", 4, position)
         {
         }
 
         protected override bool IsCellEatable(PointWithDistance p)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override EaterType EaterType => EaterType.Carnivorous;
@@ -28,27 +28,34 @@ namespace Engine.Objects.Animals
 
         public override uint GetDrawingCode()
         {
-            return 0x00020000 + 90 + (uint)Angle;
+            return 0x00020000 + 90 + (uint) Angle;
         }
 
         public override void Eat(int satiety)
         {
-            if(ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Hungry)
+            if (ObjectWithState.CurrentState.Name == ObjectStates.ObjectStates.Hungry)
                 ObjectWithState.ChangeState(0, STAYING_BASE_TICKCOUNT + (int) (STAYING_BASE_TICKCOUNT * satiety * 0.1));
             else
             {
-                ObjectWithState.ChangeState(0, ObjectWithState.TicksToNextState + (int) (STAYING_BASE_TICKCOUNT * satiety * 0.1));
+                ObjectWithState.ChangeState(0,
+                    ObjectWithState.TicksToNextState + (int) (STAYING_BASE_TICKCOUNT * satiety * 0.1));
             }
         }
 
         public override bool CheckForUnExpected()
         {
-            if (State is Pursuing || State is Killing || State is MovingToObject || State is Eating)
+            if (State is Fleeing)
                 return true;
 
-            if (!GoToFoodAndEat()) 
+            if (FleeEnemies())
+                return false;
+
+            if (State is Pursuing || State is Killing || State is MovingToObject || State is Eating)
                 return true;
             
+            if (!GoToFoodAndEat())
+                return true;
+
             StateEvent.FireEvent();
             return false;
         }
@@ -94,10 +101,10 @@ namespace Engine.Objects.Animals
                 return true;
 
             var destinationObject = VisibleCells.Select(vCell =>
-                {
-                    var t = Game.Map.GetMobileObject(vCell);
-                    return t;
-                }).OfType<Animal>().FirstOrDefault(mo => { return mo != null && mo.Name == "Hare" && !mo.IsDead; });
+            {
+                var t = Game.Map.GetMobileObject(vCell);
+                return t;
+            }).OfType<Animal>().FirstOrDefault(mo => { return mo != null && mo.Name == "Hare" && !mo.IsDead; });
 
             if (destinationObject != null)
             {
@@ -108,6 +115,11 @@ namespace Engine.Objects.Animals
             }
 
             return false;
+        }
+
+        public override IEnumerable<MobileObject> GetEnemies()
+        {
+            return VisibleCells.Where(vc => Hero.PositionCell == vc).Select(vc => Hero);
         }
     }
 }
