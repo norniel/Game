@@ -19,27 +19,23 @@ namespace Engine.Heros
 
         //   public double Angle { get; set; }
 
-        private const int INITIAL_SPEED = 100;
-
-        private readonly Bag _bag;
+        private const int INITIAL_SPEED = 10;
 
         [Dependency] public HeroLifeCycle HeroLifeCycle { get; set; }
 
         private bool _isThen;
 
-        private Dictionary<Knowledges, uint> _knowledgeses =
+        private Dictionary<Knowledges, uint> _knowledges =
             new Dictionary<Knowledges, uint> {{Knowledges.Nothing, 100}};
 
-        private Dictionary<string, uint> _ObjectKnowledgeses = new Dictionary<string, uint>();
-
-        private uint _expirience;
+        private Dictionary<string, uint> _objectKnowledges = new Dictionary<string, uint>();
 
         public Hero()
         {
             //  Position = new Point();
             Angle = 0;
 
-            _bag = new Bag(20, 20);
+            Bag = new Bag(20, 20);
 
             // _heroLifeCycle = new HeroLifeCycle();
 
@@ -48,9 +44,7 @@ namespace Engine.Heros
             // Game.Intervals.Subscribe(HeroLifeCycle);
         }
 
-        public IMap Map { get; set; }
-
-        public Bag Bag => _bag;
+        public Bag Bag { get; }
 
         public void StartMove(Point destination, Stack<Point> points)
         {
@@ -74,17 +68,17 @@ namespace Engine.Heros
 
         public bool AddToBag(GameObject gameObject)
         {
-            return _bag.Add(gameObject);
+            return Bag.Add(gameObject);
         }
 
         public void AddToBag(IEnumerable<GameObject> objects)
         {
-            _bag.Add(objects);
+            Bag.Add(objects);
         }
 
         public List<GameObject> GetContainerItems()
         {
-            return _bag.GameObjects;
+            return Bag.GameObjects;
         }
 
         /*
@@ -157,7 +151,7 @@ namespace Engine.Heros
 
         public override uint Speed
         {
-            get { return (uint) (INITIAL_SPEED * HeroLifeCycle.GetSpeedCoefficient()); }
+            get => (uint) (INITIAL_SPEED * HeroLifeCycle.GetSpeedCoefficient());
             set { }
         }
 
@@ -221,13 +215,13 @@ namespace Engine.Heros
 
         public bool HasKnowledge(Knowledges knowledge)
         {
-            return _knowledgeses.ContainsKey(knowledge);
+            return _knowledges.ContainsKey(knowledge);
         }
 
         public double GetObjectKnowledge(string gameObjectName)
         {
             uint objectKnowl;
-            return _ObjectKnowledgeses.TryGetValue(gameObjectName, out objectKnowl) ? objectKnowl / 100.0 : 0.0;
+            return _objectKnowledges.TryGetValue(gameObjectName, out objectKnowl) ? objectKnowl / 100.0 : 0.0;
         }
 
         public void SetObjectKnowledge(string gameObjectName, uint knowledge)
@@ -235,45 +229,41 @@ namespace Engine.Heros
             if (string.IsNullOrEmpty(gameObjectName))
                 return;
 
-            if (_ObjectKnowledgeses.ContainsKey(gameObjectName))
+            if (_objectKnowledges.ContainsKey(gameObjectName))
             {
-                var prevKnowledge = _ObjectKnowledgeses[gameObjectName];
-                _ObjectKnowledgeses[gameObjectName] = Math.Min(100, _ObjectKnowledgeses[gameObjectName] + knowledge);
-                _expirience += _ObjectKnowledgeses[gameObjectName] - prevKnowledge;
+                var prevKnowledge = _objectKnowledges[gameObjectName];
+                _objectKnowledges[gameObjectName] = Math.Min(100, _objectKnowledges[gameObjectName] + knowledge);
             }
             else
             {
-                _ObjectKnowledgeses[gameObjectName] = Math.Min(100, knowledge);
-                _expirience += _ObjectKnowledgeses[gameObjectName];
+                _objectKnowledges[gameObjectName] = Math.Min(100, knowledge);
             }
         }
 
         public void SetKnowledge(Knowledges knowledge, uint koef)
         {
-            if (_knowledgeses.ContainsKey(knowledge))
+            if (_knowledges.ContainsKey(knowledge))
             {
-                var prevKnowledge = _knowledgeses[knowledge];
-                _knowledgeses[knowledge] = Math.Min(100, _knowledgeses[knowledge] + koef);
-                _expirience += _knowledgeses[knowledge] - prevKnowledge;
+                var prevKnowledge = _knowledges[knowledge];
+                _knowledges[knowledge] = Math.Min(100, _knowledges[knowledge] + koef);
             }
             else
             {
-                _knowledgeses[knowledge] = Math.Min(100, koef);
-                _expirience += _knowledgeses[knowledge];
+                _knowledges[knowledge] = Math.Min(100, koef);
             }
         }
 
         public double GetKnowledge(Knowledges knowledge)
         {
             uint koef;
-            return _knowledgeses.TryGetValue(knowledge, out koef) ? koef / 100.0 : 0.0;
+            return _knowledges.TryGetValue(knowledge, out koef) ? koef / 100.0 : 0.0;
         }
 
         public Dictionary<string, uint> GetAllKnowledges()
         {
-            return _knowledgeses.Select(k => new KeyValuePair<string, uint>(k.Key.ToString(), k.Value))
+            return _knowledges.Select(k => new KeyValuePair<string, uint>(k.Key.ToString(), k.Value))
                 .Where(t => !string.Equals(t.Key, Knowledges.Nothing.ToString()))
-                .Union(_ObjectKnowledgeses.Select(t => t)).ToDictionary(t => t.Key, t => t.Value);
+                .Union(_objectKnowledges.Select(t => t)).ToDictionary(t => t.Key, t => t.Value);
         }
 
         public bool IsBaseToShow(GameObject gameObject)
@@ -307,10 +297,10 @@ namespace Engine.Heros
                 };
             }).ToList();
 
-            _knowledgeses = allKnowledges.Where(t => t.KnowledgeExist).ToDictionary(t => t.KnKey, t => t.Value);
-            _knowledgeses[Knowledges.Nothing] = 100;
+            _knowledges = allKnowledges.Where(t => t.KnowledgeExist).ToDictionary(t => t.KnKey, t => t.Value);
+            _knowledges[Knowledges.Nothing] = 100;
 
-            _ObjectKnowledgeses = _ObjectKnowledgeses.Join(allKnowledges.Where(t => !t.KnowledgeExist), t => t.Key, u => u.Key,
+            _objectKnowledges = _objectKnowledges.Join(allKnowledges.Where(t => !t.KnowledgeExist), t => t.Key, u => u.Key,
                     (pair, kn) => new KeyValuePair<string, uint>(pair.Key, kn.Value))
                 .ToDictionary(pair => pair.Key, pair => pair.Value);
 

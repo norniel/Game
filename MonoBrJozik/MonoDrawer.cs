@@ -6,6 +6,7 @@ using Engine.BridgeObjects;
 using Engine.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoBrJozik.Animation;
 using MonoBrJozik.Controls;
 using Point = Engine.Point;
 
@@ -37,6 +38,8 @@ namespace MonoBrJozik
 
         private readonly MonoKnowledges _monoKnowledges;
         private readonly MonoKnowledgesSimple _monoKnowledgesSimple;
+
+        private readonly CharacterEntity _heroCharacterEntity;
 
         private int _tick;
 
@@ -71,6 +74,8 @@ namespace MonoBrJozik
             var c = new Color[1];
             c[0] = Color.White;
             menuTexture.SetData(c);
+
+            _heroCharacterEntity = new CharacterEntity(_heroTexture);
 
             _pauseSwitch = pauseSwitch;
             _knowledgesSwitch = knowledgesSwitch;
@@ -123,7 +128,7 @@ namespace MonoBrJozik
 
         public void DrawHero(Point position, double angle, List<Point> pointList, bool isHorizontal)
         {
-            _spriteBatch.Draw(_heroTexture, 
+ /*           _spriteBatch.Draw(_heroTexture, 
                 new Vector2(position.X - _dcenter, position.Y - _dcenter), 
                 null, 
                 Color.White, 
@@ -132,6 +137,8 @@ namespace MonoBrJozik
                 Vector2.One, 
                 SpriteEffects.None, 
                 0);
+*/
+            _heroCharacterEntity.Draw(_spriteBatch, _tick, new Vector2(position.X, position.Y), angle, true, isHorizontal);
 
             DrawPath(position, pointList);
             /*
