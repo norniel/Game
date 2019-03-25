@@ -11,7 +11,9 @@ namespace Engine
 
         void Clear();
 
-        void DrawHero( Point position, double angle, List<Point> pointList, bool isHorizontal);
+        void DrawHero( Point position, double angle, List<Point> pointList, bool isMoving, bool isHorizontal);
+
+        void DrawMobileObject(uint id, Point position, double angle, bool isMoving);
 
         void DrawObject( uint id, long x, long y, int height);
 

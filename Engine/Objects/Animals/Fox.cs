@@ -121,5 +121,7 @@ namespace Engine.Objects.Animals
         {
             return VisibleCells.Where(vc => Hero.PositionCell == vc).Select(vc => Hero);
         }
+
+        public override bool IsMoving => State is Moving || State is Fleeing || State is Pursuing || State is MovingToObject;
     }
 }

@@ -30,7 +30,9 @@ namespace MonoBrJozik.Animation
             if (!_frames.Any())
                 return null;
 
-            var index = tick /10%_frames.Count;
+            var ticksPerFrame = 40 / _frames.Count;
+
+            var index = tick / ticksPerFrame % _frames.Count;
             return _frames[index].SourceRectangle;
         }
 

@@ -58,6 +58,8 @@ namespace Engine
 
         public IObservable<EventPattern<StateEventArgs>> States => staSubject;
 
+        public virtual bool IsMoving { get; }
+
         public MobileObject()
         {
             ViewSight = new Size();

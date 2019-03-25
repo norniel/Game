@@ -96,7 +96,6 @@ namespace Engine
             loadSaveManager.LoadSnapshot(Map, unityContainer);
 
             _hero = unityContainer.Resolve<Hero>();
-            _hero.Map = Map;
 
             ActionRepository = unityContainer.Resolve<IActionRepository>();
 
@@ -296,6 +295,7 @@ namespace Engine
                         Map.GetVisibleDestinationFromRealDestination(_hero.Position), 
                         _hero.Angle, 
                         _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(),
+                        _hero.IsMoving,
                         _hero.IsHorizontal());
                 }
             }
@@ -306,7 +306,7 @@ namespace Engine
                 if (Map.PointInVisibleRect(mobileObject.Position))
                 {
                     var visibleDestination = Map.GetVisibleDestinationFromRealDestination(mobileObject.Position);
-                    _drawer.DrawObject(mobileObject.GetDrawingCode(), visibleDestination.X, visibleDestination.Y, mobileObject.Height);
+                    _drawer.DrawMobileObject(mobileObject.GetDrawingCode(), visibleDestination, mobileObject.Angle, mobileObject.IsMoving);
                 }
             }
 

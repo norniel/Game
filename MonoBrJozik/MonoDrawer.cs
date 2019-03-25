@@ -40,6 +40,7 @@ namespace MonoBrJozik
         private readonly MonoKnowledgesSimple _monoKnowledgesSimple;
 
         private readonly CharacterEntity _heroCharacterEntity;
+        private readonly CharacterEntity _foxCharacterEntity;
 
         private int _tick;
 
@@ -75,7 +76,8 @@ namespace MonoBrJozik
             c[0] = Color.White;
             menuTexture.SetData(c);
 
-            _heroCharacterEntity = new CharacterEntity(_heroTexture);
+            _heroCharacterEntity = new CharacterEntity(_heroTexture, 8);
+            _foxCharacterEntity = new CharacterEntity(_textures[0x00020000], 4);
 
             _pauseSwitch = pauseSwitch;
             _knowledgesSwitch = knowledgesSwitch;
@@ -126,7 +128,7 @@ namespace MonoBrJozik
             _spriteBatch.Draw(texture, new Rectangle(0, 0, 564, 394), Color.Black);
         }
 
-        public void DrawHero(Point position, double angle, List<Point> pointList, bool isHorizontal)
+        public void DrawHero(Point position, double angle, List<Point> pointList, bool isMoving, bool isHorizontal)
         {
  /*           _spriteBatch.Draw(_heroTexture, 
                 new Vector2(position.X - _dcenter, position.Y - _dcenter), 
@@ -138,7 +140,7 @@ namespace MonoBrJozik
                 SpriteEffects.None, 
                 0);
 */
-            _heroCharacterEntity.Draw(_spriteBatch, _tick, new Vector2(position.X, position.Y), angle, true, isHorizontal);
+            _heroCharacterEntity.Draw(_spriteBatch, _tick, new Vector2(position.X, position.Y), angle, isMoving, isHorizontal);
 
             DrawPath(position, pointList);
             /*
@@ -165,6 +167,24 @@ namespace MonoBrJozik
                 Canvas.SetTop(_appearance, position.Y - _dcenter);
                 _t.Angle = angle;
             }*/
+        }
+
+        public void DrawMobileObject(uint id, Point position, double angle, bool isMoving)
+        {
+            var origId = id / 0x1000 * 0x1000;
+            if (origId == 0x00018000 || origId == 0x10018000 || origId == 0x00019000 )
+            {
+                Texture2D texture = null;
+                if (!_textures.TryGetValue(origId, out texture))
+                    return;
+
+                DrawRotatedImage(texture, position.X, position.Y, id % 0x1000);
+                return;
+            }
+            else if (origId == 0x00020000)
+            {
+                _foxCharacterEntity.Draw(_spriteBatch, _tick, new Vector2(position.X, position.Y), angle, isMoving, false);
+            }
         }
 
         private void DrawPath(Point position, List<Point> pointList)
@@ -237,16 +257,6 @@ namespace MonoBrJozik
         public void DrawObject(uint id, long x, long y, int height)
         {
             Texture2D texture = null;
-
-            var origId = id / 0x1000 * 0x1000;
-            if (origId == 0x00018000 || origId == 0x10018000 || origId == 0x00019000 || origId == 0x00020000)
-            {
-                if (!_textures.TryGetValue(origId, out texture))
-                    return; 
-
-                DrawRotatedImage(texture, x, y, id % 0x1000);
-                return;
-            }
             
             if (_textures.TryGetValue(id, out texture))
             {

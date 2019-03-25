@@ -63,6 +63,7 @@ namespace MonoBrJozik
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             var textures = LoadTextures();
+            textures[0x00020000] = Content.Load<Texture2D>("fox anim new"); ;
             var heroTexture = Content.Load<Texture2D>("hero");
             var screenTexture = Content.Load<Texture2D>("green-paper2");
             var heroPropTextures = LoadHeroTextures();

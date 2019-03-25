@@ -13,13 +13,7 @@ namespace Engine.Heros
 {
     public class Hero : MobileObject, IEater
     {
-        //  private Subject<EventPattern<StateEventArgs>> staSubject = new Subject<EventPattern<StateEventArgs>>();
-
-        //  public uint Speed { get; set; }
-
-        //   public double Angle { get; set; }
-
-        private const int INITIAL_SPEED = 10;
+        private const int INITIAL_SPEED = 50;
 
         [Dependency] public HeroLifeCycle HeroLifeCycle { get; set; }
 
@@ -308,6 +302,11 @@ namespace Engine.Heros
 
             _stateQueue.Clear();
             StateEvent.FireEvent();
+        }
+
+        public override bool IsMoving
+        {
+            get { return State is Moving; }
         }
     }
 }
