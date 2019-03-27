@@ -95,7 +95,7 @@ namespace MonoBrJozik.Animation
           var index = (int) angle == 45 ? 7 : ((int) (2 * angle - 45 + 720) % 720) / 90;
           var sourceRectangle = (isMoving ? _walkAnimations[index] : _standAnimations[index]).CurrentRectangle(tick);
 
-          spriteBatch.Draw(_texture, new Vector2(position.X - _width/2, position.Y - 28), sourceRectangle, Color.White);
+          spriteBatch.Draw(_texture, new Vector2(position.X - _width/2, position.Y - _height), sourceRectangle, Color.White);
       }
     }
 }

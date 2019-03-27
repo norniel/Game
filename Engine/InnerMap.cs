@@ -11,11 +11,11 @@ namespace Engine
 {
     public class InnerMap:IMap
     {
-        protected readonly FixedObject[,] _map;
+        protected readonly GameCell[,] _map;
         
         public InnerMap(int sizeX, int sizeY)
         {
-            _map = new FixedObject[sizeX, sizeY];
+            _map = new GameCell[sizeX, sizeY];
         }
         
         public Rect GetSize()
@@ -30,7 +30,7 @@ namespace Engine
 
         protected virtual FixedObject GetObjectFromCellXY(int x, int y)
         {
-            return _map[x, y];
+            return _map[x, y]?.FixedObject;
         }
 
         internal void SetObjectFromCell(Point cell, FixedObject gameObject)
@@ -42,7 +42,12 @@ namespace Engine
 
             if (gameObject == null)
             {
-                _map[cell.X, cell.Y] = null;
+                if (_map[cell.X, cell.Y]?.MobileList != null)
+                {
+                    _map[cell.X, cell.Y].FixedObject = null;
+                }
+                else
+                    _map[cell.X, cell.Y] = null;
                 return;
             }
 
@@ -68,7 +73,7 @@ namespace Engine
             {
                 gameObject.RemoveFromContainer = null;
 
-                if (gameObject == _map[cell.X, cell.Y])
+                if (gameObject == _map[cell.X, cell.Y]?.FixedObject)
                 {
                     SetObjectFromCell(cell, null);
                 }
@@ -100,7 +105,8 @@ namespace Engine
                     gameObject.Properties.Add(Property.Pickable);
             }
 
-            _map[cell.X, cell.Y] = gameObject;
+            var mobileList = _map[cell.X, cell.Y]?.MobileList;
+            _map[cell.X, cell.Y] = new GameCell {FixedObject = gameObject, MobileList = mobileList };
         }
 
         private void ApplySpoileringBehavior(GameObject gameObject)
@@ -152,6 +158,34 @@ namespace Engine
             }
 
             return nearestPoints;
+        }
+
+        public void RemoveMobileObjectFromCell(Point drawCell, MobileObject mobileObject)
+        {
+
+            if (_map[drawCell.X, drawCell.Y] == null || _map[drawCell.X, drawCell.Y].MobileList == null)
+                return;
+
+            _map[drawCell.X, drawCell.Y].MobileList =
+                _map[drawCell.X, drawCell.Y].MobileList.Where(mo => mo != mobileObject).ToList();
+
+            if (_map[drawCell.X, drawCell.Y].MobileList.Any())
+                return;
+
+            if (_map[drawCell.X, drawCell.Y].FixedObject == null)
+                _map[drawCell.X, drawCell.Y] = null;
+            else
+                _map[drawCell.X, drawCell.Y].MobileList = null;
+        }
+
+        public void AddMobileObjectToCell(Point drawCell, MobileObject mobileObject)
+        {
+            if(_map[drawCell.X, drawCell.Y] == null)
+                _map[drawCell.X, drawCell.Y] = new GameCell();
+
+            _map[drawCell.X, drawCell.Y].MobileList = _map[drawCell.X, drawCell.Y].MobileList == null 
+                ? new List<MobileObject> {mobileObject}
+                : _map[drawCell.X, drawCell.Y].MobileList.Union(new List<MobileObject> { mobileObject }).ToList();
         }
     }
 }

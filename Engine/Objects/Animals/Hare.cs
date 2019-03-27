@@ -61,7 +61,9 @@ namespace Engine.Objects.Animals
             Game.PlannedQueueManager.AddObjectToQueue(new PlannedEvent(() =>
             {
                 var nearCell = Game.Map.GetRandomNearEmptyPoint(position, 3);
-                Game.Map.AddMobileObject(new Hare(Map.CellToPoint(nearCell?? position)));
+                var hare = new Hare(Map.CellToPoint(nearCell ?? position));
+                hare.Hero = Hero; //!!!!!!! todo correct that!!!
+                Game.Map.AddMobileObject(hare);
 
                 return true;
             }));

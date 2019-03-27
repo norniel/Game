@@ -10,6 +10,7 @@ using Engine.Interfaces.IActions;
 using Engine.Objects;
 using Engine.Objects.LargeObjects;
 using Engine.Tools;
+using MoreLinq.Extensions;
 using Unity;
 using Unity.Lifetime;
 
@@ -30,7 +31,7 @@ namespace Engine
     //12 Hero properties
     //13 Day and Night
     //14 Hostile creatures
-    
+
     //Container- quantity of stacks and capacity of stack. MaxContainerCapacity = quantityOfStacks * capacityOfStack
     //sum of items weight = containerWeight
     //Container is full = containerWeight >= MaxContainerCapacity
@@ -59,9 +60,9 @@ namespace Engine
 
         public const bool IsShowBase = true;
 
-       // private readonly StateQueueManager _stateQueueManager;
+        // private readonly StateQueueManager _stateQueueManager;
 
-       //todo - change to lazy
+        //todo - change to lazy
         internal static StateQueueManager StateQueueManager;
         internal static PlannedQueueManager PlannedQueueManager;
 
@@ -115,7 +116,7 @@ namespace Engine
         {
 
             unityContainer.RegisterInstance(typeof(Map), new Map(_curRect));
-            unityContainer.RegisterInstance(typeof (StateQueueManager), new StateQueueManager());
+            unityContainer.RegisterInstance(typeof(StateQueueManager), new StateQueueManager());
             unityContainer.RegisterInstance(typeof(PlannedQueueManager), new PlannedQueueManager());
             unityContainer.RegisterType(typeof(IActionRepository), typeof(ActionRepository), new ContainerControlledLifetimeManager());
             unityContainer.RegisterType(typeof(HeroLifeCycle), typeof(HeroLifeCycle), new ContainerControlledLifetimeManager());
@@ -182,9 +183,9 @@ namespace Engine
 
             var possibleActions = ActionRepository.GetPossibleActions(_hero, destObject).ToList();
 
-            var objects = new List<GameObject>(new[] {destObject});
+            var objects = new List<GameObject>(new[] { destObject });
 
-          //  var removableObjects = objects.Select(o => this.PrepareRemovableObject(o, destination));
+            //  var removableObjects = objects.Select(o => this.PrepareRemovableObject(o, destination));
             return possibleActions.SelectMany(pa =>
             {
                 var dest = pa.GetDestination(destination, destObject, _hero);
@@ -273,33 +274,53 @@ namespace Engine
                     var point = new Point(i, j);
                     var gameObject = Map.GetHObjectFromCell(point);
 
-                    if (gameObject == null) continue;
-                    if (gameObject is LargeObjectOuterAbstract largeObjectOuter && !largeObjectOuter.isLeftCorner)
-                        continue;
-
-                    var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(point));
-
-                    var drawingCode = GetDrawingCode(gameObject);
-
-                    _drawer.DrawObject(drawingCode, visibleDestination.X, visibleDestination.Y, gameObject.Height);
-
-                    if (gameObject is IBurning burning)
+                    if (gameObject != null && !(gameObject is LargeObjectOuterAbstract largeObjectOuter && !largeObjectOuter.isLeftCorner))
                     {
-                        lightObjectsList.Add(new BurningProps(visibleDestination, burning.LightRadius));
+                        var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(point));
+
+                        var drawingCode = GetDrawingCode(gameObject);
+
+                        _drawer.DrawObject(drawingCode, visibleDestination.X, visibleDestination.Y, gameObject.Height);
+
+                        if (gameObject is IBurning burning)
+                        {
+                            lightObjectsList.Add(new BurningProps(visibleDestination, burning.LightRadius));
+                        }
+                    }
+                    var mobileObjects = Map.GetMobileObjectsFromCell(point);
+                    if (mobileObjects != null)
+                    {
+                        mobileObjects.ForEach(mo =>
+                        {
+                            if (mo is Hero)
+                            {
+                                _drawer.DrawHero(
+                                    Map.GetVisibleDestinationFromRealDestination(_hero.Position),
+                                    _hero.Angle,
+                                    _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(),
+                                    _hero.IsMoving,
+                                    _hero.IsHorizontal());
+                            }
+                            else
+                            {
+                                var visibleDest = Map.GetVisibleDestinationFromRealDestination(mo.Position);
+                                _drawer.DrawMobileObject(mo.GetDrawingCode(), visibleDest, mo.Angle, mo.IsMoving);
+                            }
+                        });
                     }
                 }
-
-                if (j * Map.CellMeasure <= _hero.Position.Y && (j + 1) * Map.CellMeasure > _hero.Position.Y)
-                {
-                    _drawer.DrawHero(
-                        Map.GetVisibleDestinationFromRealDestination(_hero.Position), 
-                        _hero.Angle, 
-                        _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(),
-                        _hero.IsMoving,
-                        _hero.IsHorizontal());
-                }
+                /*
+                                if (j * Map.CellMeasure <= _hero.Position.Y && (j + 1) * Map.CellMeasure > _hero.Position.Y)
+                                {
+                                    _drawer.DrawHero(
+                                        Map.GetVisibleDestinationFromRealDestination(_hero.Position), 
+                                        _hero.Angle, 
+                                        _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(),
+                                        _hero.IsMoving,
+                                        _hero.IsHorizontal());
+                                }*/
             }
-
+            /*
             var mobileObjects = Map.GetMobileObjects();
             foreach (var mobileObject in mobileObjects)
             {
@@ -309,7 +330,7 @@ namespace Engine
                     _drawer.DrawMobileObject(mobileObject.GetDrawingCode(), visibleDestination, mobileObject.Angle, mobileObject.IsMoving);
                 }
             }
-
+            */
             //  _drawer.DrawHero(Map.GetVisibleDestinationFromRealDestination(_hero.Position), _hero.Angle, _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(), _hero.IsHorizontal());
 
             if (IsHeroInInnerMap())
@@ -345,7 +366,7 @@ namespace Engine
 
                 var possibleActions = ActionRepository.GetPossibleActions(_hero, first).ToList();
 
-                var objects = new List<GameObject>(new[] {first});
+                var objects = new List<GameObject>(new[] { first });
 
                 //  var removableObjects = objects.Select(o => this.PrepareRemovableObject(o));
                 return possibleActions.SelectMany(pa =>

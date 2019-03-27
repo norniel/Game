@@ -71,7 +71,7 @@ namespace Engine
                 return _innerMap.GetObjectFromCell(new Point(x - _innerMapPoint.X, y - _innerMapPoint.Y));
             }
 
-            return _map[x, y];
+            return _map[x, y]?.FixedObject;
         }
 
         public FixedObject GetHObjectFromCell(Point cell)
@@ -350,7 +350,16 @@ namespace Engine
 
         public void RemoveMobileObject(MobileObject mobileObject)
         {
-            _mobileObjects =_mobileObjects.Where(t => t != mobileObject).ToList();
+            var drawPosition = mobileObject.DrawPosition;
+            RemoveMobileObjectFromCell(drawPosition, mobileObject);
+            _mobileObjects = _mobileObjects.Where(t => t != mobileObject).ToList();
+
+        }
+
+        public IReadOnlyList<MobileObject> GetMobileObjectsFromCell(Point drawCell)
+        {
+            return _map[drawCell.X, drawCell.Y]?.MobileList?.AsReadOnly();
+
         }
     }
 }

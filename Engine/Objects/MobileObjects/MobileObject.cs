@@ -15,6 +15,7 @@ namespace Engine
         private Point _position;
         private Point _positionCell;
         private bool _positionChanged = true;
+        private int _drawWidth = 32;
 
         protected List<IDisposable> _disposables = new List<IDisposable>();
 
@@ -24,6 +25,22 @@ namespace Engine
             {
                 _position = value;
                 _positionChanged = true;
+
+                if(Game.Map == null)
+                    return;
+
+                var drawPosition= Map.PointToCell(new Point(Math.Min(_position.X + _drawWidth / 2, Map.MAP_WIDTH), _position.Y));
+
+                if (drawPosition == _drawPosition)
+                    return;
+
+                var oldPosition = _drawPosition;
+
+                _drawPosition = drawPosition;
+                Game.Map.AddMobileObjectToCell(_drawPosition, this);
+
+                if (oldPosition != null)
+                    Game.Map.RemoveMobileObjectFromCell(oldPosition, this);
             }
         }
 
@@ -40,6 +57,8 @@ namespace Engine
                 return _positionCell;
             }
         }
+
+        private Point _drawPosition;
 
         public IState State { get; protected set; }
 
@@ -137,6 +156,11 @@ namespace Engine
 
                 return _visibleCells;
             }
+        }
+
+        public Point DrawPosition
+        {
+            get { return _drawPosition; }
         }
 
         public Vector GetNearestPassibleVector(Vector currentVector)
