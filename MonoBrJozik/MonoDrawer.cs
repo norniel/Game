@@ -16,6 +16,7 @@ namespace MonoBrJozik
     {
         private readonly SpriteBatch _spriteBatch;
         private readonly Dictionary<uint, Texture2D> _textures;
+        private readonly Dictionary<uint, FixedObjectEntity> _animations;
         private readonly Dictionary<string, Texture2D> _heroPropTextures;
 
         public Func<int, int, List<string>> GetAction
@@ -63,7 +64,7 @@ namespace MonoBrJozik
             MonoKnowledges knowledges)
         {
             _spriteBatch = spriteBatch;
-            _textures = textures;
+             var tmptextures = textures;
             _heroTexture = heroTexture;
             _graphicsDevice = graphicsDevice;
             _heroPropTextures = heroPropTextures;
@@ -76,8 +77,25 @@ namespace MonoBrJozik
             c[0] = Color.White;
             menuTexture.SetData(c);
 
+            var foxTexture = tmptextures[0x00020000];
+            tmptextures.Remove(0x00020000);
             _heroCharacterEntity = new CharacterEntity(_heroTexture, 8);
-            _foxCharacterEntity = new CharacterEntity(_textures[0x00020000], 4);
+            _foxCharacterEntity = new CharacterEntity(foxTexture, 4);
+
+            _textures = new Dictionary<uint, Texture2D>();
+            _animations = new Dictionary<uint, FixedObjectEntity>();
+
+            foreach (var tmptexture in tmptextures)
+            {
+                if (tmptexture.Value.Width >= Map.CellMeasure*2)
+                {
+                    _animations[tmptexture.Key] = new FixedObjectEntity(tmptexture.Value, tmptexture.Value.Width/Map.CellMeasure);
+                }
+                else
+                {
+                    _textures[tmptexture.Key] = tmptexture.Value;
+                }
+            }
 
             _pauseSwitch = pauseSwitch;
             _knowledgesSwitch = knowledgesSwitch;
@@ -256,12 +274,18 @@ namespace MonoBrJozik
 
         public void DrawObject(uint id, long x, long y, int height)
         {
+            FixedObjectEntity fixedObjectEntity = null;
+
+            if (_animations.TryGetValue(id, out fixedObjectEntity))
+            {
+                fixedObjectEntity.Draw(_spriteBatch, _tick, new Vector2(x, y));
+            }
+
             Texture2D texture = null;
             
             if (_textures.TryGetValue(id, out texture))
             {
-                if (height > 1)
-                    y = y - Map.CellMeasure*(height - 1);
+                y = y - texture.Height + Map.CellMeasure;
 
                 _spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
             }

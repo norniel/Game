@@ -30,6 +30,7 @@ namespace Engine
                     return;
 
                 var drawPosition= Map.PointToCell(new Point(Math.Min(_position.X + _drawWidth / 2, Map.MAP_WIDTH), _position.Y));
+                drawPosition.Y = Math.Max(0, drawPosition.Y-1);
 
                 if (drawPosition == _drawPosition)
                     return;

@@ -162,14 +162,13 @@ namespace Engine
 
         public void RemoveMobileObjectFromCell(Point drawCell, MobileObject mobileObject)
         {
-
             if (_map[drawCell.X, drawCell.Y] == null || _map[drawCell.X, drawCell.Y].MobileList == null)
                 return;
 
             _map[drawCell.X, drawCell.Y].MobileList =
                 _map[drawCell.X, drawCell.Y].MobileList.Where(mo => mo != mobileObject).ToList();
 
-            if (_map[drawCell.X, drawCell.Y].MobileList.Any())
+            if (_map[drawCell.X, drawCell.Y]?.MobileList?.Any() ?? true)
                 return;
 
             if (_map[drawCell.X, drawCell.Y].FixedObject == null)
