@@ -65,11 +65,11 @@ namespace Engine.Objects.Animals
             var dice = Game.Random.Next(3);
             if (dice == 2)
             {
-                _stateQueue.Enqueue(new Resting(this));
+                _stateQueue.Enqueue(new Wondering(this, ViewSight));
                 return;
             }
 
-            _stateQueue.Enqueue(new Wondering(this, ViewSight));
+            _stateQueue.Enqueue(new Resting(this));
         }
 
         private void OnChangeState()

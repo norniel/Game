@@ -184,7 +184,7 @@ namespace Engine
                     Properties = () =>new HashSet<Property>{Property.Pickable, Property.Eatable},
                     Behaviors  = () => new HashSet<IBehavior>
                     {
-                        new EatableBehavior(10){EaterType = EaterType.Carnivorous & EaterType.Human}
+                        new EatableBehavior(10){EaterType = EaterType.Carnivorous | EaterType.Human}
                     },
                     ObjectStateProps = new Dictionary<ObjectStates.ObjectStates, ObjStateProperties>(){
                         { ObjectStates.ObjectStates.Staying, new ObjStateProperties { TickCount = DayNightCycle.DayLength, Distribution = DayNightCycle.HalfDayLength/10, Eternal = false, Id = 0x00003900 }},
