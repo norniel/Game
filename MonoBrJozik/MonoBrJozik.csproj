@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +19,81 @@
   <ItemGroup>
     <None Include="$(SolutionDir)Content\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <None Include="Content\00000100.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00000200.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00000300.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00000600.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00000600_1.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00000600___old.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00000700.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00000800.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00000900.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001000.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001100.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001200.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001300.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001400.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001500.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001600.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001700.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001900.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001A00.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001B00.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001C00.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001D00.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001D01.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001D02.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001D03.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001E00.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001E01.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001E02.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001E03.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001E04.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001E05.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00001E06.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002000.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002100.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002200.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002300.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002400.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002500.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002600.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002700 1.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002700.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002700_old.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002700_old2.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002800.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00002900.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00003000.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00003100.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00003200.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00003300.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00003400.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00003500.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00003600.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00003700.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00003800.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00003900.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00004000.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00018000.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00019000.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00020000.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\000200001.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00020000_1.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\10001100.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\10001900.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\10002700.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\10002700_old.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\10002800.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\10003700.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\10018000.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\2.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\20001100.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\20003700.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj" />
   </ItemGroup>

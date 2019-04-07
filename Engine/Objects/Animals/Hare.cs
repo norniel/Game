@@ -46,6 +46,8 @@ namespace Engine.Objects.Animals
             return VisibleCells.SelectMany(c => Game.Map.GetMobileObjects().Where(mb => mb.PositionCell == c).Where(mb => mb.Name == "Fox"))
                 .Union(VisibleCells.Where(vc => Hero.PositionCell == vc).Select(vc => Hero));
         }
+        public override bool IsMoving => State is Moving || State is Fleeing || State is Pursuing || State is MovingToObject;
+
 
         public override void Die()
         {

@@ -40,5 +40,7 @@ namespace Engine
         void ShowKnowledges(bool isKnowledgesShown, Dictionary<string, uint> knowledges);
 
         void DrawKnowledges();
+
+        bool CheckPointInObject(uint getDrawingCode, Point destination, Point objectPoint);
     }
 }

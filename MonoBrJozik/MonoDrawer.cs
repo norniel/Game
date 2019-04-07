@@ -44,6 +44,10 @@ namespace MonoBrJozik
         private readonly CharacterEntity _foxCharacterEntity;
 
         private int _tick;
+        private CharacterEntity _hareCharacterEntity;
+
+        public int MaxTextureWidth { get; private set; } = 0;
+        public int MaxTextureHeight { get; private set; } = 0;
 
         public const int ScreenWidth = 564;
         public const int ScreenHeight = 394;
@@ -79,8 +83,11 @@ namespace MonoBrJozik
 
             var foxTexture = tmptextures[0x00020000];
             tmptextures.Remove(0x00020000);
+            var hareTexture = tmptextures[0x00019000];
+            tmptextures.Remove(0x00019000);
             _heroCharacterEntity = new CharacterEntity(_heroTexture, 8);
             _foxCharacterEntity = new CharacterEntity(foxTexture, 4);
+            _hareCharacterEntity = new CharacterEntity(hareTexture, 8);
 
             _textures = new Dictionary<uint, Texture2D>();
             _animations = new Dictionary<uint, FixedObjectEntity>();
@@ -190,7 +197,7 @@ namespace MonoBrJozik
         public void DrawMobileObject(uint id, Point position, double angle, bool isMoving)
         {
             var origId = id / 0x1000 * 0x1000;
-            if (origId == 0x00018000 || origId == 0x10018000 || origId == 0x00019000 )
+            if (origId == 0x00018000 || origId == 0x10018000 )
             {
                 Texture2D texture = null;
                 if (!_textures.TryGetValue(origId, out texture))
@@ -202,6 +209,10 @@ namespace MonoBrJozik
             else if (origId == 0x00020000)
             {
                 _foxCharacterEntity.Draw(_spriteBatch, _tick, new Vector2(position.X, position.Y), angle, isMoving, false);
+            }
+            else if (origId == 0x00019000)
+            {
+                _hareCharacterEntity.Draw(_spriteBatch, _tick, new Vector2(position.X, position.Y), angle, isMoving, false);
             }
         }
 
@@ -274,20 +285,22 @@ namespace MonoBrJozik
 
         public void DrawObject(uint id, long x, long y, int height)
         {
-            FixedObjectEntity fixedObjectEntity = null;
-
-            if (_animations.TryGetValue(id, out fixedObjectEntity))
+            if (_animations.TryGetValue(id, out var fixedObjectEntity))
             {
                 fixedObjectEntity.Draw(_spriteBatch, _tick, new Vector2(x, y));
+                var size = fixedObjectEntity.GetSize(_tick);
+                MaxTextureWidth = Math.Max(MaxTextureWidth, size.X/2);
+                MaxTextureHeight = Math.Max(MaxTextureHeight, size.Y);
             }
 
-            Texture2D texture = null;
-            
-            if (_textures.TryGetValue(id, out texture))
+            if (_textures.TryGetValue(id, out var texture))
             {
                 y = y - texture.Height + Map.CellMeasure;
+                x = texture.Width <= Map.CellMeasure ? x : x - (texture.Width - Map.CellMeasure) / 2;
 
                 _spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
+                MaxTextureWidth = Math.Max(MaxTextureWidth, texture.Width/2);
+                MaxTextureHeight = Math.Max(MaxTextureHeight, texture.Height);
             }
         }
 
@@ -338,6 +351,27 @@ namespace MonoBrJozik
         public void DrawKnowledges()
         {
             _monoKnowledgesSimple.Draw(_spriteBatch);
+        }
+
+        public bool CheckPointInObject(uint id, Point destination, Point objectPoint)
+        {
+            if (_animations.TryGetValue(id, out var fixedObjectEntity))
+            {
+                return fixedObjectEntity.CheckPoint(_tick, destination, objectPoint);
+            }
+            
+            if (!_textures.TryGetValue(id, out var texture))
+                return false;
+
+            var destInTexture = new Microsoft.Xna.Framework.Point(destination.X - (objectPoint.X + Map.CellMeasure/2 - texture.Width/2), 
+                destination.Y - (objectPoint.Y - texture.Height + Map.CellMeasure));
+
+            if (!texture.Bounds.Contains(destInTexture))
+                return false;
+            
+            var buffer = new Color[1];
+            texture.GetData(0, new Rectangle(destInTexture.X, destInTexture.Y, 1, 1), buffer, 0, 1);
+            return buffer.Any(c => c != Color.Transparent);
         }
 
         private void DrawRotatedImage(Texture2D texture, long x, long y, uint angle)

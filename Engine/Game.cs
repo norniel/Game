@@ -147,7 +147,7 @@ namespace Engine
             MoveToDest(destination);
         }
 
-        public void RClick(Point destination)
+        public void RClick(Point destination, int maxTextureWidth, int maxTextureHeight)
         {
             if (_hero.IsUnconscios() || _isPaused)
                 return;
@@ -155,19 +155,63 @@ namespace Engine
             if (destination.X < 0 || destination.X >= Map.VisibleRect.Width || destination.Y < 0 || destination.Y >= Map.VisibleRect.Height)
                 return;
 
-            ShowActions(destination);
+            
+
+            ShowActions(destination, maxTextureWidth, maxTextureHeight);
         }
 
-        private void ShowActions(Point destination)
+        private void ShowActions(Point destination, int maxTextureWidth, int maxTextureHeight)
         {
-            _drawer.DrawMenu(destination.X, destination.Y, GetActions(destination));
+            var realDestination = Map.GetRealDestinationFromVisibleDestination(destination);
+            var realCell = Map.PointToCell(realDestination);
+            
+            var roudedRealDest = Map.CellToPoint(realCell);
+            var xTextureMax = (int)Math.Min(roudedRealDest.X + maxTextureWidth + Map.CellMeasure/2, Map.MAP_WIDTH - 1);
+            var xTextureMin = Math.Max(roudedRealDest.X - maxTextureWidth + Map.CellMeasure/2, 0);
+            var yTextureMax = (int)Math.Min(roudedRealDest.Y + maxTextureHeight - 1, Map.MAP_HEIGHT - 1);
+
+            Point pointForObjeUnderDest = null;
+            
+            FixedObject destObject = null;
+
+            FixedObject GetObjectUnderDestination()
+            {
+                for (var i = yTextureMax; i >= roudedRealDest.Y; i = i - Map.CellMeasure)
+                {
+                    for (var j = xTextureMax; j >= xTextureMin; j = j - Map.CellMeasure)
+                    {
+                        pointForObjeUnderDest = null;
+                        var dest = new Point(j, i);
+                        destObject = Map.GetHRealObjectFromDestination(dest);
+
+                        if (destObject == null)
+                            continue;
+
+                        var cell = Map.PointToCell(dest);
+                        pointForObjeUnderDest = Map.CellToPoint(cell);
+
+                        if (realCell == cell)
+                        {
+                            return destObject;
+                        }
+                        
+                        if (_drawer.CheckPointInObject(GetDrawingCode(destObject), destination,Map.GetVisibleDestinationFromRealDestination(pointForObjeUnderDest)))
+                            return destObject;
+                    }
+                }
+
+                return destObject;
+            }
+
+            destObject = GetObjectUnderDestination() ?? Map.GetHRealObjectFromDestination(realDestination);
+
+            _drawer.DrawMenu(destination.X, destination.Y, GetActions(pointForObjeUnderDest == null ? destination : Map.GetVisibleDestinationFromRealDestination(pointForObjeUnderDest), destObject));
         }
 
-        private IEnumerable<ClientAction> GetActions(Point visibleDestination)
+        private IEnumerable<ClientAction> GetActions(Point visibleDestination, FixedObject destObject)
         {
             var destination = Map.GetRealDestinationFromVisibleDestination(visibleDestination);
-            var destObject = Map.GetHRealObjectFromDestination(destination);
-
+            
             if (destObject == null)
             {
                 return new List<ClientAction>
@@ -244,11 +288,14 @@ namespace Engine
             IEnumerable<MenuItems> groupedItems = _hero.GetContainerItems()
                 .GroupBy(go => GetDrawingCode(go),
                     (id, gos) =>
-                    new MenuItems
                     {
-                        Name = $"{GetScreenName(gos.First())}({gos.Count()})",
-                        Id = id,
-                        GetClientActions = GetFuncForClientActions(gos.First())
+                        var gameObjects = gos as GameObject[] ?? gos.ToArray();
+                        return new MenuItems
+                        {
+                            Name = $"{GetScreenName(gameObjects.First())}({gameObjects.Count()})",
+                            Id = id,
+                            GetClientActions = GetFuncForClientActions(gameObjects.First())
+                        };
                     });
 
             _drawer.DrawContainer(groupedItems);

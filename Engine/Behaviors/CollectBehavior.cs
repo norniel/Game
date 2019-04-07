@@ -18,7 +18,7 @@ namespace Engine.Behaviors
 
         public int CurrentCount
         {
-            get { return _currentCount; }
+            get => _currentCount;
             set
             {
                 if (_isRegrowable && value < TotalCount && ObjectWithState != null && ObjectWithState?.CurrentState == null)
