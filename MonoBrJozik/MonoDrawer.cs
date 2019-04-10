@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Engine;
 using Engine.BridgeObjects;
 using Engine.Tools;
@@ -15,8 +18,9 @@ namespace MonoBrJozik
     internal class MonoDrawer : IDrawer
     {
         private readonly SpriteBatch _spriteBatch;
-        private readonly Dictionary<uint, Texture2D> _textures;
-        private readonly Dictionary<uint, FixedObjectEntity> _animations;
+        private readonly Dictionary<uint, Texture2D> _textures = new Dictionary<uint, Texture2D>();
+        private readonly Dictionary<uint, FixedObjectEntity> _fixedObjectAnimations = new Dictionary<uint, FixedObjectEntity>();
+        private readonly Dictionary<uint, CharacterEntity> _characterAnimations = new Dictionary<uint, CharacterEntity>();
         private readonly Dictionary<string, Texture2D> _heroPropTextures;
 
         public Func<int, int, List<string>> GetAction
@@ -41,10 +45,10 @@ namespace MonoBrJozik
         private readonly MonoKnowledgesSimple _monoKnowledgesSimple;
 
         private readonly CharacterEntity _heroCharacterEntity;
-        private readonly CharacterEntity _foxCharacterEntity;
+   //     private readonly CharacterEntity _foxCharacterEntity;
 
         private int _tick;
-        private CharacterEntity _hareCharacterEntity;
+    //    private CharacterEntity _hareCharacterEntity;
 
         public int MaxTextureWidth { get; private set; } = 0;
         public int MaxTextureHeight { get; private set; } = 0;
@@ -57,7 +61,6 @@ namespace MonoBrJozik
         public MonoDrawer(
             SpriteBatch spriteBatch, 
             GraphicsDevice graphicsDevice, 
-            Dictionary<uint, Texture2D> textures, 
             Texture2D heroTexture, 
             Dictionary<string, Texture2D> heroPropTextures, 
             SpriteFont font, 
@@ -68,42 +71,37 @@ namespace MonoBrJozik
             MonoKnowledges knowledges)
         {
             _spriteBatch = spriteBatch;
-             var tmptextures = textures;
             _heroTexture = heroTexture;
             _graphicsDevice = graphicsDevice;
             _heroPropTextures = heroPropTextures;
             _font = font;
             _menu = menu;
             _inventory = inventory;
+            
+            LoadTextures();
 
             var menuTexture = new Texture2D(_graphicsDevice, 1, 1, false, SurfaceFormat.Color);
             var c = new Color[1];
             c[0] = Color.White;
             menuTexture.SetData(c);
 
-            var foxTexture = tmptextures[0x00020000];
-            tmptextures.Remove(0x00020000);
-            var hareTexture = tmptextures[0x00019000];
-            tmptextures.Remove(0x00019000);
+          /*  var foxTexture = _textures[0x00020000];
+            _textures.Remove(0x00020000);
+            var hareTexture = _textures[0x00019000];
+            _textures.Remove(0x00019000);*/
             _heroCharacterEntity = new CharacterEntity(_heroTexture, 8);
-            _foxCharacterEntity = new CharacterEntity(foxTexture, 4);
-            _hareCharacterEntity = new CharacterEntity(hareTexture, 8);
+      //      _foxCharacterEntity = new CharacterEntity(foxTexture, 4);
+      //      _hareCharacterEntity = new CharacterEntity(hareTexture, 8);
 
-            _textures = new Dictionary<uint, Texture2D>();
-            _animations = new Dictionary<uint, FixedObjectEntity>();
-
-            foreach (var tmptexture in tmptextures)
+/*
+            foreach (var tmptexture in _textures)
             {
                 if (tmptexture.Value.Width >= Map.CellMeasure*2)
                 {
-                    _animations[tmptexture.Key] = new FixedObjectEntity(tmptexture.Value, tmptexture.Value.Width/Map.CellMeasure);
-                }
-                else
-                {
-                    _textures[tmptexture.Key] = tmptexture.Value;
+                    _fixedObjectAnimations[tmptexture.Key] = new FixedObjectEntity(tmptexture.Value, tmptexture.Value.Width/Map.CellMeasure);
                 }
             }
-
+*/
             _pauseSwitch = pauseSwitch;
             _knowledgesSwitch = knowledgesSwitch;
 
@@ -196,24 +194,28 @@ namespace MonoBrJozik
 
         public void DrawMobileObject(uint id, Point position, double angle, bool isMoving)
         {
+            if (_characterAnimations.TryGetValue(id, out var characterEntity))
+            {
+                characterEntity.Draw(_spriteBatch, _tick, new Vector2(position.X, position.Y), angle, isMoving, false);
+                return;
+            }
+
             var origId = id / 0x1000 * 0x1000;
             if (origId == 0x00018000 || origId == 0x10018000 )
             {
-                Texture2D texture = null;
-                if (!_textures.TryGetValue(origId, out texture))
+                if (!_textures.TryGetValue(origId, out var texture))
                     return;
 
                 DrawRotatedImage(texture, position.X, position.Y, id % 0x1000);
-                return;
             }
-            else if (origId == 0x00020000)
+           /* else if (origId == 0x00020000)
             {
                 _foxCharacterEntity.Draw(_spriteBatch, _tick, new Vector2(position.X, position.Y), angle, isMoving, false);
             }
             else if (origId == 0x00019000)
             {
                 _hareCharacterEntity.Draw(_spriteBatch, _tick, new Vector2(position.X, position.Y), angle, isMoving, false);
-            }
+            }*/
         }
 
         private void DrawPath(Point position, List<Point> pointList)
@@ -285,23 +287,24 @@ namespace MonoBrJozik
 
         public void DrawObject(uint id, long x, long y, int height)
         {
-            if (_animations.TryGetValue(id, out var fixedObjectEntity))
+            if (_fixedObjectAnimations.TryGetValue(id, out var fixedObjectEntity))
             {
                 fixedObjectEntity.Draw(_spriteBatch, _tick, new Vector2(x, y));
                 var size = fixedObjectEntity.GetSize(_tick);
                 MaxTextureWidth = Math.Max(MaxTextureWidth, size.X/2);
                 MaxTextureHeight = Math.Max(MaxTextureHeight, size.Y);
+                return;
             }
 
-            if (_textures.TryGetValue(id, out var texture))
-            {
-                y = y - texture.Height + Map.CellMeasure;
-                x = texture.Width <= Map.CellMeasure ? x : x - (texture.Width - Map.CellMeasure) / 2;
+            if (!_textures.TryGetValue(id, out var texture)) 
+                return;
+            
+            y = y - texture.Height + Map.CellMeasure;
+            x = texture.Width <= Map.CellMeasure ? x : x - (texture.Width - Map.CellMeasure) / 2;
 
-                _spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
-                MaxTextureWidth = Math.Max(MaxTextureWidth, texture.Width/2);
-                MaxTextureHeight = Math.Max(MaxTextureHeight, texture.Height);
-            }
+            _spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
+            MaxTextureWidth = Math.Max(MaxTextureWidth, texture.Width/2);
+            MaxTextureHeight = Math.Max(MaxTextureHeight, texture.Height);
         }
 
         public void DrawShadow(Point innerPoint, Size innerSize)
@@ -355,7 +358,7 @@ namespace MonoBrJozik
 
         public bool CheckPointInObject(uint id, Point destination, Point objectPoint)
         {
-            if (_animations.TryGetValue(id, out var fixedObjectEntity))
+            if (_fixedObjectAnimations.TryGetValue(id, out var fixedObjectEntity))
             {
                 return fixedObjectEntity.CheckPoint(_tick, destination, objectPoint);
             }
@@ -378,6 +381,50 @@ namespace MonoBrJozik
         {
             var angleInRads = (float)(((float)angle - 90) / 180f * Math.PI);
             _spriteBatch.Draw(texture, new Vector2(x + texture.Width / 2, y + texture.Height / 2), null, Color.White, angleInRads, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0);
+        }
+        
+        private void LoadTextures()
+        {
+            Texture2D ExtractTexture(string textureName, string str, out uint n)
+            {
+                if (!uint.TryParse(textureName, NumberStyles.AllowHexSpecifier, new NumberFormatInfo(), out n))
+                    return null;
+                
+                using (FileStream fs = File.OpenRead(str))
+                {
+                    return Texture2D.FromStream(_graphicsDevice, fs);
+                }
+            }
+
+            var regex = new Regex(@"(\w{8})(_(b|c)_(\d+))?");
+            foreach (var fileName in Directory.GetFiles(@"Content", "*.png", SearchOption.TopDirectoryOnly))
+            {
+                var textureName = Path.GetFileNameWithoutExtension(fileName);
+
+                var match = regex.Match(textureName);
+                
+                if(!match.Success)
+                    continue;
+                
+                var texture = ExtractTexture(match.Groups[1].Value, fileName, out var fileId);
+                
+                if(texture == null)
+                    continue;
+
+                if (string.IsNullOrEmpty(match.Groups[2].Value))
+                {
+                    _textures[fileId] = texture;
+                }
+                else if (match.Groups[3].Value == "b" && !string.IsNullOrEmpty(match.Groups[4].Value))
+                {
+                    _fixedObjectAnimations[fileId] = new FixedObjectEntity(texture, int.Parse(match.Groups[4].Value));
+                }
+                else if (match.Groups[3].Value == "c" && !string.IsNullOrEmpty(match.Groups[4].Value))
+                {
+                    _characterAnimations[fileId] = new CharacterEntity(texture, int.Parse(match.Groups[4].Value));
+                }
+            }
+
         }
     }
 }

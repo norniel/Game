@@ -20,7 +20,7 @@ namespace Engine.Objects.Animals
 
         public override uint GetDrawingCode()
         {
-            return 0x00019000 + 90 + (uint)Angle;
+            return 0x00019000;
         }
 
         protected override bool IsCellEatable(PointWithDistance p)

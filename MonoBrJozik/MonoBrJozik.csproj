@@ -24,7 +24,6 @@
     <None Include="Content\00000100.png" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Content\00000200.png" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Content\00000300.png" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="Content\00000600.png" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Content\00000600_1.png" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Content\00000600___old.png" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Content\00000700.png" CopyToOutputDirectory="PreserveNewest" />
@@ -78,8 +77,8 @@
     <None Include="Content\00003900.png" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Content\00004000.png" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Content\00018000.png" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="Content\00019000.png" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="Content\00020000.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00019000_c_8.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Content\00020000_c_4.png" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Content\000200001.png" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Content\00020000_1.png" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Content\10001100.png" CopyToOutputDirectory="PreserveNewest" />

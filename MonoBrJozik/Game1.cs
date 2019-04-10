@@ -62,8 +62,6 @@ namespace MonoBrJozik
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var textures = LoadTextures();
-            //textures[0x00020000] = Content.Load<Texture2D>("fox anim new"); ;
             var heroTexture = Content.Load<Texture2D>("hero");
             var screenTexture = Content.Load<Texture2D>("green-paper2");
             var heroPropTextures = LoadHeroTextures();
@@ -94,7 +92,7 @@ namespace MonoBrJozik
 
             _monoKnowledges = new MonoKnowledges(GraphicsDevice, font);
 
-            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, textures, heroTexture,
+            _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, heroTexture,
                 heroPropTextures, font, _menu, _inventory, _pauseSwitch, _knowledgeSwitch, _monoKnowledges);
             _game = new Engine.Game(_drawer, (uint) MonoDrawer.ScreenWidth, (uint) MonoDrawer.ScreenHeight);
 
@@ -112,84 +110,6 @@ namespace MonoBrJozik
             _monoControls.Add(_knowledgeSwitch);
         }
 
-        private Dictionary<uint, Texture2D> LoadTextures()
-        {
-            var textureDict = new Dictionary<uint, Texture2D>();
-
-            foreach (string str in Directory.GetFiles(@"Content", "*.png", SearchOption.TopDirectoryOnly))
-            {
-                var textureName = Path.GetFileNameWithoutExtension(str);
-                
-                if (uint.TryParse(textureName, NumberStyles.AllowHexSpecifier, new NumberFormatInfo(), out var n))
-                {
-                    using (FileStream fs = File.OpenRead(str))
-                    {
-                        var t = Texture2D.FromStream(GraphicsDevice, fs);
-                        textureDict[n] = t;
-                    }
-                }
-            }
-
-            return textureDict;
-        }
-
-/*
-    private Dictionary<uint, Texture2D> LoadTextures()
-        {
-            var textureDict =
-                new Dictionary<uint, Texture2D>
-                {
-                //    [0x00000100] = Content.Load<Texture2D>("apple tree icon_w"),
-                 //   [0x00000200] = Content.Load<Texture2D>("apple-tree1 icon_w"),
-                 //   [0x00000300] = Content.Load<Texture2D>("apple-tree2 icon_w"),
-                //    [0x00001100] = Content.Load<Texture2D>("plant icon"),
-                //    [0x20001100] = Content.Load<Texture2D>("dry plant icon"),
-                  //  [0x10001100] = Content.Load<Texture2D>("growing plant icon"),
-                   // [0x00001000] = Content.Load<Texture2D>("rock icon2"),
-                  //  [0x00000600] = Content.Load<Texture2D>("fire icon"),
-                 //   [0x00000700] = Content.Load<Texture2D>("apple icon"),
-                  //  [0x00000800] = Content.Load<Texture2D>("branch icon"),
-                   // [0x00001200] = Content.Load<Texture2D>("brush icon"),
-                  //  [0x00000900] = Content.Load<Texture2D>("Raspberry icon"),
-                 //   [0x00001300] = Content.Load<Texture2D>("Stone axe icon"),
-                   // [0x00001400] = Content.Load<Texture2D>("Log icon"),
-                   // [0x00001500] = Content.Load<Texture2D>("attenuating fire small"),
-                 //   [0x00001600] = Content.Load<Texture2D>("spruce tree5 small"),//("finetree"),//("spruce tree_w"),
-                  //  [0x00001700] = Content.Load<Texture2D>("cone small"),
-                  //  [0x00018000] = Content.Load<Texture2D>("dikabroyozik small"),
-                 //   [0x10018000] = Content.Load<Texture2D>("dikabroyozik with bundle small"),
-                 //   [0x00001900] = Content.Load<Texture2D>("mushroom small"),
-                 //   [0x10001900] = Content.Load<Texture2D>("mushroom growing small"),
-                 //   [0x00001A00] = Content.Load<Texture2D>("roasted mushroom small"),
-                 //   [0x00001B00] = Content.Load<Texture2D>("roasted apple icon"),
-                //    [0x00001C00] = Content.Load<Texture2D>("twig icon"),
-                 //   [0x00001D00] = Content.Load<Texture2D>("grassbed0"),
-                 //   [0x00001D01] = Content.Load<Texture2D>("grassbed1"),
-                 //   [0x00001D02] = Content.Load<Texture2D>("grassbed2"),
-                 //   [0x00001D03] = Content.Load<Texture2D>("grassbed3"),
-                    //[0x00002300] = Content.Load<Texture2D>("digging stick icon"),
-                 //   [0x00002200] = Content.Load<Texture2D>("sharp stone icon"),
-                 //   [0x00002400] = Content.Load<Texture2D>("root icon"),
-                 //   [0x00002500] = Content.Load<Texture2D>("nut tree icon_w"),
-                 //   [0x00002600] = Content.Load<Texture2D>("nut"),
-                 //   [0x00001E00] = Content.Load<Texture2D>("Wickiup0 icon"),
-                 //   [0x00001E01] = Content.Load<Texture2D>("Wickiup1 icon"),
-                 //   [0x00001E02] = Content.Load<Texture2D>("Wickiup2 icon"),
-                 //   [0x00001E03] = Content.Load<Texture2D>("Wickiup3 icon"),
-                 //   [0x00001E04] = Content.Load<Texture2D>("Wickiup4 icon"),
-                 //   [0x00001E05] = Content.Load<Texture2D>("Wickiup5 icon"),
-                 //   [0x00001E06] = Content.Load<Texture2D>("Wickiup6 icon"),
-                 //   [0x00002100] = Content.Load<Texture2D>("blue"),
-                  //  [0x00002000] = Content.Load<Texture2D>("darkblue"),
-                 //   [0x00002700] = Content.Load<Texture2D>("muhomor"),
-                 //   [0x10002700] = Content.Load<Texture2D>("muhomor small"),
-                  //  [0x00002800] = Content.Load<Texture2D>("poganka"),
-                 //   [0x10002800] = Content.Load<Texture2D>("poganka small"),
-                };
-
-            return textureDict;
-        }
-        */
         private Dictionary<string, Texture2D> LoadHeroTextures()
         {
             var textureDict =
