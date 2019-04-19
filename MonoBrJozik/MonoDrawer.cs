@@ -285,11 +285,11 @@ namespace MonoBrJozik
             _menu.Show(infoList, x, y);
         }
 
-        public void DrawObject(uint id, long x, long y, int height)
+        public void DrawObject(uint id, long x, long y, bool isEvenSized)
         {
             if (_fixedObjectAnimations.TryGetValue(id, out var fixedObjectEntity))
             {
-                fixedObjectEntity.Draw(_spriteBatch, _tick, new Vector2(x, y));
+                fixedObjectEntity.Draw(_spriteBatch, _tick, new Vector2(x, y), isEvenSized);
                 var size = fixedObjectEntity.GetSize(_tick);
                 MaxTextureWidth = Math.Max(MaxTextureWidth, size.X/2);
                 MaxTextureHeight = Math.Max(MaxTextureHeight, size.Y);
@@ -300,7 +300,8 @@ namespace MonoBrJozik
                 return;
             
             y = y - texture.Height + Map.CellMeasure;
-            x = texture.Width <= Map.CellMeasure ? x : x - (texture.Width - Map.CellMeasure) / 2;
+            var deltaX = isEvenSized ? 0 : Map.CellMeasure/2;
+            x = texture.Width <= Map.CellMeasure ? x : x - texture.Width/ 2 + deltaX;
 
             _spriteBatch.Draw(texture, new Vector2(x, y), Color.White);
             MaxTextureWidth = Math.Max(MaxTextureWidth, texture.Width/2);
@@ -356,17 +357,19 @@ namespace MonoBrJozik
             _monoKnowledgesSimple.Draw(_spriteBatch);
         }
 
-        public bool CheckPointInObject(uint id, Point destination, Point objectPoint)
+        public bool CheckPointInObject(uint id, Point destination, Point objectPoint, bool isEvenSized)
         {
             if (_fixedObjectAnimations.TryGetValue(id, out var fixedObjectEntity))
             {
-                return fixedObjectEntity.CheckPoint(_tick, destination, objectPoint);
+                return fixedObjectEntity.CheckPoint(_tick, destination, objectPoint, isEvenSized);
             }
             
             if (!_textures.TryGetValue(id, out var texture))
                 return false;
 
-            var destInTexture = new Microsoft.Xna.Framework.Point(destination.X - (objectPoint.X + Map.CellMeasure/2 - texture.Width/2), 
+            var deltaX = isEvenSized ? 0 : Map.CellMeasure/2;
+            
+            var destInTexture = new Microsoft.Xna.Framework.Point(destination.X - (objectPoint.X + deltaX - texture.Width/2), 
                 destination.Y - (objectPoint.Y - texture.Height + Map.CellMeasure));
 
             if (!texture.Bounds.Contains(destInTexture))

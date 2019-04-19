@@ -2,7 +2,7 @@
 {
     class Cell 
     {
-        public uint Number { get; }
+        private uint Number { get; }
 
         public Cell()
         {

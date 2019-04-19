@@ -36,9 +36,9 @@ namespace Engine
     //sum of items weight = containerWeight
     //Container is full = containerWeight >= MaxContainerCapacity
 
-    //small items should appear only when smbody is looking at the.
-    //they should be kept for a period of time and then disapper
-    //there should be 2 arrays in the cell - with constatly kept items and temporarily kept items
+    //small items should appear only when somebody is looking at the.
+    //they should be kept for a period of time and then disappear
+    //there should be 2 arrays in the cell - with constantly kept items and temporarily kept items
 
     public class Game
     {
@@ -165,37 +165,45 @@ namespace Engine
             var realDestination = Map.GetRealDestinationFromVisibleDestination(destination);
             var realCell = Map.PointToCell(realDestination);
             
-            var roudedRealDest = Map.CellToPoint(realCell);
-            var xTextureMax = (int)Math.Min(roudedRealDest.X + maxTextureWidth + Map.CellMeasure/2, Map.MAP_WIDTH - 1);
-            var xTextureMin = Math.Max(roudedRealDest.X - maxTextureWidth + Map.CellMeasure/2, 0);
-            var yTextureMax = (int)Math.Min(roudedRealDest.Y + maxTextureHeight - 1, Map.MAP_HEIGHT - 1);
+            var roundedRealDest = Map.CellToPoint(realCell);
+            var xTextureMax = Math.Min(roundedRealDest.X + maxTextureWidth + Map.CellMeasure, Map.MAP_WIDTH - 1);
+            var xTextureMin = Math.Max(roundedRealDest.X - maxTextureWidth + Map.CellMeasure/2, 0);
+            var yTextureMax = Math.Min(roundedRealDest.Y + maxTextureHeight - 1, Map.MAP_HEIGHT - 1);
 
-            Point pointForObjeUnderDest = null;
+            Point pointForObjectUnderDest = null;
             
             FixedObject destObject = null;
 
             FixedObject GetObjectUnderDestination()
             {
-                for (var i = yTextureMax; i >= roudedRealDest.Y; i = i - Map.CellMeasure)
+                for (var i = yTextureMax; i >= roundedRealDest.Y; i = i - Map.CellMeasure)
                 {
                     for (var j = xTextureMax; j >= xTextureMin; j = j - Map.CellMeasure)
                     {
-                        pointForObjeUnderDest = null;
+                        pointForObjectUnderDest = null;
                         var dest = new Point(j, i);
-                        destObject = Map.GetHRealObjectFromDestination(dest);
+                        destObject = Map.GetHObjectFromDestination(dest);
 
                         if (destObject == null)
                             continue;
 
+                        if (destObject is LargeObjectOuterAbstract largeObj)
+                        {
+                            if(!largeObj.IsCenterDown)
+                                continue;
+
+                            destObject = largeObj.InnerObject;
+                        }
+
                         var cell = Map.PointToCell(dest);
-                        pointForObjeUnderDest = Map.CellToPoint(cell);
+                        pointForObjectUnderDest = Map.CellToPoint(cell);
 
                         if (realCell == cell)
                         {
                             return destObject;
                         }
                         
-                        if (_drawer.CheckPointInObject(GetDrawingCode(destObject), destination,Map.GetVisibleDestinationFromRealDestination(pointForObjeUnderDest)))
+                        if (_drawer.CheckPointInObject(GetDrawingCode(destObject), destination,Map.GetVisibleDestinationFromRealDestination(pointForObjectUnderDest), ((destObject as LargeObjectOuterAbstract)?.IsEvenSized ?? false)))
                             return destObject;
                     }
                 }
@@ -205,7 +213,7 @@ namespace Engine
 
             destObject = GetObjectUnderDestination() ?? Map.GetHRealObjectFromDestination(realDestination);
 
-            _drawer.DrawMenu(destination.X, destination.Y, GetActions(pointForObjeUnderDest == null ? destination : Map.GetVisibleDestinationFromRealDestination(pointForObjeUnderDest), destObject));
+            _drawer.DrawMenu(destination.X, destination.Y, GetActions(pointForObjectUnderDest == null ? destination : Map.GetVisibleDestinationFromRealDestination(pointForObjectUnderDest), destObject));
         }
 
         private IEnumerable<ClientAction> GetActions(Point visibleDestination, FixedObject destObject)
@@ -245,7 +253,7 @@ namespace Engine
             });
         }
 
-        public void MoveToDest(Point destination)
+        private void MoveToDest(Point destination)
         {
             _hero.StartMove(destination, Map.GetEasiestWay(_hero.Position, destination));
         }
@@ -285,14 +293,14 @@ namespace Engine
                 DrawSurface();
             }
 
-            IEnumerable<MenuItems> groupedItems = _hero.GetContainerItems()
-                .GroupBy(go => GetDrawingCode(go),
+            var groupedItems = _hero.GetContainerItems()
+                .GroupBy(GetDrawingCode,
                     (id, gos) =>
                     {
                         var gameObjects = gos as GameObject[] ?? gos.ToArray();
                         return new MenuItems
                         {
-                            Name = $"{GetScreenName(gameObjects.First())}({gameObjects.Count()})",
+                            Name = $"{GetScreenName(gameObjects.First())}({gameObjects.Length})",
                             Id = id,
                             GetClientActions = GetFuncForClientActions(gameObjects.First())
                         };
@@ -321,13 +329,15 @@ namespace Engine
                     var point = new Point(i, j);
                     var gameObject = Map.GetHObjectFromCell(point);
 
-                    if (gameObject != null && !(gameObject is LargeObjectOuterAbstract largeObjectOuter && !largeObjectOuter.isLeftCorner))
+                    if (gameObject != null && !(gameObject is LargeObjectOuterAbstract largeObjectOuter && !largeObjectOuter.IsCenterDown))
                     {
                         var visibleDestination = Map.GetVisibleDestinationFromRealDestination(Map.CellToPoint(point));
 
                         var drawingCode = GetDrawingCode(gameObject);
 
-                        _drawer.DrawObject(drawingCode, visibleDestination.X, visibleDestination.Y, gameObject.Height);
+                        var isEvenSized = (gameObject as LargeObjectOuterAbstract)?.IsEvenSized ?? false;
+
+                        _drawer.DrawObject(drawingCode, visibleDestination.X, visibleDestination.Y, isEvenSized);
 
                         if (gameObject is IBurning burning)
                         {
@@ -335,26 +345,23 @@ namespace Engine
                         }
                     }
                     var mobileObjects = Map.GetMobileObjectsFromCell(point);
-                    if (mobileObjects != null)
+                    mobileObjects?.ForEach(mo =>
                     {
-                        mobileObjects.ForEach(mo =>
+                        if (mo is Hero)
                         {
-                            if (mo is Hero)
-                            {
-                                _drawer.DrawHero(
-                                    Map.GetVisibleDestinationFromRealDestination(_hero.Position),
-                                    _hero.Angle,
-                                    _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(),
-                                    _hero.IsMoving,
-                                    _hero.IsHorizontal());
-                            }
-                            else
-                            {
-                                var visibleDest = Map.GetVisibleDestinationFromRealDestination(mo.Position);
-                                _drawer.DrawMobileObject(mo.GetDrawingCode(), visibleDest, mo.Angle, mo.IsMoving);
-                            }
-                        });
-                    }
+                            _drawer.DrawHero(
+                                Map.GetVisibleDestinationFromRealDestination(_hero.Position),
+                                _hero.Angle,
+                                _hero.PointList.Select(p => Map.GetVisibleDestinationFromRealDestination(p)).ToList(),
+                                _hero.IsMoving,
+                                _hero.IsHorizontal());
+                        }
+                        else
+                        {
+                            var visibleDest = Map.GetVisibleDestinationFromRealDestination(mo.Position);
+                            _drawer.DrawMobileObject(mo.GetDrawingCode(), visibleDest, mo.Angle, mo.IsMoving);
+                        }
+                    });
                 }
                 /*
                                 if (j * Map.CellMeasure <= _hero.Position.Y && (j + 1) * Map.CellMeasure > _hero.Position.Y)

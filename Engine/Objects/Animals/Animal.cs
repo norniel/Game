@@ -20,8 +20,6 @@ namespace Engine.Objects.Animals
         protected const int STAYING_BASE_TICKCOUNT = 300;
 
         public bool IsDead { get; protected set; }
-
-        //  private List<PointWithDistance> _visibleCells;
         
         protected Animal(bool isPassable, Size size, uint id, uint speed, string name, int viewRadius, Point position)
         {
@@ -145,14 +143,9 @@ namespace Engine.Objects.Animals
             yield return destinationCell;
         }
 
-        protected void EnqueueMovingToDestination(Point destinationCell)
+        private void EnqueueMovingToDestination(Point destinationCell)
         {
             _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(destinationCell)));
-            /*
-            foreach (var p in GetMovingPointsToDestination(destinationCell))
-            {
-                _stateQueue.Enqueue(new Moving(this, Map.CellToPoint(p)));
-            }*/
         }
 
         protected void EnqueueMovingToDestinationObject(Point destinationCell, GameObject destinationObject)

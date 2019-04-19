@@ -94,7 +94,7 @@ namespace MonoBrJozik
 
             _drawer = new MonoDrawer(_spriteBatch, GraphicsDevice, heroTexture,
                 heroPropTextures, font, _menu, _inventory, _pauseSwitch, _knowledgeSwitch, _monoKnowledges);
-            _game = new Engine.Game(_drawer, (uint) MonoDrawer.ScreenWidth, (uint) MonoDrawer.ScreenHeight);
+            _game = new Engine.Game(_drawer, MonoDrawer.ScreenWidth, MonoDrawer.ScreenHeight);
 
             _graphics.PreferredBackBufferWidth =
                 MonoDrawer.ScreenWidth +

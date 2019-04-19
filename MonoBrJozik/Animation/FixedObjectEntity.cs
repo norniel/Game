@@ -28,9 +28,13 @@ namespace MonoBrJozik.Animation
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, int tick, Vector2 position)
+        public void Draw(SpriteBatch spriteBatch, int tick, Vector2 position, bool isEvenSized)
         {
-            spriteBatch.Draw(_texture, new Vector2(position.X, position.Y - _texture.Height + Map.CellMeasure), _animation.CurrentRectangle(tick), Color.White);
+            
+            var deltaX = isEvenSized ? 0 : Map.CellMeasure/2;
+            var x = _width <= Map.CellMeasure ? position.X : position.X - _width/ 2 + deltaX;
+            
+            spriteBatch.Draw(_texture, new Vector2(x, position.Y - _texture.Height + Map.CellMeasure), _animation.CurrentRectangle(tick), Color.White);
         }
 
         public Point GetSize(int tick)
@@ -38,14 +42,16 @@ namespace MonoBrJozik.Animation
             return _animation.CurrentRectangle(tick)?.Size ?? new Point(0,0);
         }
 
-        public bool CheckPoint(int tick, Engine.Point destination, Engine.Point objectPoint)
+        public bool CheckPoint(int tick, Engine.Point destination, Engine.Point objectPoint, bool isEvenSized)
         {
             var currectRect = _animation.CurrentRectangle(tick);
 
             if (currectRect == null)
                 return false;
+            
+            var deltaX = isEvenSized ? 0 : Map.CellMeasure/2;
 
-            var destInTexture = new Point(destination.X - (objectPoint.X + Map.CellMeasure/2 - currectRect.Value.Width/2), 
+            var destInTexture = new Point(destination.X - (objectPoint.X + deltaX - currectRect.Value.Width/2), 
                             destination.Y - (objectPoint.Y - currectRect.Value.Height + Map.CellMeasure));
             
             if (destInTexture.X >= 0  && destInTexture.Y >= 0 && destInTexture.X < currectRect.Value.Width && destInTexture.Y < currectRect.Value.Height)

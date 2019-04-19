@@ -51,8 +51,7 @@ namespace Engine.Actions
         {
             var objectsToEnter = objects.Where(o =>
             {
-                var largeObj = o as LargeObjectInner;
-                return largeObj == null || largeObj.IsBuild;
+                return !(o is LargeObjectInner largeObj) || largeObj.IsBuild;
             }).ToList();
 
             return objectsToEnter.Any() ? new[] { objectsToEnter } : new List<GameObject>[] {};

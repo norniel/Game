@@ -15,7 +15,7 @@ namespace Engine
 
         void DrawMobileObject(uint id, Point position, double angle, bool isMoving);
 
-        void DrawObject( uint id, long x, long y, int height);
+        void DrawObject( uint id, long x, long y, bool isEvenSized);
 
         void DrawSurface(uint p1, uint p2);
 
@@ -41,6 +41,6 @@ namespace Engine
 
         void DrawKnowledges();
 
-        bool CheckPointInObject(uint getDrawingCode, Point destination, Point objectPoint);
+        bool CheckPointInObject(uint getDrawingCode, Point destination, Point objectPoint, bool isEvenSized);
     }
 }

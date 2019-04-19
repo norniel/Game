@@ -3,11 +3,15 @@ using System.Linq;
 using Engine.Resources;
 using Engine.States;
 using Engine.Tools;
+using Unity;
 
 namespace Engine.Objects.Animals
 {
     class Hare: Animal
     {
+        [Dependency] 
+        public ObjectsFactory ObjectsFactory { get; set; }
+
         public Hare(Point position) 
             : base(false, new Size(1,1), 0x00019000, 60, "Hare", 4, position)
         {

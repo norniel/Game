@@ -63,6 +63,13 @@ namespace Engine
 
             return obj;
         }
+        
+        public FixedObject GetHObjectFromDestination(Point destination)
+        {
+            var cell = PointToCell(destination);
+            var obj = GetHObjectFromCell(cell);
+            return obj;
+        }
 
         private FixedObject GetHObjectFromCellXy(int x, int y)
         {

@@ -31,7 +31,7 @@ namespace Engine.Objects.LargeObjects
             {
                 for (int j = 0; j < Size.Height; j++)
                 {
-                    var largeObjectOuter = new LargeObjectOuter(this, new Point(i, j), false);
+                    var largeObjectOuter = new LargeObjectOuter(this, new Point(i, j), false, (j == Size.Height - 1) && (i == Size.Width/2),Size.Width%2 == 0);
                     result.Add(largeObjectOuter);
                 }                
             }
@@ -46,7 +46,7 @@ namespace Engine.Objects.LargeObjects
 
         protected class LargeObjectOuter : LargeObjectOuterAbstract
         {
-            public LargeObjectOuter(LargeObjectInner largeObjectInner, Point placeInObject, bool isTransparent) : base(largeObjectInner, placeInObject, isTransparent)
+            public LargeObjectOuter(LargeObjectInner largeObjectInner, Point placeInObject, bool isTransparent, bool isCenterDown, bool isEvenSized) : base(largeObjectInner, placeInObject, isTransparent, isCenterDown, isEvenSized)
             {
             }
         }

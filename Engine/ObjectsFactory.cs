@@ -7,12 +7,14 @@ using Engine.Interfaces;
 using Engine.Objects;
 using Engine.ObjectStates;
 using Engine.Resources;
+using JetBrains.Annotations;
 
 namespace Engine
 {
+    [UsedImplicitly]
     public class ObjectsFactory
     {
-        private Dictionary<string, IObjectContext> _contexts = new Dictionary<string, IObjectContext>
+        private readonly Dictionary<string, IObjectContext> _contexts = new Dictionary<string, IObjectContext>
         {
             { "RaspBerries", new BerryContext {Id = 0x00000900,Name = "Raspberries", Behaviors = () => new HashSet<IBehavior>{new EatableBehavior(1)}}},
             { Resource.Cone, new BerryContext {Id = 0x00001700,Name = Resource.Cone, Weight = 2, Properties = () => new HashSet<Property>{Property.Pickable}}},
@@ -238,10 +240,14 @@ namespace Engine
 
         public GameObject Produce(string name)
         {
-            IObjectContext context;
-            _contexts.TryGetValue(name, out context);
+            _contexts.TryGetValue(name, out var context);
 
             return context?.Produce();
+        }
+
+        public MobileObject ProduceMobile(string name, Point position)
+        {
+            return null;
         }
     }
 }
