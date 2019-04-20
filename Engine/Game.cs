@@ -241,7 +241,7 @@ namespace Engine
             return possibleActions.SelectMany(pa =>
             {
                 var dest = pa.GetDestination(destination, destObject, _hero);
-                return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
+                return pa.GetActionsWithNecessaryObjects(objects, _hero, destination).Select(objectsForAction =>
                     new ClientAction
                     {
                         Name = pa.GetName(objectsForAction, _hero),
@@ -425,7 +425,7 @@ namespace Engine
                 //  var removableObjects = objects.Select(o => this.PrepareRemovableObject(o));
                 return possibleActions.SelectMany(pa =>
                 {
-                    return pa.GetActionsWithNecessaryObjects(objects, _hero).Select(objectsForAction =>
+                    return pa.GetActionsWithNecessaryObjects(objects, _hero, _hero.Position).Select(objectsForAction =>
                         new ClientAction
                         {
                             Name = pa.GetName(objectsForAction, _hero),

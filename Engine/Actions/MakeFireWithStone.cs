@@ -57,7 +57,7 @@ namespace Engine.Actions
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero, Point actionPosition)
         {
             var allObjects =
                 objects.Union(hero.GetContainerItems()).Distinct().ToList();

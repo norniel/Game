@@ -73,7 +73,7 @@ namespace Engine.Actions
         }
 
         public override IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
-            Hero hero)
+            Hero hero, Point actionPosition)
         {
             var roastingObjects = hero.GetContainerItems()
                 .Where(o => o.Properties.Contains(Property.Roastable) && o.HasBehavior<RoastBehavior>())

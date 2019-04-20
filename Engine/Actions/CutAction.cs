@@ -67,7 +67,7 @@ namespace Engine.Actions
         }
 
         public override IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
-            Hero hero)
+            Hero hero, Point actionPosition)
         {
             var cuttableObject = objects.FirstOrDefault(o => o.Properties.Contains(Property.Cuttable));
 

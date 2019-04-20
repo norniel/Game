@@ -67,7 +67,7 @@ namespace Engine.Actions
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero, Point actionPosition)
         {
             var allObjects = objects.Union(hero.GetContainerItems()).Distinct().ToArray();
             var objectWithPlan = (T)allObjects.FirstOrDefault(gb => gb is T);
@@ -83,20 +83,11 @@ namespace Engine.Actions
             }
             else if (objectWithPlan == null)
             {
-                var cell = Map.PointToCell(hero.Position);
-               // var mapSize = Game.Map.GetSize();
+                var cell = Map.PointToCell(actionPosition);
 
                 if (!_builderPlan.CheckAvailablePlace(cell))
                     yield break;
-                /*
-                var objectOnPlace = Game.Map.GetObjectFromCell(cell);
-                var objectOnNextPlace = Game.Map.GetObjectFromCell(new Point(cell.X, cell.Y + 1));
 
-                if (objectOnPlace != null || objectOnNextPlace != null)
-                {
-                    yield break;
-                }
-                */
                 var objectsLeftToBuild = _builderPlan.CurrentStep.GetAvailableObjects(allObjects);
                 if (objectsLeftToBuild.Any())
                 {

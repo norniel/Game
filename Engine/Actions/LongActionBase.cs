@@ -64,7 +64,7 @@ namespace Engine.Actions
         public abstract bool CanDo(Hero hero, IEnumerable<GameObject> objects);
 
         public abstract IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
-            Hero hero);
+            Hero hero, Point actionPosition);
         public abstract double GetTiredness();
 
         protected abstract int ElapsedActionTime { get; set; }

@@ -40,7 +40,7 @@ namespace Engine.Actions
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero)
+        public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero, Point actionPosition)
         {
             var bed = (LargeObjectInner)objects.FirstOrDefault(o => o.Properties.Any(IsApplicable));
 

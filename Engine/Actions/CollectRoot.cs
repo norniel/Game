@@ -37,9 +37,9 @@ namespace Engine.Actions
         }
 
         public override IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
-            Hero hero)
+            Hero hero, Point actionPosition)
         {
-            var result = base.GetActionsWithNecessaryObjects(objects, hero);
+            var result = base.GetActionsWithNecessaryObjects(objects, hero, actionPosition);
 
             var digger = hero.GetContainerItems().FirstOrDefault(d => d.Properties.Contains(Property.Digger));
 

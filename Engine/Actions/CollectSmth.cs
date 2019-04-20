@@ -47,7 +47,7 @@ namespace Engine.Actions
         public abstract bool CanDo(Hero hero, IEnumerable<GameObject> objects);
 
         public virtual IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
-            Hero hero)
+            Hero hero, Point actionPosition)
         {
             var necessaryObjects = objects.Where(obj => obj.Properties.Any(IsApplicable))
                 .Where(x => x.HasBehavior<CollectBehavior<T>>())

@@ -18,7 +18,7 @@ namespace Engine.Interfaces.IActions
 
         bool CanDo(Hero hero, IEnumerable<GameObject> objects);
         IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
-            Hero hero);
+            Hero hero, Point actionPosition);
         double GetTiredness();
         Point GetDestination(Point destination, FixedObject destObject, Hero hero);
         Knowledges GetKnowledge();
