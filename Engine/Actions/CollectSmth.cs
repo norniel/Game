@@ -44,8 +44,6 @@ namespace Engine.Actions
             return new ConseqActionResult(!actionIsNotOver, Consequance.Probability(0.5, Consequance.AddObjectKnowledge(collectBehavior?.Name, 1)));
         }
 
-        public abstract bool CanDo(Hero hero, IEnumerable<GameObject> objects);
-
         public virtual IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
             Hero hero, Point actionPosition)
         {

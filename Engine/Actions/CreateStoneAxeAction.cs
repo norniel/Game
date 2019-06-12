@@ -45,11 +45,6 @@ namespace Engine.Actions
             return FinishedActionResult.Instance;
         }
 
-        public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
-        {
-            return objects.OfType<Branch>().Any();
-        }
-
         public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero, Point actionPosition)
         {
             var allObjects =

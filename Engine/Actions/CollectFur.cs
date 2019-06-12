@@ -16,11 +16,6 @@ namespace Engine.Actions
             return property == Property.CollectFur;
         }
 
-        public override bool CanDo(Hero hero, IEnumerable<GameObject> objects)
-        {
-            return objects.Any(obj => obj.Properties.Contains(Property.CollectFur) && obj.GetBehavior<CollectBehavior<Meat>>()?.CurrentCount > 0);
-        }
-
         public override double GetTiredness()
         {
             return 1;

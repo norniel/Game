@@ -36,14 +36,7 @@ namespace Engine.Actions
             if (stones.Count < 2)
                 return FinishedActionResult.Instance;
 
-
-
             return new ConseqActionResult(true, CreateIfKnowledge(stones.First()));
-        }
-
-        public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero, Point actionPosition)

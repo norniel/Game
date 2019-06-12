@@ -61,11 +61,6 @@ namespace Engine.Actions
 
         protected override int TotalActionTime => 4;
 
-        public override bool CanDo(Hero hero, IEnumerable<GameObject> objects)
-        {
-            return objects.All(o => o.Properties.Contains(Property.Cuttable));
-        }
-
         public override IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
             Hero hero, Point actionPosition)
         {

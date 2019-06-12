@@ -67,11 +67,6 @@ namespace Engine.Actions
             }
         }
 
-        public override bool CanDo(Hero hero, IEnumerable<GameObject> objects)
-        {
-            throw new NotImplementedException();
-        }
-
         public override IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
             Hero hero, Point actionPosition)
         {

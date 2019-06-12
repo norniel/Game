@@ -227,7 +227,6 @@ namespace Engine
                     new ClientAction
                     {
                         Name = "Go",
-                        //CanDo = true,
                         Do = () => MoveToDest(destination)
                     }
                 };
@@ -245,7 +244,6 @@ namespace Engine
                     new ClientAction
                     {
                         Name = pa.GetName(objectsForAction, _hero),
-                        //CanDo = pa.CanDo(_hero, objects),
                         Do = () => MoveAndDoAction(pa, dest, objectsForAction)
                     }
                 );
@@ -429,7 +427,6 @@ namespace Engine
                         new ClientAction
                         {
                             Name = pa.GetName(objectsForAction, _hero),
-                            //CanDo = pa.CanDo(_hero, objects),
                             Do = () => DoAction(pa, objectsForAction)
                         }
                     );

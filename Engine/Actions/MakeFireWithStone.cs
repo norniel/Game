@@ -52,11 +52,6 @@ namespace Engine.Actions
                     ); 
         }
 
-        public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero, Point actionPosition)
         {
             var allObjects =

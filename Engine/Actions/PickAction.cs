@@ -26,11 +26,6 @@ namespace Engine.Actions
             return Knowledges.Nothing;
         }
 
-        public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
-        {
-            return objects.All(x => x.Properties.Contains(Property.Pickable));// && hero.HasEmpptyContainer;
-        }
-
         public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero, Point actionPosition)
         {
             yield return objects.Where(x => x.Properties.Contains(Property.Pickable)).ToList();// && hero.HasEmpptyContainer;

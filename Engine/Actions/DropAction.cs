@@ -42,11 +42,6 @@ namespace Engine.Actions
             return FinishedActionResult.Instance;
         }
 
-        public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
-        {
-            return objects.All(x => x.Properties.Contains(Property.Dropable));
-        }
-
         public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero, Point actionPosition)
         {
             yield return objects.Where(x => x.Properties.Contains(Property.Dropable)).ToList();

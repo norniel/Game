@@ -15,8 +15,6 @@ namespace Engine.Interfaces.IActions
         bool IsApplicable(Property property);
 
         IActionResult Do(Hero hero, IList<GameObject>objects);
-
-        bool CanDo(Hero hero, IEnumerable<GameObject> objects);
         IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects,
             Hero hero, Point actionPosition);
         double GetTiredness();

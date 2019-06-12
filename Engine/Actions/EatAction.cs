@@ -47,11 +47,6 @@ namespace Engine.Actions
             return new ConseqActionResult(true, conseqList.ToArray());
         }
 
-        public bool CanDo(Hero hero, IEnumerable<GameObject> objects)
-        {
-            return objects.All(x => x.Properties.Contains(Property.Eatable));
-        }
-
         public IEnumerable<IList<GameObject>> GetActionsWithNecessaryObjects(IEnumerable<GameObject> objects, Hero hero, Point actionPosition)
         {
             yield return objects.Where(x => x.Properties.Contains(Property.Eatable)).ToList();
